@@ -191,8 +191,8 @@
     - [ ] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
 - [ ] 導航結構（Navigation Compose）
   - [x] 建立 `NavGraph.kt`
-    - [ ] Destinations：`onboarding`, `home`, `chartInput/{kind}`, `chartResult/{chartId}`, `report/{reportId}`, `settings`, `paywall`
-  - [ ] 加入 Deep Link（通知點擊 → `report/{reportId}`）
+    - [x] Destinations：`onboarding`, `home`, `chartInput/{kind}`, `chartResult/{chartId}`, `report/{reportId}`, `settings`, `paywall`
+  - [x] 加入 Deep Link（通知點擊 → `report/{reportId}`）
   - [x] 加入 Deep Link（settings：aidm://settings）
 - [x] 安全加密與 Auto Backup
   - [x] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
@@ -358,4 +358,5 @@
   - [ ] 監控評分與關鍵字排名（手動週檢）
   - [ ] 只在必要時進行相容性更新
   - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
+
 
