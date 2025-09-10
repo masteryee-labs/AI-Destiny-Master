@@ -180,10 +180,10 @@
   - [ ] 主頁
     - [ ] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
   - [ ] 輸入頁
-    - [ ] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
+    - [x] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
   - [ ] 結果頁
     - [ ] @Composable ReportScreen(reportId)（支援分享/收藏/加註）
-    - [x] ReportScreen 以 Flow 觀察資料（observeById）
+    - [x] ReportScreen 以 Flow 觀察資料（observeById）`r`n    - [x] ReportScreen：Push/Pull 按鈕與狀態顯示
   - [ ] 付費牆/解鎖
     - [ ] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
   - [ ] 點數與廣告彈窗
@@ -195,7 +195,7 @@
   
   - [x] Chart 流程：Input→Create→Result 導航
   - [x] 加入 Deep Link（通知點擊 → `report/{reportId}`）
-  - [x] 加入 Deep Link（settings：aidm://settings）
+  - [x] 加入 Deep Link（settings：aidm://settings）`r`n  - [x] 首次啟動以偏好設定決定起始路由（onboarding 一次）
 - [x] 安全加密與 Auto Backup
   - [x] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
   - [ ] 加密 `ReportEntity.contentEnc`、`WalletEntity` 關鍵欄位
@@ -221,9 +221,9 @@
     - [ ] 一次性內購：`iap_bazi_pro`, `iap_ziwei_pro`, `iap_design_pro`, `iap_astro_pro`
     - [ ] 訂閱：`sub_vip_month`, `sub_vip_year`
   - [ ] `BillingManager.kt`
-    - [ ] `fun startConnection()`
-    - [ ] `suspend fun queryProducts()`
-    - [ ] `fun launchPurchase(activity, productDetails)`
+    - [x] `fun startConnection()`
+    - [x] `suspend fun queryProducts()`（含訂閱 SUBS）
+    - [x] `fun launchPurchase(activity, productDetails)`（支援 offerToken）
     - [x] `fun handlePurchase(purchase)`（確認權益、`acknowledgePurchase`）
     - [ ] `suspend fun queryPurchasesAsync()` 用於恢復購買
   - [ ] 權益判斷
@@ -360,6 +360,7 @@
   - [ ] 監控評分與關鍵字排名（手動週檢）
   - [ ] 只在必要時進行相容性更新
   - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
+
 
 
 
