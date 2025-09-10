@@ -18,13 +18,13 @@
     - [X] 執行 `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-34;google_apis;x86_64"`
     - [X] 建立 AVD：`avdmanager create avd -n Pixel6Api34 -k "system-images;android-34;google_apis;x86_64"`
     - [X] 啟動模擬器：`emulator -avd Pixel6Api34 -netdelay none -netspeed full`
-  - [ ] 安裝 WindSurf/VS Code 外掛（全部免費）
-    - [ ] 安裝 Kotlin 插件（JetBrains）
-    - [ ] 安裝 Java Extension Pack
-    - [ ] 安裝 Gradle for Java
-    - [ ] 安裝 ADB Interface
-    - [ ] 安裝 YAML、JSON、Markdown All in One
-    - [ ] 安裝 GitLens、Error Lens
+  - [X] 安裝 WindSurf/VS Code 外掛（全部免費）
+    - [X] 安裝 Kotlin 插件（JetBrains）
+    - [X] 安裝 Java Extension Pack
+    - [X] 安裝 Gradle for Java
+    - [X] 安裝 ADB Interface
+    - [X] 安裝 YAML、JSON、Markdown All in One
+    - [X] 安裝 GitLens、Error Lens
     - [ ] （可選）設定 JetBrains Mono 字型
   - [ ] 於 WindSurf 設定 Java/Kotlin 語言伺服器（確保語法檢查與跳轉可用）
 - [ ] 初始化 Android 專案（純 Gradle CLI）
