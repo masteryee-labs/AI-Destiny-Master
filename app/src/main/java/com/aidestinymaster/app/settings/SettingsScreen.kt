@@ -51,6 +51,11 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
                 val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("aidm://onboarding"))
                 ctx.startActivity(intent)
             }) { Text("前往導覽") }
+            Button(onClick = {
+                androidx.lifecycle.lifecycleScope.launchWhenStarted(activity.lifecycle) {
+                    com.aidestinymaster.app.prefs.UserPrefs.setOnboardingDone(ctx, false)
+                }
+            }) { Text("重置導覽") }
         }
         val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

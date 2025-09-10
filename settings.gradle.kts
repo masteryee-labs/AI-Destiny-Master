@@ -11,6 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 
@@ -32,4 +33,3 @@ include(
     ":features:almanac",
     ":features:mix-ai"
 )
-

@@ -25,7 +25,9 @@ fun OnboardingScreen(activity: ComponentActivity, nav: NavController) {
         Button(onClick = {
             scope.launch {
                 UserPrefs.setOnboardingDone(activity, true)
-                nav.navigate(Routes.Home)
+                nav.navigate(Routes.Home) {
+                    popUpTo(Routes.Onboarding) { inclusive = true }
+                }
             }
         }) { Text("開始使用") }
     }
