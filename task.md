@@ -68,20 +68,21 @@
   - [ ] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
 - [ ] 建立資料層（Room + DataStore）
   - [ ] 在 `:data` 模組建立 Entity
-    - [ ] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
+    - [x] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
     - [ ] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
     - [ ] `WalletEntity(id: String = "wallet", coins: Int, lastEarnedAt: Long?, lastSpentAt: Long?)`
     - [ ] `PurchaseEntity(sku: String, type: String, state: Int, purchaseToken: String, acknowledged: Boolean, updatedAt: Long)`
     - [ ] `UserProfileEntity(id: String = "me", name: String?, lang: String, theme: String, syncEnabled: Boolean)`
   - [ ] 建立 DAO 介面
-    - [ ] `ReportDao`：`insertOrUpdate(report)`, `getById(id)`, `listRecent(limit)`, `search(keyword)`
+    - [x] `ReportDao`：`insertOrUpdate(report)`, `getById(id)`, `listRecent(limit)`, `search(keyword)`
     - [ ] `ChartDao`：`insertOrUpdate(chart)`, `getById(id)`
     - [ ] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
     - [ ] `PurchaseDao`：`upsert(purchase)`, `getActive()`
     - [ ] `UserProfileDao`：`get()`, `update(profile)`
   - [ ] 建立 `AppDatabase` 與 Migrations
   - [ ] 建立 Repository
-    - [ ] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
+    - [x] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
+    - [x] Report 與 SyncManager 串接（ReportSyncBridge：push/pull）
     - [ ] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
     - [ ] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
     - [ ] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
