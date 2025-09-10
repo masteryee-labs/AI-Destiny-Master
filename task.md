@@ -7,17 +7,17 @@
   - [X] 建立 `LICENSES.txt`（第三方授權彙整，先留空，後續補）
   - [X] 建立 `CONTRIBUTING.md`（雖一人開發，仍列出提交流程與分支策略）
   - [X] 建立 GitHub 私有倉庫並 `git remote add origin <repo-url>`、推送主分支
-- [ ] 安裝與設定開發環境（WindSurf / VS Code 架構，不安裝 Android Studio）
-  - [ ] 安裝 OpenJDK 17（Temurin 或 Adoptium），設定 `JAVA_HOME` 與 `PATH`
-  - [ ] 安裝 WindSurf IDE（VS Code 相容）
-  - [ ] 安裝 Android SDK Command-line Tools
-    - [ ] 下載 `commandlinetools-<os>-latest.zip`
-    - [ ] 解壓至 `~/Android/cmdline-tools/latest`
-    - [ ] 設定 `ANDROID_HOME=~/Android`，`PATH` 加入 `~/Android/platform-tools` 與 `~/Android/cmdline-tools/latest/bin`
-    - [ ] 執行 `sdkmanager --licenses` 並全部同意
-    - [ ] 執行 `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-34;google_apis;x86_64"`
-    - [ ] 建立 AVD：`avdmanager create avd -n Pixel6Api34 -k "system-images;android-34;google_apis;x86_64"`
-    - [ ] 啟動模擬器：`emulator -avd Pixel6Api34 -netdelay none -netspeed full`
+- [X] 安裝與設定開發環境（WindSurf / VS Code 架構，不安裝 Android Studio）
+  - [X] 安裝 OpenJDK 17（Temurin 或 Adoptium），設定 `JAVA_HOME` 與 `PATH`
+  - [X] 安裝 WindSurf IDE（VS Code 相容）
+  - [X] 安裝 Android SDK Command-line Tools
+    - [X] 下載 `commandlinetools-<os>-latest.zip`
+    - [X] 解壓至 `~/Android/cmdline-tools/latest`
+    - [X] 設定 `ANDROID_HOME=~/Android`，`PATH` 加入 `~/Android/platform-tools` 與 `~/Android/cmdline-tools/latest/bin`
+    - [X] 執行 `sdkmanager --licenses` 並全部同意
+    - [X] 執行 `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-34;google_apis;x86_64"`
+    - [X] 建立 AVD：`avdmanager create avd -n Pixel6Api34 -k "system-images;android-34;google_apis;x86_64"`
+    - [X] 啟動模擬器：`emulator -avd Pixel6Api34 -netdelay none -netspeed full`
   - [ ] 安裝 WindSurf/VS Code 外掛（全部免費）
     - [ ] 安裝 Kotlin 插件（JetBrains）
     - [ ] 安裝 Java Extension Pack
