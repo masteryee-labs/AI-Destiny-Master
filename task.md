@@ -182,7 +182,8 @@
   - [ ] 輸入頁
     - [ ] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
   - [ ] 結果頁
-    - [ ] `@Composable ReportScreen(reportId)`（支援分享/收藏/加註）
+    - [ ] @Composable ReportScreen(reportId)（支援分享/收藏/加註）
+    - [x] ReportScreen 以 Flow 觀察資料（observeById）
   - [ ] 付費牆/解鎖
     - [ ] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
   - [ ] 點數與廣告彈窗
@@ -191,7 +192,8 @@
     - [ ] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
 - [ ] 導航結構（Navigation Compose）
   - [x] 建立 `NavGraph.kt`
-    - [x] Destinations：`onboarding`, `home`, `chartInput/{kind}`, `chartResult/{chartId}`, `report/{reportId}`, `settings`, `paywall`
+  
+  - [x] Chart 流程：Input→Create→Result 導航
   - [x] 加入 Deep Link（通知點擊 → `report/{reportId}`）
   - [x] 加入 Deep Link（settings：aidm://settings）
 - [x] 安全加密與 Auto Backup
@@ -226,7 +228,7 @@
     - [ ] `suspend fun queryPurchasesAsync()` 用於恢復購買
   - [ ] 權益判斷
     - [ ] `Entitlement.kt`：`fun hasPro(kind)`, `fun hasVip()`，搭配 `PurchaseRepository`
-  - [ ] UI 端整合付費牆與結果解鎖
+  - [ ] UI 端整合付費牆與結果解鎖`r`n  - [x] PaywallScreen 與 PurchaseRepository 基礎互動（查權益/恢復/標記）
 - [ ] AdMob Rewarded Ads（:ads，可選）
   - [ ] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
   - [ ] 在 `AndroidManifest.xml` 新增 `com.google.android.gms.ads.APPLICATION_ID`
@@ -358,5 +360,6 @@
   - [ ] 監控評分與關鍵字排名（手動週檢）
   - [ ] 只在必要時進行相容性更新
   - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
+
 
 

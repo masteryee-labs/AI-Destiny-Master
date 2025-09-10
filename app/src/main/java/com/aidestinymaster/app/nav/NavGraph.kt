@@ -52,7 +52,7 @@ fun AppNav(activity: ComponentActivity) {
             composable(
                 route = Routes.ChartInput,
                 arguments = listOf(navArgument("kind") {}),
-            ) { backStack -> ChartInputScreen(activity, backStack.arguments?.getString("kind") ?: "") }
+            ) { backStack -> ChartInputScreen(activity, backStack.arguments?.getString("kind") ?: "", nav) }
             composable(
                 route = Routes.ChartResult,
                 arguments = listOf(navArgument("chartId") {}),
