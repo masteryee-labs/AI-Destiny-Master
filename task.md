@@ -1,0 +1,344 @@
+﻿## Task List
+- [X] 建立專案資料夾與版控
+  - [X] 在本機建立目錄 `AIDestinyMaster/` 作為專案根目錄
+  - [X] 初始化 Git 倉庫：`git init`
+  - [X] 建立 `.gitignore`（包含 `/build`, `.gradle`, `/app/build`, `/**/build`, `/local.properties`, `*.keystore`）
+  - [X] 建立 `README.md`（專案說明、建置指令、目標與授權）
+  - [X] 建立 `LICENSES.txt`（第三方授權彙整，先留空，後續補）
+  - [X] 建立 `CONTRIBUTING.md`（雖一人開發，仍列出提交流程與分支策略）
+  - [X] 建立 GitHub 私有倉庫並 `git remote add origin <repo-url>`、推送主分支
+- [ ] 安裝與設定開發環境（WindSurf / VS Code 架構，不安裝 Android Studio）
+  - [ ] 安裝 OpenJDK 17（Temurin 或 Adoptium），設定 `JAVA_HOME` 與 `PATH`
+  - [ ] 安裝 WindSurf IDE（VS Code 相容）
+  - [ ] 安裝 Android SDK Command-line Tools
+    - [ ] 下載 `commandlinetools-<os>-latest.zip`
+    - [ ] 解壓至 `~/Android/cmdline-tools/latest`
+    - [ ] 設定 `ANDROID_HOME=~/Android`，`PATH` 加入 `~/Android/platform-tools` 與 `~/Android/cmdline-tools/latest/bin`
+    - [ ] 執行 `sdkmanager --licenses` 並全部同意
+    - [ ] 執行 `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-34;google_apis;x86_64"`
+    - [ ] 建立 AVD：`avdmanager create avd -n Pixel6Api34 -k "system-images;android-34;google_apis;x86_64"`
+    - [ ] 啟動模擬器：`emulator -avd Pixel6Api34 -netdelay none -netspeed full`
+  - [ ] 安裝 WindSurf/VS Code 外掛（全部免費）
+    - [ ] 安裝 Kotlin 插件（JetBrains）
+    - [ ] 安裝 Java Extension Pack
+    - [ ] 安裝 Gradle for Java
+    - [ ] 安裝 ADB Interface
+    - [ ] 安裝 YAML、JSON、Markdown All in One
+    - [ ] 安裝 GitLens、Error Lens
+    - [ ] （可選）設定 JetBrains Mono 字型
+  - [ ] 於 WindSurf 設定 Java/Kotlin 語言伺服器（確保語法檢查與跳轉可用）
+- [ ] 初始化 Android 專案（純 Gradle CLI）
+  - [ ] 建立 `settings.gradle.kts` 與 `build.gradle.kts`（根）檔案
+  - [ ] 設定 `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
+  - [ ] 設定 Kotlin 版本 `1.9+` 與 Java 17 編譯選項
+  - [ ] 啟用 Compose（`buildFeatures { compose = true }`、`composeOptions { kotlinCompilerExtensionVersion = ... }`）
+  - [ ] 在 `settings.gradle.kts` 宣告多模組：`:app`, `:core:astro`, `:core:lunar`, `:core:ai`, `:data`, `:sync`, `:billing`, `:ads`, `:features:bazi`, `:features:ziwei`, `:features:astrochart`, `:features:design`, `:features:almanac`, `:features:mix-ai`
+  - [ ] 在各模組建立 `build.gradle.kts` 並套用 `com.android.library` 或 `com.android.application`、`org.jetbrains.kotlin.android`
+  - [ ] 在 `app/src/main/AndroidManifest.xml` 建立基本宣告與 `application` 屬性
+- [ ] 設定依賴（全部免費庫）
+  - [ ] 在根 `build.gradle.kts` 設定版本管理（Compose BOM、Room、DataStore、WorkManager 等）
+  - [ ] 在 `:app` 與各模組加入依賴：
+    - [ ] `androidx.compose` BOM、`activity-compose`、`navigation-compose`
+    - [ ] `androidx.room:room-ktx:2.6.+` 與 KAPT/ KSP
+    - [ ] `androidx.datastore:datastore-preferences:1.1.+`
+    - [ ] `androidx.work:work-runtime-ktx:2.9.+`
+    - [ ] `androidx.security:security-crypto:1.1.+`
+    - [ ] `com.microsoft.onnxruntime:onnxruntime-android:1.18.+`
+    - [ ] `com.google.android.gms:play-services-auth:21.+`（Google Sign-In）
+    - [ ] `google-api-client-android` + `google-api-services-drive:v3`（Drive REST）
+    - [ ] `com.android.billingclient:billing-ktx:6.+`
+    - [ ] `com.google.android.gms:play-services-ads:22.+`（AdMob Rewarded，可後期開啟）
+    - [ ] `org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
+  - [ ] 在 `AndroidManifest.xml` 加入權限：
+    - [ ] `INTERNET`
+    - [ ] `ACCESS_NETWORK_STATE`
+    - [ ] `POST_NOTIFICATIONS`（Android 13+）
+    - [ ] `FOREGROUND_SERVICE`、`FOREGROUND_SERVICE_DATA_SYNC`（背景前景化）
+- [ ] 設定 App 簽章與打包
+  - [ ] 產生簽章檔：`keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
+  - [ ] 在 `gradle.properties`（本機）設定 `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`
+  - [ ] 在 `app/build.gradle.kts` 設定 `signingConfigs { release { ... } }`
+  - [ ] 設定 `buildTypes { release { isMinifyEnabled = true; proguardFiles(...) } }`
+  - [ ] 測試組建：`./gradlew assembleDebug`
+  - [ ] 測試安裝：`adb install -r app/build/outputs/apk/debug/app-debug.apk`
+  - [ ] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
+- [ ] 建立資料層（Room + DataStore）
+  - [ ] 在 `:data` 模組建立 Entity
+    - [ ] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
+    - [ ] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
+    - [ ] `WalletEntity(id: String = "wallet", coins: Int, lastEarnedAt: Long?, lastSpentAt: Long?)`
+    - [ ] `PurchaseEntity(sku: String, type: String, state: Int, purchaseToken: String, acknowledged: Boolean, updatedAt: Long)`
+    - [ ] `UserProfileEntity(id: String = "me", name: String?, lang: String, theme: String, syncEnabled: Boolean)`
+  - [ ] 建立 DAO 介面
+    - [ ] `ReportDao`：`insertOrUpdate(report)`, `getById(id)`, `listRecent(limit)`, `search(keyword)`
+    - [ ] `ChartDao`：`insertOrUpdate(chart)`, `getById(id)`
+    - [ ] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
+    - [ ] `PurchaseDao`：`upsert(purchase)`, `getActive()`
+    - [ ] `UserProfileDao`：`get()`, `update(profile)`
+  - [ ] 建立 `AppDatabase` 與 Migrations
+  - [ ] 建立 Repository
+    - [ ] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
+    - [ ] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
+    - [ ] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
+    - [ ] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
+    - [ ] `UserRepository`：`toggleSync(enabled)`, `setLanguage(lang)`
+  - [ ] 設定 DataStore Preferences
+    - [ ] keys：`PREF_LANG`, `PREF_THEME`, `PREF_NOTIF_ENABLED`, `PREF_SYNC_ENABLED`
+- [ ] 建立曆法/八字引擎（:core:lunar）
+  - [ ] 引入 `lunar-java`（MIT）
+  - [ ] 建立 `BaziCalculator.kt`
+    - [ ] `fun computeBazi(birthZonedDateTime: ZonedDateTime): BaziResult`
+    - [ ] `fun computeTenGods(bazi: BaziResult): TenGodsProfile`
+    - [ ] `fun evaluateFiveElements(bazi: BaziResult): FiveElementsScore`
+    - [ ] `fun computeLuckCycles(birth: ZonedDateTime): List<LuckCycle>`
+  - [ ] 建立 `AlmanacEngine.kt`
+    - [ ] `fun getAlmanac(date: LocalDate): AlmanacDay`
+    - [ ] `fun getZodiacForecast(year: Int, animal: String): ZodiacForecast`
+  - [ ] 寫單元測試：對四柱/十神/五行計分覆蓋常見邊界（節氣換日、閏月）
+- [ ] 建立天文/星盤引擎（:core:astro）
+  - [ ] 引入 `Astronomy Engine`（Java/Kotlin，MIT）
+  - [ ] 建立 `AstroCalculator.kt`
+    - [ ] `fun computePlanets(utcInstant: Instant, lat: Double, lon: Double): PlanetPositions`
+    - [ ] `fun computeHouses(utcInstant: Instant, lat: Double, lon: Double, system: HouseSystem = HouseSystem.WHOLE_SIGN): Houses`
+    - [ ] `fun computeAspects(planets: PlanetPositions, orbs: Orbs = defaultOrbs): List<Aspect>`
+  - [ ] 建立 `NatalChartBuilder.kt`
+    - [ ] `fun buildNatalChart(input: BirthInput): NatalChart`
+    - [ ] `fun summarizeNatal(natal: NatalChart): NatalSummary`
+  - [ ] 單元測試：固定日期/地點比對行星經度與相位
+- [ ] 建立人類圖（天賦設計圖）引擎（:features:design）
+  - [ ] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
+  - [ ] 建立 `DesignMapper.kt`
+    - [ ] `fun mapPlanetsToGates(planets: PlanetPositions): GateAssignments`
+    - [ ] `fun inferTypeAuthority(assignments: GateAssignments): TypeAuthority`
+  - [ ] 建立 BodyGraph 繪圖（Compose Canvas）
+    - [ ] `BodyGraphComposable.kt`：`@Composable fun BodyGraph(viewModel: DesignViewModel, modifier: Modifier)`
+  - [ ] 建立摘要生成功能
+    - [ ] `fun summarizeDesign(assignments: GateAssignments, typeAuth: TypeAuthority): DesignSummary`
+- [ ] 建立紫微斗數引擎（:features:ziwei）
+  - [ ] 建立星曜/四化資料表（本地 JSON，自撰解釋）
+  - [ ] `ZiweiCalculator.kt`
+    - [ ] `fun computeZiweiChart(birth: ZonedDateTime): ZiweiChart`
+    - [ ] `fun summarizeZiwei(chart: ZiweiChart): ZiweiSummary`
+  - [ ] 繪製紫微命盤宮格（Compose）
+    - [ ] `@Composable fun ZiweiChartView(chart: ZiweiChart)`
+- [ ] 建立易經/卦象模組（:features:almanac 內或獨立 :features:iching）
+  - [ ] `IchingEngine.kt`
+    - [ ] `fun castHexagramByTime(now: ZonedDateTime): Hexagram`
+    - [ ] `fun interpretHexagram(hex: Hexagram): IchingInterpretation`（公版/自撰釋義）
+  - [ ] 簡易 UI：`@Composable fun HexagramCard(hex: Hexagram, interpretation: IchingInterpretation)`
+- [ ] 建立西洋星盤 UI（:features:astrochart）
+  - [ ] `AstroChartCanvas.kt`（Compose Canvas 畫圓盤、12宮、行星點）
+  - [ ] `AspectList.kt`（列出相位表）
+  - [ ] `@Composable fun NatalChartScreen(...)` 輸入與結果頁
+- [ ] N+1 綜合分析匯流（:features:mix-ai）
+  - [ ] 建立 `MixedSummary.kt`
+    - [ ] `fun collectSummaries(bazi: BaziSummary, ziwei: ZiweiSummary, natal: NatalSummary, design: DesignSummary, iching: IchingInterpretation?, almanac: AlmanacDay?): MixedSummary`
+  - [ ] 建立 `PromptBuilder.kt`
+    - [ ] `fun buildPrompt(mixed: MixedSummary, locale: Locale): String`
+  - [ ] 建立 `MixAnalysisViewModel.kt`
+    - [ ] `fun requestAiReport(chartIds: List<String>, mode: MixMode): LiveData<ReportId>`
+- [ ] AI 子系統（:core:ai，ONNX Runtime Mobile）
+  - [ ] 準備 LLM 權重（TinyLlama-1.1B-Chat 或等價，開源授權允許商用）
+  - [ ] 於開發機撰寫轉換腳本 `scripts/export_to_onnx.py`（離線執行）
+    - [ ] 下載原始權重（離線保存，不提交到倉庫）
+    - [ ] 使用 `transformers` + `optimum` 匯出 ONNX
+    - [ ] 使用 `onnxruntime-tools` 進行 Dynamic/Integer 8-bit 量化
+    - [ ] 輸出 `models/tinyllama-q8.onnx` 與 tokenizer 檔
+    - [ ] 產生 SHA-256 校驗碼 `models/tinyllama-q8.onnx.sha256`
+  - [ ] 在 `:core:ai` 建立載入與推理
+    - [ ] `OnnxAiEngine.kt`
+      - [ ] `class OnnxAiEngine(context: Context, modelPath: String, tokenizerPath: String)`
+      - [ ] `fun generateStreaming(prompt: String, maxTokens: Int, temperature: Float, topP: Float, onChunk: (String) -> Unit): Result<String>`
+      - [ ] `fun validateModelChecksum(expectedSha256: String): Boolean`
+    - [ ] `Tokenizer.kt`
+      - [ ] `fun encode(text: String): IntArray`
+      - [ ] `fun decode(tokens: IntArray): String`
+  - [ ] App 首次啟動時將 `assets/models.zip` 解壓至 `files/models/` 並驗證 SHA-256
+  - [ ] 寫 ONNX 推理單元測試（以短 Prompt 產生有限 Token）
+- [ ] 背景任務與通知（WorkManager + Foreground Service）
+  - [ ] 建立通知頻道 `ANALYSIS_CHANNEL`
+  - [ ] `AiReportWorker.kt : CoroutineWorker`
+    - [ ] `override suspend fun doWork(): Result` 讀取 Chart 與 Summaries
+    - [ ] 生成 Prompt → 呼叫 `OnnxAiEngine.generateStreaming` → 寫入 `ReportEntity`
+    - [ ] 運行時間超過門檻時切換為前景服務通知
+  - [ ] 完成後推送本地通知（點擊導向 Report 詳情頁）
+  - [ ] 測試「滑掉 App」後任務不中斷情境
+- [ ] UI/UX（Jetpack Compose）
+  - [ ] 建立主題 `Theme.kt`（顏色、字體、形狀）
+  - [ ] Onboarding 流程
+    - [ ] `@Composable OnboardingScreen()`（同意條款與隱私、導入出生資料）
+  - [ ] 主頁
+    - [ ] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
+  - [ ] 輸入頁
+    - [ ] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
+  - [ ] 結果頁
+    - [ ] `@Composable ReportScreen(reportId)`（支援分享/收藏/加註）
+  - [ ] 付費牆/解鎖
+    - [ ] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
+  - [ ] 點數與廣告彈窗
+    - [ ] `@Composable RewardedAdDialog()`（顯示看廣告＋10 幣）
+  - [ ] 設定頁
+    - [ ] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
+- [ ] 導航結構（Navigation Compose）
+  - [ ] 建立 `NavGraph.kt`
+    - [ ] Destinations：`onboarding`, `home`, `chartInput/{kind}`, `chartResult/{chartId}`, `report/{reportId}`, `settings`, `paywall`
+  - [ ] 加入 Deep Link（通知點擊 → `report/{reportId}`）
+- [ ] 安全加密與 Auto Backup
+  - [ ] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
+  - [ ] 加密 `ReportEntity.contentEnc`、`WalletEntity` 關鍵欄位
+  - [ ] 在 `AndroidManifest` 啟用 Auto Backup 並排除敏感檔（via `res/xml/backup_rules.xml`）
+- [ ] Google Sign-In 與 Drive App Folder 同步（:sync）
+  - [ ] 於 Google Cloud Console 建立 OAuth 同意畫面與 Android OAuth Client（免費）
+  - [ ] 在 `:sync` 建立 `GoogleAuthManager.kt`
+    - [ ] `fun signIn(context): GoogleSignInAccount?`
+    - [ ] `fun getAccessToken(account): String`
+  - [ ] 建立 `DriveService.kt`
+    - [ ] `fun ensureAppFolder(): String`（抓取 `drive.appdata` root）
+    - [ ] `fun uploadJson(name: String, json: String, encrypt: Boolean = true)`
+    - [ ] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
+  - [ ] 同步排程
+    - [ ] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
+  - [ ] 設定頁提供同步開關；登入/登出流程；錯誤提示
+- [ ] Google Play Billing v6（內購與訂閱）（:billing）
+  - [ ] 在 Play Console 建立商品 SKU：
+    - [ ] 一次性內購：`iap_bazi_pro`, `iap_ziwei_pro`, `iap_design_pro`, `iap_astro_pro`
+    - [ ] 訂閱：`sub_vip_month`, `sub_vip_year`
+  - [ ] `BillingManager.kt`
+    - [ ] `fun startConnection()`
+    - [ ] `suspend fun queryProducts()`
+    - [ ] `fun launchPurchase(activity, productDetails)`
+    - [ ] `fun handlePurchase(purchase)`（確認權益、`acknowledgePurchase`）
+    - [ ] `suspend fun queryPurchasesAsync()` 用於恢復購買
+  - [ ] 權益判斷
+    - [ ] `Entitlement.kt`：`fun hasPro(kind)`, `fun hasVip()`，搭配 `PurchaseRepository`
+  - [ ] UI 端整合付費牆與結果解鎖
+- [ ] AdMob Rewarded Ads（:ads，可選）
+  - [ ] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
+  - [ ] 在 `AndroidManifest.xml` 新增 `com.google.android.gms.ads.APPLICATION_ID`
+  - [ ] `RewardedAdsManager.kt`
+    - [ ] `fun loadRewardedAd(context, adUnitId, onLoaded, onFailed)`
+    - [ ] `fun showRewardedAd(activity, onUserEarnedReward)`
+  - [ ] 與 `WalletRepository.earnCoins(source="ad", amount=10)` 整合
+  - [ ] 頻率限制與防濫用（冷卻時間、每日上限）
+- [ ] N+1 AI 生成工作流程（背景）
+  - [ ] 使用者在結果頁點擊「生成 AI 詳解」
+  - [ ] 建立 `OneTimeWorkRequest`，Data 包含 `chartIds`, `mode`, `locale`
+  - [ ] 在 `AiReportWorker` 組裝各模組摘要 → `PromptBuilder.buildPrompt`
+  - [ ] 呼叫 `OnnxAiEngine.generateStreaming`，分段儲存至 `ReportEntity.contentEnc`
+  - [ ] 完成後 `NotificationManager` 發送完成通知
+  - [ ] 報告頁可持續讀取生成中內容（LiveData/Flow）
+- [ ] 錯誤處理與離線保障
+  - [ ] 建立本地錯誤日誌（寫入 `files/logs/app.log`）
+  - [ ] 設定「選用」匿名診斷上傳至 Drive App Folder（使用者可在設定同意/取消）
+  - [ ] 所有網路請求（登入/Drive/AdMob/Billing）均以可回復錯誤處理，不阻擋離線功能
+- [ ] 法務與商標檢查（避免侵權）
+  - [ ] 應用標題確認：「AI命理大師：命盤・紫微・星盤」（不含他人商標）
+  - [ ] 文案中對「人類圖」以「天賦設計圖（支援人類圖盤面）」表述
+  - [ ] 不引用受保護教材原文；所有詞典/釋義為自撰或公版改寫
+  - [ ] App 內與商店頁加入「非官方、僅供參考」聲明
+  - [X] 第三方授權列表整理入 `LICENSES.txt` 與 App 內「關於」頁
+- [ ] UI/UX 細節與動效
+  - [ ] Compose 動畫：分析進度「星塵」動畫（`animateFloatAsState` + Canvas）
+  - [ ] 結果頁重點卡片（分領域：事業/情感/健康/財務）
+  - [ ] 無障礙：字體大小調整、動畫關閉開關、語義標籤（`contentDescription`）
+  - [ ] 多語：`values-zh-rTW/strings.xml` 與 `values-en/strings.xml`；先完成繁中，再上英文骨架
+  - [ ] 評分提醒：第三次成功生成結果後觸發 `InAppReview` 或外跳商店評分頁
+- [ ] 測試（單元/整合/E2E/效能）
+  - [ ] 單元測試：`BaziCalculatorTest`, `AstroCalculatorTest`, `DesignMapperTest`, `ZiweiCalculatorTest`
+  - [ ] AI 產出測試：固定 Prompt 與隨機種子，驗證長度與敏感詞過濾
+  - [ ] 整合測試：Room + Repository + Worker 流程
+  - [ ] E2E：輸入出生 → 盤面摘要 → 生成詳解（背景）→ 通知 → 檢視報告 → 同步 → 登出/換機 → 恢復購買 → 點數兌換
+  - [ ] 效能：中階裝置（4GB RAM）測量 700~1200 tokens 生成時間，記錄 CPU/溫度
+  - [ ] 相容：API 26/28/30/34 實機/模擬器，飛航模式與低電測試
+- [ ] ASO 素材與策略（零行銷）
+  - [ ] 決定上架名稱（中文）：AI命理大師：命盤・紫微・星盤
+  - [ ] 決定上架名稱（英文）：AI Destiny Master: Bazi・Ziwei・Astro
+  - [ ] 撰寫短描述：「離線 AI 算命｜一鍵產生命盤與深度建議｜支持八字、紫微、星盤、天賦設計圖」
+  - [ ] 撰寫長描述前三行高關鍵字密度（離線 AI 算命、八字命盤、紫微斗數、星盤、AI 詳解、N+1 綜合分析、黃曆、Google 帳號同步、背景運算通知）
+  - [ ] 製作 6 張截圖（主頁、排盤、AI 詳解、N+1、同步設定、黃曆）
+  - [ ] 製作應用 Icon（自製向量，抽象圖騰/星象＋科技元素）
+  - [ ] 準備英文商店頁對應文案
+  - [ ] 避免標題中使用可能侵權詞彙（不放 Human Design）
+- [ ] GitHub Pages 隱私政策與條款（免費）
+  - [ ] 建立 repo：`ai-destiny-master-privacy`
+  - [ ] 建立 `index.md`（隱私政策）、`terms.md`（服務條款）、`support.md`（聯絡方式）
+  - [ ] 於 repo 設定 GitHub Pages（分支 `main`，資料夾 `/` 或 `/docs`）
+  - [ ] 在 App 設定頁與 Play Console 填入隱私權政策 URL
+  - [ ] 隱私內容涵蓋：資料收集（出生資料等）、用途（生成分析）、保存（本機/加密/Drive App Folder）、用戶權利（刪除/導出）、第三方 SDK（Billing/Ads/Auth/Drive）說明
+- [ ] Google Play Console 上架前準備
+  - [ ] 註冊 Google Play Developer（一次性費用）
+  - [ ] 建立商家帳戶（Merchant）以啟用付費/訂閱
+  - [ ] 建立新應用（名稱、預設語言、類別 Lifestyle、聯絡 Email）
+  - [ ] 上傳商店素材（Icon、截圖、短/長描述、影片可後補）
+  - [ ] 填寫隱私政策 URL（GitHub Pages）
+  - [ ] 填寫 Data Safety 表單（資料收集、處理目的、加密、用戶控制、第三方 SDK）
+  - [ ] 廣告宣告（如啟用 Rewarded，需勾選含廣告）
+  - [ ] 內容分級問卷（一般使用者）
+  - [ ] 裝置 64-bit 要求確認
+  - [ ] 設定發佈國家/地區（TW/HK/MO/SG/MY 及英文地區）
+  - [ ] 設定定價與銷售（App 免費，SKU 與訂閱價格）
+- [ ] Google Play 內測/封測/公測流程
+  - [ ] 建立 Internal 測試軌，新增測試人員（Email 白名單）
+  - [ ] 上傳 `.aab` 與符號檔，填寫版本說明
+  - [ ] 測試內購流程（沙盒帳號）、恢復購買、訂閱取消/續訂
+  - [ ] 測試 Drive 同步（上傳/下載/衝突）
+  - [ ] 測試 Rewarded Ads（測試 ID 先行、上線改正式 ID）
+  - [ ] 收集 ANR/崩潰與回饋並修正
+  - [ ] 轉 Closed 測試（更大量使用者）
+  - [ ] 轉 Open 測試（選擇性）
+- [ ] 正式上架與分階段發布
+  - [ ] 最終審查自檢（權限最小化、表單一致性、文案合規）
+  - [ ] 設定「分階段發佈」（如 10% → 50% → 100%）
+  - [ ] 監控評分與回饋，回應問題（FAQ 指引）
+  - [ ] 首輪必要熱修（如相容性或致命錯誤）
+- [ ] 內購/訂閱商品實作收尾
+  - [ ] 在 `PaywallSheet` 顯示商品與價格（從 `BillingManager.queryProducts()` 讀取）
+  - [ ] 設定購買流程按鈕→`BillingManager.launchPurchase(...)`
+  - [ ] 購買回調→更新 `PurchaseRepository` 與 `Entitlement` 狀態
+  - [ ] 恢復購買入口（設定頁）
+  - [ ] 訂閱權益：解鎖所有深度與 N+1 無限次
+- [ ] 點數與激勵廣告實作收尾
+  - [ ] 建立 `WalletViewModel` 與 UI 顯示餘額
+  - [ ] Rewarded Ads 成功回調 → `WalletRepository.earnCoins("ad", 10)`
+  - [ ] 以點數解鎖 N+1（50 幣）與單次深度（視規則）
+  - [ ] 設定每日觀看上限與冷卻時間
+  - [ ] 錯誤處理（廣告載入失敗備援提示）
+- [ ] 背景運算 UX 與通知
+  - [ ] 分段渲染生成中文字（流式顯示）
+  - [ ] 長文自動分頁與本地快取
+  - [ ] 通知點擊返回報告頁的 Deep Link
+  - [ ] 允許取消背景任務並安全中斷
+- [ ] 內容與警語
+  - [ ] 在結果頁底加入「僅供參考，不作醫療/法律/投資建議」
+  - [ ] 在設定頁加入「非官方聲明」對「天賦設計圖」
+  - [ ] 加入「用語避絕對化」敏感詞過濾（簡易詞典）
+- [ ] 本地化與語言切換
+  - [ ] 在設定頁提供語言選擇（繁中/英文）
+  - [ ] 在生成 Prompt 時依語言插入本地化模板
+  - [ ] 商店頁提供繁中與英文版文案
+- [ ] 日誌與除錯
+  - [ ] 建立 `LogRepository` 將錯誤寫入 `files/logs/app.log`
+  - [ ] 設定「上傳診斷」選項（Drive App Folder，匿名）
+  - [ ] WindSurf 終端 `adb logcat | grep AIDestinyMaster` 快速過濾
+- [ ] CI（GitHub Actions）
+  - [ ] 建立 `.github/workflows/android.yml`
+    - [ ] 於 CI 安裝 JDK 17、Android SDK、授權 licenses
+    - [ ] 跑 `./gradlew build test lint`
+    - [ ] 產出 Debug APK 作為 artifacts
+  - [ ] 設定 release tag 觸發 `bundleRelease`（簽章資訊以 GitHub Secrets 提供）
+- [ ] 版本管理與路線圖
+  - [ ] 標記 V1 里程碑（此計畫全部完成）
+  - [ ] V1.1 任務板（英文完整化、相位擴充、N+1 模板增量）
+  - [ ] V1.2 任務板（可評估相機功能與合盤）
+- [ ] 最後檢查清單（上架前 48 小時）
+  - [ ] 名稱/描述/截圖/影片/隱私 URL 檢查
+  - [ ] `.aab` 簽章可驗證與安裝測試
+  - [ ] 內購/訂閱購買與恢復流程通過
+  - [ ] 同步開關與換機流程通過
+  - [ ] 背景運算與通知在 Android 13/14/15 通過
+  - [ ] 第三方授權與商標風險檢查通過
+  - [ ] Data Safety/內容分級/廣告宣告與 App 實際行為一致
+- [ ] 發布後監測與低維護策略
+  - [ ] 監控評分與關鍵字排名（手動週檢）
+  - [ ] 只在必要時進行相容性更新
+  - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
