@@ -176,7 +176,7 @@
 - [ ] UI/UX（Jetpack Compose）
   - [ ] 建立主題 `Theme.kt`（顏色、字體、形狀）
   - [ ] Onboarding 流程
-    - [ ] `@Composable OnboardingScreen()`（同意條款與隱私、導入出生資料）
+    - [x] `@Composable OnboardingScreen()`（同意條款與隱私、導入出生資料）
   - [ ] 主頁
     - [ ] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
   - [ ] 輸入頁
@@ -224,7 +224,7 @@
     - [ ] `fun startConnection()`
     - [ ] `suspend fun queryProducts()`
     - [ ] `fun launchPurchase(activity, productDetails)`
-    - [ ] `fun handlePurchase(purchase)`（確認權益、`acknowledgePurchase`）
+    - [x] `fun handlePurchase(purchase)`（確認權益、`acknowledgePurchase`）
     - [ ] `suspend fun queryPurchasesAsync()` 用於恢復購買
   - [ ] 權益判斷
     - [ ] `Entitlement.kt`：`fun hasPro(kind)`, `fun hasVip()`，搭配 `PurchaseRepository`
@@ -360,6 +360,7 @@
   - [ ] 監控評分與關鍵字排名（手動週檢）
   - [ ] 只在必要時進行相容性更新
   - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
+
 
 
 
