@@ -12,7 +12,8 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "aidestiny.db"
-            ).build().also { instance = it }
+            )
+                .addMigrations(*Migrations.all)
+                .build().also { instance = it }
         }
 }
-

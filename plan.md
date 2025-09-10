@@ -1,0 +1,338 @@
+# AI Destiny Master AI命理大師 - WindSurf 專案計畫
+
+## Notes
+- 專案總覽
+  - 目標：以一人之力在 6 個月內完成 Android 離線 AI 命理 App「**AI命理大師：命盤・紫微・星盤**」（上架顯示名稱），提供出生資訊即得分析的工具為主，並提供「綜合 AI 分析」。
+  - 市場：繁體/簡體中文（非中國大陸境內）為主，英文為次；ASO 聚焦「AI算命」「紫微斗數」「八字」「星盤」「人類圖（描述用詞避商標）」等藍海關鍵詞。
+  - 限制：零後端維護（不自架伺服器）、僅使用免費 API、0 元美術素材成本、最低更新頻率（僅相容性維護）、行銷零預算（完全靠 ASO & 口碑）。
+  - 核心賣點
+    - 本機 AI（離線）+ 可選背景運算 + 本地/Google 帳號同步。
+    - 一站式命理 + 生成式 AI「資料呈現＋解說＋建議＋詳解」。
+    - 現代化 UI/UX（高質感、低學習門檻）。
+  - 明確技術選擇（避免多方案游移）
+    - 手機端 AI 執行引擎：**ONNX Runtime Mobile**（主力；免費）。
+    - LLM：**TinyLlama-1.1B-Chat**（或等級相當的 1~1.5B 中文/中英混合模型，離線部署，Apache/MIT 類開源授權；以 ONNX 匯出與 4/8-bit 量化）。
+    - 星體計算：**Astronomy Engine（Java/Kotlin 版，MIT 授權）*- 生成行星位置與黃道度數（離線）。
+    - 農曆/干支/八字計算：**lunar-java**（MIT 授權）處理曆法、節氣、干支、八字。
+    - 雲端同步：**Google Drive REST API v3（App Folder / drive.appdata）**＋**Google Sign-In/OAuth**（免費額度）。
+    - 內購/訂閱：**Google Play Billing Library v6+**。
+    - 激勵式廣告（可選）：**Google AdMob Rewarded Ads**（僅點數換權益，不做插頁/橫幅干擾）。
+    - 背景任務：**WorkManager**＋必要時 **Foreground Service**（具通知）。
+    - UI：**Jetpack Compose**（以 Gradle CLI 建置，VS Code 編輯）。
+    - 資料存儲：**Room/Jetpack DataStore**（本機）＋**加密（Jetpack Security Crypto）**。
+    - IDE/環境：**WindSurf（VS Code 架構）**＋**Android SDK Command-line tools**（不安裝 Android Studio）。
+  - Android 版本/SDK
+    - `minSdk = 26`（Android 8.0，覆蓋率高、API 足夠）。
+    - `targetSdk = 35`（Android 15；上架合規）。
+    - `compileSdk = 35`。
+    - Java/Kotlin：**Java 17**、**Kotlin 1.9+**。
+  - 安全/法遵
+    - 商標與著作權：應用標題不出現「Human Design™」等註冊商標；文案用中性詞「**天賦設計圖**」；不複製受保護教材內容。
+    - 合規提示：結果僅供參考，不涉醫療/財務承諾；內容分級為成人普遍可用，非兒少定向。
+- 產品範圍（V1）
+  - 命理工具（可單獨選用；亦可啟用 AI 綜合分析）
+    - 1. 人類圖（以「天賦設計圖」描述；輸入：出生日期/時間/地點；產出：BodyGraph、閘門/通道、角色等）
+    - 2. 紫微斗數（命盤十二宮、星曜、四化；流年/大限入門）
+    - 3. 八字（四柱、十神、喜忌、歲運概覽）
+    - 4. 西洋星盤（本命盤 12 宮、相位、主題領域）
+    - 5. 星座運勢（基於星體位置生成個人化重點）
+    - 6. 易經（六爻起卦/梅花易數；V1 先提供簡易卦義對照＋AI詮釋）
+    - 7. 黃曆/農民曆（宜忌、節氣、生肖運程簡述）
+    - 8. 生肖運勢（年度/月度重點）
+    - 9. 綜合 AI 分析（彙整 1~8 結果，生成結論與行動建議）
+  - V1 排除項（降低風險/工時）
+    - 手相/面相（相機/圖像模型）延後。
+    - 地點離線地名→座標完整檔（先以城市下拉＋時區選擇或簡易線上 Geocoder 免費額度，並提供「手動時區」選項）。
+    - 高階三式（奇門/六壬/太乙）延後。
+  - 多語
+    - 介面：繁中（V1），英文（V1.1），簡中（商店/內文可先行提供，App 內文於 V1.1 一併完成）。
+  - 隱私政策
+    - GitHub Pages 託管（免費）；App 內設定與 Play 商店均提供連結。
+  - 背景運算
+    - WorkManager 觸發 AI 生成；運算中顯示常駐通知（可取消），完成以本地通知告知。
+- 資料模型與演算法（摘要）
+  - 曆法/八字
+    - 使用 `lunar-java` 取得農曆、節氣、干支、八字；以內建表格做十神推導、五行強弱比例（計分模型）。
+    - 大運/流年：以節氣斷歲、虛歲/實歲選項、歲運影響權重矩陣（事業/情感/健康/財務四象限）。
+  - 紫微斗數
+    - 命盤排布：以生辰定命宮、身宮與星曜落宮（自建星曜表與四化計算），內建解釋詞庫（自撰、可本地 JSON）。
+    - 簡化推論：以星曜組合→主題標籤→AI 提示詞模板→LLM 生成詳解。
+  - 西洋星盤
+    - Astronomy Engine 計算行星黃經、宮位（Placidus 先簡化為 Whole Sign 或 Porphyry，降低實作複雜度），相位（容許度預設 6° 可調）。
+    - 以相位矩陣→主題標籤→AI 提示詞模板生成內容。
+  - 人類圖（天賦設計圖）
+    - 以行星黃經→64閘門映射表（自行製作對照檔；非引用受保護教材原文），BodyGraph 矢量繪制（Compose Canvas）。
+    - 類型/權威/策略：採用通用描述詞庫（自撰），避免官方教材用語侵權。
+  - 易經/黃曆
+    - 卦象計算：六爻（隨機或按時辰簡化起卦）；卦辭/爻辭以公版/自撰白話釋義。
+    - 黃曆宜忌：自建表（不使用受版權保護的通勝原文），以節氣/干支對應常見民俗提示（自撰）。
+- AI 子系統（ONNX Runtime Mobile）
+  - 模型選型
+    - **TinyLlama-1.1B-Chat**（或等價 1~1.5B 參數中英模型，開源授權允許商用；重點：體積 < 1GB，4/8-bit 量化）。
+  - 模型轉換與量化（開發機離線執行，不嵌入 App 之機密腳本）
+    - 使用 `transformers` + `onnxruntime-tools` 或 `optimum` 將權重匯出為 ONNX。
+    - 以 `onnxruntime` 的量化工具（Dynamic/Integer）產生 8-bit；視效能測試決定是否 4-bit（透過 Q/DQ pattern，或外部量化再匯入）。
+    - 生成推理圖（enable `graph_optimizations=all`）並切分 encoder/decoder 或使用 decoder-only 連貫生成。
+  - App 內推理流程（步驟）
+    - 準備 Prompt：以模板插入「資料呈現（盤面摘要）→解說→建議→行動清單」。
+    - Tokenizer：離線 tokenizer（BPE/SentencePiece 檔打包進 assets）。
+    - 生成策略：溫度 0.7、top-p 0.9、max_tokens 700（長文報告時 1200），支援中/英輸出標籤。
+    - 記憶體：分段生成（stream）＋Compose LazyColumn 即時顯示；長文落地至本地儲存。
+  - 背景運算
+    - WorkManager `OneTimeWorkRequest`（輸入：盤面 JSON、分析維度；輸出：報告 ID）。
+    - 當運行時間預期 > 10 分鐘：提升為前景工作（Foreground Service）並顯示通知；完成後發通知並寫入資料庫。
+  - 安全與離線
+    - 模型與 tokenizer 置於 `assets/` 首次啟動解壓至 `files/`；校驗 SHA-256。
+    - 禁止將使用者輸入上傳至任何第三方服務（除非使用者明確同意雲端同步其報告）。
+- App 架構與套件版本（Gradle）
+  - 專案結構
+    - `:app`（Android 應用，Kotlin + Compose）
+    - `:core:astro`（Astronomy Engine 封裝）
+    - `:core:lunar`（lunar-java 封裝與八字/節氣服務）
+    - `:core:ai`（ONNX Runtime 推理、tokenizer）
+    - `:features:bazi`、`:features:ziwei`、`:features:astrochart`、`:features:design`、`:features:almanac`、`:features:mix-ai`
+    - `:data`（Room/Datastore、Repository）
+    - `:sync`（Google Sign-In + Drive App Folder 同步）
+    - `:billing`（Play Billing）
+    - `:ads`（AdMob Rewarded；可關閉）
+  - 主要依賴（版本僅用免費）
+    - Kotlin：`org.jetbrains.kotlin:kotlin-stdlib:1.9.+`
+    - Compose BOM：`androidx.compose:compose-bom:2025.x`（對齊 targetSdk）
+    - Activity/Navigation：`androidx.activity:activity-compose`、`androidx.navigation:navigation-compose`
+    - Room：`androidx.room:room-ktx:2.6.+`
+    - DataStore：`androidx.datastore:datastore-preferences:1.1.+`
+    - WorkManager：`androidx.work:work-runtime-ktx:2.9.+`
+    - Security Crypto：`androidx.security:security-crypto:1.1.+`
+    - ONNX Runtime Mobile：`com.microsoft.onnxruntime:onnxruntime-android:1.18.+`
+    - Google Sign-In：`com.google.android.gms:play-services-auth:21.+`
+    - Google Drive：REST v3（以 `google-api-client-android` + `google-api-services-drive:v3-rev...` 或直接 HTTP）
+    - Play Billing：`com.android.billingclient:billing-ktx:6.+`
+    - AdMob（可選）：`com.google.android.gms:play-services-ads:22.+`
+    - Json：`org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
+  - 權限與宣告（Manifest）
+    - 網路（同步/廣告/登入）：`INTERNET`、`ACCESS_NETWORK_STATE`
+    - 前景服務：`FOREGROUND_SERVICE` + `FOREGROUND_SERVICE_DATA_SYNC`（必要時）
+    - 通知：`POST_NOTIFICATIONS`（Android 13+）
+    - 備註：不使用定位/相機於 V1；不申請多餘權限。
+- UI/UX 規劃（Compose）
+  - 導覽
+    - 首啟導覽（Onboarding）：同意條款與隱私、輸入出生資料引導、是否啟用雲端同步。
+    - 主頁：四大區塊（快速排盤／工具選單／我的報告／每日黃曆）。
+  - 流程
+    - 排盤 → 即時產出「資料摘要卡」→ 提示「一鍵生成 AI 詳解（可背景）」→ 結果頁（支援分享/收藏/加註）。
+  - 視覺
+    - 深色為主、柔和點綴；Icon 與插圖採自製向量（簡單幾何 + 星象符號），避免侵權。
+  - 無障礙/在地化
+    - 字型大小可調、動效可關閉；日期/時間/曆法輸入有防呆與時區說明。
+  - 微互動
+    - 計算中的「星塵」動畫條；完成彈出「行動建議」卡片（To-do 標籤）。
+- 資料與同步
+  - 本機
+    - Room：`Report`, `Chart`, `UserProfile`, `Wallet`（點數）、`Purchase` 表。
+    - DataStore：偏好（語言、主題、推送開關）。
+  - 同步（Google 帳號可選開啟）
+    - 使用 Google Sign-In 取得 OAuth；限定 `drive.appdata` scope。
+    - JSON 批次同步：`/AppFolder/reports.json`, `/wallet.json`, `/purchases.json`；本機以 `updatedAt` 合併衝突。
+    - 加密：敏感資料以 `security-crypto` 加密後再寫雲端。
+  - 內購恢復
+    - 啟動與「恢復購買」動作時，`BillingClient.queryPurchasesAsync` 對齊 App unlock；同步至 Drive。
+- 營利方案（內購/訂閱/點數與激勵廣告）
+  - 產品設計
+    - 內購單次「深度報告」：每工具一次買斷（例：八字深度 NT$150、紫微深度 NT$150、人類圖深度 NT$200、西洋盤深度 NT$150）。
+    - 訂閱（VIP）：月 NT$150 / 年 NT$990（解鎖所有深度、AI 綜合不限次；移除廣告入口）。
+    - 虛擬點數（幣）：1 次 AI 分析 50 幣；看 1 支激勵廣告得 10 幣（需看 5 支才可兌換 1 次，符合「多看幾次」要求）。
+  - 節點植入
+    - 生成詳解前的 CTA：「立即解鎖（內購/訂閱/點數）」；結果頁底部提供「看廣告 +10 幣」按鈕。
+  - 定價原則
+    - 免費層提供可用的「摘要版」；付費帶來「深度＆具體行動建議」；避免日更型人工內容，以 AI 固定模板長期可用。
+  - 合規
+    - 顯示價錢、權益、續訂與取消說明；點數為 App 內虛擬權益，不可兌現；廣告為自願觀看。
+- ASO（只用免費策略、避商標風險）
+  - App 名稱（長名稱）
+    - 中文：**AI命理大師：命盤・紫微・星盤**
+    - 英文（商店國際名稱）：**AI Destiny Master: Bazi・Ziwei・Astro**
+    - 備註：描述中提及「天賦設計圖（人類圖）」功能，但標題不直接使用「Human Design」字樣，以避商標/品牌爭議。
+  - 短描述（示例）
+    - 「離線 AI 算命｜一鍵產生命盤與深度建議｜支持八字、紫微、星盤、天賦設計圖」
+  - 長描述要點（前 3 行關鍵字密度高）
+    - 「離線 AI 算命」「八字命盤」「紫微斗數」「星盤」「AI 詳解」「AI 綜合分析」「黃曆」「免註冊可用」「Google 帳號同步」「背景運算完成通知」。
+  - 截圖/影片
+    - 截圖 6 張：主頁、排盤、AI 詳解、AI 綜合卡、同步設定、黃曆。
+    - 短影片（可後補）：從出生資料→AI 報告 10 秒流程。
+  - 分類/標籤
+    - 類別：Lifestyle；標籤：Astrology, Entertainment（依地區）。
+  - 在地化
+    - 上架即提供繁中/英文商店頁；V1.1 擴充 App 內容英文。
+- 風險與法務
+  - 商標/著作
+    - 不使用註冊商標於標題與大字標；若需提及，採描述性用語並加「非官方、僅供娛樂/自我探索」聲明。
+    - 所有解釋文案為自撰或基於公版資料改寫；不擷取付費教材或受保護詞典原文。
+  - 內容合規
+    - 僅供參考，不提供醫療/法律/投資建議；避免「保證」「必然」等字眼。
+  - 隱私
+    - 僅收集必要資料（出生資料、可選同步）；不上傳至第三方；隱私政策公開於 GitHub Pages。
+- 專案時間表（26 週；每週明確交付）
+  - W1 需求凍結／存取策略
+    - 明確 V1 範圍；確立 AI 引擎（ONNX）、LLM、曆法/天文套件；確立資料模型草圖。
+  - W2 開發環境與骨架
+    - 完成 WindSurf/VS Code、Android SDK CLT、Gradle 初始；建立多模組骨架與 CI（GitHub Actions：`./gradlew assembleDebug`）。
+  - W3~W4 曆法/八字引擎
+    - 封裝 lunar-java；完成四柱、十神、五行計分與摘要卡；單元測試 > 80%。
+  - W5 紫微引擎（基礎）
+    - 宮位/星曜排盤與資料表；生成基礎盤面 UI。
+  - W6 Astronomy/星盤
+    - 行星/宮位/相位計算；本命盤 UI。
+  - W7 人類圖（天賦設計圖）
+    - 閘門映射表建立；BodyGraph 以 Compose Canvas 繪製；摘要卡。
+  - W8 資料層/本機儲存
+    - Room/Datastore 完成；報告落地與查詢。
+  - W9 AI 模型整合（ONNX）
+    - 模型載入、Tokenizer、生成管線；Prompt 模板（八字/紫微/星盤/設計圖）。
+  - W10 AI 長文/背景運算
+    - WorkManager 任務；通知與結果串接；大文本切頁/儲存。
+  - W11 UI 打磨
+    - 主視覺、主頁卡片、動畫、深色模式、錯誤/空狀態。
+  - W12 雲端同步（Drive App Folder）
+    - Google Sign-In；App Folder JSON 同步；衝突解決。
+  - W13 內購/訂閱
+    - Billing v6：商品表（單次報告、VIP 月/年）；恢復購買；付費牆。
+  - W14 點數＆激勵廣告
+    - AdMob Rewarded；點數錢包；權益兌換；頻率/冷卻控制。
+  - W15 黃曆/農民曆/生肖
+    - 表格與規則引擎；每日卡片。
+  - W16 AI 綜合分析
+    - 各模組摘要→合流→總結、風險提示、行動清單。
+  - W17 本地化/設定
+    - 語系（繁中、英文占位）；偏好設定；隱私開關。
+  - W18 品質與效能
+    - 啟動時間、記憶體、CPU；老舊裝置（API26）驗證；低網路/離線模式測試。
+  - W19 安全/加密
+    - Report/Wallet 敏感欄位加密；完整權限稽核。
+  - W20 ASO 素材
+    - 圖標/截圖（自製向量）；商店文案；關鍵字策略。
+  - W21 文件/隱私權政策
+    - GitHub Pages 站；Privacy Policy/Terms/Support Email。
+  - W22 測試發佈（Internal）
+    - Play Console 建測試軌；封閉測試名單；回饋修正。
+  - W23 法務最終檢查
+    - 商標/文案/授權清單；第三方 LICENSE 集中頁。
+  - W24~W25 上架準備
+    - 內容分級、資料安全表、廣告申明；地區/定價；審查前自檢。
+  - W26 上線與觀測
+    - 分階段發佈（分批%）；崩潰/評分監控；首輪熱修（若需）。
+- 風格與文案（App 內）
+  - 文案原則：專業但溫柔，避免宿命論；提供可實踐的行動建議（3~5 條）。
+  - 警語：僅供娛樂與參考；重要決策請自行斟酌或諮詢專業人士。
+- WindSurf（VS Code）開發與測試環境（不安裝 Android Studio）
+  - 系統需求
+    - OS：Windows 11 / macOS 13+ / Ubuntu 22.04+（64-bit）。
+    - JDK：Temurin/OpenJDK 17（加入 PATH）。
+  - 安裝步驟
+    - 1. 安裝 **WindSurf IDE**（VS Code 兼容版）。
+    - 2. 安裝 Android SDK Command-line tools：
+      - 下載 `commandlinetools-<os>-latest.zip` → 解壓到 `~/Android/cmdline-tools/latest`
+      - 設定環境變數：`ANDROID_HOME=~/Android`；加入 `platform-tools/` 與 `cmdline-tools/latest/bin` 到 PATH。
+      - 執行：
+        - `sdkmanager --licenses`
+        - `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-34;google_apis;x86_64"`
+      - 建立與啟動模擬器：
+        - `avdmanager create avd -n Pixel6Api34 -k "system-images;android-34;google_apis;x86_64"`
+        - `emulator -avd Pixel6Api34 -netdelay none -netspeed full`
+    - 3. WindSurf/VS Code 外掛（全部免費）：
+      - **Kotlin**（JetBrains）、**Java Extension Pack**、**Gradle for Java**、**Android XML**（語法高亮）、**ADB Interface**、**YAML/JSON**、**Markdown All in One**、**GitLens**、**Error Lens**。
+      - 可選：**JetBrains Mono 字型**以提升可讀性。
+    - 4. 匯入專案（Gradle）
+      - 在終端執行 `./gradlew tasks` 確認建置環境；`./gradlew assembleDebug` 產出 APK；`adb install -r app/build/outputs/apk/debug/app-debug.apk` 安裝。
+    - 5. 除錯
+      - `adb logcat | grep AIDestinyMaster` 監看日誌；VS Code Java/Kotlin Debug 啟動連線。
+  - 版本控管
+    - GitHub 私有倉；啟用 Actions（CI）在 PR 時自動 assemble 與單元測試。
+- 專案腳手架（指令與檔案）
+  - 生成 keystore（發行）
+    - `keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
+    - 將金鑰資訊以 `gradle.properties`（本機）管理，不入版控。
+  - 產出 AAB（上架）
+    - `./gradlew bundleRelease` → `app/build/outputs/bundle/release/app-release.aab`
+  - 資料結構（示例）
+    - `Report{ id, type, title, createdAt, updatedAt, summary, contentEncrypted, chartRef }`
+    - `Chart{ id, kind, input{birthDate,birthTime,tz,place}, computed{...}, snapshotJson }`
+    - `Wallet{ coins, lastEarnedAt, lastSpentAt }`
+    - `Purchase{ sku, type, state, purchaseToken, acknowledged }`
+- 背景任務詳細（Step-by-step）
+  - 使用者觸發「生成詳解」→ 建立 `WorkRequest`（輸入：chartId, analysisSpec）
+  - Worker 執行：
+    - 讀取盤面資料 → 建立 AI Prompt → ONNX 推理流輸出 → 寫入報告 → 通知完成。
+  - 長時間任務：
+    - `setExpedited(true)` 不適合長文；改以 Foreground Service 模式執行 Worker（附通知）。
+  - 退出 App 行為
+    - 任務不中斷；完成後本地通知；重新回到 App 自動載入結果。
+- 同步與換機（Step-by-step）
+  - 使用者於設定頁切換「雲端同步」開關→ 進行 Google 登入 → 詢問授權 `drive.appdata`。
+  - 初次同步：上傳（或下載）`reports.json`、`wallet.json`、`purchases.json`。
+  - 後續變更：本機 `updatedAt` 比對，僅差異上傳；衝突以「較新版本覆蓋」策略；敏感欄位先加密。
+  - 換機：
+    - 安裝後登入同帳號→ 自動下載並合併→ 內購透過 Billing「恢復購買」完成權益同步。
+- 初次上架 Play（完整步驟，每一步必要）
+  - 1. 註冊 **Google Play Developer**（一次性費用，無免費替代）。
+  - 2. 建立 **商家帳戶（Merchant）*- 用於處理應用內購/訂閱。
+  - 3. 建立應用（新應用→ 名稱：**AI命理大師：命盤・紫微・星盤**；語言：繁中）。
+  - 4. App 分類與聯絡方式：類別 Lifestyle；提供支援 Email。
+  - 5. 隱私權政策 URL：填入 GitHub Pages 之 `https://<你的帳號>.github.io/ai-destiny-master-privacy/`
+  - 6. 內容分級（問卷）；資料安全表（Data safety）；是否含廣告（如啟用 Rewarded 則勾選）。
+  - 7. 國家/地區發佈：首波上線含台灣/香港/澳門/新加坡/馬來西亞及可行的英文市場。
+  - 8. 定價與銷售：App 免費；設定內購商品與訂閱方案（SKU、價格、區域）。
+  - 9. 建立測試軌：Internal → Closed → Open；加入測試人員（Email 白名單）。
+  - 10. 上傳 AAB 與符號檔；填寫版本說明。
+  - 11. 裝置目標化：無需特別限制；保留 64-bit 要求。
+  - 12. 審查與發布：先內測驗收購買流程/同步/通知；觀察 ANR/崩潰趨勢後分批上線（如 10%→50%→100%）。
+- GitHub Pages 隱私權政策（免費）
+  - 建立 repo `ai-destiny-master-privacy`；啟用 Pages（`main`/`docs`）。
+  - 檔案：`index.md`（隱私政策）、`terms.md`（服務條款）、`support.md`（聯絡方式）。
+  - 內容要點：資料收集範圍（出生資料、偏好、可選同步）、用途（生成分析）、保存（本機/加密/Drive App Folder）、權利（刪除/導出）、第三方 SDK（Billing/Ads/Auth/Drive）說明、聯絡方式。
+- 測試計畫（最低維護、高可靠）
+  - 單元測試：曆法/八字/相位/閘門映射≥90% 覆蓋關鍵函式。
+  - 整合測試：AI 生成管線（固定種子）→ 輸出格式/長度/敏感詞審核（簡易字典）。
+  - 端對端：輸入出生 → 報告生成 → 同步 → 恢復購買 → 兌換點數。
+  - 效能：中階裝置（4GB RAM）生成 700~1200 tokens 於可接受時間（允許背景）。
+  - 相容：API 26/28/30/34 實機/模擬器；飛航模式與低電測試。
+  - 可用性：5 名體驗者 A/B（導航清晰度、讀取速度主觀評分）。
+- 監控與低維護策略
+  - Crashlytics 類雲端 SDK 不使用（避免付費/隱私）；改用本地錯誤日誌上傳「選用」至 Drive（匿名）。
+  - 評分提醒：結果頁 3 次成功後提示評分（若評分≥4 再引導評論）。
+  - 後續維護僅限：Android 相容性、商店文案微調、模型/詞庫一次性升級（不定期）。
+- 法律與品牌保護（ASO 同步注意）
+  - 標題與圖示：不含可能引發商標爭議的詞與圖形；Icon 為自繪抽象圖騰。
+  - 描述：若提及「人類圖」，以「天賦設計圖（支援人類圖盤面）」表述並附非官方聲明。
+  - 關鍵字：避免競品名稱；使用通用字詞（八字/紫微/星盤/AI 算命/天賦設計圖）。
+- 交付物清單（V1 上架需具備）
+  - AAB（release 簽章）、商店素材（Icon/6 張截圖/短文長文描述/隱私 URL）。
+  - 內購商品與訂閱就緒；試算稅金/價格層級。
+  - 隱私政策/服務條款 GitHub Pages 站點。
+  - 第三方授權清單（LICENSES.txt）與 App 內「關於」頁開源致謝。
+- 里程碑完成定義（DoD）
+  - 無崩潰 ANR＜0.47%；啟動＜2.5s；主要流程成功率≥99%。
+  - 無未授權素材；合規表單完成；審核通過。
+  - 免費用戶可完成「輸入→摘要→黃曆」；付費牆清楚；VIP 與點數能正常解鎖。
+  - 背景生成與通知可靠；換機登入可取回報告/點數/購買。
+- 範例 Prompt（AI 生成骨架，App 內置）
+  - 系統提示（固定）：
+    - 「你是命理顧問。輸入為某人的命盤摘要（八字/紫微/星盤/設計圖）。請輸出：1) 關鍵特質（條列），2) 現階段機會與風險（分領域：事業/情感/健康/財務），3) 三項具體建議（可執行），4) 應避免的決策陷阱（簡述），語氣溫和、避免絕對化詞彙。」
+  - 使用者內容（範例）：
+    - 「八字：日主偏弱，木旺需火生；紫微：命宮××、遷移××；星盤：太陽巨蟹三宮，月亮天蠍；人類圖：生產者類型，情緒權威…」
+- 版本與路線圖（V1→V1.1）
+  - V1：本文件列舉之所有功能（無相機與圖像）。
+  - V1.1：英文完整化、更多星盤相位擴充、AI 行動建議模板增量。
+  - V1.2+：若營收允許，再評估相機類（手相/面相）或合盤功能。
+- 成本與收益預估（方向性，零付費 API 前提）
+  - 成本：開發者帳號一次性、時間成本、上傳流量（微小）、廣告 SDK 0 元。
+  - 收益：訂閱月費＋單次深度解讀＋激勵廣告點數；首月以自然量增長，評分＞4.5 有望提升關鍵字排名。
+- 最後檢查清單（上架前 48 小時）
+  - 商店名稱/描述/截圖/影片/隱私 URL 完成。
+  - AAB 簽章可驗；內購測試用戶可購買/恢復。
+  - 同步開關測試：登入/登出/換機流程 OK。
+  - 背景運算與通知在 Android 13/14/15 實測 OK。
+  - 法務：無商標用語風險；所有第三方授權列示。
+- —— 附：命名（正式）
+  - 上架主名稱：**AI命理大師：命盤・紫微・星盤**
+  - 英文對應：**AI Destiny Master: Bazi・Ziwei・Astro**
+  - 內文提及人類圖時以「**天賦設計圖**（支援人類圖盤面）」表述，並加註「非官方、僅供參考」。

@@ -79,10 +79,11 @@
     - [ ] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
     - [ ] `PurchaseDao`：`upsert(purchase)`, `getActive()`
     - [ ] `UserProfileDao`：`get()`, `update(profile)`
-  - [ ] 建立 `AppDatabase` 與 Migrations
+  - [x] 建立 `AppDatabase` 與 Migrations
   - [ ] 建立 Repository
     - [x] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
     - [x] Report 與 SyncManager 串接（ReportSyncBridge：push/pull）
+    - [x] Report 端到端驗證（:app Debug Screen + ViewModel）
     - [ ] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
     - [ ] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
     - [ ] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
