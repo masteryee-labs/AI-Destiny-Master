@@ -70,6 +70,25 @@ fun PaywallScreen(activity: ComponentActivity) {
             Button(onClick = { scope.launch { activeCount = repo.getActive().size } }) { Text("Restore Active") }
             Button(onClick = { billing.startConnection { /* ready */ } }) { Text("Init Billing") }
             Button(onClick = { scope.launch { products = billing.queryProducts(*sampleSkus.toTypedArray()) } }) { Text("Query Products") }
+            Button(onClick = { scope.launch {
+                val purchases = billing.queryPurchasesAsync()
+                purchases.forEach { p ->
+                    val acked = billing.acknowledgeIfNeeded(p)
+                    DatabaseProvider.get(activity).purchaseDao().upsert(
+                        PurchaseEntity(
+                            sku = p.products.firstOrNull() ?: sku,
+                            type = if (p.products.isNotEmpty()) "inapp" else "unknown",
+                            state = p.purchaseState,
+                            purchaseToken = p.purchaseToken,
+                            acknowledged = acked || p.isAcknowledged,
+                            updatedAt = System.currentTimeMillis()
+                        )
+                    )
+                }
+                activeCount = repo.getActive().size
+                entitled = repo.isEntitled(sku)
+                lastMsg = "Restored ${'$'}{purchases.size} purchases"
+            } }) { Text("Restore Purchases") }
         }
         if (products.isNotEmpty()) {
             Text("Products:")

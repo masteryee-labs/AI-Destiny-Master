@@ -12,14 +12,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
+import com.aidestinymaster.app.prefs.UserPrefs
 import com.aidestinymaster.app.nav.Routes
 
 @Composable
 fun OnboardingScreen(activity: ComponentActivity, nav: NavController) {
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("歡迎使用 AI 命理大師", style = MaterialTheme.typography.titleLarge)
         Text("本應用提供紫微、八字、占星等功能，並支援離線 AI 解讀。")
-        Button(onClick = { nav.navigate(Routes.Home) }) { Text("開始使用") }
+        Button(onClick = {
+            scope.launch {
+                UserPrefs.setOnboardingDone(activity, true)
+                nav.navigate(Routes.Home)
+            }
+        }) { Text("開始使用") }
     }
 }
-

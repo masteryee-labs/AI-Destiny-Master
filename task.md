@@ -182,7 +182,7 @@
   - [ ] 輸入頁
     - [x] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
   - [ ] 結果頁
-    - [ ] @Composable ReportScreen(reportId)（支援分享/收藏/加註）
+    - [x] @Composable ReportScreen(reportId)（支援分享/收藏/加註）
     - [x] ReportScreen 以 Flow 觀察資料（observeById）`r`n    - [x] ReportScreen：Push/Pull 按鈕與狀態顯示
   - [ ] 付費牆/解鎖
     - [ ] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
@@ -195,7 +195,7 @@
   
   - [x] Chart 流程：Input→Create→Result 導航
   - [x] 加入 Deep Link（通知點擊 → `report/{reportId}`）
-  - [x] 加入 Deep Link（settings：aidm://settings）`r`n  - [x] 首次啟動以偏好設定決定起始路由（onboarding 一次）
+  - [x] 加入 Deep Link（settings：aidm://settings）`r`n  - [x] 首次啟動以偏好設定決定起始路由（onboarding 一次）`r`n  - [x] 設定頁可重看導覽（重置旗標）
 - [x] 安全加密與 Auto Backup
   - [x] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
   - [ ] 加密 `ReportEntity.contentEnc`、`WalletEntity` 關鍵欄位
@@ -225,10 +225,10 @@
     - [x] `suspend fun queryProducts()`（含訂閱 SUBS）
     - [x] `fun launchPurchase(activity, productDetails)`（支援 offerToken）
     - [x] `fun handlePurchase(purchase)`（確認權益、`acknowledgePurchase`）
-    - [ ] `suspend fun queryPurchasesAsync()` 用於恢復購買
-  - [ ] 權益判斷
-    - [ ] `Entitlement.kt`：`fun hasPro(kind)`, `fun hasVip()`，搭配 `PurchaseRepository`
-  - [ ] UI 端整合付費牆與結果解鎖`r`n  - [x] PaywallScreen 與 PurchaseRepository 基礎互動（查權益/恢復/標記）
+    - [x] `suspend fun queryPurchasesAsync()` 用於恢復購買
+  - [x] 權益判斷
+    - [x] `Entitlement.kt`：`fun hasPro(kind)`, `fun hasVip()`，搭配 `PurchaseRepository`
+  - [ ] UI 端整合付費牆與結果解鎖`r`n  - [x] UI 解鎖（隱藏/禁用）：於 ChartInput 依權益控制建立按鈕`r`n  - [x] PaywallScreen 與 PurchaseRepository 基礎互動（查權益/恢復/標記）
 - [ ] AdMob Rewarded Ads（:ads，可選）
   - [ ] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
   - [ ] 在 `AndroidManifest.xml` 新增 `com.google.android.gms.ads.APPLICATION_ID`
@@ -360,6 +360,7 @@
   - [ ] 監控評分與關鍵字排名（手動週檢）
   - [ ] 只在必要時進行相容性更新
   - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
+
 
 
 

@@ -60,6 +60,15 @@ class BillingManager private constructor(private val context: Context) : Purchas
         if (res.billingResult.responseCode == BillingClient.BillingResponseCode.OK) res.purchasesList ?: emptyList() else emptyList()
     }
 
+    suspend fun queryPurchasesAsync(): List<Purchase> = withContext(Dispatchers.IO) {
+        if (!client.isReady) suspendCancellableCoroutine { cont -> startConnection { cont.resume(Unit) } }
+        val inapp = client.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build())
+        val subs = client.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build())
+        val l1 = if (inapp.billingResult.responseCode == BillingClient.BillingResponseCode.OK) inapp.purchasesList ?: emptyList() else emptyList()
+        val l2 = if (subs.billingResult.responseCode == BillingClient.BillingResponseCode.OK) subs.purchasesList ?: emptyList() else emptyList()
+        l1 + l2
+    }
+
     fun addListener(cb: (BillingResult, List<Purchase>?) -> Unit) { listeners += cb }
 
     override fun onPurchasesUpdated(result: BillingResult, purchases: MutableList<Purchase>?) {

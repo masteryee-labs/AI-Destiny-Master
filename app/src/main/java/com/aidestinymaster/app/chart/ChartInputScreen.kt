@@ -19,6 +19,7 @@ import android.app.TimePickerDialog
 import java.util.Calendar
 import com.aidestinymaster.app.nav.Routes
 import com.aidestinymaster.data.repository.ChartRepository
+import com.aidestinymaster.billing.Entitlement
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,6 +32,11 @@ fun ChartInputScreen(activity: ComponentActivity, kind: String, nav: NavControll
     var place by remember { mutableStateOf("Taipei") }
     var error by remember { mutableStateOf("") }
 
+    val ent = remember { Entitlement.from(activity) }
+    var allowed by remember { mutableStateOf(true) }
+    LaunchedEffect(kind) {
+        allowed = ent.hasPro(kind)
+    }
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("Chart Input ($kind)", style = MaterialTheme.typography.titleLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -50,6 +56,7 @@ fun ChartInputScreen(activity: ComponentActivity, kind: String, nav: NavControll
         OutlinedTextField(value = tz, onValueChange = { tz = it }, label = { Text("Time Zone") })
         OutlinedTextField(value = place, onValueChange = { place = it }, label = { Text("Place") })
         if (error.isNotEmpty()) Text(error, color = MaterialTheme.colorScheme.error)
+        if (!allowed) Text("需要 Pro 或 VIP 權益方可使用 ($kind)", color = MaterialTheme.colorScheme.error)
         Row { Button(onClick = {
             scope.launch {
                 val dateOk = Regex("\\d{4}-\\d{2}-\\d{2}").matches(birthDate)
@@ -68,6 +75,9 @@ fun ChartInputScreen(activity: ComponentActivity, kind: String, nav: NavControll
                 ))
                 nav.navigate(Routes.ChartResult.replace("{chartId}", id))
             }
-        }) { Text("Create & View Result") } }
+        }, enabled = allowed) { Text("Create & View Result") }
+            Spacer(Modifier.width(8.dp))
+            Button(onClick = { nav.navigate(Routes.Paywall) }) { Text("Go Paywall") }
+        }
     }
 }

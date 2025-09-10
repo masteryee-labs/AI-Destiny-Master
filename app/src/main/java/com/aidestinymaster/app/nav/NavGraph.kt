@@ -26,6 +26,11 @@ import com.aidestinymaster.app.chart.ChartInputScreen
 import com.aidestinymaster.app.chart.ChartResultScreen
 import com.aidestinymaster.app.paywall.PaywallScreen
 import com.aidestinymaster.app.onboarding.OnboardingScreen
+import com.aidestinymaster.app.prefs.UserPrefs
+import kotlinx.coroutines.flow.first
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 object Routes {
     const val Onboarding = "onboarding"
@@ -41,9 +46,18 @@ object Routes {
 fun AppNav(activity: ComponentActivity) {
     val nav = rememberNavController()
     MaterialTheme {
+        val start = remember { mutableStateOf<String?>(null) }
+        LaunchedEffect(Unit) {
+            val done = UserPrefs.onboardingDoneFlow(activity).first()
+            start.value = if (done) Routes.Home else Routes.Onboarding
+        }
+        if (start.value == null) {
+            Text("Loading...")
+            return@MaterialTheme
+        }
         TopNavBar(nav)
         Spacer(Modifier.height(8.dp))
-        NavHost(navController = nav, startDestination = Routes.Home) {
+        NavHost(navController = nav, startDestination = start.value!!) {
             composable(Routes.Onboarding) { OnboardingScreen(activity, nav) }
             composable(Routes.Home) { HomeScreen(activity, nav) }
             composable(
