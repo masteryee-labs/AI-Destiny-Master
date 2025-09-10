@@ -20,10 +20,11 @@ class ReportViewModel(app: Application) : AndroidViewModel(app) {
     private val _current = MutableStateFlow<ReportEntity?>(null)
     val current = _current.asStateFlow()
 
-    suspend fun create(type: String, content: String) = withContext(Dispatchers.IO) {
+    suspend fun create(type: String, content: String): String = withContext(Dispatchers.IO) {
         val id = repo.createFromAi(type, chartId = "demoChart", content = content)
         _lastId.value = id
         _current.value = repo.getOnce(id)
+        id
     }
 
     suspend fun push() = withContext(Dispatchers.IO) {
@@ -37,4 +38,3 @@ class ReportViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 }
-

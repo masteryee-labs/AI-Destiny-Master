@@ -35,8 +35,11 @@ fun HomeScreen(activity: ComponentActivity, nav: NavController) {
         OutlinedTextField(value = type, onValueChange = { type = it }, label = { Text("Type") })
         OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") })
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch { viewModel.create(type, content) } }) { Text("Create Report") }
-            Button(onClick = { lastId?.let { nav.navigate("${Routes.Report.replace("{reportId}", it)}") } }, enabled = lastId != null) { Text("Open Report") }
+            Button(onClick = { scope.launch {
+                val id = viewModel.create(type, content)
+                nav.navigate(Routes.Report.replace("{reportId}", id))
+            } }) { Text("Create & Open Report") }
+            Button(onClick = { lastId?.let { nav.navigate(Routes.Report.replace("{reportId}", it)) } }, enabled = lastId != null) { Text("Open Last") }
         }
         if (current != null) {
             Spacer(Modifier.height(8.dp))
@@ -44,4 +47,3 @@ fun HomeScreen(activity: ComponentActivity, nav: NavController) {
         }
     }
 }
-

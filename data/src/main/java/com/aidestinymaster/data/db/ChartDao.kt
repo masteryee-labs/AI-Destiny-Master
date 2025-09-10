@@ -3,6 +3,7 @@ package com.aidestinymaster.data.db
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChartDao {
@@ -14,4 +15,7 @@ interface ChartDao {
 
     @Query("SELECT id FROM charts")
     suspend fun listIds(): List<String>
+
+    @Query("SELECT * FROM charts WHERE id = :id LIMIT 1")
+    fun observeById(id: String): Flow<ChartEntity?>
 }

@@ -54,6 +54,7 @@ dependencies {
     // Module deps
     implementation(project(":data"))
     implementation(project(":sync"))
+    implementation(project(":billing"))
     implementation(libs.google.billing.ktx)
     implementation(libs.google.play.services.ads)
     implementation(libs.kotlinx.serialization.json)
