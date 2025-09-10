@@ -1,0 +1,6 @@
+{
+  "editor.fontFamily": "JetBrainsMono Nerd Font, JetBrainsMonoNerdFont, 'JetBrains Mono', Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "terminal.integrated.fontSize": 13
+}

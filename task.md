@@ -25,30 +25,33 @@
     - [X] 安裝 ADB Interface
     - [X] 安裝 YAML、JSON、Markdown All in One
     - [X] 安裝 GitLens、Error Lens
-    - [ ] （可選）設定 JetBrains Mono 字型
+    - [X] 設定 JetBrains Mono 字型
   - [ ] 於 WindSurf 設定 Java/Kotlin 語言伺服器（確保語法檢查與跳轉可用）
-- [ ] 初始化 Android 專案（純 Gradle CLI）
-  - [ ] 建立 `settings.gradle.kts` 與 `build.gradle.kts`（根）檔案
-  - [ ] 設定 `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
-  - [ ] 設定 Kotlin 版本 `1.9+` 與 Java 17 編譯選項
-  - [ ] 啟用 Compose（`buildFeatures { compose = true }`、`composeOptions { kotlinCompilerExtensionVersion = ... }`）
-  - [ ] 在 `settings.gradle.kts` 宣告多模組：`:app`, `:core:astro`, `:core:lunar`, `:core:ai`, `:data`, `:sync`, `:billing`, `:ads`, `:features:bazi`, `:features:ziwei`, `:features:astrochart`, `:features:design`, `:features:almanac`, `:features:mix-ai`
-  - [ ] 在各模組建立 `build.gradle.kts` 並套用 `com.android.library` 或 `com.android.application`、`org.jetbrains.kotlin.android`
-  - [ ] 在 `app/src/main/AndroidManifest.xml` 建立基本宣告與 `application` 屬性
+- [x] 初始化 Android 專案（純 Gradle CLI）
+  - [x] 建立 `settings.gradle.kts` 與 `build.gradle.kts`（根）檔案
+  - [x] 設定 `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
+  - [x] 設定 Kotlin 版本 `1.9+` 與 Java 17 編譯選項
+  - [x] 啟用 Compose（`buildFeatures { compose = true }`、`composeOptions { kotlinCompilerExtensionVersion = ... }`）
+  - [x] 在 `settings.gradle.kts` 宣告多模組：`:app`, `:core:astro`, `:core:lunar`, `:core:ai`, `:data`, `:sync`, `:billing`, `:ads`, `:features:bazi`, `:features:ziwei`, `:features:astrochart`, `:features:design`, `:features:almanac`, `:features:mix-ai`
+  - [x] 在各模組建立 `build.gradle.kts` 並套用 `com.android.library` 或 `com.android.application`、`org.jetbrains.kotlin.android`
+  - [x] 在 `app/src/main/AndroidManifest.xml` 建立基本宣告與 `application` 屬性
+- [x] 加入 Gradle Wrapper 並驗證建置
+  - [x] 下載與設定 Gradle Wrapper（8.7）
+  - [ ] 執行 `./gradlew :app:assembleDebug` 驗證
 - [ ] 設定依賴（全部免費庫）
-  - [ ] 在根 `build.gradle.kts` 設定版本管理（Compose BOM、Room、DataStore、WorkManager 等）
+  - [x] 在根 `build.gradle.kts` 設定版本管理（Compose BOM、Room、DataStore、WorkManager 等）
   - [ ] 在 `:app` 與各模組加入依賴：
-    - [ ] `androidx.compose` BOM、`activity-compose`、`navigation-compose`
-    - [ ] `androidx.room:room-ktx:2.6.+` 與 KAPT/ KSP
-    - [ ] `androidx.datastore:datastore-preferences:1.1.+`
-    - [ ] `androidx.work:work-runtime-ktx:2.9.+`
-    - [ ] `androidx.security:security-crypto:1.1.+`
-    - [ ] `com.microsoft.onnxruntime:onnxruntime-android:1.18.+`
-    - [ ] `com.google.android.gms:play-services-auth:21.+`（Google Sign-In）
+    - [x] `androidx.compose` BOM、`activity-compose`、`navigation-compose`
+    - [x] `androidx.room:room-ktx:2.6.+` 與 KAPT/ KSP
+    - [x] `androidx.datastore:datastore-preferences:1.1.+`
+    - [x] `androidx.work:work-runtime-ktx:2.9.+`
+    - [x] `androidx.security:security-crypto:1.1.+`
+    - [x] `com.microsoft.onnxruntime:onnxruntime-android:1.18.+`
+    - [x] `com.google.android.gms:play-services-auth:21.+`（Google Sign-In）
     - [ ] `google-api-client-android` + `google-api-services-drive:v3`（Drive REST）
-    - [ ] `com.android.billingclient:billing-ktx:6.+`
-    - [ ] `com.google.android.gms:play-services-ads:22.+`（AdMob Rewarded，可後期開啟）
-    - [ ] `org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
+    - [x] `com.android.billingclient:billing-ktx:6.+`
+    - [x] `com.google.android.gms:play-services-ads:22.+`（AdMob Rewarded，可後期開啟）
+    - [x] `org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
   - [ ] 在 `AndroidManifest.xml` 加入權限：
     - [ ] `INTERNET`
     - [ ] `ACCESS_NETWORK_STATE`
@@ -130,7 +133,7 @@
   - [ ] `AstroChartCanvas.kt`（Compose Canvas 畫圓盤、12宮、行星點）
   - [ ] `AspectList.kt`（列出相位表）
   - [ ] `@Composable fun NatalChartScreen(...)` 輸入與結果頁
-- [ ] N+1 綜合分析匯流（:features:mix-ai）
+- [ ] AI 綜合分析匯流（:features:mix-ai）
   - [ ] 建立 `MixedSummary.kt`
     - [ ] `fun collectSummaries(bazi: BaziSummary, ziwei: ZiweiSummary, natal: NatalSummary, design: DesignSummary, iching: IchingInterpretation?, almanac: AlmanacDay?): MixedSummary`
   - [ ] 建立 `PromptBuilder.kt`
@@ -220,7 +223,7 @@
     - [ ] `fun showRewardedAd(activity, onUserEarnedReward)`
   - [ ] 與 `WalletRepository.earnCoins(source="ad", amount=10)` 整合
   - [ ] 頻率限制與防濫用（冷卻時間、每日上限）
-- [ ] N+1 AI 生成工作流程（背景）
+- [ ] AI 生成工作流程（背景）
   - [ ] 使用者在結果頁點擊「生成 AI 詳解」
   - [ ] 建立 `OneTimeWorkRequest`，Data 包含 `chartIds`, `mode`, `locale`
   - [ ] 在 `AiReportWorker` 組裝各模組摘要 → `PromptBuilder.buildPrompt`
@@ -254,8 +257,8 @@
   - [ ] 決定上架名稱（中文）：AI命理大師：命盤・紫微・星盤
   - [ ] 決定上架名稱（英文）：AI Destiny Master: Bazi・Ziwei・Astro
   - [ ] 撰寫短描述：「離線 AI 算命｜一鍵產生命盤與深度建議｜支持八字、紫微、星盤、天賦設計圖」
-  - [ ] 撰寫長描述前三行高關鍵字密度（離線 AI 算命、八字命盤、紫微斗數、星盤、AI 詳解、N+1 綜合分析、黃曆、Google 帳號同步、背景運算通知）
-  - [ ] 製作 6 張截圖（主頁、排盤、AI 詳解、N+1、同步設定、黃曆）
+  - [ ] 撰寫長描述前三行高關鍵字密度（離線 AI 算命、八字命盤、紫微斗數、星盤、AI 詳解、AI 綜合分析、黃曆、Google 帳號同步、背景運算通知）
+  - [ ] 製作 6 張截圖（主頁、排盤、AI 詳解、AI 綜合分析、同步設定、黃曆）
   - [ ] 製作應用 Icon（自製向量，抽象圖騰/星象＋科技元素）
   - [ ] 準備英文商店頁對應文案
   - [ ] 避免標題中使用可能侵權詞彙（不放 Human Design）
@@ -296,11 +299,11 @@
   - [ ] 設定購買流程按鈕→`BillingManager.launchPurchase(...)`
   - [ ] 購買回調→更新 `PurchaseRepository` 與 `Entitlement` 狀態
   - [ ] 恢復購買入口（設定頁）
-  - [ ] 訂閱權益：解鎖所有深度與 N+1 無限次
+  - [ ] 訂閱權益：解鎖所有深度與 AI 無限次
 - [ ] 點數與激勵廣告實作收尾
   - [ ] 建立 `WalletViewModel` 與 UI 顯示餘額
   - [ ] Rewarded Ads 成功回調 → `WalletRepository.earnCoins("ad", 10)`
-  - [ ] 以點數解鎖 N+1（50 幣）與單次深度（視規則）
+  - [ ] 以點數解鎖 AI（50 幣）與單次深度（視規則）
   - [ ] 設定每日觀看上限與冷卻時間
   - [ ] 錯誤處理（廣告載入失敗備援提示）
 - [ ] 背景運算 UX 與通知
@@ -328,7 +331,7 @@
   - [ ] 設定 release tag 觸發 `bundleRelease`（簽章資訊以 GitHub Secrets 提供）
 - [ ] 版本管理與路線圖
   - [ ] 標記 V1 里程碑（此計畫全部完成）
-  - [ ] V1.1 任務板（英文完整化、相位擴充、N+1 模板增量）
+  - [ ] V1.1 任務板（英文完整化、相位擴充、AI 模板增量）
   - [ ] V1.2 任務板（可評估相機功能與合盤）
 - [ ] 最後檢查清單（上架前 48 小時）
   - [ ] 名稱/描述/截圖/影片/隱私 URL 檢查
