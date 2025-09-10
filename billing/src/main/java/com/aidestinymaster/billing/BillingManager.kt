@@ -66,9 +66,16 @@ class BillingManager private constructor(private val context: Context) : Purchas
         listeners.forEach { it(result, purchases) }
     }
 
+    suspend fun acknowledgeIfNeeded(purchase: Purchase): Boolean = withContext(Dispatchers.IO) {
+        if (purchase.isAcknowledged) return@withContext true
+        if (!client.isReady) suspendCancellableCoroutine { cont -> startConnection { cont.resume(Unit) } }
+        val params = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(purchase.purchaseToken).build()
+        val res = client.acknowledgePurchase(params)
+        res.responseCode == BillingClient.BillingResponseCode.OK
+    }
+
     companion object {
         @Volatile private var inst: BillingManager? = null
         fun from(context: Context): BillingManager = inst ?: synchronized(this) { inst ?: BillingManager(context.applicationContext).also { inst = it } }
     }
 }
-

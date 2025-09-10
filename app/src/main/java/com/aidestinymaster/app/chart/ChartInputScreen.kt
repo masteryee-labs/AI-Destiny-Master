@@ -14,6 +14,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import java.util.Calendar
 import com.aidestinymaster.app.nav.Routes
 import com.aidestinymaster.data.repository.ChartRepository
 import kotlinx.coroutines.launch
@@ -26,15 +29,36 @@ fun ChartInputScreen(activity: ComponentActivity, kind: String, nav: NavControll
     var birthTime by remember { mutableStateOf("12:00") }
     var tz by remember { mutableStateOf("+08:00") }
     var place by remember { mutableStateOf("Taipei") }
+    var error by remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("Chart Input ($kind)", style = MaterialTheme.typography.titleLarge)
-        OutlinedTextField(value = birthDate, onValueChange = { birthDate = it }, label = { Text("Birth Date") })
-        OutlinedTextField(value = birthTime, onValueChange = { birthTime = it }, label = { Text("Birth Time") })
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedTextField(value = birthDate, onValueChange = { birthDate = it }, label = { Text("Birth Date (YYYY-MM-DD)") })
+            Button(onClick = {
+                val c = Calendar.getInstance()
+                DatePickerDialog(activity, { _, y, m, d -> birthDate = String.format("%04d-%02d-%02d", y, m+1, d) }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show()
+            }) { Text("Pick") }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedTextField(value = birthTime, onValueChange = { birthTime = it }, label = { Text("Birth Time (HH:MM)") })
+            Button(onClick = {
+                val c = Calendar.getInstance()
+                TimePickerDialog(activity, { _, h, min -> birthTime = String.format("%02d:%02d", h, min) }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show()
+            }) { Text("Pick") }
+        }
         OutlinedTextField(value = tz, onValueChange = { tz = it }, label = { Text("Time Zone") })
         OutlinedTextField(value = place, onValueChange = { place = it }, label = { Text("Place") })
+        if (error.isNotEmpty()) Text(error, color = MaterialTheme.colorScheme.error)
         Row { Button(onClick = {
             scope.launch {
+                val dateOk = Regex("\\d{4}-\\d{2}-\\d{2}").matches(birthDate)
+                val timeOk = Regex("\\d{2}:\\d{2}").matches(birthTime)
+                val tzOk = Regex("[+-]\\d{2}:\\d{2}").matches(tz)
+                if (!dateOk || !timeOk || !tzOk) {
+                    error = "請輸入正確的日期/時間/時區格式"
+                    return@launch
+                } else error = ""
                 val id = repo.create(kind, mapOf(
                     "birthDate" to birthDate,
                     "birthTime" to birthTime,

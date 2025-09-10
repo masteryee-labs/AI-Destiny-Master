@@ -25,6 +25,7 @@ import com.aidestinymaster.app.report.ReportScreen
 import com.aidestinymaster.app.chart.ChartInputScreen
 import com.aidestinymaster.app.chart.ChartResultScreen
 import com.aidestinymaster.app.paywall.PaywallScreen
+import com.aidestinymaster.app.onboarding.OnboardingScreen
 
 object Routes {
     const val Onboarding = "onboarding"
@@ -43,7 +44,7 @@ fun AppNav(activity: ComponentActivity) {
         TopNavBar(nav)
         Spacer(Modifier.height(8.dp))
         NavHost(navController = nav, startDestination = Routes.Home) {
-            composable(Routes.Onboarding) { Text("Onboarding (TODO)") }
+            composable(Routes.Onboarding) { OnboardingScreen(activity, nav) }
             composable(Routes.Home) { HomeScreen(activity, nav) }
             composable(
                 route = Routes.Settings,
