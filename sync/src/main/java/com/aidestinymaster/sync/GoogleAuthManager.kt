@@ -23,6 +23,12 @@ object GoogleAuthManager {
     fun signIn(context: Context): GoogleSignInAccount? =
         GoogleSignIn.getLastSignedInAccount(context)
 
+    fun isSignedIn(context: Context): Boolean = signIn(context) != null
+
+    fun signOut(context: Context, onComplete: (() -> Unit)? = null) {
+        getSignInClient(context).signOut().addOnCompleteListener { onComplete?.let { it() } }
+    }
+
     fun getAccessToken(context: Context): String? {
         val account = GoogleSignIn.getLastSignedInAccount(context) ?: return null
         return getAccessToken(account, context)
@@ -38,4 +44,3 @@ object GoogleAuthManager {
         }
     }
 }
-

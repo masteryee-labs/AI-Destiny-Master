@@ -17,6 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
+import com.aidestinymaster.sync.GoogleAuthManager
 import com.aidestinymaster.data.db.ReportEntity
 import com.aidestinymaster.data.repository.ReportRepository
 import com.aidestinymaster.sync.ReportSyncBridge
@@ -42,6 +46,19 @@ fun App() {
 
         val scope = rememberCoroutineScope()
 
+        var accountEmail by remember { mutableStateOf(GoogleAuthManager.signIn(ctx)?.email) }
+        val launcher = androidx.activity.compose.rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val acc = task.getResult(ApiException::class.java)
+                accountEmail = acc?.email
+            } catch (_: Exception) {
+                // ignore
+            }
+        }
+
         var type by remember { mutableStateOf("demo") }
         var content by remember { mutableStateOf("Hello from Compose at " + System.currentTimeMillis()) }
 
@@ -57,8 +74,20 @@ fun App() {
                 Button(onClick = { scope.launch { viewModel.push() } }, enabled = lastIdState != null) { Text("Push") }
                 Button(onClick = { scope.launch { viewModel.pull() } }, enabled = lastIdState != null) { Text("Pull") }
             }
+            Spacer(Modifier.height(12.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = {
+                    val client = GoogleAuthManager.getSignInClient(ctx)
+                    launcher.launch(client.signInIntent)
+                }) { Text("Sign In") }
+                Button(onClick = {
+                    GoogleAuthManager.signOut(ctx) { accountEmail = null }
+                }) { Text("Sign Out") }
+            }
             Spacer(Modifier.height(16.dp))
             Text("Last ID: ${lastIdState ?: "(none)"}")
+            Spacer(Modifier.height(8.dp))
+            Text("Signed in: ${accountEmail ?: "(not signed)"}")
             Spacer(Modifier.height(8.dp))
             Text("Title: ${currentState?.title ?: "-"}")
             Spacer(Modifier.height(4.dp))

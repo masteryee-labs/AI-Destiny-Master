@@ -83,6 +83,10 @@
   - [ ] 建立 Repository
     - [x] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
     - [x] Report 與 SyncManager 串接（ReportSyncBridge：push/pull）
+    - [x] Chart 與 SyncManager 串接（ChartSyncBridge：push/pull）
+    - [x] Wallet 與 SyncManager 串接（WalletSyncBridge：push/pull）
+    - [x] Purchase 與 SyncManager 串接（PurchaseSyncBridge：push/pull）
+    - [x] User 與 SyncManager 串接（UserSyncBridge：push/pull）
     - [x] Report 端到端驗證（:app Debug Screen + ViewModel）
     - [ ] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
     - [ ] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
@@ -204,6 +208,7 @@
     - [x] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
   - [x] 同步排程
     - [x] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
+  - [x] （Debug）加入 Sign-In/Sign-Out 按鈕與回呼
   - [ ] 設定頁提供同步開關；登入/登出流程；錯誤提示
 - [ ] Google Play Billing v6（內購與訂閱）（:billing）
   - [ ] 在 Play Console 建立商品 SKU：
