@@ -17,7 +17,7 @@ import com.aidestinymaster.app.prefs.UserPrefs
 import com.aidestinymaster.app.nav.Routes
 
 @Composable
-fun OnboardingScreen(activity: ComponentActivity, nav: NavController) {
+fun OnboardingScreen(activity: ComponentActivity, nav: NavController, from: String? = null) {
     val scope = androidx.compose.runtime.rememberCoroutineScope()
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("歡迎使用 AI 命理大師", style = MaterialTheme.typography.titleLarge)
@@ -25,9 +25,8 @@ fun OnboardingScreen(activity: ComponentActivity, nav: NavController) {
         Button(onClick = {
             scope.launch {
                 UserPrefs.setOnboardingDone(activity, true)
-                nav.navigate(Routes.Home) {
-                    popUpTo(Routes.Onboarding) { inclusive = true }
-                }
+                val target = if (from == "settings") Routes.Settings else Routes.Home
+                nav.navigate(target) { popUpTo(Routes.Onboarding) { inclusive = true } }
             }
         }) { Text("開始使用") }
     }

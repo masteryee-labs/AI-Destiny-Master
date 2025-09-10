@@ -60,9 +60,13 @@ fun AppNav(activity: ComponentActivity) {
         Spacer(Modifier.height(8.dp))
         NavHost(navController = nav, startDestination = start.value!!) {
             composable(
-                route = Routes.Onboarding,
-                deepLinks = listOf(navDeepLink { uriPattern = "aidm://onboarding" })
-            ) { OnboardingScreen(activity, nav) }
+                route = Routes.Onboarding + "?from={from}",
+                arguments = listOf(navArgument("from") { nullable = true }),
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://onboarding?from={from}" })
+            ) { backStack ->
+                val from = backStack.arguments?.getString("from")
+                OnboardingScreen(activity, nav, from)
+            }
             composable(Routes.Home) { HomeScreen(activity, nav) }
             composable(
                 route = Routes.Settings,

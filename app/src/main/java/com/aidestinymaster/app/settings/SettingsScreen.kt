@@ -48,7 +48,7 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
             Button(onClick = { GoogleAuthManager.signOut(ctx) { viewModel.onSignedIn(null) } }) { Text("Sign Out") }
             Button(onClick = { com.aidestinymaster.sync.SyncBatchScheduler.scheduleNow(ctx) }) { Text("立即同步") }
             Button(onClick = {
-                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("aidm://onboarding"))
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("aidm://onboarding?from=settings"))
                 ctx.startActivity(intent)
             }) { Text("前往導覽") }
             Button(onClick = {

@@ -1,9 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<full-backup-content>
-    <!-- 排除敏感或可再生檔案 -->
-    <exclude domain="file" path="logs/"/>
-    <exclude domain="file" path="tmp/"/>
-    <exclude domain="file" path="keys/"/>
-    <exclude domain="sharedpref" path="auth.xml"/>
-    <exclude domain="sharedpref" path="tokens.xml"/>
-</full-backup-content>
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content/>
+

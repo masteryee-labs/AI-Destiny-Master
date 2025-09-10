@@ -30,6 +30,14 @@ fun PaywallScreen(activity: ComponentActivity) {
     val sampleSkus = listOf("iap_bazi_pro", "iap_ziwei_pro", "iap_design_pro", "iap_astro_pro", "android.test.purchased")
     val billing = remember { BillingManager.from(activity) }
     var lastMsg by remember { mutableStateOf("") }
+    val featureMap = listOf(
+        "八字 Pro" to "iap_bazi_pro",
+        "紫微 Pro" to "iap_ziwei_pro",
+        "人設 Pro" to "iap_design_pro",
+        "星盤 Pro" to "iap_astro_pro",
+        "VIP 月" to "sub_vip_month",
+        "VIP 年" to "sub_vip_year"
+    )
 
     LaunchedEffect(Unit) {
         billing.addListener { result, purchases ->
@@ -102,5 +110,14 @@ fun PaywallScreen(activity: ComponentActivity) {
         if (entitled != null) Text("Entitled: $entitled")
         Text("Active purchases: $activeCount")
         if (lastMsg.isNotEmpty()) Text("Last: $lastMsg")
+        Spacer(Modifier.height(8.dp))
+        Text("快速選擇功能 → 對應 SKU：")
+        featureMap.chunked(3).forEach { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                row.forEach { (label, id) ->
+                    Button(onClick = { sku = id }) { Text("$label / $id") }
+                }
+            }
+        }
     }
 }
