@@ -46,6 +46,7 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Button(onClick = { launcher.launch(GoogleAuthManager.getSignInClient(ctx).signInIntent) }) { Text("Sign In") }
             Button(onClick = { GoogleAuthManager.signOut(ctx) { viewModel.onSignedIn(null) } }) { Text("Sign Out") }
+            Button(onClick = { com.aidestinymaster.sync.SyncBatchScheduler.scheduleNow(ctx) }) { Text("立即同步") }
         }
         val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

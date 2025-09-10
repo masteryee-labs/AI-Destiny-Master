@@ -32,7 +32,7 @@ import com.aidestinymaster.app.report.ReportViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { App() }
+        setContent { com.aidestinymaster.app.nav.AppNav(this) }
     }
 }
 

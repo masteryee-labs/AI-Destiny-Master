@@ -190,9 +190,10 @@
   - [ ] 設定頁
     - [ ] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
 - [ ] 導航結構（Navigation Compose）
-  - [ ] 建立 `NavGraph.kt`
+  - [x] 建立 `NavGraph.kt`
     - [ ] Destinations：`onboarding`, `home`, `chartInput/{kind}`, `chartResult/{chartId}`, `report/{reportId}`, `settings`, `paywall`
   - [ ] 加入 Deep Link（通知點擊 → `report/{reportId}`）
+  - [x] 加入 Deep Link（settings：aidm://settings）
 - [x] 安全加密與 Auto Backup
   - [x] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
   - [ ] 加密 `ReportEntity.contentEnc`、`WalletEntity` 關鍵欄位
@@ -208,6 +209,8 @@
     - [x] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
   - [x] 同步排程
     - [x] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
+  - [x] 背景同步頻率 15 分鐘（WorkManager 最小間隔）
+  - [x] 手動立即同步按鈕（SettingsScreen → scheduleNow）
   - [x] （Debug）加入 Sign-In/Sign-Out 按鈕與回呼
   - [x] 設定頁提供同步開關；登入/登出流程；錯誤提示
   - [x] 背景批次同步（WorkManager）：`SyncBatchWorker` + 排程（`SyncBatchScheduler`）
@@ -250,6 +253,7 @@
   - [ ] App 內與商店頁加入「非官方、僅供參考」聲明
   - [X] 第三方授權列表整理入 `LICENSES.txt` 與 App 內「關於」頁
 - [ ] UI/UX 細節與動效
+  - [x] （Debug）Wallet/購買/Chart 測試 UI/狀態
   - [ ] Compose 動畫：分析進度「星塵」動畫（`animateFloatAsState` + Canvas）
   - [ ] 結果頁重點卡片（分領域：事業/情感/健康/財務）
   - [ ] 無障礙：字體大小調整、動畫關閉開關、語義標籤（`contentDescription`）

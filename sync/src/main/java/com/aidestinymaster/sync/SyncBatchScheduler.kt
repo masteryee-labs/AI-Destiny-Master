@@ -15,7 +15,7 @@ object SyncBatchScheduler {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-        val req = PeriodicWorkRequestBuilder<SyncBatchWorker>(6, TimeUnit.HOURS)
+        val req = PeriodicWorkRequestBuilder<SyncBatchWorker>(15, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
         WorkManager.getInstance(context)
@@ -25,5 +25,15 @@ object SyncBatchScheduler {
     fun cancel(context: Context) {
         WorkManager.getInstance(context).cancelUniqueWork(UNIQUE_NAME)
     }
-}
 
+    fun scheduleNow(context: Context) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val req = androidx.work.OneTimeWorkRequestBuilder<SyncBatchWorker>()
+            .setConstraints(constraints)
+            .build()
+        WorkManager.getInstance(context)
+            .enqueue(req)
+    }
+}
