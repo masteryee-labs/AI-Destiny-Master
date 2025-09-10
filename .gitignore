@@ -1,0 +1,14 @@
+# Build outputs
+/build/
+/**/build/
+/app/build/
+
+# Gradle
+/.gradle/
+
+# Local configuration
+/local.properties
+
+# Keystore files
+*.keystore
+
