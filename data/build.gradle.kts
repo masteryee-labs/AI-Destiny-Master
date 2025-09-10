@@ -35,6 +35,8 @@ dependencies {`n    kapt(libs.androidx.room.compiler)
 
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.datastore.preferences)
+    implementation(project(":core:astro"))
+    implementation(project(":core:lunar"))
 }
 
 

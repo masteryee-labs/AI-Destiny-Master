@@ -40,6 +40,7 @@ object Routes {
     const val ChartResult = "chartResult/{chartId}"
     const val Report = "report/{reportId}"
     const val Paywall = "paywall"
+    const val ReportFavs = "reportFavs"
 }
 
 @Composable
@@ -58,7 +59,10 @@ fun AppNav(activity: ComponentActivity) {
         TopNavBar(nav)
         Spacer(Modifier.height(8.dp))
         NavHost(navController = nav, startDestination = start.value!!) {
-            composable(Routes.Onboarding) { OnboardingScreen(activity, nav) }
+            composable(
+                route = Routes.Onboarding,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://onboarding" })
+            ) { OnboardingScreen(activity, nav) }
             composable(Routes.Home) { HomeScreen(activity, nav) }
             composable(
                 route = Routes.Settings,
@@ -78,6 +82,7 @@ fun AppNav(activity: ComponentActivity) {
                 deepLinks = listOf(navDeepLink { uriPattern = "aidm://report/{reportId}" })
             ) { backStack -> ReportScreen(activity, backStack.arguments?.getString("reportId") ?: "") }
             composable(Routes.Paywall) { PaywallScreen(activity) }
+            composable(Routes.ReportFavs) { com.aidestinymaster.app.report.ReportFavoritesScreen(activity, nav) }
         }
     }
 }
@@ -87,5 +92,6 @@ private fun TopNavBar(nav: NavHostController) {
     Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Button(onClick = { nav.navigate(Routes.Home) }) { Text("Home") }
         Button(onClick = { nav.navigate(Routes.Settings) }) { Text("Settings") }
+        Button(onClick = { nav.navigate(Routes.ReportFavs) }) { Text("Favs") }
     }
 }

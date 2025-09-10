@@ -66,7 +66,7 @@ fun ChartInputScreen(activity: ComponentActivity, kind: String, nav: NavControll
                     error = "請輸入正確的日期/時間/時區格式"
                     return@launch
                 } else error = ""
-                val id = repo.create(kind, mapOf(
+                val id = repo.compute(kind, mapOf(
                     "birthDate" to birthDate,
                     "birthTime" to birthTime,
                     "tz" to tz,

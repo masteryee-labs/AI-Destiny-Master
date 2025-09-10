@@ -16,6 +16,7 @@ import com.aidestinymaster.sync.ReportSyncBridge
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.platform.LocalContext
 import android.content.Intent
+import com.aidestinymaster.billing.Entitlement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +36,9 @@ fun ReportScreen(activity: ComponentActivity, reportId: String) {
     val notes by ReportPrefs.notesFlow(ctx).collectAsState(initial = emptyMap())
     var noteText by androidx.compose.runtime.remember { mutableStateOf("") }
     LaunchedEffect(reportId, notes) { noteText = notes[reportId] ?: "" }
+    val ent = remember { Entitlement.from(activity) }
+    var vip by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) { vip = ent.hasVip() }
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("Report", style = MaterialTheme.typography.titleLarge)
         Text("ID: $reportId")
@@ -42,8 +46,8 @@ fun ReportScreen(activity: ComponentActivity, reportId: String) {
         Text("Title: ${report?.title ?: "-"}")
         Text("Summary: ${report?.summary ?: "-"}")
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch { bridge.push(reportId); status = "Pushed" } }) { Text("Push") }
-            Button(onClick = { scope.launch { bridge.pull(reportId); status = "Pulled" } }) { Text("Pull") }
+            Button(onClick = { scope.launch { bridge.push(reportId); status = "Pushed" } }, enabled = vip) { Text("Push") }
+            Button(onClick = { scope.launch { bridge.pull(reportId); status = "Pulled" } }, enabled = vip) { Text("Pull") }
             Button(onClick = {
                 val sendIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
@@ -51,9 +55,10 @@ fun ReportScreen(activity: ComponentActivity, reportId: String) {
                     putExtra(Intent.EXTRA_TEXT, report?.summary ?: "")
                 }
                 ctx.startActivity(Intent.createChooser(sendIntent, "分享報告"))
-            }) { Text("Share") }
+            }, enabled = vip) { Text("Share") }
             Button(onClick = { scope.launch { ReportPrefs.toggleFav(ctx, reportId) } }) { Text(if (favs.contains(reportId)) "Unfavorite" else "Favorite") }
         }
+        if (!vip) Text("需要 VIP 權益以使用推送/拉取/分享功能", color = MaterialTheme.colorScheme.error)
         if (status.isNotEmpty()) Text("Status: $status")
         OutlinedTextField(value = noteText, onValueChange = { noteText = it }, label = { Text("Note") })
         Button(onClick = { scope.launch { ReportPrefs.setNote(ctx, reportId, noteText) } }) { Text("Save Note") }
