@@ -1,38 +1,26 @@
-# 貢獻指南（單人開發也適用的流程）
-
-雖然目前多為單人開發，仍建議以穩健的流程進行，維持專案品質與可維護性。
+# 貢獻指南（單人開發亦適用）
 
 ## 分支策略
-- `main`：穩定主線，可隨時發版；保護分支（避免直接推送）。
-- 功能分支：`feature/<簡述>`（例如：`feature/bazi-core`）。
-- 修正分支：`fix/<簡述>`（例如：`fix/gradle-config`）。
-- 文件/雜項：`docs/<簡述>`、`chore/<簡述>`。
+- `main`：穩定主線，隨時可發行
+- `feature/<topic>`：功能開發／重構
+- `chore/<topic>`：設定、CI、文件等雜項
 
-## Commit 規範（建議採用 Conventional Commits）
-- `feat:` 新功能
-- `fix:` 錯誤修正
-- `docs:` 文件更新
-- `chore:` 例行雜務（如調整設定、腳本）
-- `refactor:` 重構（無行為變更）
-- `style:` 程式碼風格調整（無行為變更）
+## Commit 規範（Conventional Commits）
+- 類型：`feat|fix|docs|chore|refactor|test|build|ci`
+- 範例：`feat(report): 新增紫微綜合解讀段落`
 
-範例：
-```
-feat(bazi): 初始八字資料模型與介面骨架
-```
+## 變更流程
+1) 建立分支並實作
+2) 自我檢查（lint/test/build）
+3) 對 `main` 建立 Pull Request（或直接以 Squash 合併）
+4) 合併後刪除分支
 
-## Pull Request 流程（即使單人也走 PR）
-1. 自 `main` 切出功能分支開發。
-2. 提交 PR，於說明中清楚列出：目的、變更項目、測試方式。
-3. 自我審查（Self-review）：確認無多餘檔案、命名一致、文件同步更新。
-4. 合併至 `main` 後刪除功能分支。
+## 版本與釋出（預留）
+- 標記：`vX.Y.Z`
+- 發行內容、相容性與破壞性變更請於 Release Notes 記錄
 
-## 程式風格與工具（規劃中）
-- Kotlin/Java：保持一致命名規則、必要的 KDoc。
-- Lint：後續於 Gradle 任務中整合。
-- 測試：優先為核心演算法與資料模型建立單元測試。
-
-## 發版（未定）
-- 以 Git Tag 記錄，例如：`v0.1.0`。
-- AAB/APK 簽章與金鑰管理請參考 `task.md` 中的簽署與建置段落。
+## 風格與編碼
+- 檔案編碼：UTF-8（請勿引入亂碼）
+- 行尾：依系統預設（Windows CRLF / *nix LF 皆可）
+- 提交前建議先跑：`./gradlew build`（或至少 `./gradlew assembleDebug`）
 

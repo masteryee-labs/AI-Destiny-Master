@@ -1,14 +1,12 @@
-# Build outputs
-/build/
-/**/build/
-/app/build/
+# Android/Gradle build outputs
+/build
+/**/build
+/.gradle
+/app/build
 
-# Gradle
-/.gradle/
-
-# Local configuration
+# Local config
 /local.properties
 
-# Keystore files
+# Keystore files (signing)
 *.keystore
 
