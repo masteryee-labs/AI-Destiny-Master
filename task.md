@@ -200,8 +200,8 @@
     - [x] `fun ensureAppFolder(): String`（抓取 `drive.appdata` root）
     - [x] `fun uploadJson(name: String, json: String, encrypt: Boolean = true)`
     - [x] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
-  - [ ] 同步排程
-    - [ ] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
+  - [x] 同步排程
+    - [x] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
   - [ ] 設定頁提供同步開關；登入/登出流程；錯誤提示
 - [ ] Google Play Billing v6（內購與訂閱）（:billing）
   - [ ] 在 Play Console 建立商品 SKU：

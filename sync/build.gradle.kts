@@ -34,6 +34,8 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.google.play.services.auth)
     implementation(libs.google.api.client.android)
     implementation(libs.google.api.services.drive)
     implementation(libs.google.http.client.android)

@@ -33,10 +33,14 @@ class DriveService(private val context: Context) {
         val meta = GDriveFile().apply {
             this.name = name
             this.parents = listOf("appDataFolder")
-            this.mimeType = "application/json"
+            this.mimeType = if (encrypt) "application/octet-stream" else "application/json"
         }
-        // TODO: 若需加密，於此處先行加密後再上傳
-        val content = ByteArrayContent.fromString("application/json", json)
+        val content = if (encrypt) {
+            val bytes = CryptoHelper.encryptToBytes(context, json)
+            ByteArrayContent("application/octet-stream", bytes)
+        } else {
+            ByteArrayContent.fromString("application/json", json)
+        }
         drive.files().create(meta, content)
             .setFields("id,name")
             .execute()
@@ -52,9 +56,11 @@ class DriveService(private val context: Context) {
         val file = list.files?.firstOrNull() ?: return null
         val out = ByteArrayOutputStream()
         drive.files().get(file.id).executeMediaAndDownloadTo(out)
-        val data = out.toString(StandardCharsets.UTF_8.name())
-        // TODO: 若需解密，於此處處理
-        return data
+        val bytes = out.toByteArray()
+        return if (decrypt) {
+            CryptoHelper.decryptFromBytes(context, bytes)
+        } else {
+            bytes.toString(StandardCharsets.UTF_8)
+        }
     }
 }
-
