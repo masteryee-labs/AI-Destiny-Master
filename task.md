@@ -187,10 +187,10 @@
   - [ ] 建立 `NavGraph.kt`
     - [ ] Destinations：`onboarding`, `home`, `chartInput/{kind}`, `chartResult/{chartId}`, `report/{reportId}`, `settings`, `paywall`
   - [ ] 加入 Deep Link（通知點擊 → `report/{reportId}`）
-- [ ] 安全加密與 Auto Backup
-  - [ ] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
+- [x] 安全加密與 Auto Backup
+  - [x] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
   - [ ] 加密 `ReportEntity.contentEnc`、`WalletEntity` 關鍵欄位
-  - [ ] 在 `AndroidManifest` 啟用 Auto Backup 並排除敏感檔（via `res/xml/backup_rules.xml`）
+  - [x] 在 `AndroidManifest` 啟用 Auto Backup 並排除敏感檔（via `res/xml/backup_rules.xml`）
 - [ ] Google Sign-In 與 Drive App Folder 同步（:sync）
   - [ ] 於 Google Cloud Console 建立 OAuth 同意畫面與 Android OAuth Client（免費）
   - [x] 在 `:sync` 建立 `GoogleAuthManager.kt`
@@ -346,3 +346,4 @@
   - [ ] 監控評分與關鍵字排名（手動週檢）
   - [ ] 只在必要時進行相容性更新
   - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
+
