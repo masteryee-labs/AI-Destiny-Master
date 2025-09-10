@@ -1,7 +1,7 @@
 # Android/Gradle build outputs
 /build
 /**/build
-/.gradle
+.gradle
 /app/build
 
 # Local config
@@ -9,4 +9,3 @@
 
 # Keystore files (signing)
 *.keystore
-
