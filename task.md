@@ -38,9 +38,9 @@
 - [x] 加入 Gradle Wrapper 並驗證建置
   - [x] 下載與設定 Gradle Wrapper（8.7）
   - [ ] 執行 `./gradlew :app:assembleDebug` 驗證
-- [ ] 設定依賴（全部免費庫）
+- [x] 設定依賴（全部免費庫）
   - [x] 在根 `build.gradle.kts` 設定版本管理（Compose BOM、Room、DataStore、WorkManager 等）
-  - [ ] 在 `:app` 與各模組加入依賴：
+  - [x] 在 `:app` 與各模組加入依賴：
     - [x] `androidx.compose` BOM、`activity-compose`、`navigation-compose`
     - [x] `androidx.room:room-ktx:2.6.+` 與 KAPT/ KSP
     - [x] `androidx.datastore:datastore-preferences:1.1.+`
@@ -48,15 +48,15 @@
     - [x] `androidx.security:security-crypto:1.1.+`
     - [x] `com.microsoft.onnxruntime:onnxruntime-android:1.18.+`
     - [x] `com.google.android.gms:play-services-auth:21.+`（Google Sign-In）
-    - [ ] `google-api-client-android` + `google-api-services-drive:v3`（Drive REST）
+    - [x] `google-api-client-android` + `google-api-services-drive:v3`（Drive REST）
     - [x] `com.android.billingclient:billing-ktx:6.+`
     - [x] `com.google.android.gms:play-services-ads:22.+`（AdMob Rewarded，可後期開啟）
     - [x] `org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
-  - [ ] 在 `AndroidManifest.xml` 加入權限：
-    - [ ] `INTERNET`
-    - [ ] `ACCESS_NETWORK_STATE`
-    - [ ] `POST_NOTIFICATIONS`（Android 13+）
-    - [ ] `FOREGROUND_SERVICE`、`FOREGROUND_SERVICE_DATA_SYNC`（背景前景化）
+  - [x] 在 `AndroidManifest.xml` 加入權限：
+    - [x] `INTERNET`
+    - [x] `ACCESS_NETWORK_STATE`
+    - [x] `POST_NOTIFICATIONS`（Android 13+）
+    - [x] `FOREGROUND_SERVICE`、`FOREGROUND_SERVICE_DATA_SYNC`（背景前景化）
 - [ ] 設定 App 簽章與打包
   - [ ] 產生簽章檔：`keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
   - [ ] 在 `gradle.properties`（本機）設定 `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`
