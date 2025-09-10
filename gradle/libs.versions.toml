@@ -14,13 +14,9 @@ activity = "1.9.2"
 navigation = "2.7.7"
 junit = "4.13.2"
 google-api-client-android = "1.34.0"
+google-http-client = "1.43.3"
 google-http-client-gson = "1.43.3"
-google-api-services-drive-v3 = "v3-rev20240506-2.0.0"
-google-api-client-android = "2.8.0"
-google-api-services-drive = "v3-rev20250511-2.0.0"
-google-api-services-drive-v3 = "v3-rev20250511-2.0.0"
-google-http-client = "1.47.0"
-gson = "2.13.1"
+google-api-services-drive-v3 = "v3-rev20250506-2.0.0"
 
 [libraries]
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -43,12 +39,6 @@ google-play-services-auth = { module = "com.google.android.gms:play-services-aut
 google-billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
 google-play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "ads" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
-google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "google-api-client-android" }
-google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive" }
-google-api-services-drive-v3 = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive-v3" }
-google-http-client-android = { module = "com.google.http-client:google-http-client-android", version.ref = "google-http-client" }
-google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "google-http-client" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
@@ -56,5 +46,6 @@ androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-mani
 
 # Google Drive REST API
 google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "google-api-client-android" }
-google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "google-http-client-gson" }
+google-http-client-android = { module = "com.google.http-client:google-http-client-android", version.ref = "google-http-client" }
+google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "google-http-client" }
 google-api-services-drive-v3 = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive-v3" }

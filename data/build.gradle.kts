@@ -1,6 +1,7 @@
-﻿plugins {`n    id("kotlin-kapt")
+plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -27,16 +28,16 @@ android {
     }
 }
 
-dependencies {`n    kapt(libs.androidx.room.compiler)
+dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.datastore.preferences)
-    implementation(project(":core:astro"))
-    implementation(project(":core:lunar"))
+    api(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+    api(libs.androidx.datastore.preferences)
+
+    api(project(":core:astro"))
+    api(project(":core:lunar"))
 }
-
-
