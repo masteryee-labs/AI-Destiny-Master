@@ -52,6 +52,7 @@
     - [x] `com.android.billingclient:billing-ktx:6.+`
     - [x] `com.google.android.gms:play-services-ads:22.+`（AdMob Rewarded，可後期開啟）
     - [x] `org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
+    - [x] `com.google.http-client:google-http-client-android` + `com.google.http-client:google-http-client-gson` + `com.google.code.gson:gson`
   - [x] 在 `AndroidManifest.xml` 加入權限：
     - [x] `INTERNET`
     - [x] `ACCESS_NETWORK_STATE`
@@ -192,13 +193,13 @@
   - [ ] 在 `AndroidManifest` 啟用 Auto Backup 並排除敏感檔（via `res/xml/backup_rules.xml`）
 - [ ] Google Sign-In 與 Drive App Folder 同步（:sync）
   - [ ] 於 Google Cloud Console 建立 OAuth 同意畫面與 Android OAuth Client（免費）
-  - [ ] 在 `:sync` 建立 `GoogleAuthManager.kt`
-    - [ ] `fun signIn(context): GoogleSignInAccount?`
-    - [ ] `fun getAccessToken(account): String`
-  - [ ] 建立 `DriveService.kt`
-    - [ ] `fun ensureAppFolder(): String`（抓取 `drive.appdata` root）
-    - [ ] `fun uploadJson(name: String, json: String, encrypt: Boolean = true)`
-    - [ ] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
+  - [x] 在 `:sync` 建立 `GoogleAuthManager.kt`
+    - [x] `fun signIn(context): GoogleSignInAccount?`
+    - [x] `fun getAccessToken(account): String`
+  - [x] 建立 `DriveService.kt`
+    - [x] `fun ensureAppFolder(): String`（抓取 `drive.appdata` root）
+    - [x] `fun uploadJson(name: String, json: String, encrypt: Boolean = true)`
+    - [x] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
   - [ ] 同步排程
     - [ ] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
   - [ ] 設定頁提供同步開關；登入/登出流程；錯誤提示

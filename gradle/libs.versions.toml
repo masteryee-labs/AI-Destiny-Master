@@ -15,6 +15,8 @@ navigation = "2.7.7"
 junit = "4.13.2"
 google-api-client-android = "2.8.0"
 google-api-services-drive = "v3-rev20250511-2.0.0"
+google-http-client = "1.47.0"
+gson = "2.13.1"
 
 [libraries]
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -38,6 +40,9 @@ google-play-services-ads = { module = "com.google.android.gms:play-services-ads"
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "google-api-client-android" }
 google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive" }
+google-http-client-android = { module = "com.google.http-client:google-http-client-android", version.ref = "google-http-client" }
+google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "google-http-client" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }

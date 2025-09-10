@@ -1,0 +1,60 @@
+package com.aidestinymaster.sync
+
+import android.content.Context
+import com.google.api.client.extensions.android.http.AndroidHttp
+import com.google.api.client.http.ByteArrayContent
+import com.google.api.client.http.HttpRequestInitializer
+import com.google.api.client.json.gson.GsonFactory
+import com.google.api.services.drive.Drive
+import com.google.api.services.drive.model.File as GDriveFile
+import java.io.ByteArrayOutputStream
+import java.nio.charset.StandardCharsets
+
+class DriveService(private val context: Context) {
+
+    private fun buildDrive(): Drive? {
+        val token = GoogleAuthManager.getAccessToken(context) ?: return null
+        val transport = AndroidHttp.newCompatibleTransport()
+        val jsonFactory = GsonFactory.getDefaultInstance()
+        val initializer = HttpRequestInitializer { req ->
+            req.headers.authorization = "Bearer $token"
+            req.connectTimeout = 60_000
+            req.readTimeout = 60_000
+        }
+        return Drive.Builder(transport, jsonFactory, initializer)
+            .setApplicationName("AIDestinyMaster")
+            .build()
+    }
+
+    fun ensureAppFolder(): String = "appDataFolder"
+
+    fun uploadJson(name: String, json: String, encrypt: Boolean = true) {
+        val drive = buildDrive() ?: return
+        val meta = GDriveFile().apply {
+            this.name = name
+            this.parents = listOf("appDataFolder")
+            this.mimeType = "application/json"
+        }
+        // TODO: 若需加密，於此處先行加密後再上傳
+        val content = ByteArrayContent.fromString("application/json", json)
+        drive.files().create(meta, content)
+            .setFields("id,name")
+            .execute()
+    }
+
+    fun downloadJson(name: String, decrypt: Boolean = true): String? {
+        val drive = buildDrive() ?: return null
+        val list = drive.files().list()
+            .setSpaces("appDataFolder")
+            .setQ("name='${name.replace("'", "\\'")}' and trashed=false")
+            .setFields("files(id,name)")
+            .execute()
+        val file = list.files?.firstOrNull() ?: return null
+        val out = ByteArrayOutputStream()
+        drive.files().get(file.id).executeMediaAndDownloadTo(out)
+        val data = out.toString(StandardCharsets.UTF_8.name())
+        // TODO: 若需解密，於此處處理
+        return data
+    }
+}
+

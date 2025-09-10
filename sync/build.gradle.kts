@@ -36,4 +36,7 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.google.api.client.android)
     implementation(libs.google.api.services.drive)
+    implementation(libs.google.http.client.android)
+    implementation(libs.google.http.client.gson)
+    implementation(libs.gson)
 }
