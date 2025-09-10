@@ -58,7 +58,13 @@ fun ReportScreen(activity: ComponentActivity, reportId: String) {
             }, enabled = vip) { Text("Share") }
             Button(onClick = { scope.launch { ReportPrefs.toggleFav(ctx, reportId) } }) { Text(if (favs.contains(reportId)) "Unfavorite" else "Favorite") }
         }
-        if (!vip) Text("需要 VIP 權益以使用推送/拉取/分享功能", color = MaterialTheme.colorScheme.error)
+        if (!vip) {
+            Text("需要 VIP 權益以使用推送/拉取/分享功能", color = MaterialTheme.colorScheme.error)
+            Button(onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("aidm://paywall"))
+                ctx.startActivity(intent)
+            }) { Text("去付費解鎖") }
+        }
         if (status.isNotEmpty()) Text("Status: $status")
         OutlinedTextField(value = noteText, onValueChange = { noteText = it }, label = { Text("Note") })
         Button(onClick = { scope.launch { ReportPrefs.setNote(ctx, reportId, noteText) } }) { Text("Save Note") }

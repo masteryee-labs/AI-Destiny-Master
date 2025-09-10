@@ -85,7 +85,10 @@ fun AppNav(activity: ComponentActivity) {
                 arguments = listOf(navArgument("reportId") {}),
                 deepLinks = listOf(navDeepLink { uriPattern = "aidm://report/{reportId}" })
             ) { backStack -> ReportScreen(activity, backStack.arguments?.getString("reportId") ?: "") }
-            composable(Routes.Paywall) { PaywallScreen(activity) }
+            composable(
+                route = Routes.Paywall,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://paywall" })
+            ) { PaywallScreen(activity) }
             composable(Routes.ReportFavs) { com.aidestinymaster.app.report.ReportFavoritesScreen(activity, nav) }
         }
     }
