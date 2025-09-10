@@ -41,4 +41,6 @@ dependencies {
     implementation(libs.google.api.client.android)
     implementation(libs.google.http.client.gson)
     implementation(libs.google.api.services.drive.v3)
+
+    implementation(project(":data"))
 }

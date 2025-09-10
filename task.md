@@ -209,7 +209,8 @@
   - [x] 同步排程
     - [x] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
   - [x] （Debug）加入 Sign-In/Sign-Out 按鈕與回呼
-  - [ ] 設定頁提供同步開關；登入/登出流程；錯誤提示
+  - [x] 設定頁提供同步開關；登入/登出流程；錯誤提示
+  - [x] 背景批次同步（WorkManager）：`SyncBatchWorker` + 排程（`SyncBatchScheduler`）
 - [ ] Google Play Billing v6（內購與訂閱）（:billing）
   - [ ] 在 Play Console 建立商品 SKU：
     - [ ] 一次性內購：`iap_bazi_pro`, `iap_ziwei_pro`, `iap_design_pro`, `iap_astro_pro`

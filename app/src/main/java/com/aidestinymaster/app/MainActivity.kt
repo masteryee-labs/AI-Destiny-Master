@@ -24,6 +24,7 @@ import com.aidestinymaster.sync.GoogleAuthManager
 import com.aidestinymaster.data.db.ReportEntity
 import com.aidestinymaster.data.repository.ReportRepository
 import com.aidestinymaster.sync.ReportSyncBridge
+import com.aidestinymaster.app.settings.SettingsScreen
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModelProvider
 import com.aidestinymaster.app.report.ReportViewModel
@@ -61,39 +62,49 @@ fun App() {
 
         var type by remember { mutableStateOf("demo") }
         var content by remember { mutableStateOf("Hello from Compose at " + System.currentTimeMillis()) }
+        var showSettings by remember { mutableStateOf(false) }
 
         Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.Top) {
-            Text("Report E2E Debug", style = MaterialTheme.typography.titleLarge)
-            Spacer(Modifier.height(12.dp))
-            OutlinedTextField(value = type, onValueChange = { type = it }, label = { Text("Type") })
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") })
-            Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { scope.launch { viewModel.create(type, content) } }) { Text("Create Report") }
-                Button(onClick = { scope.launch { viewModel.push() } }, enabled = lastIdState != null) { Text("Push") }
-                Button(onClick = { scope.launch { viewModel.pull() } }, enabled = lastIdState != null) { Text("Pull") }
+                Button(onClick = { showSettings = false }) { Text("Debug") }
+                Button(onClick = { showSettings = true }) { Text("Settings") }
             }
             Spacer(Modifier.height(12.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = {
-                    val client = GoogleAuthManager.getSignInClient(ctx)
-                    launcher.launch(client.signInIntent)
-                }) { Text("Sign In") }
-                Button(onClick = {
-                    GoogleAuthManager.signOut(ctx) { accountEmail = null }
-                }) { Text("Sign Out") }
+            if (showSettings) {
+                SettingsScreen(activity)
+            } else {
+                Text("Report E2E Debug", style = MaterialTheme.typography.titleLarge)
+                Spacer(Modifier.height(12.dp))
+                OutlinedTextField(value = type, onValueChange = { type = it }, label = { Text("Type") })
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") })
+                Spacer(Modifier.height(12.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { scope.launch { viewModel.create(type, content) } }) { Text("Create Report") }
+                    Button(onClick = { scope.launch { viewModel.push() } }, enabled = lastIdState != null) { Text("Push") }
+                    Button(onClick = { scope.launch { viewModel.pull() } }, enabled = lastIdState != null) { Text("Pull") }
+                }
+                Spacer(Modifier.height(12.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = {
+                        val client = GoogleAuthManager.getSignInClient(ctx)
+                        launcher.launch(client.signInIntent)
+                    }) { Text("Sign In") }
+                    Button(onClick = {
+                        GoogleAuthManager.signOut(ctx) { accountEmail = null }
+                    }) { Text("Sign Out") }
+                }
+                Spacer(Modifier.height(16.dp))
+                Text("Last ID: ${lastIdState ?: "(none)"}")
+                Spacer(Modifier.height(8.dp))
+                Text("Signed in: ${accountEmail ?: "(not signed)"}")
+                Spacer(Modifier.height(8.dp))
+                Text("Title: ${currentState?.title ?: "-"}")
+                Spacer(Modifier.height(4.dp))
+                Text("Updated: ${currentState?.updatedAt ?: 0}")
+                Spacer(Modifier.height(4.dp))
+                Text("Summary: ${currentState?.summary ?: "-"}")
             }
-            Spacer(Modifier.height(16.dp))
-            Text("Last ID: ${lastIdState ?: "(none)"}")
-            Spacer(Modifier.height(8.dp))
-            Text("Signed in: ${accountEmail ?: "(not signed)"}")
-            Spacer(Modifier.height(8.dp))
-            Text("Title: ${currentState?.title ?: "-"}")
-            Spacer(Modifier.height(4.dp))
-            Text("Updated: ${currentState?.updatedAt ?: 0}")
-            Spacer(Modifier.height(4.dp))
-            Text("Summary: ${currentState?.summary ?: "-"}")
         }
     }
 }

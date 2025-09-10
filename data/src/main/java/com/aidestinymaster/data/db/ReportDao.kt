@@ -21,5 +21,7 @@ interface ReportDao {
 
     @Query("SELECT * FROM reports WHERE title LIKE :kw OR summary LIKE :kw ORDER BY updatedAt DESC")
     fun search(kw: String): Flow<List<ReportEntity>>
-}
 
+    @Query("SELECT id FROM reports")
+    suspend fun listIds(): List<String>
+}

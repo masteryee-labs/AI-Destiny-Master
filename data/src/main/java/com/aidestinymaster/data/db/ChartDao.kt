@@ -11,5 +11,7 @@ interface ChartDao {
 
     @Query("SELECT * FROM charts WHERE id = :id LIMIT 1")
     suspend fun getById(id: String): ChartEntity?
-}
 
+    @Query("SELECT id FROM charts")
+    suspend fun listIds(): List<String>
+}
