@@ -9,3 +9,6 @@
 
 # Keystore files (signing)
 *.keystore
+
+# Screenshots & local exports
+/artifacts/
