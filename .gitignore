@@ -22,6 +22,10 @@
 /reports/
 /outputs/
 /screenshots/
+/**/captures/
+/**/reports/
+/**/outputs/
+/**/.cxx/
 *.apk
 *.aab
 *.ap_
