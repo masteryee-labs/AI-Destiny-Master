@@ -67,20 +67,20 @@
   - [x] 測試安裝：`adb install -r app/build/outputs/apk/debug/app-debug.apk`
   - [x] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
 - [ ] 建立資料層（Room + DataStore）
-  - [ ] 在 `:data` 模組建立 Entity
+  - [x] 在 `:data` 模組建立 Entity
     - [x] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
     - [x] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
     - [x] `WalletEntity(id: String = "wallet", coins: Int, lastEarnedAt: Long?, lastSpentAt: Long?)`
     - [x] `PurchaseEntity(sku: String, type: String, state: Int, purchaseToken: String, acknowledged: Boolean, updatedAt: Long)`
     - [x] `UserProfileEntity(id: String = "me", name: String?, lang: String, theme: String, syncEnabled: Boolean)`
-  - [ ] 建立 DAO 介面
+  - [x] 建立 DAO 介面
     - [x] `ReportDao`：`insertOrUpdate(report)`, `getById(id)`, `listRecent(limit)`, `search(keyword)`
     - [x] `ChartDao`：`insertOrUpdate(chart)`, `getById(id)`
     - [x] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
     - [x] `PurchaseDao`：`upsert(purchase)`, `getActive()`
     - [x] `UserProfileDao`：`get()`, `update(profile)`
   - [x] 建立 `AppDatabase` 與 Migrations
-  - [ ] 建立 Repository
+  - [x] 建立 Repository
     - [x] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
     - [x] Report 與 SyncManager 串接（ReportSyncBridge：push/pull）
     - [x] Chart 與 SyncManager 串接（ChartSyncBridge：push/pull）
@@ -92,30 +92,30 @@
     - [x] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
     - [x] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
     - [x] `UserRepository`：`toggleSync(enabled)`, `setLanguage(lang)`
-  - [ ] 設定 DataStore Preferences
+  - [x] 設定 DataStore Preferences
     - [x] keys：`PREF_LANG`, `PREF_THEME`, `PREF_NOTIF_ENABLED`, `PREF_SYNC_ENABLED`
 - [ ] 建立曆法/八字引擎（:core:lunar）
   - [x] 引入 `lunar-java`（MIT）
-  - [ ] 建立 `BaziCalculator.kt`
-    - [ ] `fun computeBazi(birthZonedDateTime: ZonedDateTime): BaziResult`
-    - [ ] `fun computeTenGods(bazi: BaziResult): TenGodsProfile`
-    - [ ] `fun evaluateFiveElements(bazi: BaziResult): FiveElementsScore`
-    - [ ] `fun computeLuckCycles(birth: ZonedDateTime): List<LuckCycle>`
-  - [ ] 建立 `AlmanacEngine.kt`
+  - [x] 建立 `BaziCalculator.kt`
+    - [x] `fun computeBazi(birthZonedDateTime: ZonedDateTime): BaziResult`
+    - [x] `fun computeTenGods(bazi: BaziResult): TenGodsProfile`
+    - [x] `fun evaluateFiveElements(bazi: BaziResult): FiveElementsScore`
+    - [x] `fun computeLuckCycles(birth: ZonedDateTime): List<LuckCycle>`
+  - [x] 建立 `AlmanacEngine.kt`
     - [x] LunarCalculator：computeLunarSummary() 產出農曆/干支/節氣摘要 JSON
-    - [ ] `fun getAlmanac(date: LocalDate): AlmanacDay`
-    - [ ] `fun getZodiacForecast(year: Int, animal: String): ZodiacForecast`
-  - [ ] 寫單元測試：對四柱/十神/五行計分覆蓋常見邊界（節氣換日、閏月）
+    - [x] `fun getAlmanac(date: LocalDate): AlmanacDay`
+    - [x] `fun getZodiacForecast(year: Int, animal: String): ZodiacForecast`
+  - [x] 寫單元測試：對四柱/十神/五行計分覆蓋常見邊界（節氣換日、閏月）
 - [ ] 建立天文/星盤引擎（:core:astro）
   - [x] 引入 `Astronomy Engine`（Java/Kotlin，MIT）
   - [x] 建立 `AstroCalculator.kt`
-    - [ ] `fun computePlanets(utcInstant: Instant, lat: Double, lon: Double): PlanetPositions`
-    - [ ] `fun computeHouses(utcInstant: Instant, lat: Double, lon: Double, system: HouseSystem = HouseSystem.WHOLE_SIGN): Houses`
-    - [ ] `fun computeAspects(planets: PlanetPositions, orbs: Orbs = defaultOrbs): List<Aspect>`
-  - [ ] 建立 `NatalChartBuilder.kt`
+    - [x] `fun computePlanets(utcInstant: Instant, lat: Double, lon: Double): PlanetPositions`
+    - [x] `fun computeHouses(utcInstant: Instant, lat: Double, lon: Double, system: HouseSystem = HouseSystem.WHOLE_SIGN): Houses`
+    - [x] `fun computeAspects(planets: PlanetPositions, orbs: Orbs = defaultOrbs): List<Aspect>`
+  - [x] 建立 `NatalChartBuilder.kt`
     - [x] 已於 computeSummary() 計算基本相位（0/60/90/120/180，orb=6°）
-    - [ ] `fun buildNatalChart(input: BirthInput): NatalChart`
-    - [ ] `fun summarizeNatal(natal: NatalChart): NatalSummary`
+    - [x] `fun buildNatalChart(input: BirthInput): NatalChart`
+    - [x] `fun summarizeNatal(natal: NatalChart): NatalSummary`
   - [ ] 單元測試：固定日期/地點比對行星經度與相位
 - [ ] 建立人類圖（天賦設計圖）引擎（:features:design）
   - [ ] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
@@ -248,6 +248,7 @@
     - [ ] `fun showRewardedAd(activity, onUserEarnedReward)`
   - [ ] 與 `WalletRepository.earnCoins(source="ad", amount=10)` 整合
   - [ ] 頻率限制與防濫用（冷卻時間、每日上限）
+  - [x] 修正啟動閃退：於 `AndroidManifest.xml` 加入 `APPLICATION_ID` meta-data 並在 Debug 使用 Google 測試 App ID（透過 `manifestPlaceholders["AD_APP_ID"]` 注入）
 - [ ] AI 生成工作流程（背景）
   - [ ] 使用者在結果頁點擊「生成 AI 詳解」
   - [ ] 建立 `OneTimeWorkRequest`，Data 包含 `chartIds`, `mode`, `locale`
@@ -349,6 +350,7 @@
   - [ ] 建立 `LogRepository` 將錯誤寫入 `files/logs/app.log`
   - [ ] 設定「上傳診斷」選項（Drive App Folder，匿名）
   - [ ] WindSurf 終端 `adb logcat | grep AIDestinyMaster` 快速過濾
+  - [x] 修正啟動深連結處理 NPE（`NavController.handleDeepLink` 於 `NavGraph.kt`）
 - [ ] CI（GitHub Actions）
   - [ ] 建立 `.github/workflows/android.yml`
     - [ ] 於 CI 安裝 JDK 17、Android SDK、授權 licenses
