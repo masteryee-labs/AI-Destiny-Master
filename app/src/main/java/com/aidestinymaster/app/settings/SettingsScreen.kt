@@ -21,12 +21,13 @@ import com.aidestinymaster.sync.GoogleAuthManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
-import com.aidestinymaster.app.prefs.UserPrefs
+import com.aidestinymaster.data.prefs.UserPrefsRepository
 
 @Composable
 fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
     val viewModel = remember { ViewModelProvider(activity)[SettingsViewModel::class.java] }
     val ctx = activity
+    val prefsRepo = remember { UserPrefsRepository.from(ctx) }
     val syncEnabled by viewModel.syncEnabled.collectAsState()
     val email by viewModel.email.collectAsState()
     val error by viewModel.error.collectAsState()
@@ -52,13 +53,13 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
             Button(onClick = { GoogleAuthManager.signOut(ctx) { viewModel.onSignedIn(null) } }) { Text("Sign Out") }
             Button(onClick = { com.aidestinymaster.sync.SyncBatchScheduler.scheduleNow(ctx) }) { Text("立即同步") }
             Button(onClick = {
-                scope.launch { com.aidestinymaster.app.prefs.UserPrefs.setOnboardingDone(ctx, false) }
+                scope.launch { prefsRepo.setOnboardingDone(false) }
             }) { Text("前往導覽") }
             Button(onClick = {
-                scope.launch { com.aidestinymaster.app.prefs.UserPrefs.setOnboardingDone(ctx, false) }
+                scope.launch { prefsRepo.setOnboardingDone(false) }
             }) { Text("重置導覽") }
             val notifPermLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-                scope.launch { UserPrefs.setNotifEnabled(ctx, granted) }
+                scope.launch { prefsRepo.setNotifEnabled(granted) }
             }
             Button(onClick = {
                 if (Build.VERSION.SDK_INT >= 33) {
@@ -68,28 +69,28 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
         }
 
         // Language
-        val lang by UserPrefs.langFlow(ctx).collectAsState(initial = "zh-TW")
+        val lang by prefsRepo.langFlow.collectAsState(initial = "zh-TW")
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Text("語言：$lang")
-            Button(onClick = { scope.launch { UserPrefs.setLang(ctx, "zh-TW") } }) { Text("繁中") }
-            Button(onClick = { scope.launch { UserPrefs.setLang(ctx, "en") } }) { Text("English") }
+            Button(onClick = { scope.launch { prefsRepo.setLang("zh-TW") } }) { Text("繁中") }
+            Button(onClick = { scope.launch { prefsRepo.setLang("en") } }) { Text("English") }
         }
 
         // Theme
-        val theme by UserPrefs.themeFlow(ctx).collectAsState(initial = "system")
+        val theme by prefsRepo.themeFlow.collectAsState(initial = "system")
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Text("主題：$theme")
-            Button(onClick = { scope.launch { UserPrefs.setTheme(ctx, "system") } }) { Text("系統") }
-            Button(onClick = { scope.launch { UserPrefs.setTheme(ctx, "light") } }) { Text("亮") }
-            Button(onClick = { scope.launch { UserPrefs.setTheme(ctx, "dark") } }) { Text("暗") }
+            Button(onClick = { scope.launch { prefsRepo.setTheme("system") } }) { Text("系統") }
+            Button(onClick = { scope.launch { prefsRepo.setTheme("light") } }) { Text("亮") }
+            Button(onClick = { scope.launch { prefsRepo.setTheme("dark") } }) { Text("暗") }
         }
 
         // Notifications
-        val notifEnabled by UserPrefs.notifEnabledFlow(ctx).collectAsState(initial = false)
+        val notifEnabled by prefsRepo.notifEnabledFlow.collectAsState(initial = false)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Text("啟用通知")
             Switch(checked = notifEnabled, onCheckedChange = { enabled ->
-                scope.launch { UserPrefs.setNotifEnabled(ctx, enabled) }
+                scope.launch { prefsRepo.setNotifEnabled(enabled) }
             })
         }
 

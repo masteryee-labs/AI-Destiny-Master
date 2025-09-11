@@ -4,6 +4,9 @@ plugins {
     id("com.github.triplet.play") version "3.10.1"
 }
 
+// Work around Windows file lock on build/intermediates by using a fresh alternate build directory
+layout.buildDirectory.set(file("build3"))
+
 play {
     // CI 會將 service-account.json 放在 :app 目錄
     serviceAccountCredentials.set(file("service-account.json"))
@@ -22,6 +25,10 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // AdMob App ID placeholder for Manifest meta-data
+        // Allow override via -PAD_APP_ID or gradle.properties (AD_APP_ID), fallback to Google test App ID for debug/dev
+        val adAppId = (project.findProperty("AD_APP_ID") as String?) ?: "ca-app-pub-3940256099942544~3347511713"
+        manifestPlaceholders["AD_APP_ID"] = adAppId
     }
 
     buildFeatures {
@@ -104,6 +111,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":sync"))
     implementation(project(":billing"))
+    implementation(project(":features:bazi"))
     implementation(libs.google.billing.ktx)
     implementation(libs.google.play.services.ads)
     implementation(libs.kotlinx.serialization.json)

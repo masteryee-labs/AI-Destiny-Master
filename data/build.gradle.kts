@@ -4,6 +4,9 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
 }
 
+// Work around Windows file lock on build/intermediates by using an alternate build directory
+layout.buildDirectory.set(file("build2"))
+
 android {
     namespace = "com.aidestinymaster.data"
     compileSdk = 35

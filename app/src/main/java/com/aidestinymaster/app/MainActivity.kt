@@ -35,9 +35,12 @@ class MainActivity : ComponentActivity() {
     private var navIntentState: MutableState<Intent?>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val initialIntent = intent
+        // Preserve original intent for our own deep link handling, but prevent
+        // Navigation from auto-handling it during setGraph (which was causing crashes).
+        val originalIntent = intent
+        setIntent(Intent(this, MainActivity::class.java))
         setContent {
-            val state = remember { mutableStateOf<Intent?>(initialIntent) }
+            val state = remember { mutableStateOf<Intent?>(originalIntent) }
             navIntentState = state
             com.aidestinymaster.app.nav.AppNav(this, intent = state.value)
         }

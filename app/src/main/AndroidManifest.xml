@@ -9,10 +9,21 @@
         android:allowBackup="true"
         android:label="AIDestinyMaster"
         android:supportsRtl="true">
+        <!-- AdMob App ID（使用 Gradle manifestPlaceholders 提供；Debug 採用 Google 測試 ID） -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${AD_APP_ID}" />
         <activity android:name="com.aidestinymaster.app.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep link for BaZi debug screen -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="bazi" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

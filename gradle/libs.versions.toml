@@ -17,6 +17,7 @@ google-api-client-android = "1.34.0"
 google-http-client = "1.43.3"
 google-http-client-gson = "1.43.3"
 google-api-services-drive-v3 = "v3-rev20250506-2.0.0"
+lunar-java = "1.7.4"
 
 [libraries]
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -49,3 +50,4 @@ google-api-client-android = { module = "com.google.api-client:google-api-client-
 google-http-client-android = { module = "com.google.http-client:google-http-client-android", version.ref = "google-http-client" }
 google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "google-http-client" }
 google-api-services-drive-v3 = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive-v3" }
+lunar = { module = "cn.6tail:lunar", version.ref = "lunar-java" }
