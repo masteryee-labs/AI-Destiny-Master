@@ -12,3 +12,17 @@
 
 # Screenshots & local exports
 /artifacts/
+
+# Additional local outputs & IDE files
+/captures/
+/reports/
+/outputs/
+/screenshots/
+*.log
+**/*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
