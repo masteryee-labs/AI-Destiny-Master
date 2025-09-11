@@ -1,6 +1,10 @@
 # Android/Gradle build outputs
 /build
 /**/build
+/**/build2/
+/**/build3/
+/**/build4/
+/**/build5/
 .gradle
 /app/build
 
@@ -18,6 +22,9 @@
 /reports/
 /outputs/
 /screenshots/
+*.apk
+*.aab
+*.ap_
 *.log
 **/*.log
 *.tmp
