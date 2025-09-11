@@ -1,6 +1,7 @@
-﻿package com.aidestinymaster.app
+package com.aidestinymaster.app
 
 import android.os.Bundle
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,9 +32,20 @@ import androidx.lifecycle.ViewModelProvider
 import com.aidestinymaster.app.report.ReportViewModel
 
 class MainActivity : ComponentActivity() {
+    private var navIntentState: MutableState<Intent?>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { com.aidestinymaster.app.nav.AppNav(this) }
+        val initialIntent = intent
+        setContent {
+            val state = remember { mutableStateOf<Intent?>(initialIntent) }
+            navIntentState = state
+            com.aidestinymaster.app.nav.AppNav(this, intent = state.value)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        navIntentState?.value = intent
     }
 }
 

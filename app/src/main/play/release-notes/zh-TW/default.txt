@@ -1,0 +1,5 @@
+內部測試軌初版（AIDestinyMaster）。
+- Compose UI + 導航
+- Room / DataStore 基礎
+- Deep Link 支援（aidm://）
+- 同步與除錯流程（內部）

@@ -2,6 +2,7 @@ package com.aidestinymaster.app.settings
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.aidestinymaster.sync.GoogleAuthManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import kotlinx.coroutines.launch
+import com.aidestinymaster.app.prefs.UserPrefs
 
 @Composable
 fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
@@ -43,21 +46,53 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Text("登入狀態：${email ?: "未登入"}")
         }
+        val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Button(onClick = { launcher.launch(GoogleAuthManager.getSignInClient(ctx).signInIntent) }) { Text("Sign In") }
             Button(onClick = { GoogleAuthManager.signOut(ctx) { viewModel.onSignedIn(null) } }) { Text("Sign Out") }
             Button(onClick = { com.aidestinymaster.sync.SyncBatchScheduler.scheduleNow(ctx) }) { Text("立即同步") }
             Button(onClick = {
-                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("aidm://onboarding?from=settings"))
-                ctx.startActivity(intent)
+                scope.launch { com.aidestinymaster.app.prefs.UserPrefs.setOnboardingDone(ctx, false) }
             }) { Text("前往導覽") }
             Button(onClick = {
-                androidx.lifecycle.lifecycleScope.launchWhenStarted(activity.lifecycle) {
-                    com.aidestinymaster.app.prefs.UserPrefs.setOnboardingDone(ctx, false)
-                }
+                scope.launch { com.aidestinymaster.app.prefs.UserPrefs.setOnboardingDone(ctx, false) }
             }) { Text("重置導覽") }
+            val notifPermLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+                scope.launch { UserPrefs.setNotifEnabled(ctx, granted) }
+            }
+            Button(onClick = {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    notifPermLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }) { Text("測試通知權限") }
         }
-        val scope = rememberCoroutineScope()
+
+        // Language
+        val lang by UserPrefs.langFlow(ctx).collectAsState(initial = "zh-TW")
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("語言：$lang")
+            Button(onClick = { scope.launch { UserPrefs.setLang(ctx, "zh-TW") } }) { Text("繁中") }
+            Button(onClick = { scope.launch { UserPrefs.setLang(ctx, "en") } }) { Text("English") }
+        }
+
+        // Theme
+        val theme by UserPrefs.themeFlow(ctx).collectAsState(initial = "system")
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("主題：$theme")
+            Button(onClick = { scope.launch { UserPrefs.setTheme(ctx, "system") } }) { Text("系統") }
+            Button(onClick = { scope.launch { UserPrefs.setTheme(ctx, "light") } }) { Text("亮") }
+            Button(onClick = { scope.launch { UserPrefs.setTheme(ctx, "dark") } }) { Text("暗") }
+        }
+
+        // Notifications
+        val notifEnabled by UserPrefs.notifEnabledFlow(ctx).collectAsState(initial = false)
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("啟用通知")
+            Switch(checked = notifEnabled, onCheckedChange = { enabled ->
+                scope.launch { UserPrefs.setNotifEnabled(ctx, enabled) }
+            })
+        }
+
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Text("啟用同步")
             Switch(checked = syncEnabled, onCheckedChange = { enabled ->

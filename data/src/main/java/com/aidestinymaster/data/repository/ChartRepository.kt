@@ -58,6 +58,9 @@ class ChartRepository private constructor(private val dao: ChartDao) {
 
     suspend fun getComputed(id: String): ChartEntity? = dao.getById(id)
 
+    // Overload to match spec: getComputed(kind, id)
+    suspend fun getComputed(kind: String, id: String): ChartEntity? = getComputed(id)
+
     companion object {
         fun from(context: Context): ChartRepository = ChartRepository(DatabaseProvider.get(context).chartDao())
     }

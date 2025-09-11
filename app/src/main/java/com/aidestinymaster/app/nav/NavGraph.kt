@@ -1,6 +1,8 @@
 package com.aidestinymaster.app.nav
 
 import androidx.activity.ComponentActivity
+import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -28,9 +33,11 @@ import com.aidestinymaster.app.paywall.PaywallScreen
 import com.aidestinymaster.app.onboarding.OnboardingScreen
 import com.aidestinymaster.app.prefs.UserPrefs
 import kotlinx.coroutines.flow.first
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aidestinymaster.app.theme.ThemeViewModel
 
 object Routes {
     const val Onboarding = "onboarding"
@@ -44,13 +51,27 @@ object Routes {
 }
 
 @Composable
-fun AppNav(activity: ComponentActivity) {
-    val nav = rememberNavController()
-    MaterialTheme {
+fun AppNav(activity: ComponentActivity, externalNav: NavHostController? = null, intent: Intent? = null) {
+    val nav = externalNav ?: rememberNavController()
+    val themeVm: ThemeViewModel = viewModel(viewModelStoreOwner = activity)
+    val theme = themeVm.themeState.value
+    val isDark = when (theme) {
+        "dark" -> true
+        "light" -> false
+        else -> isSystemInDarkTheme()
+    }
+    MaterialTheme(colorScheme = if (isDark) darkColorScheme() else lightColorScheme()) {
         val start = remember { mutableStateOf<String?>(null) }
         LaunchedEffect(Unit) {
             val done = UserPrefs.onboardingDoneFlow(activity).first()
             start.value = if (done) Routes.Home else Routes.Onboarding
+        }
+        // Handle deep links for initial and subsequent intents
+        LaunchedEffect(intent) {
+            if (intent != null) {
+                Log.i("AIDM", "NavGraph.handleDeepLink uri=" + (intent.dataString ?: ""))
+                nav.handleDeepLink(intent)
+            }
         }
         if (start.value == null) {
             Text("Loading...")

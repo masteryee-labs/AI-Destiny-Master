@@ -1,4 +1,4 @@
-﻿## Task List
+## Task List
 - [X] 建立專案資料夾與版控
   - [X] 在本機建立目錄 `AIDestinyMaster/` 作為專案根目錄
   - [X] 初始化 Git 倉庫：`git init`
@@ -26,7 +26,7 @@
     - [X] 安裝 YAML、JSON、Markdown All in One
     - [X] 安裝 GitLens、Error Lens
     - [X] 設定 JetBrains Mono 字型
-  - [ ] 於 WindSurf 設定 Java/Kotlin 語言伺服器（確保語法檢查與跳轉可用）
+  - [X] 於 WindSurf 設定 Java/Kotlin 語言伺服器（確保語法檢查與跳轉可用）
 - [x] 初始化 Android 專案（純 Gradle CLI）
   - [x] 建立 `settings.gradle.kts` 與 `build.gradle.kts`（根）檔案
   - [x] 設定 `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
@@ -37,7 +37,7 @@
   - [x] 在 `app/src/main/AndroidManifest.xml` 建立基本宣告與 `application` 屬性
 - [x] 加入 Gradle Wrapper 並驗證建置
   - [x] 下載與設定 Gradle Wrapper（8.7）
-  - [ ] 執行 `./gradlew :app:assembleDebug` 驗證
+  - [x] 執行 `./gradlew :app:assembleDebug` 驗證
 - [x] 設定依賴（全部免費庫）
   - [x] 在根 `build.gradle.kts` 設定版本管理（Compose BOM、Room、DataStore、WorkManager 等）
   - [x] 在 `:app` 與各模組加入依賴：
@@ -58,27 +58,27 @@
     - [x] `ACCESS_NETWORK_STATE`
     - [x] `POST_NOTIFICATIONS`（Android 13+）
     - [x] `FOREGROUND_SERVICE`、`FOREGROUND_SERVICE_DATA_SYNC`（背景前景化）
-- [ ] 設定 App 簽章與打包
-  - [ ] 產生簽章檔：`keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
-  - [ ] 在 `gradle.properties`（本機）設定 `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`
-  - [ ] 在 `app/build.gradle.kts` 設定 `signingConfigs { release { ... } }`
-  - [ ] 設定 `buildTypes { release { isMinifyEnabled = true; proguardFiles(...) } }`
-  - [ ] 測試組建：`./gradlew assembleDebug`
-  - [ ] 測試安裝：`adb install -r app/build/outputs/apk/debug/app-debug.apk`
-  - [ ] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
+- [x] 設定 App 簽章與打包
+  - [x] 產生簽章檔：`keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
+  - [x] 在 `gradle.properties`（本機）設定 `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`
+  - [x] 在 `app/build.gradle.kts` 設定 `signingConfigs { release { ... } }`
+  - [x] 設定 `buildTypes { release { isMinifyEnabled = true; proguardFiles(...) } }`
+  - [x] 測試組建：`./gradlew assembleDebug`
+  - [x] 測試安裝：`adb install -r app/build/outputs/apk/debug/app-debug.apk`
+  - [x] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
 - [ ] 建立資料層（Room + DataStore）
   - [ ] 在 `:data` 模組建立 Entity
     - [x] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
-    - [ ] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
-    - [ ] `WalletEntity(id: String = "wallet", coins: Int, lastEarnedAt: Long?, lastSpentAt: Long?)`
-    - [ ] `PurchaseEntity(sku: String, type: String, state: Int, purchaseToken: String, acknowledged: Boolean, updatedAt: Long)`
-    - [ ] `UserProfileEntity(id: String = "me", name: String?, lang: String, theme: String, syncEnabled: Boolean)`
+    - [x] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
+    - [x] `WalletEntity(id: String = "wallet", coins: Int, lastEarnedAt: Long?, lastSpentAt: Long?)`
+    - [x] `PurchaseEntity(sku: String, type: String, state: Int, purchaseToken: String, acknowledged: Boolean, updatedAt: Long)`
+    - [x] `UserProfileEntity(id: String = "me", name: String?, lang: String, theme: String, syncEnabled: Boolean)`
   - [ ] 建立 DAO 介面
     - [x] `ReportDao`：`insertOrUpdate(report)`, `getById(id)`, `listRecent(limit)`, `search(keyword)`
-    - [ ] `ChartDao`：`insertOrUpdate(chart)`, `getById(id)`
-    - [ ] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
-    - [ ] `PurchaseDao`：`upsert(purchase)`, `getActive()`
-    - [ ] `UserProfileDao`：`get()`, `update(profile)`
+    - [x] `ChartDao`：`insertOrUpdate(chart)`, `getById(id)`
+    - [x] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
+    - [x] `PurchaseDao`：`upsert(purchase)`, `getActive()`
+    - [x] `UserProfileDao`：`get()`, `update(profile)`
   - [x] 建立 `AppDatabase` 與 Migrations
   - [ ] 建立 Repository
     - [x] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
@@ -88,12 +88,12 @@
     - [x] Purchase 與 SyncManager 串接（PurchaseSyncBridge：push/pull）
     - [x] User 與 SyncManager 串接（UserSyncBridge：push/pull）
     - [x] Report 端到端驗證（:app Debug Screen + ViewModel）
-    - [ ] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
-    - [ ] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
-    - [ ] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
-    - [ ] `UserRepository`：`toggleSync(enabled)`, `setLanguage(lang)`
+    - [x] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
+    - [x] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
+    - [x] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
+    - [x] `UserRepository`：`toggleSync(enabled)`, `setLanguage(lang)`
   - [ ] 設定 DataStore Preferences
-    - [ ] keys：`PREF_LANG`, `PREF_THEME`, `PREF_NOTIF_ENABLED`, `PREF_SYNC_ENABLED`
+    - [x] keys：`PREF_LANG`, `PREF_THEME`, `PREF_NOTIF_ENABLED`, `PREF_SYNC_ENABLED`
 - [ ] 建立曆法/八字引擎（:core:lunar）
   - [x] 引入 `lunar-java`（MIT）
   - [ ] 建立 `BaziCalculator.kt`

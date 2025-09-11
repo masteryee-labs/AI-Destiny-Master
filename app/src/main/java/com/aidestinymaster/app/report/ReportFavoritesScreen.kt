@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aidestinymaster.app.nav.Routes
 import com.aidestinymaster.data.db.DatabaseProvider
+import kotlinx.coroutines.launch
 
 @Composable
 fun ReportFavoritesScreen(activity: ComponentActivity, nav: NavController) {
@@ -30,6 +31,7 @@ fun ReportFavoritesScreen(activity: ComponentActivity, nav: NavController) {
     var items by remember { mutableStateOf(listOf<com.aidestinymaster.data.db.ReportEntity>()) }
 
     var selected by remember { mutableStateOf(mutableSetOf<String>()) }
+    val scope = rememberCoroutineScope()
     LaunchedEffect(favs, query) {
         val all = favs.mapNotNull { id -> dao.getById(id) }
         items = if (query.isBlank()) all else all.filter { it.title.contains(query) || it.summary.contains(query) }
@@ -43,9 +45,7 @@ fun ReportFavoritesScreen(activity: ComponentActivity, nav: NavController) {
             Button(onClick = { selected.clear() }) { Text("清除") }
             Button(onClick = {
                 selected.toList().forEach { id ->
-                    androidx.lifecycle.lifecycleScope.launchWhenStarted(activity.lifecycle) {
-                        ReportPrefs.toggleFav(ctx, id)
-                    }
+                    scope.launch { ReportPrefs.toggleFav(ctx, id) }
                 }
                 selected.clear()
             }) { Text("刪除已選") }

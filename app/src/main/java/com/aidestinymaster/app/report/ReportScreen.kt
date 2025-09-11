@@ -20,6 +20,11 @@ import com.aidestinymaster.billing.Entitlement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.aidestinymaster.data.repository.ReportRepository
@@ -29,12 +34,12 @@ fun ReportScreen(activity: ComponentActivity, reportId: String) {
     val repo = ReportRepository.from(activity)
     val report by repo.getReportFlow(reportId).collectAsState(initial = null)
     val bridge = ReportSyncBridge(activity)
-    val scope = androidx.compose.runtime.rememberCoroutineScope()
-    var status by androidx.compose.runtime.remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    var status by remember { mutableStateOf("") }
     val ctx = LocalContext.current
     val favs by ReportPrefs.favsFlow(ctx).collectAsState(initial = emptySet())
     val notes by ReportPrefs.notesFlow(ctx).collectAsState(initial = emptyMap())
-    var noteText by androidx.compose.runtime.remember { mutableStateOf("") }
+    var noteText by remember { mutableStateOf("") }
     LaunchedEffect(reportId, notes) { noteText = notes[reportId] ?: "" }
     val ent = remember { Entitlement.from(activity) }
     var vip by remember { mutableStateOf(true) }

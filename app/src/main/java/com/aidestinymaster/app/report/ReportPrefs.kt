@@ -3,7 +3,6 @@ package com.aidestinymaster.app.report
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -13,8 +12,8 @@ import com.google.gson.Gson
 private val Context.reportStore by preferencesDataStore(name = "report_prefs")
 
 object ReportPrefs {
-    private val FAVS = preferencesKey<String>("fav_ids")
-    private val NOTES = preferencesKey<String>("notes_json")
+    private val FAVS = stringPreferencesKey("fav_ids")
+    private val NOTES = stringPreferencesKey("notes_json")
     private val gson = Gson()
 
     fun favsFlow(context: Context): Flow<Set<String>> = context.reportStore.data.map { prefs ->
