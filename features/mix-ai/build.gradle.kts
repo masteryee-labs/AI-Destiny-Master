@@ -32,4 +32,11 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(project(":features:design"))
+    implementation(project(":data"))
+    implementation(project(":features:ziwei"))
+    implementation(project(":features:almanac"))
+    implementation(project(":core:lunar"))
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 }
