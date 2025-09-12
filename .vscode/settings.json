@@ -16,5 +16,6 @@
   "java.jdt.ls.java.home": "${env:JAVA_HOME}",
   "java.import.gradle.java.home": "${env:JAVA_HOME}",
   "kotlin.languageServer.enabled": true,
-  "kotlin.java.home": "${env:JAVA_HOME}"
+  "kotlin.java.home": "${env:JAVA_HOME}",
+  "chatgpt.openOnStartup": false
 }

@@ -106,7 +106,9 @@
     - [x] `fun getAlmanac(date: LocalDate): AlmanacDay`
     - [x] `fun getZodiacForecast(year: Int, animal: String): ZodiacForecast`
   - [x] 寫單元測試：對四柱/十神/五行計分覆蓋常見邊界（節氣換日、閏月）
-- [ ] 建立天文/星盤引擎（:core:astro）
+    - [x] 擴增節氣（立春/夏至/冬至）與閏月邊界測試（AlmanacEngineTest）
+    - [x] 擴增節氣（清明/白露）邊界測試（AlmanacEngineTest），並新增 UTC 與台北時區交界穩健性檢查（BaziCalculatorTest）
+- [x] 建立天文/星盤引擎（:core:astro）
   - [x] 引入 `Astronomy Engine`（Java/Kotlin，MIT）
   - [x] 建立 `AstroCalculator.kt`
     - [x] `fun computePlanets(utcInstant: Instant, lat: Double, lon: Double): PlanetPositions`
@@ -116,7 +118,7 @@
     - [x] 已於 computeSummary() 計算基本相位（0/60/90/120/180，orb=6°）
     - [x] `fun buildNatalChart(input: BirthInput): NatalChart`
     - [x] `fun summarizeNatal(natal: NatalChart): NatalSummary`
-  - [ ] 單元測試：固定日期/地點比對行星經度與相位
+  - [x] 單元測試：固定日期/地點比對行星經度與相位
 - [ ] 建立人類圖（天賦設計圖）引擎（:features:design）
   - [ ] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
   - [ ] 建立 `DesignMapper.kt`
@@ -346,11 +348,14 @@
   - [ ] 在設定頁提供語言選擇（繁中/英文）
   - [ ] 在生成 Prompt 時依語言插入本地化模板
   - [ ] 商店頁提供繁中與英文版文案
-- [ ] 日誌與除錯
+ - [ ] 日誌與除錯
   - [ ] 建立 `LogRepository` 將錯誤寫入 `files/logs/app.log`
   - [ ] 設定「上傳診斷」選項（Drive App Folder，匿名）
   - [ ] WindSurf 終端 `adb logcat | grep AIDestinyMaster` 快速過濾
   - [x] 修正啟動深連結處理 NPE（`NavController.handleDeepLink` 於 `NavGraph.kt`）
+  - [x] 修正 Debug 版 AdMob APPLICATION_ID（以 `app/src/debug/AndroidManifest.xml` 覆寫測試 ID，避免 `MobileAdsInitProvider` 啟動閃退）
+  - [x] 修正 DataStore 重複實例導致崩潰（統一以 `:data` 模組 `UserPrefsRepository` 單例存取）
+  - [x] Debug 變體移除/停用 `MobileAdsInitProvider`，避免 AdMob 初始化閃退（`app/src/debug/AndroidManifest.xml`）
 - [ ] CI（GitHub Actions）
   - [ ] 建立 `.github/workflows/android.yml`
     - [ ] 於 CI 安裝 JDK 17、Android SDK、授權 licenses

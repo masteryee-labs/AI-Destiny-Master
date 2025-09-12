@@ -137,7 +137,15 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add core/lunar/src/test/resources/solar_terms_1800_1899.json core/lunar/src/test/resources/solar_terms_2100_2199.json
+          files=()
+          [ -f core/lunar/src/test/resources/solar_terms_1800_1899.json ] && files+=(core/lunar/src/test/resources/solar_terms_1800_1899.json)
+          [ -f core/lunar/src/test/resources/solar_terms_2100_2199.json ] && files+=(core/lunar/src/test/resources/solar_terms_2100_2199.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "no_changes=true" >> $GITHUB_OUTPUT
+            echo "No extra shard files to commit."
+            exit 0
+          fi
+          git add "${files[@]}"
           if git diff --cached --quiet; then
             echo "no_changes=true" >> $GITHUB_OUTPUT
             echo "No changes to commit."

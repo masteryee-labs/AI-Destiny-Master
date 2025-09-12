@@ -77,6 +77,7 @@ object BaziCalculator {
         val zodiac = lunar.yearShengXiao
         // 當天若正逢節氣，lunar.jieQi 會給出對應名稱；否則取最近節氣名稱
         val solarTerm = lunar.jieQi ?: nearestJieQiName(lunar, birthZonedDateTime)
+        val nearest = nearestJieQiDetail(lunar, birthZonedDateTime)
 
         val meta = mapOf(
             "gzYear" to lunar.yearInGanZhi,
@@ -85,7 +86,12 @@ object BaziCalculator {
             "gzHour" to lunar.timeInGanZhi,
             "lunarYmd" to "${lunar.year}-${lunar.month}-${lunar.day}",
             "solarYmd" to "${solar.year}-${solar.month}-${solar.day}",
-            "jieQi" to (solarTerm ?: "")
+            // 若當天正逢節氣，此為該節氣名稱；否則為最近節氣名稱
+            "jieQi" to (solarTerm ?: ""),
+            // 最近節氣名稱（嚴格測試使用）
+            "nearestJieQiName" to (nearest?.first ?: ""),
+            // 最近節氣時間（以輸入時區格式化）
+            "nearestJieQiDateTime" to (nearest?.second ?: "")
         )
 
         return BaziResult(
@@ -109,6 +115,19 @@ object BaziCalculator {
                 if (best == null || diff < best.second) best = name to diff
             }
             best?.first
+        } catch (_: Throwable) { null }
+    }
+
+    private fun nearestJieQiDetail(lunar: Lunar, zdt: ZonedDateTime): Pair<String, String>? {
+        return try {
+            val table = lunar.jieQiTable // Map<String, Solar>
+            var best: Triple<String, Long, ZonedDateTime>? = null
+            for ((name, s) in table) {
+                val dt = ZonedDateTime.of(s.year, s.month, s.day, s.hour, s.minute, s.second, 0, zdt.zone)
+                val diff = kotlin.math.abs(java.time.Duration.between(zdt, dt).seconds)
+                if (best == null || diff < best!!.second) best = Triple(name, diff, dt)
+            }
+            best?.let { it.first to it.third.toString() }
         } catch (_: Throwable) { null }
     }
 

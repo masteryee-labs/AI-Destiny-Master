@@ -9,6 +9,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+// IMPORTANT: Keep a single DataStore instance per file by declaring the delegate at top-level.
+private val Context.userPrefsDataStore by preferencesDataStore(name = "user_prefs")
+
 /**
  * UserPrefsRepository
  *
@@ -23,7 +26,6 @@ import kotlinx.coroutines.flow.map
  *  - onboarding_done (internal)
  */
 class UserPrefsRepository private constructor(private val appContext: Context) {
-    private val Context.dataStore by preferencesDataStore(name = "user_prefs")
 
     private object Keys {
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
@@ -35,43 +37,49 @@ class UserPrefsRepository private constructor(private val appContext: Context) {
 
     // Flows
     val onboardingDoneFlow: Flow<Boolean> =
-        appContext.dataStore.data.map { it[Keys.ONBOARDING_DONE] ?: false }
+        appContext.userPrefsDataStore.data.map { it[Keys.ONBOARDING_DONE] ?: false }
 
     val langFlow: Flow<String> =
-        appContext.dataStore.data.map { it[Keys.LANG] ?: "zh-TW" }
+        appContext.userPrefsDataStore.data.map { it[Keys.LANG] ?: "zh-TW" }
 
     val themeFlow: Flow<String> =
-        appContext.dataStore.data.map { it[Keys.THEME] ?: "system" }
+        appContext.userPrefsDataStore.data.map { it[Keys.THEME] ?: "system" }
 
     val notifEnabledFlow: Flow<Boolean> =
-        appContext.dataStore.data.map { it[Keys.NOTIF_ENABLED] ?: false }
+        appContext.userPrefsDataStore.data.map { it[Keys.NOTIF_ENABLED] ?: false }
 
     val syncEnabledFlow: Flow<Boolean> =
-        appContext.dataStore.data.map { it[Keys.SYNC_ENABLED] ?: false }
+        appContext.userPrefsDataStore.data.map { it[Keys.SYNC_ENABLED] ?: false }
 
     // Setters
     suspend fun setOnboardingDone(done: Boolean) {
-        appContext.dataStore.edit { it[Keys.ONBOARDING_DONE] = done }
+        appContext.userPrefsDataStore.edit { it[Keys.ONBOARDING_DONE] = done }
     }
 
     suspend fun setLang(lang: String) {
-        appContext.dataStore.edit { it[Keys.LANG] = lang }
+        appContext.userPrefsDataStore.edit { it[Keys.LANG] = lang }
     }
 
     suspend fun setTheme(theme: String) {
-        appContext.dataStore.edit { it[Keys.THEME] = theme }
+        appContext.userPrefsDataStore.edit { it[Keys.THEME] = theme }
     }
 
     suspend fun setNotifEnabled(enabled: Boolean) {
-        appContext.dataStore.edit { it[Keys.NOTIF_ENABLED] = enabled }
+        appContext.userPrefsDataStore.edit { it[Keys.NOTIF_ENABLED] = enabled }
     }
 
     suspend fun setSyncEnabled(enabled: Boolean) {
-        appContext.dataStore.edit { it[Keys.SYNC_ENABLED] = enabled }
+        appContext.userPrefsDataStore.edit { it[Keys.SYNC_ENABLED] = enabled }
     }
 
     companion object {
+        @Volatile
+        private var INSTANCE: UserPrefsRepository? = null
+
         fun from(context: Context): UserPrefsRepository =
-            UserPrefsRepository(context.applicationContext)
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: UserPrefsRepository(context.applicationContext).also { INSTANCE = it }
+            }
     }
 }
+

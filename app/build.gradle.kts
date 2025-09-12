@@ -33,6 +33,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.14"
@@ -79,10 +80,26 @@ android {
             )
             // Use release signing config if credentials are provided
             signingConfig = signingConfigs.getByName("release")
+
+            // AdMob ad unit IDs from gradle.properties (optional); empty if not provided
+            val bannerId = (project.findProperty("AD_BANNER_ID") as String?) ?: ""
+            val interId = (project.findProperty("AD_INTERSTITIAL_ID") as String?) ?: ""
+            val rewardedId = (project.findProperty("AD_REWARDED_ID") as String?) ?: ""
+            val rewardedInterId = (project.findProperty("AD_REWARDED_INTERSTITIAL_ID") as String?) ?: ""
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"$bannerId\"")
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$interId\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"$rewardedId\"")
+            buildConfigField("String", "ADMOB_REWARDED_INTERSTITIAL_ID", "\"$rewardedInterId\"")
         }
         getByName("debug") {
             // Keep debug readable; optional minify can be off
             isMinifyEnabled = false
+
+            // Use Google official test ad unit IDs in Debug
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-3940256099942544/5224354917\"")
+            buildConfigField("String", "ADMOB_REWARDED_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/5354046379\"")
         }
     }
 }

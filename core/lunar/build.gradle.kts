@@ -3,6 +3,29 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+tasks.register<JavaExec>("exportSolarTerms") {
+    group = "verification"
+    description = "Export solar terms 2020-2030 JSON into src/test/resources"
+    classpath = sourceSets["test"].runtimeClasspath
+    mainClass.set("com.aidestinymaster.core.lunar.SolarTermExporter")
+}
+
+// Allow passing -PgenerateSolarTerms=true to propagate into tests as system property "generate.solar.terms"
+tasks.withType<Test>().configureEach {
+    val prop = project.findProperty("generateSolarTerms")?.toString()
+        ?: System.getProperty("generate.solar.terms")
+        ?: System.getenv("GENERATE_SOLAR_TERMS")
+        ?: "false"
+    systemProperty("generate.solar.terms", prop)
+    // pass shard export parameters if provided
+    listOf("export.from", "export.to", "export.out", "export.all").forEach { key ->
+        val v = project.findProperty(key)?.toString()
+            ?: System.getProperty(key)
+            ?: System.getenv(key.replace('.', '_').uppercase())
+        if (v != null) systemProperty(key, v)
+    }
+}
+
 // workaround: rotate alternate build directory to avoid Windows file locking
 layout.buildDirectory.set(file("build5"))
 

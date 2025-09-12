@@ -2,6 +2,7 @@ package com.aidestinymaster.app
 
 import android.os.Bundle
 import android.content.Intent
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.ads.MobileAds
+import android.content.pm.ApplicationInfo
 import com.aidestinymaster.sync.GoogleAuthManager
 import com.aidestinymaster.data.db.ReportEntity
 import com.aidestinymaster.data.repository.ReportRepository
@@ -35,6 +38,17 @@ class MainActivity : ComponentActivity() {
     private var navIntentState: MutableState<Intent?>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // In debug builds, initialize MobileAds explicitly to test ads without provider auto-init
+        val isDebuggable = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+        if (isDebuggable) {
+            try {
+                MobileAds.initialize(this) { status ->
+                    Log.d("AIDestinyMaster", "MobileAds initialized. Adapters=${status.adapterStatusMap.keys}")
+                }
+            } catch (t: Throwable) {
+                Log.w("AIDestinyMaster", "MobileAds init failed in debug: ${t.message}")
+            }
+        }
         // Preserve original intent for our own deep link handling, but prevent
         // Navigation from auto-handling it during setGraph (which was causing crashes).
         val originalIntent = intent

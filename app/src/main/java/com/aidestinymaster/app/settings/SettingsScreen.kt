@@ -3,6 +3,7 @@ package com.aidestinymaster.app.settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
 import com.aidestinymaster.data.prefs.UserPrefsRepository
+import androidx.compose.ui.viewinterop.AndroidView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
+import com.aidestinymaster.app.BuildConfig
 
 @Composable
 fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
@@ -100,6 +116,196 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
                 scope.launch { viewModel.setSyncEnabled(enabled) }
             })
         }
+
+        // ---- Debug: Test Ads ----
+        Text("測試廣告（Debug 專用）", style = MaterialTheme.typography.titleMedium)
+
+        // Interstitial state
+        var interstitialAd by remember { mutableStateOf<InterstitialAd?>(null) }
+        var interstitialStatus by remember { mutableStateOf("未載入") }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(onClick = {
+                interstitialStatus = "載入中..."
+                InterstitialAd.load(
+                    ctx,
+                    // 由 BuildConfig 提供（Debug=測試ID，Release=正式ID/或空值）
+                    BuildConfig.ADMOB_INTERSTITIAL_ID,
+                    AdRequest.Builder().build(),
+                    object : InterstitialAdLoadCallback() {
+                        override fun onAdLoaded(ad: InterstitialAd) {
+                            interstitialAd = ad
+                            interstitialStatus = "已載入，可顯示"
+                            Log.d("AIDestinyMaster", "Test Interstitial loaded")
+                            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    Log.d("AIDestinyMaster", "Interstitial dismissed")
+                                    interstitialAd = null
+                                }
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                    Log.w("AIDestinyMaster", "Interstitial failed to show: ${adError.message}")
+                                    interstitialAd = null
+                                }
+                                override fun onAdShowedFullScreenContent() {
+                                    Log.d("AIDestinyMaster", "Interstitial showed")
+                                }
+                            }
+                        }
+                        override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                            interstitialStatus = "載入失敗：${loadAdError.message}"
+                            Log.w("AIDestinyMaster", "Test Interstitial failed: ${loadAdError.message}")
+                            interstitialAd = null
+                        }
+                    }
+                )
+            }) { Text("載入測試插頁式廣告") }
+
+            Button(onClick = {
+                val ad = interstitialAd
+                if (ad != null) {
+                    ad.show(activity)
+                } else {
+                    interstitialStatus = "尚未載入，請先載入"
+                }
+            }) { Text("顯示插頁式") }
+        }
+        Text("狀態：$interstitialStatus")
+
+        Spacer(Modifier.padding(4.dp))
+
+        // Banner state
+        var showBanner by remember { mutableStateOf(false) }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(onClick = { showBanner = !showBanner }) {
+                Text(if (showBanner) "隱藏測試橫幅" else "顯示測試橫幅")
+            }
+        }
+        if (showBanner) {
+            AndroidView(
+                factory = { context ->
+                    AdView(context).apply {
+                        // 由 BuildConfig 提供
+                        adUnitId = BuildConfig.ADMOB_BANNER_ID
+                        setAdSize(AdSize.BANNER)
+                        loadAd(AdRequest.Builder().build())
+                    }
+                },
+                update = { view ->
+                    // Optionally reload
+                }
+            )
+        }
+
+        // Rewarded Ads
+        Spacer(Modifier.padding(4.dp))
+        Text("測試獎勵型廣告（Rewarded）", style = MaterialTheme.typography.titleMedium)
+        var rewardedAd by remember { mutableStateOf<RewardedAd?>(null) }
+        var rewardedStatus by remember { mutableStateOf("未載入") }
+        var lastReward by remember { mutableStateOf("-") }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(onClick = {
+                rewardedStatus = "載入中..."
+                RewardedAd.load(
+                    ctx,
+                    BuildConfig.ADMOB_REWARDED_ID,
+                    AdRequest.Builder().build(),
+                    object : RewardedAdLoadCallback() {
+                        override fun onAdLoaded(ad: RewardedAd) {
+                            rewardedAd = ad
+                            rewardedStatus = "已載入，可顯示"
+                            Log.d("AIDestinyMaster", "Test Rewarded loaded")
+                            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    Log.d("AIDestinyMaster", "Rewarded dismissed")
+                                    rewardedAd = null
+                                }
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                    Log.w("AIDestinyMaster", "Rewarded failed to show: ${adError.message}")
+                                    rewardedAd = null
+                                }
+                                override fun onAdShowedFullScreenContent() {
+                                    Log.d("AIDestinyMaster", "Rewarded showed")
+                                }
+                            }
+                        }
+                        override fun onAdFailedToLoad(error: LoadAdError) {
+                            rewardedStatus = "載入失敗：${error.message}"
+                            Log.w("AIDestinyMaster", "Test Rewarded failed: ${error.message}")
+                            rewardedAd = null
+                        }
+                    }
+                )
+            }) { Text("載入 Rewarded") }
+
+            Button(onClick = {
+                val ad = rewardedAd
+                if (ad != null) {
+                    ad.show(activity) { rewardItem: RewardItem ->
+                        lastReward = "type=${rewardItem.type}, amount=${rewardItem.amount}"
+                        Log.d("AIDestinyMaster", "Rewarded earned: $lastReward")
+                    }
+                } else {
+                    rewardedStatus = "尚未載入，請先載入"
+                }
+            }) { Text("顯示 Rewarded") }
+        }
+        Text("Rewarded 狀態：$rewardedStatus / 上次回饋：$lastReward")
+
+        // Rewarded Interstitial Ads
+        Spacer(Modifier.padding(4.dp))
+        Text("測試獎勵型插頁式（Rewarded Interstitial）", style = MaterialTheme.typography.titleMedium)
+        var rewardedInterstitial by remember { mutableStateOf<RewardedInterstitialAd?>(null) }
+        var rewardedInterstitialStatus by remember { mutableStateOf("未載入") }
+        var lastRewardRi by remember { mutableStateOf("-") }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(onClick = {
+                rewardedInterstitialStatus = "載入中..."
+                RewardedInterstitialAd.load(
+                    ctx,
+                    BuildConfig.ADMOB_REWARDED_INTERSTITIAL_ID,
+                    AdRequest.Builder().build(),
+                    object : RewardedInterstitialAdLoadCallback() {
+                        override fun onAdLoaded(ad: RewardedInterstitialAd) {
+                            rewardedInterstitial = ad
+                            rewardedInterstitialStatus = "已載入，可顯示"
+                            Log.d("AIDestinyMaster", "Test RewardedInterstitial loaded")
+                            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    Log.d("AIDestinyMaster", "RewardedInterstitial dismissed")
+                                    rewardedInterstitial = null
+                                }
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                    Log.w("AIDestinyMaster", "RewardedInterstitial failed to show: ${adError.message}")
+                                    rewardedInterstitial = null
+                                }
+                                override fun onAdShowedFullScreenContent() {
+                                    Log.d("AIDestinyMaster", "RewardedInterstitial showed")
+                                }
+                            }
+                        }
+                        override fun onAdFailedToLoad(error: LoadAdError) {
+                            rewardedInterstitialStatus = "載入失敗：${error.message}"
+                            Log.w("AIDestinyMaster", "Test RewardedInterstitial failed: ${error.message}")
+                            rewardedInterstitial = null
+                        }
+                    }
+                )
+            }) { Text("載入 Rewarded Interstitial") }
+
+            Button(onClick = {
+                val ad = rewardedInterstitial
+                if (ad != null) {
+                    ad.show(activity) { rewardItem: RewardItem ->
+                        lastRewardRi = "type=${rewardItem.type}, amount=${rewardItem.amount}"
+                        Log.d("AIDestinyMaster", "RewardedInterstitial earned: $lastRewardRi")
+                    }
+                } else {
+                    rewardedInterstitialStatus = "尚未載入，請先載入"
+                }
+            }) { Text("顯示 Rewarded Interstitial") }
+        }
+        Text("Rewarded Interstitial 狀態：$rewardedInterstitialStatus / 上次回饋：$lastRewardRi")
+
         if (error != null) {
             Text("錯誤：$error", color = MaterialTheme.colorScheme.error)
         }
