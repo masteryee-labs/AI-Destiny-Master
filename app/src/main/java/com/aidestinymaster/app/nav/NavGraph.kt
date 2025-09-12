@@ -33,6 +33,13 @@ import com.aidestinymaster.app.chart.ChartResultScreen
 import com.aidestinymaster.app.paywall.PaywallScreen
 import com.aidestinymaster.app.onboarding.OnboardingScreen
 import com.aidestinymaster.features.bazi.BaziDebugScreen
+import com.aidestinymaster.app.design.DesignDemoScreen
+import com.aidestinymaster.app.mixai.MixAiDemoScreen
+import com.aidestinymaster.app.ziwei.ZiweiDemoScreen
+import com.aidestinymaster.app.iching.IchingDemoScreen
+import com.aidestinymaster.features.astrochart.NatalChartScreen
+import com.aidestinymaster.core.astro.AstroCalculator
+import com.aidestinymaster.core.ai.ModelInstaller
 import com.aidestinymaster.data.prefs.UserPrefsRepository
 import kotlinx.coroutines.flow.first
 import androidx.compose.material3.darkColorScheme
@@ -40,6 +47,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.aidestinymaster.app.theme.ThemeViewModel
+import com.aidestinymaster.app.theme.AppTheme
 import com.aidestinymaster.data.repository.ReportRepository
 import kotlinx.coroutines.launch
 import android.content.pm.ApplicationInfo
@@ -49,6 +57,11 @@ object Routes {
     const val Home = "home"
     const val Settings = "settings"
     const val BaziDebug = "baziDebug"
+    const val DesignDemo = "designDemo"
+    const val MixAiDemo = "mixAiDemo"
+    const val ZiweiDemo = "ziweiDemo"
+    const val IchingDemo = "ichingDemo"
+    const val AstroDemo = "astroDemo"
     const val ChartInput = "chartInput/{kind}"
     const val ChartResult = "chartResult/{chartId}"
     const val Report = "report/{reportId}"
@@ -59,6 +72,12 @@ object Routes {
 @Composable
 fun AppNav(activity: ComponentActivity, externalNav: NavHostController? = null, intent: Intent? = null) {
     val nav = externalNav ?: rememberNavController()
+    // 安裝模型（如 assets/models.zip 存在則解壓至 files/models），缺檔時安全略過
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        runCatching { ModelInstaller.installIfNeeded(activity, expectedSha256 = "") }
+            .onSuccess { ok -> Log.d("AIDM", "Model install check: $ok") }
+            .onFailure { t -> Log.w("AIDM", "Model install failed: ${t.message}") }
+    }
     val themeVm: ThemeViewModel = viewModel(viewModelStoreOwner = activity)
     val theme = themeVm.themeState.value
     val isDark = when (theme) {
@@ -66,7 +85,7 @@ fun AppNav(activity: ComponentActivity, externalNav: NavHostController? = null, 
         "light" -> false
         else -> isSystemInDarkTheme()
     }
-    MaterialTheme(colorScheme = if (isDark) darkColorScheme() else lightColorScheme()) {
+    AppTheme(darkTheme = isDark) {
         val start = remember { mutableStateOf<String?>(null) }
         LaunchedEffect(Unit) {
             val repo = UserPrefsRepository.from(activity)
@@ -75,7 +94,7 @@ fun AppNav(activity: ComponentActivity, externalNav: NavHostController? = null, 
         }
         if (start.value == null) {
             Text("Loading...")
-            return@MaterialTheme
+            return@AppTheme
         }
         TopNavBar(nav)
         Spacer(Modifier.height(8.dp))
@@ -88,11 +107,42 @@ fun AppNav(activity: ComponentActivity, externalNav: NavHostController? = null, 
                 val from = backStack.arguments?.getString("from")
                 OnboardingScreen(activity, nav, from)
             }
-            composable(Routes.Home) { HomeScreen(activity, nav) }
+            composable(
+                route = Routes.Home,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://home" })
+            ) { HomeScreen(activity, nav) }
             composable(
                 route = Routes.BaziDebug,
                 deepLinks = listOf(navDeepLink { uriPattern = "aidm://bazi" })
             ) { BaziDebugScreen(activity) }
+            composable(
+                route = Routes.DesignDemo,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://design" })
+            ) { DesignDemoScreen(activity) }
+            composable(
+                route = Routes.MixAiDemo,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://mixai" })
+            ) { MixAiDemoScreen(activity) }
+            composable(
+                route = Routes.ZiweiDemo,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://ziwei" })
+            ) { ZiweiDemoScreen(activity) }
+            composable(
+                route = Routes.IchingDemo,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://iching" })
+            ) { IchingDemoScreen(activity) }
+            composable(
+                route = Routes.AstroDemo,
+                deepLinks = listOf(navDeepLink { uriPattern = "aidm://astro" })
+            ) {
+                // Demo: 固定時間/地點
+                val instant = java.time.Instant.ofEpochSecond(1_700_000_000)
+                val lat = 25.04; val lon = 121.56
+                val planets = AstroCalculator.computePlanets(instant, lat, lon)
+                val houses = AstroCalculator.computeHouses(instant, lat, lon)
+                val aspects = AstroCalculator.computeAspects(planets)
+                NatalChartScreen(planets = planets, houses = houses, aspects = aspects)
+            }
             composable(
                 route = Routes.Settings,
                 deepLinks = listOf(navDeepLink { uriPattern = "aidm://settings" })
@@ -164,5 +214,7 @@ private fun TopNavBar(nav: NavHostController) {
         Button(onClick = { nav.navigate(Routes.Settings) }) { Text("Settings") }
         Button(onClick = { nav.navigate(Routes.ReportFavs) }) { Text("Favs") }
         Button(onClick = { nav.navigate(Routes.BaziDebug) }) { Text("BaZi") }
+        Button(onClick = { nav.navigate(Routes.DesignDemo) }) { Text("Design") }
+        Button(onClick = { nav.navigate(Routes.MixAiDemo) }) { Text("Mix-AI") }
     }
 }

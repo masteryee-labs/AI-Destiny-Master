@@ -34,4 +34,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     implementation(libs.onnxruntime.android)
+
+    testImplementation("junit:junit:4.13.2")
 }

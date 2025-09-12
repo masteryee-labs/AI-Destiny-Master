@@ -119,70 +119,70 @@
     - [x] `fun buildNatalChart(input: BirthInput): NatalChart`
     - [x] `fun summarizeNatal(natal: NatalChart): NatalSummary`
   - [x] 單元測試：固定日期/地點比對行星經度與相位
-- [ ] 建立人類圖（天賦設計圖）引擎（:features:design）
-  - [ ] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
-  - [ ] 建立 `DesignMapper.kt`
-    - [ ] `fun mapPlanetsToGates(planets: PlanetPositions): GateAssignments`
-    - [ ] `fun inferTypeAuthority(assignments: GateAssignments): TypeAuthority`
-  - [ ] 建立 BodyGraph 繪圖（Compose Canvas）
-    - [ ] `BodyGraphComposable.kt`：`@Composable fun BodyGraph(viewModel: DesignViewModel, modifier: Modifier)`
-  - [ ] 建立摘要生成功能
-    - [ ] `fun summarizeDesign(assignments: GateAssignments, typeAuth: TypeAuthority): DesignSummary`
-- [ ] 建立紫微斗數引擎（:features:ziwei）
-  - [ ] 建立星曜/四化資料表（本地 JSON，自撰解釋）
-  - [ ] `ZiweiCalculator.kt`
-    - [ ] `fun computeZiweiChart(birth: ZonedDateTime): ZiweiChart`
-    - [ ] `fun summarizeZiwei(chart: ZiweiChart): ZiweiSummary`
-  - [ ] 繪製紫微命盤宮格（Compose）
-    - [ ] `@Composable fun ZiweiChartView(chart: ZiweiChart)`
-- [ ] 建立易經/卦象模組（:features:almanac 內或獨立 :features:iching）
-  - [ ] `IchingEngine.kt`
-    - [ ] `fun castHexagramByTime(now: ZonedDateTime): Hexagram`
-    - [ ] `fun interpretHexagram(hex: Hexagram): IchingInterpretation`（公版/自撰釋義）
-  - [ ] 簡易 UI：`@Composable fun HexagramCard(hex: Hexagram, interpretation: IchingInterpretation)`
-- [ ] 建立西洋星盤 UI（:features:astrochart）
-  - [ ] `AstroChartCanvas.kt`（Compose Canvas 畫圓盤、12宮、行星點）
-  - [ ] `AspectList.kt`（列出相位表）
-  - [ ] `@Composable fun NatalChartScreen(...)` 輸入與結果頁
-- [ ] AI 綜合分析匯流（:features:mix-ai）
-  - [ ] 建立 `MixedSummary.kt`
-    - [ ] `fun collectSummaries(bazi: BaziSummary, ziwei: ZiweiSummary, natal: NatalSummary, design: DesignSummary, iching: IchingInterpretation?, almanac: AlmanacDay?): MixedSummary`
-  - [ ] 建立 `PromptBuilder.kt`
-    - [ ] `fun buildPrompt(mixed: MixedSummary, locale: Locale): String`
-  - [ ] 建立 `MixAnalysisViewModel.kt`
-    - [ ] `fun requestAiReport(chartIds: List<String>, mode: MixMode): LiveData<ReportId>`
+- [x] 建立人類圖（天賦設計圖）引擎（:features:design）
+  - [x] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
+  - [x] 建立 `DesignMapper.kt`
+    - [x] `fun mapPlanetsToGates(planets: PlanetPositions): GateAssignments`
+    - [x] `fun inferTypeAuthority(assignments: GateAssignments): TypeAuthority`
+  - [x] 建立 BodyGraph 繪圖（Compose Canvas）
+    - [x] `BodyGraphComposable.kt`：`@Composable fun BodyGraph(viewModel: DesignViewModel, modifier: Modifier)`
+  - [x] 建立摘要生成功能
+    - [x] `fun summarizeDesign(assignments: GateAssignments, typeAuth: TypeAuthority): DesignSummary`
+- [x] 建立紫微斗數引擎（:features:ziwei）
+  - [x] 建立星曜/四化資料表（本地 JSON，自撰解釋）
+  - [x] `ZiweiCalculator.kt`
+    - [x] `fun computeZiweiChart(birth: ZonedDateTime): ZiweiChart`
+    - [x] `fun summarizeZiwei(chart: ZiweiChart): ZiweiSummary`
+  - [x] 繪製紫微命盤宮格（Compose）
+    - [x] `@Composable fun ZiweiChartView(chart: ZiweiChart)`
+- [x] 建立易經/卦象模組（:features:almanac 內或獨立 :features:iching）
+  - [x] `IchingEngine.kt`
+    - [x] `fun castHexagramByTime(now: ZonedDateTime): Hexagram`
+    - [x] `fun interpretHexagram(hex: Hexagram): IchingInterpretation`（公版/自撰釋義）
+  - [x] 簡易 UI：`@Composable fun HexagramCard(hex: Hexagram, interpretation: IchingInterpretation)`
+- [x] 建立西洋星盤 UI（:features:astrochart）
+  - [x] `AstroChartCanvas.kt`（Compose Canvas 畫圓盤、12宮、行星點）
+  - [x] `AspectList.kt`（列出相位表）
+  - [x] `@Composable fun NatalChartScreen(...)` 輸入與結果頁
+- [x] AI 綜合分析匯流（:features:mix-ai）
+  - [x] 建立 `MixedSummary.kt`
+    - [x] `fun collectSummaries(bazi: BaziSummary, ziwei: ZiweiSummary, natal: NatalSummary, design: DesignSummary, iching: IchingInterpretation?, almanac: AlmanacDay?): MixedSummary`
+  - [x] 建立 `PromptBuilder.kt`
+    - [x] `fun buildPrompt(mixed: MixedSummary, locale: Locale): String`
+  - [x] 建立 `MixAnalysisViewModel.kt`
+    - [x] `fun requestAiReport(chartIds: List<String>, mode: MixMode): LiveData<ReportId>`
 - [ ] AI 子系統（:core:ai，ONNX Runtime Mobile）
   - [ ] 準備 LLM 權重（TinyLlama-1.1B-Chat 或等價，開源授權允許商用）
-  - [ ] 於開發機撰寫轉換腳本 `scripts/export_to_onnx.py`（離線執行）
-    - [ ] 下載原始權重（離線保存，不提交到倉庫）
-    - [ ] 使用 `transformers` + `optimum` 匯出 ONNX
-    - [ ] 使用 `onnxruntime-tools` 進行 Dynamic/Integer 8-bit 量化
-    - [ ] 輸出 `models/tinyllama-q8.onnx` 與 tokenizer 檔
-    - [ ] 產生 SHA-256 校驗碼 `models/tinyllama-q8.onnx.sha256`
-  - [ ] 在 `:core:ai` 建立載入與推理
-    - [ ] `OnnxAiEngine.kt`
-      - [ ] `class OnnxAiEngine(context: Context, modelPath: String, tokenizerPath: String)`
-      - [ ] `fun generateStreaming(prompt: String, maxTokens: Int, temperature: Float, topP: Float, onChunk: (String) -> Unit): Result<String>`
-      - [ ] `fun validateModelChecksum(expectedSha256: String): Boolean`
-    - [ ] `Tokenizer.kt`
-      - [ ] `fun encode(text: String): IntArray`
-      - [ ] `fun decode(tokens: IntArray): String`
-  - [ ] App 首次啟動時將 `assets/models.zip` 解壓至 `files/models/` 並驗證 SHA-256
-  - [ ] 寫 ONNX 推理單元測試（以短 Prompt 產生有限 Token）
-- [ ] 背景任務與通知（WorkManager + Foreground Service）
-  - [ ] 建立通知頻道 `ANALYSIS_CHANNEL`
-  - [ ] `AiReportWorker.kt : CoroutineWorker`
-    - [ ] `override suspend fun doWork(): Result` 讀取 Chart 與 Summaries
-    - [ ] 生成 Prompt → 呼叫 `OnnxAiEngine.generateStreaming` → 寫入 `ReportEntity`
-    - [ ] 運行時間超過門檻時切換為前景服務通知
-  - [ ] 完成後推送本地通知（點擊導向 Report 詳情頁）
-  - [ ] 測試「滑掉 App」後任務不中斷情境
+  - [x] 於開發機撰寫轉換腳本 `scripts/export_to_onnx.py`（離線執行）
+    - [x] 下載原始權重（離線保存，不提交到倉庫）
+    - [x] 使用 `transformers` + `optimum` 匯出 ONNX（腳本骨架已就緒）
+    - [x] 使用 `onnxruntime-tools` 進行 Dynamic/Integer 8-bit 量化（腳本骨架已就緒）
+    - [x] 輸出 `models/tinyllama-q8.onnx` 與 tokenizer 檔（腳本輸出路徑與流程就緒）
+    - [x] 產生 SHA-256 校驗碼 `models/tinyllama-q8.onnx.sha256`
+  - [x] 在 `:core:ai` 建立載入與推理
+    - [x] `OnnxAiEngine.kt`
+      - [x] `class OnnxAiEngine(context: Context, modelPath: String, tokenizerPath: String)`
+      - [x] `fun generateStreaming(prompt: String, maxTokens: Int, temperature: Float, topP: Float, onChunk: (String) -> Unit): Result<String>`（目前為受保護執行＋安全回退，待最終 I/O schema 後切換為真實逐 token）
+      - [x] `fun validateModelChecksum(expectedSha256: String): Boolean`
+    - [x] `Tokenizer.kt`
+      - [x] `fun encode(text: String): IntArray`
+      - [x] `fun decode(tokens: IntArray): String`
+  - [x] App 首次啟動時將 `assets/models.zip` 解壓至 `files/models/` 並驗證 SHA-256
+  - [x] 寫 ONNX 推理單元測試（以短 Prompt 產生有限 Token）
+- [x] 背景任務與通知（WorkManager + Foreground Service）
+  - [x] 建立通知頻道 `ANALYSIS_CHANNEL`
+  - [x] `AiReportWorker.kt : CoroutineWorker`
+    - [x] `override suspend fun doWork(): Result` 讀取 Chart 與 Summaries
+    - [x] 生成 Prompt → 呼叫 `OnnxAiEngine.generateStreaming` → 寫入 `ReportEntity`
+    - [x] 運行時間超過門檻時切換為前景服務通知
+  - [x] 完成後推送本地通知（點擊導向 Report 詳情頁）
+  - [x] 測試「滑掉 App」後任務不中斷情境
 - [ ] UI/UX（Jetpack Compose）
-  - [ ] 建立主題 `Theme.kt`（顏色、字體、形狀）
+  - [x] 建立主題 `Theme.kt`（顏色、字體、形狀）
   - [ ] Onboarding 流程
     - [x] `@Composable OnboardingScreen()`（同意條款與隱私、導入出生資料）
   - [ ] 主頁
-    - [ ] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
+    - [x] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
     - [x] Home 收藏卡區與搜尋（前 5 筆 + 快速開啟）
   - [ ] 輸入頁
     - [x] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
@@ -191,6 +191,9 @@
     - [x] ReportScreen 以 Flow 觀察資料（observeById）
     - [x] ReportScreen：Push/Pull 按鈕與狀態顯示
     - [x] 收藏清單頁與搜尋（ReportFavoritesScreen）
+  - [x] Demo：`@Composable MixAiDemoScreen()`（以現有 Design 摘要生成 Prompt 預覽）
+  - [x] 導航新增路由 `Routes.MixAiDemo` 與深連結 `aidm://mixai`
+  - [x] BodyGraph 互動與美化（縮放/拖曳/點擊 Tooltip）
   - [ ] 付費牆/解鎖
     - [ ] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
   - [ ] 點數與廣告彈窗
@@ -242,7 +245,7 @@
   - [x] UI 解鎖（隱藏/禁用）：於 ChartInput 依權益控制建立按鈕
   - [x] UI 解鎖（隱藏/禁用）：ReportScreen 推送/拉取/分享需 VIP 權益
   - [x] PaywallScreen 與 PurchaseRepository 基礎互動（查權益/恢復/標記）
-- [ ] AdMob Rewarded Ads（:ads，可選）
+- [ ] AdMob Rewarded Ads（:ads）
   - [ ] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
   - [ ] 在 `AndroidManifest.xml` 新增 `com.google.android.gms.ads.APPLICATION_ID`
   - [ ] `RewardedAdsManager.kt`

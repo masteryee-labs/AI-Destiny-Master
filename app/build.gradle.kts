@@ -90,6 +90,8 @@ android {
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$interId\"")
             buildConfigField("String", "ADMOB_REWARDED_ID", "\"$rewardedId\"")
             buildConfigField("String", "ADMOB_REWARDED_INTERSTITIAL_ID", "\"$rewardedInterId\"")
+            val webClientId = (project.findProperty("GOOGLE_WEB_CLIENT_ID") as String?) ?: ""
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$webClientId\"")
         }
         getByName("debug") {
             // Keep debug readable; optional minify can be off
@@ -100,6 +102,7 @@ android {
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-3940256099942544/5224354917\"")
             buildConfigField("String", "ADMOB_REWARDED_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/5354046379\"")
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"\"")
         }
     }
 }
@@ -112,6 +115,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    // Compose Material Icons (use BOM-managed version)
+    implementation("androidx.compose.material:material-icons-extended")
 
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.datastore.preferences)
@@ -119,6 +124,11 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.onnxruntime.android)
     implementation(libs.google.play.services.auth)
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    // Credential Manager (Sign in with Google)
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
     // Google Drive REST API（可於 :sync 使用；app 僅做端到端驗證時用）
     implementation(libs.google.api.client.android)
     implementation(libs.google.http.client.gson)
@@ -129,6 +139,11 @@ dependencies {
     implementation(project(":sync"))
     implementation(project(":billing"))
     implementation(project(":features:bazi"))
+    implementation(project(":features:design"))
+    implementation(project(":features:mix-ai"))
+    implementation(project(":features:astrochart"))
+    implementation(project(":features:ziwei"))
+    implementation(project(":features:almanac"))
     implementation(libs.google.billing.ktx)
     implementation(libs.google.play.services.ads)
     implementation(libs.kotlinx.serialization.json)

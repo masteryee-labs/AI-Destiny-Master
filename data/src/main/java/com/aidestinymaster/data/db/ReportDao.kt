@@ -24,4 +24,7 @@ interface ReportDao {
 
     @Query("SELECT id FROM reports")
     suspend fun listIds(): List<String>
+
+    @Query("DELETE FROM reports WHERE id = :id")
+    suspend fun deleteById(id: String)
 }

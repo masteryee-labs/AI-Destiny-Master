@@ -41,6 +41,9 @@ class ReportRepository private constructor(private val dao: ReportDao) {
     private fun summarize(content: String, maxLen: Int = 120): String =
         content.replace("\n", " ").take(maxLen)
 
+    suspend fun delete(id: String) = dao.deleteById(id)
+    suspend fun listIds(): List<String> = dao.listIds()
+
     companion object {
         fun from(context: Context): ReportRepository {
             val db: AppDatabase = DatabaseProvider.get(context)

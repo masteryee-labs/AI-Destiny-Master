@@ -32,5 +32,6 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation("io.github.cosinekitty:astronomy:2.1.1")
     testImplementation("junit:junit:4.13.2")
 }
