@@ -12,7 +12,7 @@ object NatalChartBuilder {
         val utcInstant: Instant,
         val lat: Double,
         val lon: Double,
-        val houseSystem: AstroCalculator.HouseSystem = AstroCalculator.HouseSystem.WHOLE_SIGN
+        val houseSystem: AstroCalculator.HouseSystem = AstroCalculator.HouseSystem.WHOLE_SIGN_ASC
     )
 
     data class NatalChart(
