@@ -1,0 +1,25 @@
+{
+  "note": "自製星曜與四化簡表（中性、自撰）。不對應任何受保護教材。",
+  "stars": [
+    {"name":"紫微","abbr":"ZW","nature":"主中樞/領導傾向"},
+    {"name":"天機","abbr":"TJ","nature":"主思慮/變動/策劃"},
+    {"name":"太陽","abbr":"TY","nature":"主外放/光亮/熱忱"},
+    {"name":"武曲","abbr":"WQ","nature":"主財務/執行/果決"},
+    {"name":"天同","abbr":"TT","nature":"主和善/穩健/隨遇"},
+    {"name":"廉貞","abbr":"LZ","nature":"主原則/控制/矛盾"},
+    {"name":"天府","abbr":"TF","nature":"主資源/穩定/包容"},
+    {"name":"太陰","abbr":"TYn","nature":"主內斂/敏感/細膩"},
+    {"name":"貪狼","abbr":"TL","nature":"主欲望/開拓/社交"},
+    {"name":"巨門","abbr":"JM","nature":"主口才/辯證/迷惘"},
+    {"name":"天相","abbr":"TX","nature":"主協調/秩序/規範"},
+    {"name":"天梁","abbr":"TLg","nature":"主守護/承擔/支援"},
+    {"name":"七殺","abbr":"QS","nature":"主決斷/突破/風險"},
+    {"name":"破軍","abbr":"PJ","nature":"主變革/拆舊/重建"}
+  ],
+  "transforms": [
+    {"name":"祿","desc":"增益、資源流入"},
+    {"name":"權","desc":"掌控、影響力提升"},
+    {"name":"科","desc":"名望、榜單、助力"},
+    {"name":"忌","desc":"阻滯、壓力、代價"}
+  ]
+}

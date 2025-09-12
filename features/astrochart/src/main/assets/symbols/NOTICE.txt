@@ -1,0 +1,9 @@
+Self-authored minimal planetary symbols (SVG) for AIDestinyMaster.
+License: MIT
+Author: AIDestinyMaster Project Team
+Files: sun.svg, moon.svg, mercury.svg, venus.svg, mars.svg, jupiter.svg, saturn.svg
+
+If third-party assets are added here in the future, include:
+- Source URL
+- License name and text (MIT/Apache preferred)
+- Any attribution requirements
