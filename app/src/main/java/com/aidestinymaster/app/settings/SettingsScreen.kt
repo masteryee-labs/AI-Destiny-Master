@@ -1,6 +1,7 @@
 package com.aidestinymaster.app.settings
 
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import android.os.Build
 import android.util.Log
@@ -19,8 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.aidestinymaster.sync.GoogleAuthManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.Credential
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import kotlinx.coroutines.launch
 import com.aidestinymaster.data.prefs.UserPrefsRepository
 import androidx.compose.ui.viewinterop.AndroidView
@@ -50,13 +54,8 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
 
     LaunchedEffect(Unit) { viewModel.load() }
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val acc = task.getResult(ApiException::class.java)
-            viewModel.onSignedIn(acc?.email)
-        } catch (_: Exception) { viewModel.onSignedIn(null) }
-    }
+    // Credential Manager Sign-in with Google
+    val credentialManager = remember { CredentialManager.create(ctx) }
 
     Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("設定", style = MaterialTheme.typography.titleLarge)
@@ -65,8 +64,41 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
         }
         val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Button(onClick = { launcher.launch(GoogleAuthManager.getSignInClient(ctx).signInIntent) }) { Text("Sign In") }
-            Button(onClick = { GoogleAuthManager.signOut(ctx) { viewModel.onSignedIn(null) } }) { Text("Sign Out") }
+            Button(onClick = {
+                val webClientId = runCatching {
+                    val clazz = Class.forName("${ctx.packageName}.BuildConfig")
+                    val field = clazz.getField("GOOGLE_WEB_CLIENT_ID")
+                    field.get(null) as String
+                }.getOrDefault("")
+                val googleIdOption = GetGoogleIdOption.Builder()
+                    .setServerClientId(webClientId)
+                    .setFilterByAuthorizedAccounts(false)
+                    .setAutoSelectEnabled(false)
+                    .build()
+                val request = GetCredentialRequest.Builder()
+                    .addCredentialOption(googleIdOption)
+                    .build()
+                scope.launch {
+                    try {
+                        val response = credentialManager.getCredential(context = ctx, request = request)
+                        val cred: Credential = response.credential
+                        if (cred.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                            val googleCred = GoogleIdTokenCredential.createFrom(cred.data)
+                            val emailAddr = googleCred.id
+                            viewModel.onSignedIn(emailAddr)
+                        } else {
+                            viewModel.onSignedIn(null)
+                        }
+                    } catch (t: Throwable) {
+                        viewModel.onSignedIn(null)
+                    }
+                }
+            }) { Text("Sign In with Google") }
+            Button(onClick = {
+                // Credential Manager 無全域 signOut；用舊 Identity 清單清理 Google 登入快取
+                com.google.android.gms.auth.api.identity.Identity.getSignInClient(ctx).signOut()
+                    .addOnCompleteListener { viewModel.onSignedIn(null) }
+            }) { Text("Sign Out") }
             Button(onClick = { com.aidestinymaster.sync.SyncBatchScheduler.scheduleNow(ctx) }) { Text("立即同步") }
             Button(onClick = {
                 scope.launch { prefsRepo.setOnboardingDone(false) }
@@ -84,12 +116,48 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
             }) { Text("測試通知權限") }
         }
 
-        // Language
+        // Language（App 通用）
         val lang by prefsRepo.langFlow.collectAsState(initial = "zh-TW")
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text("語言：$lang")
+            Text("語言（App）：$lang")
             Button(onClick = { scope.launch { prefsRepo.setLang("zh-TW") } }) { Text("繁中") }
             Button(onClick = { scope.launch { prefsRepo.setLang("en") } }) { Text("English") }
+        }
+
+        // Astro 專屬設定：語言覆蓋與宮位系統
+        val astro by SettingsPrefs.flow(ctx).collectAsState(initial = SettingsPrefs.Settings())
+        Text("星象設定", style = MaterialTheme.typography.titleMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("星象語言：${when (astro.language) { "system" -> "系統預設"; "zh" -> "繁中"; else -> "English" }}")
+            Button(onClick = { scope.launch { SettingsPrefs.setLanguage(ctx, "system") } }) { Text("系統預設") }
+            Button(onClick = { scope.launch { SettingsPrefs.setLanguage(ctx, "zh") } }) { Text("繁中") }
+            Button(onClick = { scope.launch { SettingsPrefs.setLanguage(ctx, "en") } }) { Text("English") }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            val housesLabel = when (astro.houses) { "ASC" -> "Whole Sign（Asc 起點）"; "ARIES" -> "Whole Sign（0°牡羊）"; else -> "Placidus" }
+            Text("宮位系統：$housesLabel")
+            Button(onClick = { scope.launch { SettingsPrefs.setHouses(ctx, "ASC") } }) { Text("Asc 起點") }
+            Button(onClick = { scope.launch { SettingsPrefs.setHouses(ctx, "ARIES") } }) { Text("0°牡羊") }
+            Button(onClick = { scope.launch { SettingsPrefs.setHouses(ctx, "PLACIDUS") } }) { Text("Placidus") }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            val modeLabel = when (astro.highLatFallback) { "ASC" -> "High-Lat Fallback：Whole Sign（Asc）"; else -> "High-Lat Fallback：Regiomontanus（預留）" }
+            Text(modeLabel)
+            Button(onClick = { scope.launch { SettingsPrefs.setHighLatFallback(ctx, "ASC") } }) { Text("高緯回退：Asc") }
+            Button(onClick = { scope.launch { SettingsPrefs.setHighLatFallback(ctx, "REGIO") } }) { Text("高緯回退：Regio") }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("診斷模式：${if (astro.diagnostics) "ON" else "OFF"}")
+            Button(onClick = { scope.launch { SettingsPrefs.setDiagnostics(ctx, true) } }) { Text("開啟") }
+            Button(onClick = { scope.launch { SettingsPrefs.setDiagnostics(ctx, false) } }) { Text("關閉") }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("設定將即時套用於 Home 星象卡。")
+            Button(onClick = {
+                // 導回 Home 以重整星象卡
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("aidm://home"))
+                ctx.startActivity(intent)
+            }) { Text("重整星象卡") }
         }
 
         // Theme
@@ -190,7 +258,7 @@ fun SettingsScreen(activity: androidx.activity.ComponentActivity) {
                         loadAd(AdRequest.Builder().build())
                     }
                 },
-                update = { view ->
+                update = { _ ->
                     // Optionally reload
                 }
             )
