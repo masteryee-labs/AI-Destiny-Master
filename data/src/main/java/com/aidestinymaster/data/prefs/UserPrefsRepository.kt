@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -33,6 +34,12 @@ class UserPrefsRepository private constructor(private val appContext: Context) {
         val THEME = stringPreferencesKey("theme")
         val NOTIF_ENABLED = booleanPreferencesKey("notif_enabled")
         val SYNC_ENABLED = booleanPreferencesKey("sync_enabled")
+        // Accessibility
+        val FONT_SCALE = stringPreferencesKey("font_scale") // small/normal/large/extra
+        val REDUCE_MOTION = booleanPreferencesKey("reduce_motion")
+        // In-app review counter
+        val REVIEW_SUCCESS_COUNT = intPreferencesKey("review_success_count")
+        val REVIEW_PROMPTED = booleanPreferencesKey("review_prompted")
     }
 
     // Flows
@@ -50,6 +57,20 @@ class UserPrefsRepository private constructor(private val appContext: Context) {
 
     val syncEnabledFlow: Flow<Boolean> =
         appContext.userPrefsDataStore.data.map { it[Keys.SYNC_ENABLED] ?: false }
+
+    // Accessibility flows
+    val fontScaleFlow: Flow<String> =
+        appContext.userPrefsDataStore.data.map { it[Keys.FONT_SCALE] ?: "normal" }
+
+    val reduceMotionFlow: Flow<Boolean> =
+        appContext.userPrefsDataStore.data.map { it[Keys.REDUCE_MOTION] ?: false }
+
+    // Review flows
+    val reviewSuccessCountFlow: Flow<Int> =
+        appContext.userPrefsDataStore.data.map { it[Keys.REVIEW_SUCCESS_COUNT] ?: 0 }
+
+    val reviewPromptedFlow: Flow<Boolean> =
+        appContext.userPrefsDataStore.data.map { it[Keys.REVIEW_PROMPTED] ?: false }
 
     // Setters
     suspend fun setOnboardingDone(done: Boolean) {
@@ -70,6 +91,27 @@ class UserPrefsRepository private constructor(private val appContext: Context) {
 
     suspend fun setSyncEnabled(enabled: Boolean) {
         appContext.userPrefsDataStore.edit { it[Keys.SYNC_ENABLED] = enabled }
+    }
+
+    // Accessibility setters
+    suspend fun setFontScale(scale: String) {
+        appContext.userPrefsDataStore.edit { it[Keys.FONT_SCALE] = scale }
+    }
+
+    suspend fun setReduceMotion(enabled: Boolean) {
+        appContext.userPrefsDataStore.edit { it[Keys.REDUCE_MOTION] = enabled }
+    }
+
+    // Review setters
+    suspend fun incrementReviewSuccessCount() {
+        appContext.userPrefsDataStore.edit { prefs ->
+            val cur = prefs[Keys.REVIEW_SUCCESS_COUNT] ?: 0
+            prefs[Keys.REVIEW_SUCCESS_COUNT] = cur + 1
+        }
+    }
+
+    suspend fun setReviewPrompted(prompted: Boolean) {
+        appContext.userPrefsDataStore.edit { it[Keys.REVIEW_PROMPTED] = prompted }
     }
 
     companion object {

@@ -24,6 +24,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import android.graphics.Paint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -41,7 +43,8 @@ fun BodyGraph(
     modifier: Modifier = Modifier,
     theme: NodeColorTheme = NodeColorTheme.Vitality,
     enableLiveReload: Boolean = false,
-    channelsAssetName: String = "abstract_channels.json"
+    channelsAssetName: String = "abstract_channels.json",
+    reduceMotion: Boolean = false
 ) {
     val primary = MaterialTheme.colorScheme.primary
     val secondary = MaterialTheme.colorScheme.secondary
@@ -68,12 +71,17 @@ fun BodyGraph(
         }
     }
 
-    // 簡單滑入動畫（初始 alpha 漸顯）
-    val appearAlpha by animateFloatAsState(targetValue = 1f, animationSpec = tween(durationMillis = 400), label = "appear")
+    // 簡單滑入動畫（初始 alpha 漸顯）；若減少動效，則以 0ms 套用
+    val appearAlpha by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = tween(durationMillis = if (reduceMotion) 0 else 400),
+        label = "appear"
+    )
 
     Canvas(
         modifier = modifier
             .fillMaxSize()
+            .semantics { this.contentDescription = "bodygraph_canvas" }
             .pointerInput(Unit) {
                 detectTransformGestures { _, panChange, zoomChange, _ ->
                     pan += panChange

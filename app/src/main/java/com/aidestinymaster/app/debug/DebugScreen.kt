@@ -27,7 +27,12 @@ import com.aidestinymaster.sync.GoogleAuthManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
+import androidx.compose.material3.Card
+import androidx.compose.foundation.background
+import com.aidestinymaster.app.ui.DesignTokens
+import androidx.compose.ui.graphics.Color
 
+@Suppress("DEPRECATION")
 @Composable
 fun DebugScreen(activity: ComponentActivity) {
     val ctx = activity
@@ -55,65 +60,88 @@ fun DebugScreen(activity: ComponentActivity) {
 
     var sku by remember { mutableStateOf("iap_demo") }
 
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.Top) {
-        Text("Report E2E Debug", style = MaterialTheme.typography.titleLarge)
-        Spacer(Modifier.height(12.dp))
-        OutlinedTextField(value = type, onValueChange = { type = it }, label = { Text("Type") })
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") })
-        Spacer(Modifier.height(12.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch { viewModel.create(type, content) } }) { Text("Create Report") }
-            Button(onClick = { scope.launch { viewModel.push() } }, enabled = lastIdState != null) { Text("Push") }
-            Button(onClick = { scope.launch { viewModel.pull() } }, enabled = lastIdState != null) { Text("Pull") }
-        }
-        Spacer(Modifier.height(12.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { launcher.launch(GoogleAuthManager.getSignInClient(ctx).signInIntent) }) { Text("Sign In") }
-            Button(onClick = { GoogleAuthManager.signOut(ctx) { accountEmail = null } }) { Text("Sign Out") }
-        }
-        Spacer(Modifier.height(16.dp))
-        Text("Last ID: ${lastIdState ?: "(none)"}")
-        Spacer(Modifier.height(4.dp))
-        Text("Signed in: ${accountEmail ?: "(not signed)"}")
-        Spacer(Modifier.height(4.dp))
-        Text("Title: ${currentState?.title ?: "-"}")
-        Spacer(Modifier.height(4.dp))
-        Text("Updated: ${currentState?.updatedAt ?: 0}")
-        Spacer(Modifier.height(4.dp))
-        Text("Summary: ${currentState?.summary ?: "-"}")
-
-        Spacer(Modifier.height(24.dp))
-        Text("Wallet Debug", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch { walletRepo.earnCoins("debug", 10); coins = walletRepo.get()?.coins ?: 0 } }) { Text("Earn +10") }
-            Button(onClick = { scope.launch { walletRepo.spendCoins("debug", 5); coins = walletRepo.get()?.coins ?: 0 } }) { Text("Spend -5") }
-        }
-        Spacer(Modifier.height(6.dp))
-        Text("Coins: $coins")
-
-        Spacer(Modifier.height(24.dp))
-        Text("Chart Debug", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch { lastChartId = chartRepo.create("natal", mapOf("computedJson" to "{}")) } }) { Text("Create Chart") }
-        }
-        Spacer(Modifier.height(6.dp))
-        Text("Last Chart ID: ${lastChartId ?: "(none)"}")
-
-        Spacer(Modifier.height(24.dp))
-        Text("Purchase Debug", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(value = sku, onValueChange = { sku = it }, label = { Text("SKU") })
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = {
-                scope.launch {
-                    val p = PurchaseEntity(sku = sku, type = "inapp", state = 1, purchaseToken = "debug", acknowledged = true, updatedAt = System.currentTimeMillis())
-                    DatabaseProvider.get(ctx).purchaseDao().upsert(p)
+    Column(Modifier.fillMaxSize().padding(DesignTokens.Spacing.L.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.M.dp)) {
+        // 標題與 Report 操作
+        Card(Modifier.fillMaxSize()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxSize().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("Report E2E Debug", style = MaterialTheme.typography.titleLarge)
+                    OutlinedTextField(value = type, onValueChange = { type = it }, label = { Text("Type") })
+                    OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") })
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        Button(onClick = { scope.launch { viewModel.create(type, content) } }) { Text("Create Report") }
+                        Button(onClick = { scope.launch { viewModel.push() } }, enabled = lastIdState != null) { Text("Push") }
+                        Button(onClick = { scope.launch { viewModel.pull() } }, enabled = lastIdState != null) { Text("Pull") }
+                    }
                 }
-            }) { Text("Mark Entitled") }
+            }
+        }
+
+        // 登入操作
+        Card(Modifier.fillMaxSize()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxSize().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        Button(onClick = { launcher.launch(GoogleAuthManager.getSignInClient(ctx).signInIntent) }) { Text("Sign In") }
+                        Button(onClick = { GoogleAuthManager.signOut(ctx) { accountEmail = null } }) { Text("Sign Out") }
+                    }
+                    Text("Last ID: ${lastIdState ?: "(none)"}")
+                    Text("Signed in: ${accountEmail ?: "(not signed)"}")
+                    Text("Title: ${currentState?.title ?: "-"}")
+                    Text("Updated: ${currentState?.updatedAt ?: 0}")
+                    Text("Summary: ${currentState?.summary ?: "-"}")
+                }
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
+        Card(Modifier.fillMaxSize()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxSize().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("Wallet Debug", style = MaterialTheme.typography.titleMedium)
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        Button(onClick = { scope.launch { walletRepo.earnCoins("debug", 10); coins = walletRepo.get()?.coins ?: 0 } }) { Text("Earn +10") }
+                        Button(onClick = { scope.launch { walletRepo.spendCoins("debug", 5); coins = walletRepo.get()?.coins ?: 0 } }) { Text("Spend -5") }
+                    }
+                    Text("Coins: ${'$'}coins")
+                }
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
+        Card(Modifier.fillMaxSize()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxSize().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("Chart Debug", style = MaterialTheme.typography.titleMedium)
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        Button(onClick = { scope.launch { lastChartId = chartRepo.create("natal", mapOf("computedJson" to "{}")) } }) { Text("Create Chart") }
+                    }
+                    Text("Last Chart ID: ${lastChartId ?: "(none)"}")
+                }
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
+        Card(Modifier.fillMaxSize()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxSize().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("Purchase Debug", style = MaterialTheme.typography.titleMedium)
+                    OutlinedTextField(value = sku, onValueChange = { sku = it }, label = { Text("SKU") })
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        Button(onClick = {
+                            scope.launch {
+                                val p = PurchaseEntity(sku = sku, type = "inapp", state = 1, purchaseToken = "debug", acknowledged = true, updatedAt = System.currentTimeMillis())
+                                DatabaseProvider.get(ctx).purchaseDao().upsert(p)
+                            }
+                        }) { Text("Mark Entitled") }
+                    }
+                }
+            }
         }
     }
 }

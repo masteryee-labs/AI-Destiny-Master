@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -15,51 +18,69 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.aidestinymaster.app.report.ReportViewModel
 import com.aidestinymaster.app.nav.Routes
 import com.aidestinymaster.app.report.ReportPrefs
-import com.aidestinymaster.data.db.DatabaseProvider
-import kotlinx.coroutines.launch
-import java.time.LocalDate
-import com.aidestinymaster.core.lunar.AlmanacEngine
-import androidx.work.WorkManager
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.workDataOf
-import com.aidestinymaster.app.work.AiReportWorker
-import java.util.Locale
-import java.time.Instant
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Card
-import androidx.compose.material3.IconButton
+import com.aidestinymaster.app.settings.SettingsPrefs
+import com.aidestinymaster.core.astro.AstroCalculator.HouseSystem
+import com.aidestinymaster.core.astro.AstroCalculator
+import com.aidestinymaster.app.R
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Card
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
-import android.location.LocationManager
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import com.aidestinymaster.app.settings.SettingsPrefs
-import com.aidestinymaster.core.astro.AstroCalculator.HouseSystem
-import com.aidestinymaster.core.astro.AstroCalculator
+import com.aidestinymaster.data.db.DatabaseProvider
+import java.time.LocalDate
+import java.time.Instant
+import androidx.compose.ui.res.painterResource
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
+import androidx.compose.foundation.background
+import com.aidestinymaster.app.ui.StarfieldBackground
+import com.aidestinymaster.app.ui.pressScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.work.WorkManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.workDataOf
+import com.aidestinymaster.app.work.AiReportWorker
+import java.util.Locale
+import com.aidestinymaster.core.lunar.AlmanacEngine
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(activity: ComponentActivity, nav: NavController) {
+    // 動效開關（來自設定偏好）
+    val astroSettings by SettingsPrefs.flow(activity).collectAsState(initial = SettingsPrefs.Settings())
+    val reduceMotion = astroSettings.reduceMotion
     val viewModel = remember { ViewModelProvider(activity)[ReportViewModel::class.java] }
     val lastId by viewModel.lastId.collectAsState(null)
     val current by viewModel.current.collectAsState(null)
@@ -85,8 +106,7 @@ fun HomeScreen(activity: ComponentActivity, nav: NavController) {
     // Astro Summary (simple, offline)
     var astroSummary by remember { mutableStateOf("") }
     var astroDetails by remember { mutableStateOf(listOf<String>()) }
-    // Settings for astro: language override and house system
-    val astroSettings by SettingsPrefs.flow(activity).collectAsState(initial = SettingsPrefs.Settings())
+    // Settings for astro: language override and house system（已於前面宣告 astroSettings）
     // runtime permission request for coarse location
     var askedLoc by remember { mutableStateOf(false) }
     var noPermission by remember { mutableStateOf(false) }
@@ -222,179 +242,149 @@ fun HomeScreen(activity: ComponentActivity, nav: NavController) {
         astroDetails = astroDetails + tipLines.take(3)
     }
 
-    Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Home", style = MaterialTheme.typography.titleLarge)
-
-        // Quick Tools
-        Text("工具選單", style = MaterialTheme.typography.titleMedium)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { nav.navigate(Routes.ChartInput.replace("{kind}", "natal")) }) { Text("快速排盤") }
-            Button(onClick = { nav.navigate(Routes.MixAiDemo) }) { Text("AI 綜合分析") }
-            Button(onClick = { nav.navigate(Routes.IchingDemo) }) { Text("易經占卜") }
-        }
-
-        // Daily Almanac Card
-        val a = almanac
-        if (a != null) {
-            Spacer(Modifier.height(8.dp))
-            Text("每日黃曆", style = MaterialTheme.typography.titleMedium)
-            val yi = if (a.yi.isNotEmpty()) a.yi.joinToString() else "—"
-            val ji = if (a.ji.isNotEmpty()) a.ji.joinToString() else "—"
-            Text("日期：${a.date}")
-            a.solarTerm?.let { Text("節氣：$it") }
-            a.ganzhiYear?.let { Text("年干支：$it") }
-            a.zodiacAnimal?.let { Text("生肖：$it") }
-            Text("宜：$yi")
-            Text("忌：$ji")
-        }
-
-        // Astro Summary Card
-        if (astroSummary.isNotBlank()) {
-            Spacer(Modifier.height(8.dp))
-            Text("今日星象摘要", style = MaterialTheme.typography.titleMedium)
-            if (locating) {
-                Text("正在更新座標…", style = MaterialTheme.typography.bodySmall)
-            } else if (noPermission) {
-                Text("未授權定位，已採用預設座標（台北）。", style = MaterialTheme.typography.bodySmall)
-                Button(onClick = { refreshLocation() }) { Text("重新嘗試") }
-            } else {
-                Button(onClick = { refreshLocation() }) { Text("重新嘗試") }
-            }
-            Card(Modifier.fillMaxWidth().wrapContentHeight().padding(4.dp)) {
-                Column(Modifier.padding(12.dp)) {
-                    Text(astroSummary, style = MaterialTheme.typography.bodyMedium)
-                    if (astroDetails.isNotEmpty()) {
-                        Spacer(Modifier.height(6.dp))
-                        astroDetails.take(4).forEach { line -> Text("• $line", style = MaterialTheme.typography.bodySmall) }
+    StarfieldBackground(reduceMotion = reduceMotion) {
+        // Enable vertical scroll and add bottom padding so content won't be covered by dock
+        val scroll = rememberScrollState()
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(scroll)
+                .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            val titleAlpha by animateFloatAsState(targetValue = if (reduceMotion) 1f else 1f, animationSpec = tween(350), label = "titleAlpha")
+            Card(Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                Column(Modifier.padding(0.dp)) {
+                    androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                    Column(Modifier.padding(12.dp)) {
+                        Text(stringResource(id = R.string.home_title), style = MaterialTheme.typography.displaySmall, modifier = Modifier.alpha(titleAlpha))
                     }
                 }
             }
-        }
 
-        OutlinedTextField(value = type, onValueChange = { type = it }, label = { Text("Type") })
-        OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") })
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch {
-                val id = viewModel.create(type, content)
-                nav.navigate(Routes.Report.replace("{reportId}", id))
-            } }) { Text("Create & Open Report") }
-            Button(onClick = { lastId?.let { nav.navigate(Routes.Report.replace("{reportId}", it)) } }, enabled = lastId != null) { Text("Open Last") }
-            Button(onClick = { nav.navigate(Routes.ReportFavs) }) { Text("My Favorites") }
-            Button(onClick = {
-                // 快速排程背景生成，使用預設 chartId/mode/locale
-                val ids = arrayOf("homeQuick")
-                val data = workDataOf(
-                    AiReportWorker.KEY_CHART_IDS to ids,
-                    AiReportWorker.KEY_MODE to "Quick",
-                    AiReportWorker.KEY_LOCALE to Locale.TAIWAN.toLanguageTag()
-                )
-                val req = OneTimeWorkRequestBuilder<AiReportWorker>().setInputData(data).build()
-                WorkManager.getInstance(activity).enqueue(req)
-            }) { Text("背景生成") }
-        }
-        if (current != null) {
-            Spacer(Modifier.height(8.dp))
-            Text("Last: ${current!!.title}")
-        }
-        Spacer(Modifier.height(16.dp))
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text("Favorites", style = MaterialTheme.typography.titleMedium)
-            Button(onClick = { nav.navigate(Routes.ReportFavs) }) { Text("更多") }
-        }
-        OutlinedTextField(value = favQuery, onValueChange = { favQuery = it }, label = { Text("Search favorites") })
-        // Favorites Quick Actions Grid (2 columns)
-        if (favItems.isNotEmpty()) {
-            Spacer(Modifier.height(4.dp))
-            val rows = favItems.take(6).chunked(2)
-            rows.forEach { row ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    row.forEach { r ->
-                        Card(Modifier.weight(1f).wrapContentHeight().padding(2.dp)) {
-                            Column(Modifier.padding(10.dp)) {
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text(r.title, style = MaterialTheme.typography.titleSmall)
-                                    // Favorite toggle with Material Icon
-                                    var toggling by remember { mutableStateOf(false) }
-                                    val isFav = favs.contains(r.id)
-                                    Row {
-                                        IconButton(onClick = { scope.launch { toggling = true; ReportPrefs.toggleFav(activity, r.id); toggling = false } }, enabled = !toggling) {
-                                            Icon(imageVector = if (isFav) Icons.Filled.Star else Icons.Filled.StarBorder, contentDescription = if (isFav) "移除收藏" else "加入收藏")
-                                        }
-                                        var menuOpen by remember { mutableStateOf(false) }
-                                        val clipboard = LocalClipboardManager.current
-                                        IconButton(onClick = { menuOpen = true }) { Icon(imageVector = Icons.Filled.MoreVert, contentDescription = "更多") }
-                                        DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
-                                            DropdownMenuItem(text = { Text("分享") }, onClick = {
-                                                menuOpen = false
-                                                val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                                                    type = "text/plain"
-                                                    putExtra(android.content.Intent.EXTRA_SUBJECT, r.title)
-                                                    putExtra(android.content.Intent.EXTRA_TEXT, r.summary)
-                                                }
-                                                activity.startActivity(android.content.Intent.createChooser(intent, "分享報告"))
-                                            })
-                                            DropdownMenuItem(text = { Text("分享連結") }, onClick = {
-                                                menuOpen = false
-                                                val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                                                    type = "text/plain"
-                                                    putExtra(android.content.Intent.EXTRA_SUBJECT, r.title)
-                                                    putExtra(android.content.Intent.EXTRA_TEXT, "aidm://report/${r.id}")
-                                                }
-                                                activity.startActivity(android.content.Intent.createChooser(intent, "分享連結"))
-                                            })
-                                            DropdownMenuItem(text = { Text("複製摘要") }, onClick = {
-                                                menuOpen = false
-                                                clipboard.setText(AnnotatedString(r.summary))
-                                            })
-                                            DropdownMenuItem(text = { Text("刪除報告") }, onClick = {
-                                                menuOpen = false
-                                                scope.launch {
-                                                    val repo = com.aidestinymaster.data.repository.ReportRepository.from(activity)
-                                                    repo.delete(r.id)
-                                                    if (favs.contains(r.id)) ReportPrefs.toggleFav(activity, r.id)
-                                                }
-                                            })
-                                            DropdownMenuItem(text = { Text(if (isFav) "移除收藏" else "加入收藏") }, onClick = {
-                                                menuOpen = false
-                                                scope.launch { toggling = true; ReportPrefs.toggleFav(activity, r.id); toggling = false }
-                                            })
-                                        }
-                                        IconButton(onClick = { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }) {
-                                            Icon(imageVector = Icons.AutoMirrored.Filled.OpenInNew, contentDescription = "開啟報告")
-                                        }
-                                    }
-                                }
-                                Text(r.summary, style = MaterialTheme.typography.bodySmall, maxLines = 2)
-                                Spacer(Modifier.height(6.dp))
-                                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                                    IconButton(onClick = { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }) {
-                                        Icon(imageVector = Icons.AutoMirrored.Filled.OpenInNew, contentDescription = "開啟報告")
-                                    }
-                                    IconButton(onClick = {
-                                        val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                                            type = "text/plain"
-                                            putExtra(android.content.Intent.EXTRA_SUBJECT, r.title)
-                                            putExtra(android.content.Intent.EXTRA_TEXT, r.summary)
-                                        }
-                                        activity.startActivity(android.content.Intent.createChooser(intent, "分享報告"))
-                                    }) {
-                                        Icon(imageVector = Icons.Filled.Share, contentDescription = "分享報告")
-                                    }
-                                }
-                            }
+            // Quick Tools
+            Text(stringResource(id = R.string.home_tools), style = MaterialTheme.typography.titleMedium)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(
+                    modifier = Modifier.pressScale(enabled = !reduceMotion),
+                    onClick = { nav.navigate(Routes.EntryAstro) }
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.ic_astro), contentDescription = null)
+                    Spacer(Modifier.width(6.dp))
+                    Text(stringResource(id = R.string.home_quick_chart), maxLines = 1)
+                }
+                Button(onClick = { nav.navigate(Routes.EntryBazi) }) { Text(stringResource(id = R.string.home_entry_bazi)) }
+                Button(onClick = { nav.navigate(Routes.EntryZiwei) }) { Text(stringResource(id = R.string.home_entry_ziwei)) }
+                Button(onClick = { nav.navigate(Routes.EntryAstro) }) { Text(stringResource(id = R.string.home_entry_astro)) }
+                Button(onClick = { nav.navigate(Routes.EntryDesign) }) { Text(stringResource(id = R.string.home_entry_design)) }
+                Button(onClick = { nav.navigate(Routes.Paywall) }) { Text(stringResource(id = R.string.home_ai_mixed)) }
+                Button(onClick = { /* Almanac section is below; keep on home */ scope.launch { scroll.scrollTo(0) } }) { Text(stringResource(id = R.string.home_entry_almanac)) }
+                Button(onClick = { nav.navigate(Routes.EntryIching) }) { Text(stringResource(id = R.string.home_entry_iching)) }
+            }
+
+            // Daily Almanac Card
+            val a = almanac
+            if (a != null) {
+                Spacer(Modifier.height(8.dp))
+                Text(stringResource(id = R.string.home_daily_almanac), style = MaterialTheme.typography.titleMedium)
+                Card(Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                    Column(Modifier.padding(0.dp)) {
+                        androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                        Column(Modifier.padding(12.dp)) {
+                        Text(stringResource(id = R.string.label_date) + "${a.date}")
+                        a.solarTerm?.let { Text(stringResource(id = R.string.label_solar_term) + "$it") }
+                        a.ganzhiYear?.let { Text(stringResource(id = R.string.label_ganzhi_year) + "$it") }
+                        a.zodiacAnimal?.let { Text(stringResource(id = R.string.label_zodiac) + "$it") }
+                        val yi = if (a.yi.isNotEmpty()) a.yi.joinToString() else "—"
+                        val ji = if (a.ji.isNotEmpty()) a.ji.joinToString() else "—"
+                        Text(stringResource(id = R.string.label_yi) + "$yi")
+                        Text(stringResource(id = R.string.label_ji) + "$ji")
                         }
                     }
-                    if (row.size == 1) Spacer(Modifier.weight(1f))
                 }
             }
-        }
-        favItems.take(5).forEach { r ->
-            Row(Modifier.fillMaxWidth().padding(8.dp)) {
-                Column(Modifier.weight(1f)) {
-                    Text(r.title, style = MaterialTheme.typography.titleMedium)
-                    Text(r.summary, maxLines = 1)
+
+            // Astro Summary Card
+            if (astroSummary.isNotBlank()) {
+                Spacer(Modifier.height(8.dp))
+                Text(stringResource(id = R.string.astro_summary_today), style = MaterialTheme.typography.titleMedium)
+                if (locating) {
+                    Text(stringResource(id = R.string.loc_updating), style = MaterialTheme.typography.bodySmall)
+                } else if (noPermission) {
+                    Text(stringResource(id = R.string.loc_no_permission), style = MaterialTheme.typography.bodySmall)
+                    Button(onClick = { refreshLocation() }) { Text(stringResource(id = R.string.retry)) }
+                } else {
+                    Button(onClick = { refreshLocation() }) { Text(stringResource(id = R.string.retry)) }
                 }
-                Button(onClick = { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }) { Text("Open") }
+                val cardAlpha by animateFloatAsState(targetValue = if (reduceMotion) 1f else 1f, animationSpec = tween(400), label = "cardAlpha")
+                Card(Modifier.fillMaxWidth().wrapContentHeight().padding(4.dp).alpha(cardAlpha)) {
+                    Column(Modifier.padding(0.dp)) {
+                        androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                        Column(Modifier.padding(12.dp)) {
+                        Text(astroSummary, style = MaterialTheme.typography.bodyMedium)
+                        if (astroDetails.isNotEmpty()) {
+                            Spacer(Modifier.height(6.dp))
+                            astroDetails.take(4).forEach { line -> Text("• $line", style = MaterialTheme.typography.bodySmall) }
+                        }
+                        }
+                    }
+                }
+            }
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .let { base ->
+                        val favDesc = stringResource(id = R.string.favorites)
+                        base.semantics {
+                            contentDescription = favDesc
+                        }
+                    },
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(stringResource(id = R.string.favorites), style = MaterialTheme.typography.titleMedium)
+                Button(onClick = { nav.navigate(Routes.ReportFavs) }) { Text(stringResource(id = R.string.more)) }
+            }
+            favItems.take(5).forEach { r ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .semantics {
+                            contentDescription = r.title
+                        },
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        Text(r.title, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                        Text(r.summary, maxLines = 2, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                    }
+                    Button(onClick = { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }) { Text(stringResource(id = R.string.open)) }
+                    IconButton(
+                        modifier = run {
+                            val desc = stringResource(id = R.string.desc_open_report)
+                            Modifier.semantics { contentDescription = desc }
+                        },
+                        onClick = { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }
+                    ) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.OpenInNew, contentDescription = stringResource(id = R.string.desc_open_report))
+                    }
+                    IconButton(
+                        modifier = run {
+                            val desc = stringResource(id = R.string.desc_share_report)
+                            Modifier.semantics { contentDescription = desc }
+                        },
+                        onClick = {
+                            val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(android.content.Intent.EXTRA_SUBJECT, r.title)
+                                putExtra(android.content.Intent.EXTRA_TEXT, r.summary)
+                            }
+                            activity.startActivity(android.content.Intent.createChooser(intent, activity.getString(R.string.share)))
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Filled.Share, contentDescription = stringResource(id = R.string.desc_share_report))
+                    }
+                }
             }
         }
     }

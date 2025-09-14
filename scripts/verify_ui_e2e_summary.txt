@@ -1,0 +1,7 @@
+﻿ModelInitLogs: True
+StardustSeen:  False
+WorkSuccess:   False
+HasKeyCards:   False
+HasFatal:      False
+Log: C:\Users\MasterYee\CascadeProjects\AIDestinyMaster\scripts\logcat_ui_e2e.txt
+UI:  C:\Users\MasterYee\CascadeProjects\AIDestinyMaster\scripts\window_dump.xml

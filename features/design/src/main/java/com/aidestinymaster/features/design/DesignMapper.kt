@@ -78,7 +78,7 @@ fun inferTypeAuthority(assignments: GateAssignments): TypeAuthority = inferTypeA
  * 摘要：提供簡短說明、亮點條列與統計值，供 UI 顯示或後續 AI 提示詞使用。
  */
 fun summarizeDesign(assignments: GateAssignments, typeAuth: TypeAuthority): DesignSummary {
-    val brief = "天賦設計圖摘要：類型為${typeAuth.typeLabel}，決策以${typeAuth.authorityLabel}為主。共啟動 ${assignments.activeGates.size} 個閘門。"
+    val brief = "能量圖摘要：類型為${typeAuth.typeLabel}，決策以${typeAuth.authorityLabel}為主。共啟動 ${assignments.activeGates.size} 個閘門。"
 
     val planetGroups = assignments.planetToGate.entries.groupBy { it.value }
     val topGates = planetGroups.entries

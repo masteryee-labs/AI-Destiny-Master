@@ -15,12 +15,14 @@ object SettingsPrefs {
     private val KEY_HOUSES = stringPreferencesKey("houses")     // ASC | ARIES | PLACIDUS
     private val KEY_HIGH_LAT = stringPreferencesKey("high_lat_fallback") // ASC | REGIO
     private val KEY_DIAGNOSTICS = stringPreferencesKey("astro_diagnostics") // true | false
+    private val KEY_REDUCE_MOTION = stringPreferencesKey("reduce_motion") // true | false
 
     data class Settings(
         val language: String = "system",
         val houses: String = "ASC",
         val highLatFallback: String = "ASC",
-        val diagnostics: Boolean = false
+        val diagnostics: Boolean = false,
+        val reduceMotion: Boolean = false
     )
 
     fun flow(context: Context): Flow<Settings> = context.settingsStore.data.map { p: Preferences ->
@@ -28,7 +30,8 @@ object SettingsPrefs {
             language = p[KEY_LANGUAGE] ?: "system",
             houses = p[KEY_HOUSES] ?: "ASC",
             highLatFallback = p[KEY_HIGH_LAT] ?: "ASC",
-            diagnostics = (p[KEY_DIAGNOSTICS] ?: "false").toBoolean()
+            diagnostics = (p[KEY_DIAGNOSTICS] ?: "false").toBoolean(),
+            reduceMotion = (p[KEY_REDUCE_MOTION] ?: "false").toBoolean()
         )
     }
 
@@ -46,5 +49,9 @@ object SettingsPrefs {
 
     suspend fun setDiagnostics(context: Context, enabled: Boolean) {
         context.settingsStore.edit { it[KEY_DIAGNOSTICS] = enabled.toString() }
+    }
+
+    suspend fun setReduceMotion(context: Context, enabled: Boolean) {
+        context.settingsStore.edit { it[KEY_REDUCE_MOTION] = enabled.toString() }
     }
 }

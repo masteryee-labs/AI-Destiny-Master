@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App icon background and accent colors -->
+    <color name="ic_launcher_bg">#10131A</color>
+    <color name="ic_launcher_fg">#FFFFFF</color>
+    <color name="ic_launcher_accent">#C9A46A</color>
+</resources>

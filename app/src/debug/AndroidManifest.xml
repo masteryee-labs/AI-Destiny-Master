@@ -1,15 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <application>
-        <!-- 覆寫 Debug 版 AdMob App ID，避免 MobileAdsInitProvider 初始化失敗造成啟動閃退 -->
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
-        <!-- 在 Debug 變體移除 MobileAdsInitProvider，避免初始化失敗造成閃退 -->
-        <provider
-            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
-            android:authorities="com.aidestinymaster.mobileadsinitprovider"
-            tools:node="remove" />
-    </application>
-</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -9,10 +9,13 @@ android {
 
     defaultConfig {
         minSdk = 26
+        val webClientId = (project.findProperty("GOOGLE_WEB_CLIENT_ID") as String?) ?: ""
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$webClientId\"")
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.14"

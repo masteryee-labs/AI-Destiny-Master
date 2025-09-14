@@ -1,0 +1,227 @@
+﻿--------- beginning of main
+09-14 03:45:07.570 I/AIDMModelInit( 4315): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 03:45:07.580 I/ModelInstaller( 4315): unzipping models: assets/models.zip -> /data/user/0/com.aidestinymaster/files/models
+09-14 03:45:07.625 I/ModelInstaller( 4315): unzip completed: /data/user/0/com.aidestinymaster/files/models
+09-14 03:45:07.698 I/ModelInstaller( 4315): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 03:45:07.698 I/AIDMModelInit( 4315): ModelInstaller.installIfNeeded from App ok=true
+09-14 03:45:07.758 I/AIDMModelInit( 4315): MainActivity onCreate
+09-14 03:45:07.761 I/ModelInstaller( 4315): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 03:45:07.761 I/AIDMModelInit( 4315): ModelInstaller.installIfNeeded result=true
+09-14 03:45:08.731 I/AIDMModelInit( 4315): gate starting ModelInstaller.installIfNeeded
+09-14 03:45:08.733 I/ModelInstaller( 4315): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 03:45:08.733 I/AIDMModelInit( 4315): gate ModelInstaller.installIfNeeded ok=true
+09-14 03:45:08.734 I/AIDMModelInit( 4315): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 03:45:08.734 I/AIDMModelInit( 4315): diag onnx.exists=true size=1001708
+09-14 03:45:08.734 I/AIDMModelInit( 4315): diag sha.exists=true size=66
+09-14 03:45:08.822 I/ModelInstaller( 4315): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:16:14.998 I/AIDMModelInit( 5561): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 04:16:15.071 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:16:15.071 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded from App ok=true
+09-14 04:16:15.135 I/AIDMModelInit( 5561): MainActivity onCreate
+09-14 04:16:15.142 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:16:15.142 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded result=true
+09-14 04:16:16.068 I/AIDMModelInit( 5561): gate starting ModelInstaller.installIfNeeded
+09-14 04:16:16.070 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:16:16.070 I/AIDMModelInit( 5561): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:16:16.071 I/AIDMModelInit( 5561): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:16:16.071 I/AIDMModelInit( 5561): diag onnx.exists=true size=1001708
+09-14 04:16:16.071 I/AIDMModelInit( 5561): diag sha.exists=true size=66
+09-14 04:16:16.140 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:05.825 I/AIDMModelInit( 5561): MainActivity onCreate
+09-14 04:30:05.833 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:05.835 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded result=true
+09-14 04:30:05.964 I/AIDMModelInit( 5561): gate starting ModelInstaller.installIfNeeded
+09-14 04:30:05.971 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:05.973 I/AIDMModelInit( 5561): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:30:05.974 I/AIDMModelInit( 5561): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:30:05.974 I/AIDMModelInit( 5561): diag onnx.exists=true size=1001708
+09-14 04:30:05.974 I/AIDMModelInit( 5561): diag sha.exists=true size=66
+09-14 04:30:06.027 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:34.217 I/AIDMModelInit( 5561): MainActivity onCreate
+09-14 04:30:34.221 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:34.221 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded result=true
+09-14 04:30:34.413 I/AIDMModelInit( 5561): gate starting ModelInstaller.installIfNeeded
+09-14 04:30:34.416 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:34.416 I/AIDMModelInit( 5561): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:30:34.418 I/AIDMModelInit( 5561): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:30:34.418 I/AIDMModelInit( 5561): diag onnx.exists=true size=1001708
+09-14 04:30:34.418 I/AIDMModelInit( 5561): diag sha.exists=true size=66
+09-14 04:30:34.457 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:34.731 I/AIDMModelInit( 5561): MainActivity onCreate
+09-14 04:30:34.737 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:34.737 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded result=true
+09-14 04:30:34.849 I/AIDMModelInit( 5561): gate starting ModelInstaller.installIfNeeded
+09-14 04:30:34.853 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:30:34.853 I/AIDMModelInit( 5561): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:30:34.854 I/AIDMModelInit( 5561): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:30:34.854 I/AIDMModelInit( 5561): diag onnx.exists=true size=1001708
+09-14 04:30:34.854 I/AIDMModelInit( 5561): diag sha.exists=true size=66
+09-14 04:30:34.879 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:31:00.837 I/AIDMModelInit( 5561): MainActivity onCreate
+09-14 04:31:00.843 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:31:00.843 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded result=true
+09-14 04:31:00.983 I/AIDMModelInit( 5561): gate starting ModelInstaller.installIfNeeded
+09-14 04:31:00.990 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:31:00.990 I/AIDMModelInit( 5561): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:31:00.990 I/AIDMModelInit( 5561): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:31:00.991 I/AIDMModelInit( 5561): diag onnx.exists=true size=1001708
+09-14 04:31:00.991 I/AIDMModelInit( 5561): diag sha.exists=true size=66
+09-14 04:31:01.012 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:31:01.336 I/AIDMModelInit( 5561): MainActivity onCreate
+09-14 04:31:01.342 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:31:01.342 I/AIDMModelInit( 5561): ModelInstaller.installIfNeeded result=true
+09-14 04:31:01.765 I/AIDMModelInit( 5561): gate starting ModelInstaller.installIfNeeded
+09-14 04:31:01.768 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:31:01.768 I/AIDMModelInit( 5561): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:31:01.768 I/AIDMModelInit( 5561): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:31:01.768 I/AIDMModelInit( 5561): diag onnx.exists=true size=1001708
+09-14 04:31:01.768 I/AIDMModelInit( 5561): diag sha.exists=true size=66
+09-14 04:31:01.789 I/ModelInstaller( 5561): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:39.642 I/AIDMModelInit( 5830): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 04:34:39.789 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:39.789 I/AIDMModelInit( 5830): ModelInstaller.installIfNeeded from App ok=true
+09-14 04:34:39.948 I/AIDMModelInit( 5830): MainActivity onCreate
+09-14 04:34:39.966 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:39.966 I/AIDMModelInit( 5830): ModelInstaller.installIfNeeded result=true
+09-14 04:34:41.464 I/AIDMModelInit( 5830): gate starting ModelInstaller.installIfNeeded
+09-14 04:34:41.474 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:41.474 I/AIDMModelInit( 5830): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:34:41.474 I/AIDMModelInit( 5830): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:34:41.474 I/AIDMModelInit( 5830): diag onnx.exists=true size=1001708
+09-14 04:34:41.474 I/AIDMModelInit( 5830): diag sha.exists=true size=66
+09-14 04:34:41.565 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:43.004 I/AIDMModelInit( 5830): MainActivity onCreate
+09-14 04:34:43.008 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:43.008 I/AIDMModelInit( 5830): ModelInstaller.installIfNeeded result=true
+09-14 04:34:43.109 I/AIDMModelInit( 5830): gate starting ModelInstaller.installIfNeeded
+09-14 04:34:43.113 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 04:34:43.113 I/AIDMModelInit( 5830): gate ModelInstaller.installIfNeeded ok=true
+09-14 04:34:43.115 I/AIDMModelInit( 5830): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 04:34:43.119 I/AIDMModelInit( 5830): diag onnx.exists=true size=1001708
+09-14 04:34:43.119 I/AIDMModelInit( 5830): diag sha.exists=true size=66
+09-14 04:34:43.153 I/ModelInstaller( 5830): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:16:39.621 I/AIDMModelInit( 7208): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 05:16:39.727 I/ModelInstaller( 7208): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:16:39.727 I/AIDMModelInit( 7208): ModelInstaller.installIfNeeded from App ok=true
+09-14 05:16:39.887 I/AIDMModelInit( 7208): MainActivity onCreate
+09-14 05:16:39.895 I/ModelInstaller( 7208): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:16:39.896 I/AIDMModelInit( 7208): ModelInstaller.installIfNeeded result=true
+09-14 05:16:41.721 I/AIDMModelInit( 7208): gate starting ModelInstaller.installIfNeeded
+09-14 05:16:41.724 I/ModelInstaller( 7208): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:16:41.724 I/AIDMModelInit( 7208): gate ModelInstaller.installIfNeeded ok=true
+09-14 05:16:41.725 I/AIDMModelInit( 7208): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 05:16:41.725 I/AIDMModelInit( 7208): diag onnx.exists=true size=1001708
+09-14 05:16:41.725 I/AIDMModelInit( 7208): diag sha.exists=true size=66
+09-14 05:18:23.984 I/AIDMModelInit( 7942): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 05:18:23.994 I/ModelInstaller( 7942): unzipping models: assets/models.zip -> /data/user/0/com.aidestinymaster/files/models
+09-14 05:18:24.049 I/ModelInstaller( 7942): unzip completed: /data/user/0/com.aidestinymaster/files/models
+09-14 05:18:24.122 I/ModelInstaller( 7942): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:18:24.123 I/AIDMModelInit( 7942): ModelInstaller.installIfNeeded from App ok=true
+09-14 05:18:24.191 I/AIDMModelInit( 7942): MainActivity onCreate
+09-14 05:18:24.197 I/ModelInstaller( 7942): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:18:24.198 I/AIDMModelInit( 7942): ModelInstaller.installIfNeeded result=true
+09-14 05:18:25.666 I/AIDMModelInit( 7942): gate starting ModelInstaller.installIfNeeded
+09-14 05:18:25.671 I/ModelInstaller( 7942): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:18:25.671 I/AIDMModelInit( 7942): gate ModelInstaller.installIfNeeded ok=true
+09-14 05:18:25.682 I/AIDMModelInit( 7942): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 05:18:25.683 I/AIDMModelInit( 7942): diag onnx.exists=true size=1001708
+09-14 05:18:25.684 I/AIDMModelInit( 7942): diag sha.exists=true size=66
+09-14 05:22:11.957 I/AIDMModelInit( 8262): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 05:22:12.037 I/ModelInstaller( 8262): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:22:12.037 I/AIDMModelInit( 8262): ModelInstaller.installIfNeeded from App ok=true
+09-14 05:22:12.109 I/AIDMModelInit( 8262): MainActivity onCreate
+09-14 05:22:12.114 I/ModelInstaller( 8262): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:22:12.115 I/AIDMModelInit( 8262): ModelInstaller.installIfNeeded result=true
+09-14 05:22:13.833 I/AIDMModelInit( 8262): gate starting ModelInstaller.installIfNeeded
+09-14 05:22:13.849 I/ModelInstaller( 8262): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:22:13.849 I/AIDMModelInit( 8262): gate ModelInstaller.installIfNeeded ok=true
+09-14 05:22:13.852 I/AIDMModelInit( 8262): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 05:22:13.852 I/AIDMModelInit( 8262): diag onnx.exists=true size=1001708
+09-14 05:22:13.852 I/AIDMModelInit( 8262): diag sha.exists=true size=66
+09-14 05:29:26.120 I/AIDMModelInit( 8456): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 05:29:26.321 I/ModelInstaller( 8456): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:29:26.321 I/AIDMModelInit( 8456): ModelInstaller.installIfNeeded from App ok=true
+09-14 05:29:26.524 I/AIDMModelInit( 8456): MainActivity onCreate
+09-14 05:29:26.531 I/ModelInstaller( 8456): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:29:26.531 I/AIDMModelInit( 8456): ModelInstaller.installIfNeeded result=true
+09-14 05:29:28.952 I/AIDMModelInit( 8456): gate starting ModelInstaller.installIfNeeded
+09-14 05:29:28.958 I/ModelInstaller( 8456): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:29:28.958 I/AIDMModelInit( 8456): gate ModelInstaller.installIfNeeded ok=true
+09-14 05:29:28.959 I/AIDMModelInit( 8456): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 05:29:28.959 I/AIDMModelInit( 8456): diag onnx.exists=true size=1001708
+09-14 05:29:28.959 I/AIDMModelInit( 8456): diag sha.exists=true size=66
+09-14 05:39:16.774 I/AIDMModelInit( 8636): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 05:39:16.892 I/ModelInstaller( 8636): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:39:16.892 I/AIDMModelInit( 8636): ModelInstaller.installIfNeeded from App ok=true
+09-14 05:41:25.045 I/AIDMModelInit( 8636): MainActivity onCreate
+09-14 05:41:25.067 I/ModelInstaller( 8636): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:41:25.067 I/AIDMModelInit( 8636): ModelInstaller.installIfNeeded result=true
+09-14 05:41:27.240 I/AIDMModelInit( 8636): gate starting ModelInstaller.installIfNeeded
+09-14 05:41:27.262 I/ModelInstaller( 8636): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:41:27.262 I/AIDMModelInit( 8636): gate ModelInstaller.installIfNeeded ok=true
+09-14 05:41:27.266 I/AIDMModelInit( 8636): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 05:41:27.266 I/AIDMModelInit( 8636): diag onnx.exists=true size=1001708
+09-14 05:41:27.266 I/AIDMModelInit( 8636): diag sha.exists=true size=66
+09-14 05:49:43.395 I/AIDMModelInit( 8877): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 05:49:43.501 I/ModelInstaller( 8877): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:49:43.501 I/AIDMModelInit( 8877): ModelInstaller.installIfNeeded from App ok=true
+09-14 05:49:43.682 I/AIDMModelInit( 8877): MainActivity onCreate
+09-14 05:49:43.698 I/ModelInstaller( 8877): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:49:43.698 I/AIDMModelInit( 8877): ModelInstaller.installIfNeeded result=true
+09-14 05:49:45.734 I/AIDMModelInit( 8877): gate starting ModelInstaller.installIfNeeded
+09-14 05:49:45.736 I/ModelInstaller( 8877): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 05:49:45.736 I/AIDMModelInit( 8877): gate ModelInstaller.installIfNeeded ok=true
+09-14 05:49:45.736 I/AIDMModelInit( 8877): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 05:49:45.736 I/AIDMModelInit( 8877): diag onnx.exists=true size=1001708
+09-14 05:49:45.736 I/AIDMModelInit( 8877): diag sha.exists=true size=66
+09-14 06:02:56.178 I/AIDMModelInit( 9306): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 06:02:56.266 I/ModelInstaller( 9306): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:02:56.266 I/AIDMModelInit( 9306): ModelInstaller.installIfNeeded from App ok=true
+09-14 06:02:56.516 I/AIDMModelInit( 9306): MainActivity onCreate
+09-14 06:02:56.525 I/ModelInstaller( 9306): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:02:56.525 I/AIDMModelInit( 9306): ModelInstaller.installIfNeeded result=true
+09-14 06:02:59.392 I/AIDMModelInit( 9306): gate starting ModelInstaller.installIfNeeded
+09-14 06:02:59.401 I/ModelInstaller( 9306): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:02:59.401 I/AIDMModelInit( 9306): gate ModelInstaller.installIfNeeded ok=true
+09-14 06:02:59.404 I/AIDMModelInit( 9306): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 06:02:59.404 I/AIDMModelInit( 9306): diag onnx.exists=true size=1001708
+09-14 06:02:59.404 I/AIDMModelInit( 9306): diag sha.exists=true size=66
+09-14 06:44:00.922 I/AIDMModelInit(11217): onCreate start, filesDir=/data/user/0/com.aidestinymaster/files
+09-14 06:44:01.059 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:01.063 I/AIDMModelInit(11217): ModelInstaller.installIfNeeded from App ok=true
+09-14 06:44:01.293 I/AIDMModelInit(11217): MainActivity onCreate
+09-14 06:44:01.305 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:01.305 I/AIDMModelInit(11217): ModelInstaller.installIfNeeded result=true
+09-14 06:44:04.567 I/AIDMModelInit(11217): gate starting ModelInstaller.installIfNeeded
+09-14 06:44:04.571 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:04.571 I/AIDMModelInit(11217): gate ModelInstaller.installIfNeeded ok=true
+09-14 06:44:04.571 I/AIDMModelInit(11217): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 06:44:04.571 I/AIDMModelInit(11217): diag onnx.exists=true size=1001708
+09-14 06:44:04.572 I/AIDMModelInit(11217): diag sha.exists=true size=66
+09-14 06:44:23.757 I/AIDMModelInit(11217): MainActivity onCreate
+09-14 06:44:23.923 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:23.923 I/AIDMModelInit(11217): ModelInstaller.installIfNeeded result=true
+09-14 06:44:24.190 I/AIDMModelInit(11217): gate starting ModelInstaller.installIfNeeded
+09-14 06:44:24.203 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:24.203 I/AIDMModelInit(11217): gate ModelInstaller.installIfNeeded ok=true
+09-14 06:44:24.206 I/AIDMModelInit(11217): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 06:44:24.206 I/AIDMModelInit(11217): diag onnx.exists=true size=1001708
+09-14 06:44:24.206 I/AIDMModelInit(11217): diag sha.exists=true size=66
+09-14 06:44:35.834 I/AIDMModelInit(11217): MainActivity onCreate
+09-14 06:44:35.837 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:35.838 I/AIDMModelInit(11217): ModelInstaller.installIfNeeded result=true
+09-14 06:44:36.069 I/AIDMModelInit(11217): gate starting ModelInstaller.installIfNeeded
+09-14 06:44:36.074 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:36.074 I/AIDMModelInit(11217): gate ModelInstaller.installIfNeeded ok=true
+09-14 06:44:36.074 I/AIDMModelInit(11217): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 06:44:36.075 I/AIDMModelInit(11217): diag onnx.exists=true size=1001708
+09-14 06:44:36.075 I/AIDMModelInit(11217): diag sha.exists=true size=66
+09-14 06:44:44.147 I/AIDMModelInit(11217): MainActivity onCreate
+09-14 06:44:44.150 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:44.150 I/AIDMModelInit(11217): ModelInstaller.installIfNeeded result=true
+09-14 06:44:45.205 I/AIDMModelInit(11217): gate starting ModelInstaller.installIfNeeded
+09-14 06:44:45.211 I/ModelInstaller(11217): validateModelChecksum=true file=tinyllama-q8.onnx
+09-14 06:44:45.211 I/AIDMModelInit(11217): gate ModelInstaller.installIfNeeded ok=true
+09-14 06:44:45.211 I/AIDMModelInit(11217): diag modelsDir=/data/user/0/com.aidestinymaster/files/models exists=true list=tokenizer\chat_template.jinja, tokenizer\special_tokens_map.json, tokenizer\tokenizer.json, tokenizer\tokenizer_config.json, tinyllama-q8.onnx, tinyllama-q8.onnx.sha256
+09-14 06:44:45.211 I/AIDMModelInit(11217): diag onnx.exists=true size=1001708
+09-14 06:44:45.211 I/AIDMModelInit(11217): diag sha.exists=true size=66

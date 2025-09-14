@@ -14,25 +14,25 @@ import androidx.compose.ui.text.font.FontFamily
 import android.graphics.Typeface
 
 private val LightColors = lightColorScheme(
-    primary = Color(0xFF3D5AFE),
+    primary = Color(0xFF8B6A2E), // muted gold for light theme
     onPrimary = Color.White,
-    secondary = Color(0xFF26C6DA),
-    onSecondary = Color.Black,
-    background = Color(0xFFF7F7F7),
-    onBackground = Color(0xFF111111),
-    surface = Color.White,
-    onSurface = Color(0xFF111111)
+    secondary = Color(0xFF3D5AFE),
+    onSecondary = Color.White,
+    background = Color(0xFFF8FAFF),
+    onBackground = Color(0xFF10131A),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF10131A)
 )
 
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF8AB4F8),
-    onPrimary = Color.Black,
-    secondary = Color(0xFF80DEEA),
-    onSecondary = Color.Black,
-    background = Color(0xFF121212),
-    onBackground = Color(0xFFEFEFEF),
-    surface = Color(0xFF1E1E1E),
-    onSurface = Color(0xFFEFEFEF)
+    primary = Color(0xFFC9A46A), // brand gold
+    onPrimary = Color(0xFF0A0A0A),
+    secondary = Color(0xFF9BB6FF),
+    onSecondary = Color(0xFF0A0F18),
+    background = Color(0xFF10131A), // deep space
+    onBackground = Color(0xFFEDEFF6),
+    surface = Color(0xFF151A23), // elevated surface
+    onSurface = Color(0xFFEDEFF6)
 )
 
 private fun cjkFontFamily(): FontFamily {
@@ -76,12 +76,30 @@ private val AppTypography = Typography(
 )
 private val AppShapes = Shapes()
 
+private fun Typography.scaled(scale: Float): Typography = Typography(
+    displayLarge = displayLarge.copy(fontSize = (displayLarge.fontSize.value * scale).sp),
+    displayMedium = displayMedium.copy(fontSize = (displayMedium.fontSize.value * scale).sp),
+    displaySmall = displaySmall.copy(fontSize = (displaySmall.fontSize.value * scale).sp),
+    headlineLarge = headlineLarge.copy(fontSize = (headlineLarge.fontSize.value * scale).sp),
+    headlineMedium = headlineMedium.copy(fontSize = (headlineMedium.fontSize.value * scale).sp),
+    headlineSmall = headlineSmall.copy(fontSize = (headlineSmall.fontSize.value * scale).sp),
+    titleLarge = titleLarge.copy(fontSize = (titleLarge.fontSize.value * scale).sp),
+    titleMedium = titleMedium.copy(fontSize = (titleMedium.fontSize.value * scale).sp),
+    titleSmall = titleSmall.copy(fontSize = (titleSmall.fontSize.value * scale).sp),
+    bodyLarge = bodyLarge.copy(fontSize = (bodyLarge.fontSize.value * scale).sp),
+    bodyMedium = bodyMedium.copy(fontSize = (bodyMedium.fontSize.value * scale).sp),
+    bodySmall = bodySmall.copy(fontSize = (bodySmall.fontSize.value * scale).sp),
+    labelLarge = labelLarge.copy(fontSize = (labelLarge.fontSize.value * scale).sp),
+    labelMedium = labelMedium.copy(fontSize = (labelMedium.fontSize.value * scale).sp),
+    labelSmall = labelSmall.copy(fontSize = (labelSmall.fontSize.value * scale).sp),
+)
+
 @Composable
-fun AppTheme(darkTheme: Boolean, content: @Composable () -> Unit) {
+fun AppTheme(darkTheme: Boolean, fontScale: Float = 1.0f, content: @Composable () -> Unit) {
     val colors = if (darkTheme) DarkColors else LightColors
     MaterialTheme(
         colorScheme = colors,
-        typography = AppTypography,
+        typography = AppTypography.scaled(fontScale),
         shapes = AppShapes,
         content = content
     )

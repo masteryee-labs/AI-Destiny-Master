@@ -37,3 +37,7 @@
 Thumbs.db
 .idea/
 *.iml
+
+# Local OAuth/Google client secret files (never commit)
+client_secret_*.json
+**/client_secret_*.json

@@ -29,6 +29,14 @@ android {
         // Allow override via -PAD_APP_ID or gradle.properties (AD_APP_ID), fallback to Google test App ID for debug/dev
         val adAppId = (project.findProperty("AD_APP_ID") as String?) ?: "ca-app-pub-3940256099942544~3347511713"
         manifestPlaceholders["AD_APP_ID"] = adAppId
+
+        // Legal pages (can be overridden from gradle.properties)
+        val privacyUrl = (project.findProperty("PRIVACY_URL") as String?)
+            ?: "https://aidestinymaster.com/privacy"
+        val termsUrl = (project.findProperty("TERMS_URL") as String?)
+            ?: "https://aidestinymaster.com/terms"
+        buildConfigField("String", "PRIVACY_URL", "\"$privacyUrl\"")
+        buildConfigField("String", "TERMS_URL", "\"$termsUrl\"")
     }
 
     buildFeatures {
@@ -71,6 +79,7 @@ android {
         jvmTarget = "17"
     }
 
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -92,6 +101,8 @@ android {
             buildConfigField("String", "ADMOB_REWARDED_INTERSTITIAL_ID", "\"$rewardedInterId\"")
             val webClientId = (project.findProperty("GOOGLE_WEB_CLIENT_ID") as String?) ?: ""
             buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$webClientId\"")
+            // Hide debug UI; release should not show
+            buildConfigField("boolean", "SHOW_DEBUG_UI", "false")
         }
         getByName("debug") {
             // Keep debug readable; optional minify can be off
@@ -102,7 +113,10 @@ android {
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-3940256099942544/5224354917\"")
             buildConfigField("String", "ADMOB_REWARDED_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/5354046379\"")
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"\"")
+            val webClientId = (project.findProperty("GOOGLE_WEB_CLIENT_ID") as String?) ?: ""
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$webClientId\"")
+            // Debug mirrors Release UX; fully hide debug-only controls
+            buildConfigField("boolean", "SHOW_DEBUG_UI", "false")
         }
     }
 }
@@ -117,6 +131,8 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     // Compose Material Icons (use BOM-managed version)
     implementation("androidx.compose.material:material-icons-extended")
+    // LiveData interop for compose observeAsState
+    implementation("androidx.compose.runtime:runtime-livedata")
 
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.datastore.preferences)
@@ -138,6 +154,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":sync"))
     implementation(project(":billing"))
+    implementation(project(":core:ai"))
     implementation(project(":features:bazi"))
     implementation(project(":features:design"))
     implementation(project(":features:mix-ai"))
@@ -147,6 +164,10 @@ dependencies {
     implementation(libs.google.billing.ktx)
     implementation(libs.google.play.services.ads)
     implementation(libs.kotlinx.serialization.json)
+    // In-App Review
+    implementation("com.google.android.play:review:2.0.1")
+    // AppCompat for per-app locales
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

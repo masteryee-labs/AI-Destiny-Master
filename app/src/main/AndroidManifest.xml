@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,31 +8,101 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-    <application android:fullBackupContent="@xml/backup_rules"
+    <application
+        android:fullBackupContent="@xml/backup_rules"
         android:allowBackup="true"
         android:label="AIDestinyMaster"
-        android:supportsRtl="true">
-        <!-- AdMob App ID（使用 Gradle manifestPlaceholders 提供；Debug 採用 Google 測試 ID） -->
+        android:debuggable="true"
+        android:supportsRtl="true"
+        android:extractNativeLibs="false"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:name="com.aidestinymaster.app.AIDMApp"
+        android:theme="@style/Theme.AIDM"
+        android:enableOnBackInvokedCallback="true">
+        <!-- Google Mobile Ads App ID (Debug sample, hardcoded to ensure provider finds it) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="${AD_APP_ID}" />
-        <activity android:name="com.aidestinymaster.app.MainActivity" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <!-- Deep link for BaZi debug screen -->
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+        <!-- Keep default MobileAdsInitProvider; ensure APPLICATION_ID meta-data is provided above -->
+        <activity
+            android:name="com.aidestinymaster.app.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <!-- Handle custom deep links like aidm://home, aidm://settings, aidm://entry/astro, etc. -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="aidm" android:host="bazi" />
+                <data android:scheme="aidm" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep link for Home screen -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="home" />
+            </intent-filter>
+            <!-- Deep link for Settings screen -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="aidm" android:host="settings" />
+            </intent-filter>
+            <!-- Deep links for Entry screens -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="entry" android:pathPrefix="/astro" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="entry" android:pathPrefix="/bazi" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="entry" android:pathPrefix="/ziwei" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="entry" android:pathPrefix="/design" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="entry" android:pathPrefix="/iching" />
+            </intent-filter>
+            <!-- Deep links for charts & reports -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="chartInput" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="chartResult" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="aidm" android:host="report" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

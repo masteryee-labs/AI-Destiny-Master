@@ -21,6 +21,15 @@ import androidx.navigation.NavController
 import com.aidestinymaster.app.nav.Routes
 import com.aidestinymaster.data.db.DatabaseProvider
 import kotlinx.coroutines.launch
+import androidx.compose.material3.Card
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.ui.res.painterResource
+import androidx.compose.material3.Icon
+import androidx.compose.ui.res.stringResource
+import com.aidestinymaster.app.R
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ReportFavoritesScreen(activity: ComponentActivity, nav: NavController) {
@@ -52,17 +61,33 @@ fun ReportFavoritesScreen(activity: ComponentActivity, nav: NavController) {
         }
         Spacer(Modifier.height(8.dp))
         items.forEach { r ->
-            Row(Modifier.fillMaxWidth().padding(8.dp)) {
-                Checkbox(checked = selected.contains(r.id), onCheckedChange = { checked ->
-                    if (checked) selected.add(r.id) else selected.remove(r.id)
-                })
-                Column(Modifier.weight(1f)) {
-                    Text(r.title, style = MaterialTheme.typography.titleMedium)
-                    Text(r.summary, maxLines = 2)
+            Card(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                Column(Modifier.padding(0.dp)) {
+                    androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                    Row(Modifier.fillMaxWidth().padding(12.dp)) {
+                        Checkbox(checked = selected.contains(r.id), onCheckedChange = { checked ->
+                            if (checked) selected.add(r.id) else selected.remove(r.id)
+                        })
+                        Column(Modifier.weight(1f)) {
+                            Text(r.title, style = MaterialTheme.typography.titleMedium)
+                            Text(r.summary, maxLines = 2)
+                        }
+                        Text(stringResource(id = R.string.open), modifier = Modifier.clickable { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }.padding(8.dp))
+                    }
                 }
-                Text("檢視", modifier = Modifier.clickable { nav.navigate(Routes.Report.replace("{reportId}", r.id)) }.padding(8.dp))
             }
         }
-        if (items.isEmpty()) Text("No favorites")
+        if (items.isEmpty()) {
+            Card(Modifier.fillMaxWidth().wrapContentHeight().padding(top = 8.dp)) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Icon(painter = painterResource(id = R.drawable.ic_onboarding_check), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    Text(text = stringResource(id = R.string.favorites))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Button(onClick = { nav.navigate(Routes.Home) }) { Text(stringResource(id = R.string.home_title)) }
+                        Button(onClick = { nav.navigate(Routes.ChartInput.replace("{kind}", "natal")) }) { Text(stringResource(id = R.string.home_quick_chart)) }
+                    }
+                }
+            }
+        }
     }
 }

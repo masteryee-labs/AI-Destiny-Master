@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +51,7 @@ fun AstroChartCanvas(
 
     Canvas(modifier = modifier
         .fillMaxWidth()
+        .semantics { this.contentDescription = "astrochart_canvas" }
         .pointerInput(Unit) {
             detectTransformGestures { _, panChange, zoomChange, _ ->
                 pan += panChange

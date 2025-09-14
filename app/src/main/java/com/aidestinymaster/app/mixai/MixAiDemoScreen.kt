@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
@@ -42,6 +43,10 @@ import androidx.work.OneTimeWorkRequestBuilder
 import com.aidestinymaster.app.work.AiReportWorker
 import androidx.compose.material3.OutlinedTextField
 import java.util.Locale
+import androidx.compose.material3.Card
+import androidx.compose.foundation.background
+import com.aidestinymaster.app.ui.DesignTokens
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun MixAiDemoScreen(activity: ComponentActivity) {
@@ -61,215 +66,227 @@ fun MixAiDemoScreen(activity: ComponentActivity) {
     var localeText by remember { mutableStateOf(java.util.Locale.TAIWAN.toLanguageTag()) }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+        modifier = Modifier.fillMaxSize().padding(DesignTokens.Spacing.L.dp),
+        verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.M.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        Text("Mix-AI Demo", style = MaterialTheme.typography.titleLarge)
-        Spacer(Modifier.height(12.dp))
-
-        Button(onClick = {
-            // 以固定時間生成 Design 資料
-            val instant = java.time.Instant.ofEpochSecond(1_700_000_000)
-            designVm.updateFromStub(instant)
-            val ds = designVm.state.summary
-            if (ds != null) {
-                val mixed = mixVm.buildMixedFromDesign(ds)
-                val prompt = PromptBuilder.buildPrompt(mixed, Locale.TAIWAN)
-                promptState.value = prompt
-            }
-        }) {
-            Text("使用目前 Design 產出 Prompt（預覽）")
-        }
-
-        Spacer(Modifier.height(16.dp))
-
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = {
-                val summary = designVm.state.summary
-                if (summary != null) {
-                    val mixed = MixedSummary(design = summary)
-                    prompt = PromptBuilder.buildPrompt(mixed, Locale.TAIWAN)
-                }
-            }) { Text("產生 Design Prompt") }
-
-            Button(onClick = {
-                val d = designVm.state.summary
-                if (d != null) {
-                    // 以固定時間快速生成 Ziwei（示意）
-                    val birth = java.time.ZonedDateTime.now(java.time.ZoneId.of("Asia/Taipei")).minusYears(20)
-                    val zChart = ZiweiCalculator.computeZiweiChart(birth)
-                    val zSummary: ZiweiSummary = ZiweiCalculator.summarizeZiwei(zChart)
-                    // Iching 取現在時刻
-                    val now = java.time.ZonedDateTime.now(java.time.ZoneId.of("Asia/Taipei"))
-                    val hex = IchingEngine.castHexagramByTime(now)
-                    val ich = IchingEngine.interpretHexagram(hex, activity)
-                    val ichingBlock = buildString {
-                        appendLine(ich.title)
-                        ich.trend?.let { appendLine("trend: $it") }
-                        ich.notice?.let { appendLine("notice: $it") }
-                        if (ich.tips.isNotEmpty()) {
-                            appendLine("advice:")
-                            ich.tips.forEach { t -> appendLine("- $t") }
+        // 標題 + 以 Design 生成 Prompt（預覽）
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("Mix-AI Demo", style = MaterialTheme.typography.titleLarge)
+                    Button(onClick = {
+                        val instant = java.time.Instant.ofEpochSecond(1_700_000_000)
+                        designVm.updateFromStub(instant)
+                        val ds = designVm.state.summary
+                        if (ds != null) {
+                            val mixed = mixVm.buildMixedFromDesign(ds)
+                            val p = PromptBuilder.buildPrompt(mixed, Locale.TAIWAN)
+                            promptState.value = p
                         }
-                    }.trim()
-
-                    // Astro 使用固定 instant/lat/lon
-                    val instant = java.time.Instant.ofEpochSecond(1_700_000_000)
-                    val lat = 25.04; val lon = 121.56
-                    val planets = AstroCalculator.computePlanets(instant, lat, lon)
-                    val aspects = AstroCalculator.computeAspects(planets)
-                    val natalStub = buildString {
-                        appendLine("planets:")
-                        planets.longitudes.forEach { (name, deg) -> appendLine("- $name: ${"%.1f".format(deg)}°") }
-                        appendLine("aspects:")
-                        aspects.take(8).forEach { a -> appendLine("- ${a.p1}-${a.p2} ${a.type}° orb=${"%.1f".format(a.orb)}°") }
-                    }.trim()
-
-                    val mixed = MixedSummary(
-                        design = d,
-                        ziwei = zSummary,
-                        iching = ichingBlock,
-                        natal = com.aidestinymaster.features.mix_ai.NatalSummary(stub = natalStub)
-                    )
-                    promptMixed = PromptBuilder.buildPrompt(mixed, Locale.TAIWAN)
+                    }) { Text("使用目前 Design 產出 Prompt（預覽）") }
                 }
-            }) { Text("合併 Ziwei + Design 產出 Prompt") }
+            }
+        }
 
-            Button(onClick = {
-                // 使用本機 ONNX 引擎（Stub）生成：將現有 Prompt 串流輸出至下方
-                val base = when {
-                    promptMixed.isNotBlank() -> promptMixed
-                    prompt.isNotBlank() -> prompt
-                    else -> "Hello from AIDestinyMaster"
-                }
-                val modelPath = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx").absolutePath
-                val tokenizerPath = java.io.File(activity.filesDir, "models/tokenizer").absolutePath
-                val engine = OnnxAiEngine(activity, modelPath, tokenizerPath)
-                onnxOutput = ""
-                onnxRunning = true
-                scope.launch {
-                    engine.generateStreaming(base, maxTokens = 200, temperature = 0.7f, topP = 0.9f) { chunk ->
-                        onnxOutput += chunk
-                    }
-                    onnxRunning = false
-                }
-            }) { Text(if (onnxRunning) "ONNX 生成中…" else "使用本機 ONNX 引擎生成（Stub）") }
+        // 產生 Design Prompt、合併 Ziwei + Design
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        Button(onClick = {
+                            val summary = designVm.state.summary
+                            if (summary != null) {
+                                val mixed = MixedSummary(design = summary)
+                                prompt = PromptBuilder.buildPrompt(mixed, Locale.TAIWAN)
+                            }
+                        }) { Text("產生 Design Prompt") }
 
-            Button(onClick = {
-                // 校驗模型 SHA（若有 .sha256 檔）
-                val model = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx")
-                val shaFile = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx.sha256")
-                val engine = OnnxAiEngine(activity, model.absolutePath, java.io.File(activity.filesDir, "models/tokenizer").absolutePath)
-                checksumStatus = if (model.exists() && shaFile.exists()) {
-                    val exp = runCatching { shaFile.readText().trim() }.getOrNull().orEmpty()
-                    if (exp.isNotBlank()) {
-                        val ok = engine.validateModelChecksum(exp)
-                        if (ok) "SHA 檢核通過" else "SHA 不一致"
-                    } else "SHA 檔為空"
-                } else "模型或 SHA 檔不存在"
-            }) { Text("校驗模型 SHA") }
-
-            Button(onClick = {
-                // 列出 ORT Session 的輸入/輸出名稱，方便貼回給我完成真實推理 loop
-                val modelPath = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx").absolutePath
-                val engine = OnnxAiEngine(activity, modelPath, java.io.File(activity.filesDir, "models/tokenizer").absolutePath)
-                val info = engine.getSessionInfo()
-                ortIoInfo = if (info == null) {
-                    "Session 尚未就緒（可能找不到 ONNX 檔）"
-                } else {
-                    val (ins, outs) = info
-                    buildString {
-                        appendLine("Inputs:")
-                        ins.forEach { appendLine("- $it") }
-                        appendLine("Outputs:")
-                        outs.forEach { appendLine("- $it") }
+                        Button(onClick = {
+                            val d = designVm.state.summary
+                            if (d != null) {
+                                val birth = java.time.ZonedDateTime.now(java.time.ZoneId.of("Asia/Taipei")).minusYears(20)
+                                val zChart = ZiweiCalculator.computeZiweiChart(birth)
+                                val zSummary: ZiweiSummary = ZiweiCalculator.summarizeZiwei(zChart)
+                                val now = java.time.ZonedDateTime.now(java.time.ZoneId.of("Asia/Taipei"))
+                                val hex = IchingEngine.castHexagramByTime(now)
+                                val ich = IchingEngine.interpretHexagram(hex, activity)
+                                val ichingBlock = buildString {
+                                    appendLine(ich.title)
+                                    ich.trend?.let { appendLine("trend: $it") }
+                                    ich.notice?.let { appendLine("notice: $it") }
+                                    if (ich.tips.isNotEmpty()) { appendLine("advice:"); ich.tips.forEach { t -> appendLine("- $t") } }
+                                }.trim()
+                                val instant = java.time.Instant.ofEpochSecond(1_700_000_000)
+                                val lat = 25.04; val lon = 121.56
+                                val planets = AstroCalculator.computePlanets(instant, lat, lon)
+                                val aspects = AstroCalculator.computeAspects(planets)
+                                val natalStub = buildString {
+                                    appendLine("planets:")
+                                    planets.longitudes.forEach { (name, deg) -> appendLine("- ${'$'}name: ${"%.1f".format(deg)}°") }
+                                    appendLine("aspects:")
+                                    aspects.take(8).forEach { a -> appendLine("- ${'$'}{a.p1}-${'$'}{a.p2} ${'$'}{a.type}° orb=${"%.1f".format(a.orb)}°") }
+                                }.trim()
+                                val mixed = MixedSummary(design = d, ziwei = zSummary, iching = ichingBlock, natal = com.aidestinymaster.features.mix_ai.NatalSummary(stub = natalStub))
+                                promptMixed = PromptBuilder.buildPrompt(mixed, Locale.TAIWAN)
+                            }
+                        }) { Text("合併 Ziwei + Design 產出 Prompt") }
                     }
                 }
-            }) { Text("列出 ORT IO") }
+            }
+        }
 
-            Button(onClick = {
-                // 列出 ORT IO 型別與維度
-                val modelPath = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx").absolutePath
-                val engine = OnnxAiEngine(activity, modelPath, java.io.File(activity.filesDir, "models/tokenizer").absolutePath)
-                val info = engine.getSessionIOInfo()
-                ortIoDetail = if (info == null) {
-                    "Session 尚未就緒（可能找不到 ONNX 檔）"
-                } else {
-                    val (ins, outs) = info
-                    buildString {
-                        appendLine("Input Details:")
-                        ins.forEach { (k, v) -> appendLine("- $k = $v") }
-                        appendLine("Output Details:")
-                        outs.forEach { (k, v) -> appendLine("- $k = $v") }
+        // ONNX 生成 / 模型校驗 / IO 列表 / IO 型別（分卡）
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Button(onClick = {
+                        val base = when {
+                            promptMixed.isNotBlank() -> promptMixed
+                            prompt.isNotBlank() -> prompt
+                            else -> "Hello from AIDestinyMaster"
+                        }
+                        val modelPath = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx").absolutePath
+                        val tokenizerPath = java.io.File(activity.filesDir, "models/tokenizer").absolutePath
+                        val engine = OnnxAiEngine(activity, modelPath, tokenizerPath)
+                        onnxOutput = ""; onnxRunning = true
+                        scope.launch {
+                            engine.generateStreaming(base, maxTokens = 200, temperature = 0.7f, topP = 0.9f) { chunk -> onnxOutput += chunk }
+                            onnxRunning = false
+                        }
+                    }) { Text(if (onnxRunning) "ONNX 生成中…" else "使用本機 ONNX 引擎生成（Stub）") }
+                }
+            }
+        }
+
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Button(onClick = {
+                        val model = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx")
+                        val shaFile = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx.sha256")
+                        val engine = OnnxAiEngine(activity, model.absolutePath, java.io.File(activity.filesDir, "models/tokenizer").absolutePath)
+                        checksumStatus = if (model.exists() && shaFile.exists()) {
+                            val exp = runCatching { shaFile.readText().trim() }.getOrNull().orEmpty()
+                            if (exp.isNotBlank()) {
+                                val ok = engine.validateModelChecksum(exp)
+                                if (ok) "SHA 檢核通過" else "SHA 不一致"
+                            } else "SHA 檔為空"
+                        } else "模型或 SHA 檔不存在"
+                    }) { Text("校驗模型 SHA") }
+                }
+            }
+        }
+
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Button(onClick = {
+                        val modelPath = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx").absolutePath
+                        val engine = OnnxAiEngine(activity, modelPath, java.io.File(activity.filesDir, "models/tokenizer").absolutePath)
+                        val info = engine.getSessionInfo()
+                        ortIoInfo = if (info == null) "Session 尚未就緒（可能找不到 ONNX 檔)" else {
+                            val (ins, outs) = info
+                            buildString {
+                                appendLine("Inputs:")
+                                ins.forEach { name -> appendLine("- ${'$'}name") }
+                                appendLine("Outputs:")
+                                outs.forEach { name -> appendLine("- ${'$'}name") }
+                            }
+                        }
+                    }) { Text("列出 ORT IO") }
+                    if (ortIoInfo.isNotBlank()) Text(ortIoInfo, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                }
+            }
+        }
+
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Button(onClick = {
+                        val modelPath = java.io.File(activity.filesDir, "models/tinyllama-q8.onnx").absolutePath
+                        val engine = OnnxAiEngine(activity, modelPath, java.io.File(activity.filesDir, "models/tokenizer").absolutePath)
+                        val info = engine.getSessionIOInfo()
+                        ortIoDetail = if (info == null) "Session 尚未就緒（可能找不到 ONNX 檔)" else {
+                            val (ins, outs) = info
+                            buildString {
+                                appendLine("Input Details:")
+                                ins.forEach { (k, v) -> appendLine("- ${'$'}k = ${'$'}v") }
+                                appendLine("Output Details:")
+                                outs.forEach { (k, v) -> appendLine("- ${'$'}k = ${'$'}v") }
+                            }
+                        }
+                    }) { Text("列出 IO 型別與維度") }
+                    if (ortIoDetail.isNotBlank()) Text(ortIoDetail, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                }
+            }
+        }
+
+        // WorkManager 排程
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("排程背景生成（WorkManager）", style = MaterialTheme.typography.titleMedium)
+                    OutlinedTextField(value = chartIdsText, onValueChange = { chartIdsText = it }, label = { Text("chartIds（以逗號分隔）") }, modifier = Modifier.fillMaxWidth())
+                    Row(horizontalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                        OutlinedTextField(value = modeText, onValueChange = { modeText = it }, label = { Text("mode") })
+                        OutlinedTextField(value = localeText, onValueChange = { localeText = it }, label = { Text("locale tag") })
+                    }
+                    Button(onClick = {
+                        val ids = chartIdsText.split(',').map { it.trim() }.filter { it.isNotEmpty() }
+                        val data = workDataOf(
+                            AiReportWorker.KEY_CHART_IDS to ids.toTypedArray(),
+                            AiReportWorker.KEY_MODE to modeText,
+                            AiReportWorker.KEY_LOCALE to localeText
+                        )
+                        val req = OneTimeWorkRequestBuilder<AiReportWorker>().setInputData(data).build()
+                        WorkManager.getInstance(activity).enqueue(req)
+                    }) { Text("排程背景生成") }
+                }
+            }
+        }
+
+        // Prompt 預覽
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(0.dp)) {
+                androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(3.dp).background(MaterialTheme.colorScheme.primary))
+                Column(Modifier.padding(DesignTokens.Spacing.M.dp), verticalArrangement = Arrangement.spacedBy(DesignTokens.Spacing.S.dp)) {
+                    Text("Prompt 預覽：", style = MaterialTheme.typography.titleMedium)
+                    Box(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+                        Text(promptState.value.ifBlank { "尚未產生，請點擊上方按鈕" })
+                    }
+                    if (prompt.isNotBlank()) {
+                        Text("Design Prompt 預覽：", style = MaterialTheme.typography.titleSmall)
+                        Text(prompt, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                    }
+                    if (promptMixed.isNotBlank()) {
+                        Text("Mixed Prompt 預覽（Ziwei + Design）：", style = MaterialTheme.typography.titleSmall)
+                        Text(promptMixed, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                    }
+                    if (onnxOutput.isNotBlank()) {
+                        Text("ONNX Stub 串流輸出：", style = MaterialTheme.typography.titleSmall)
+                        Text(onnxOutput, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                    }
+                    if (checksumStatus.isNotBlank()) {
+                        Text("模型校驗：${'$'}checksumStatus", style = MaterialTheme.typography.bodySmall)
+                    }
+                    if (ortIoInfo.isNotBlank()) {
+                        Text("ORT IO：", style = MaterialTheme.typography.titleSmall)
+                        Text(ortIoInfo, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                    }
+                    if (ortIoDetail.isNotBlank()) {
+                        Text("ORT IO 型別與維度：", style = MaterialTheme.typography.titleSmall)
+                        Text(ortIoDetail, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
                     }
                 }
-            }) { Text("列出 IO 型別與維度") }
-        }
-
-        if (prompt.isNotBlank()) {
-            Text("Design Prompt 預覽：", style = MaterialTheme.typography.titleSmall)
-            Text(prompt, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
-        }
-
-        if (promptMixed.isNotBlank()) {
-            Spacer(Modifier.height(8.dp))
-            Text("Mixed Prompt 預覽（Ziwei + Design）：", style = MaterialTheme.typography.titleSmall)
-            Text(promptMixed, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
-        }
-
-        if (onnxOutput.isNotBlank()) {
-            Spacer(Modifier.height(8.dp))
-            Text("ONNX Stub 串流輸出：", style = MaterialTheme.typography.titleSmall)
-            Text(onnxOutput, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
-        }
-
-        if (checksumStatus.isNotBlank()) {
-            Spacer(Modifier.height(8.dp))
-            Text("模型校驗：$checksumStatus", style = MaterialTheme.typography.bodySmall)
-        }
-
-        if (ortIoInfo.isNotBlank()) {
-            Spacer(Modifier.height(8.dp))
-            Text("ORT IO：", style = MaterialTheme.typography.titleSmall)
-            Text(ortIoInfo, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
-        }
-
-        if (ortIoDetail.isNotBlank()) {
-            Spacer(Modifier.height(8.dp))
-            Text("ORT IO 型別與維度：", style = MaterialTheme.typography.titleSmall)
-            Text(ortIoDetail, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
-        }
-
-        Spacer(Modifier.height(16.dp))
-        Text("排程背景生成（WorkManager）：", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            value = chartIdsText,
-            onValueChange = { chartIdsText = it },
-            label = { Text("chartIds（以逗號分隔）") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(value = modeText, onValueChange = { modeText = it }, label = { Text("mode") })
-            OutlinedTextField(value = localeText, onValueChange = { localeText = it }, label = { Text("locale tag") })
-        }
-        Button(onClick = {
-            val ids = chartIdsText.split(',').map { it.trim() }.filter { it.isNotEmpty() }
-            val data = workDataOf(
-                AiReportWorker.KEY_CHART_IDS to ids.toTypedArray(),
-                AiReportWorker.KEY_MODE to modeText,
-                AiReportWorker.KEY_LOCALE to localeText
-            )
-            val req = OneTimeWorkRequestBuilder<AiReportWorker>().setInputData(data).build()
-            WorkManager.getInstance(activity).enqueue(req)
-        }) { Text("排程背景生成") }
-
-        Spacer(Modifier.height(16.dp))
-        Text("Prompt 預覽：", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
-        Box(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
-            Text(promptState.value.ifBlank { "尚未產生，請點擊上方按鈕" })
+            }
         }
     }
 }

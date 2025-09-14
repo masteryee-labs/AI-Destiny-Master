@@ -66,7 +66,7 @@
   - [x] 測試組建：`./gradlew assembleDebug`
   - [x] 測試安裝：`adb install -r app/build/outputs/apk/debug/app-debug.apk`
   - [x] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
-- [ ] 建立資料層（Room + DataStore）
+- [x] 建立資料層（Room + DataStore）
   - [x] 在 `:data` 模組建立 Entity
     - [x] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
     - [x] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
@@ -94,7 +94,7 @@
     - [x] `UserRepository`：`toggleSync(enabled)`, `setLanguage(lang)`
   - [x] 設定 DataStore Preferences
     - [x] keys：`PREF_LANG`, `PREF_THEME`, `PREF_NOTIF_ENABLED`, `PREF_SYNC_ENABLED`
-- [ ] 建立曆法/八字引擎（:core:lunar）
+- [x] 建立曆法/八字引擎（:core:lunar）
   - [x] 引入 `lunar-java`（MIT）
   - [x] 建立 `BaziCalculator.kt`
     - [x] `fun computeBazi(birthZonedDateTime: ZonedDateTime): BaziResult`
@@ -119,7 +119,7 @@
     - [x] `fun buildNatalChart(input: BirthInput): NatalChart`
     - [x] `fun summarizeNatal(natal: NatalChart): NatalSummary`
   - [x] 單元測試：固定日期/地點比對行星經度與相位
-- [x] 建立人類圖（天賦設計圖）引擎（:features:design）
+- [x] 建立人類圖（能量圖）引擎（:features:design）
   - [x] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
   - [x] 建立 `DesignMapper.kt`
     - [x] `fun mapPlanetsToGates(planets: PlanetPositions): GateAssignments`
@@ -152,7 +152,7 @@
   - [x] 建立 `MixAnalysisViewModel.kt`
     - [x] `fun requestAiReport(chartIds: List<String>, mode: MixMode): LiveData<ReportId>`
 - [ ] AI 子系統（:core:ai，ONNX Runtime Mobile）
-  - [ ] 準備 LLM 權重（TinyLlama-1.1B-Chat 或等價，開源授權允許商用）
+  - [x] 準備 LLM 權重（TinyLlama-1.1B-Chat 或等價，開源授權允許商用）
   - [x] 於開發機撰寫轉換腳本 `scripts/export_to_onnx.py`（離線執行）
     - [x] 下載原始權重（離線保存，不提交到倉庫）
     - [x] 使用 `transformers` + `optimum` 匯出 ONNX（腳本骨架已就緒）
@@ -177,30 +177,41 @@
     - [x] 運行時間超過門檻時切換為前景服務通知
   - [x] 完成後推送本地通知（點擊導向 Report 詳情頁）
   - [x] 測試「滑掉 App」後任務不中斷情境
-- [ ] UI/UX（Jetpack Compose）
+- [x] UI/UX（Jetpack Compose）
   - [x] 建立主題 `Theme.kt`（顏色、字體、形狀）
-  - [ ] Onboarding 流程
+  - [x] Onboarding 流程
     - [x] `@Composable OnboardingScreen()`（同意條款與隱私、導入出生資料）
-  - [ ] 主頁
+  - [x] 主頁
     - [x] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
     - [x] Home 收藏卡區與搜尋（前 5 筆 + 快速開啟）
-  - [ ] 輸入頁
+  - [x] 輸入頁
     - [x] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
-  - [ ] 結果頁
+  - [x] 結果頁
     - [x] @Composable ReportScreen(reportId)（支援分享/收藏/加註）
     - [x] ReportScreen 以 Flow 觀察資料（observeById）
     - [x] ReportScreen：Push/Pull 按鈕與狀態顯示
     - [x] 收藏清單頁與搜尋（ReportFavoritesScreen）
+    - [x] ChartResultScreen：解鎖更多功能入口（PaywallSheet）
+    - [x] ReportScreen：生成 AI 詳解按鈕與即時內容串流（WorkManager + Flow）
+    - [x] ReportScreen：AI 進度條與段落剩餘估算（LinearProgressIndicator + N/M）
+    - [x] ReportScreen：進度條動畫與顏色切換（>80% 使用成功色）
+    - [x] ReportScreen：章節數選擇器（生成粒度 6/8/10/12）
+    - [x] ReportScreen：章節選擇說明（i）與展開詳解（啟發式解析/章節 token 與使用時機）
   - [x] Demo：`@Composable MixAiDemoScreen()`（以現有 Design 摘要生成 Prompt 預覽）
   - [x] 導航新增路由 `Routes.MixAiDemo` 與深連結 `aidm://mixai`
   - [x] BodyGraph 互動與美化（縮放/拖曳/點擊 Tooltip）
-  - [ ] 付費牆/解鎖
-    - [ ] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
-  - [ ] 點數與廣告彈窗
-    - [ ] `@Composable RewardedAdDialog()`（顯示看廣告＋10 幣）
-  - [ ] 設定頁
-    - [ ] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
-- [ ] 導航結構（Navigation Compose）
+  - [x] 付費牆/解鎖
+    - [x] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
+    - [x] PaywallSheet：錯誤對話框（重試/網路設定/回報）與錯誤碼中文映射
+    - [x] PaywallSheet：偵測 Play 服務版本（`GoogleApiAvailability`）與「更新 Play 服務」引導
+    - [x] PaywallSheet：Play 服務中文狀態文案（依狀態碼顯示）
+    - [x] PaywallSheet：針對 SERVICE_UNAVAILABLE / DEVELOPER_ERROR 額外建議文案（更新或稍後重試／檢查設定或聯絡客服）
+  - [x] 點數與廣告彈窗
+    - [x] `@Composable RewardedAdDialog()`（顯示看廣告＋10 幣）
+  - [x] 設定頁
+    - [x] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
+    - [x] Settings：Rewarded 狀態（可觀看/冷卻中）置頂顯示與每秒更新
+- [x] 導航結構（Navigation Compose）
   - [x] 建立 `NavGraph.kt`
   - [x] Chart 流程：Input→Create→Result 導航
   - [x] 加入 Deep Link（通知點擊 → `report/{reportId}`）
@@ -246,38 +257,40 @@
   - [x] UI 解鎖（隱藏/禁用）：ReportScreen 推送/拉取/分享需 VIP 權益
   - [x] PaywallScreen 與 PurchaseRepository 基礎互動（查權益/恢復/標記）
 - [ ] AdMob Rewarded Ads（:ads）
-  - [ ] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
+  - [x] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
   - [ ] 在 `AndroidManifest.xml` 新增 `com.google.android.gms.ads.APPLICATION_ID`
   - [ ] `RewardedAdsManager.kt`
-    - [ ] `fun loadRewardedAd(context, adUnitId, onLoaded, onFailed)`
-    - [ ] `fun showRewardedAd(activity, onUserEarnedReward)`
-  - [ ] 與 `WalletRepository.earnCoins(source="ad", amount=10)` 整合
-  - [ ] 頻率限制與防濫用（冷卻時間、每日上限）
+    - [x] `fun loadRewardedAd(context, adUnitId, onLoaded, onFailed)`
+    - [x] `fun showRewardedAd(activity, onUserEarnedReward)`
+  - [x] 與 `WalletRepository.earnCoins(source="ad", amount=10)` 整合
+  - [x] 頻率限制與防濫用（冷卻時間、每日上限）
   - [x] 修正啟動閃退：於 `AndroidManifest.xml` 加入 `APPLICATION_ID` meta-data 並在 Debug 使用 Google 測試 App ID（透過 `manifestPlaceholders["AD_APP_ID"]` 注入）
 - [ ] AI 生成工作流程（背景）
-  - [ ] 使用者在結果頁點擊「生成 AI 詳解」
-  - [ ] 建立 `OneTimeWorkRequest`，Data 包含 `chartIds`, `mode`, `locale`
-  - [ ] 在 `AiReportWorker` 組裝各模組摘要 → `PromptBuilder.buildPrompt`
-  - [ ] 呼叫 `OnnxAiEngine.generateStreaming`，分段儲存至 `ReportEntity.contentEnc`
-  - [ ] 完成後 `NotificationManager` 發送完成通知
-  - [ ] 報告頁可持續讀取生成中內容（LiveData/Flow）
+  - [x] 使用者在結果頁點擊「生成 AI 詳解」
+  - [x] 建立 `OneTimeWorkRequest`，Data 包含 `chartIds`, `mode`, `locale`
+  - [x] 在 `AiReportWorker` 組裝各模組摘要 → `PromptBuilder.buildPrompt`（骨架）
+  - [x] 呼叫 `OnnxAiEngine.generateStreaming`，分段儲存至 `ReportEntity.contentEnc`（骨架）
+  - [x] 完成後 `NotificationManager` 發送完成通知（骨架）
+  - [x] 報告頁可持續讀取生成中內容（LiveData/Flow）
+  - [x] 章節解析：優先依模型章節 token（如 `<|section|>`）計算；無 token 則以啟發式規則；總段落預估收斂於 6–12 段
+  - [x] 可配置章節總數（sectionsPreset）並由 UI 傳入
 - [ ] 錯誤處理與離線保障
-  - [ ] 建立本地錯誤日誌（寫入 `files/logs/app.log`）
+  - [x] 建立本地錯誤日誌（寫入 `files/logs/app.log`）
   - [ ] 設定「選用」匿名診斷上傳至 Drive App Folder（使用者可在設定同意/取消）
   - [ ] 所有網路請求（登入/Drive/AdMob/Billing）均以可回復錯誤處理，不阻擋離線功能
 - [ ] 法務與商標檢查（避免侵權）
-  - [ ] 應用標題確認：「AI命理大師：命盤・紫微・星盤」（不含他人商標）
-  - [ ] 文案中對「人類圖」以「天賦設計圖（支援人類圖盤面）」表述
+  - [ ] 應用標題確認：「AI命理大師：八字・紫微・星盤・人類圖・塔羅占卜・農民曆」（不含他人商標）
+  - [ ] 文案中對「人類圖」以「能量圖（支援人類圖盤面）」表述
   - [ ] 不引用受保護教材原文；所有詞典/釋義為自撰或公版改寫
   - [ ] App 內與商店頁加入「非官方、僅供參考」聲明
   - [X] 第三方授權列表整理入 `LICENSES.txt` 與 App 內「關於」頁
 - [ ] UI/UX 細節與動效
   - [x] （Debug）Wallet/購買/Chart 測試 UI/狀態
-  - [ ] Compose 動畫：分析進度「星塵」動畫（`animateFloatAsState` + Canvas）
-  - [ ] 結果頁重點卡片（分領域：事業/情感/健康/財務）
-  - [ ] 無障礙：字體大小調整、動畫關閉開關、語義標籤（`contentDescription`）
-  - [ ] 多語：`values-zh-rTW/strings.xml` 與 `values-en/strings.xml`；先完成繁中，再上英文骨架
-  - [ ] 評分提醒：第三次成功生成結果後觸發 `InAppReview` 或外跳商店評分頁
+  - [x] Compose 動畫：分析進度「星塵」動畫（`animateFloatAsState` + Canvas）
+  - [x] 結果頁重點卡片（分領域：事業/情感/健康/財務）
+  - [x] 無障礙：字體大小調整、動畫關閉開關、語義標籤（`contentDescription`）
+  - [x] 多語：`values-zh-rTW/strings.xml` 與 `values-en/strings.xml`；先完成繁中，再上英文骨架
+  - [x] 評分提醒：第三次成功生成結果後觸發 `InAppReview` 或外跳商店評分頁
 - [ ] 測試（單元/整合/E2E/效能）
   - [ ] 單元測試：`BaziCalculatorTest`, `AstroCalculatorTest`, `DesignMapperTest`, `ZiweiCalculatorTest`
   - [ ] AI 產出測試：固定 Prompt 與隨機種子，驗證長度與敏感詞過濾
@@ -286,20 +299,20 @@
   - [ ] 效能：中階裝置（4GB RAM）測量 700~1200 tokens 生成時間，記錄 CPU/溫度
   - [ ] 相容：API 26/28/30/34 實機/模擬器，飛航模式與低電測試
 - [ ] ASO 素材與策略（零行銷）
-  - [ ] 決定上架名稱（中文）：AI命理大師：命盤・紫微・星盤
-  - [ ] 決定上架名稱（英文）：AI Destiny Master: Bazi・Ziwei・Astro
-  - [ ] 撰寫短描述：「離線 AI 算命｜一鍵產生命盤與深度建議｜支持八字、紫微、星盤、天賦設計圖」
+  - [ ] 決定上架名稱（中文）：AI命理大師：八字・紫微・星盤・人類圖・塔羅占卜・農民曆
+  - [ ] 決定上架名稱（英文）：AI Destiny Master: Bazi・Ziwei・Astro・HD・Tarot・Farm Calendar
+  - [ ] 撰寫短描述：「離線 AI 算命｜一鍵產生命盤與深度建議｜支持八字、紫微、星盤、能量圖」
   - [ ] 撰寫長描述前三行高關鍵字密度（離線 AI 算命、八字命盤、紫微斗數、星盤、AI 詳解、AI 綜合分析、黃曆、Google 帳號同步、背景運算通知）
   - [ ] 製作 6 張截圖（主頁、排盤、AI 詳解、AI 綜合分析、同步設定、黃曆）
   - [ ] 製作應用 Icon（自製向量，抽象圖騰/星象＋科技元素）
   - [ ] 準備英文商店頁對應文案
   - [ ] 避免標題中使用可能侵權詞彙（不放 Human Design）
 - [ ] GitHub Pages 隱私政策與條款（免費）
-  - [ ] 建立 repo：`ai-destiny-master-privacy`
-  - [ ] 建立 `index.md`（隱私政策）、`terms.md`（服務條款）、`support.md`（聯絡方式）
-  - [ ] 於 repo 設定 GitHub Pages（分支 `main`，資料夾 `/` 或 `/docs`）
-  - [ ] 在 App 設定頁與 Play Console 填入隱私權政策 URL
-  - [ ] 隱私內容涵蓋：資料收集（出生資料等）、用途（生成分析）、保存（本機/加密/Drive App Folder）、用戶權利（刪除/導出）、第三方 SDK（Billing/Ads/Auth/Drive）說明
+  - [x] 建立 repo：`ai-destiny-master-privacy`
+  - [x] 建立 `index.md`（隱私政策）、`terms.md`（服務條款）、`support.md`（聯絡方式）
+  - [x] 於 repo 設定 GitHub Pages（分支 `main`，資料夾 `/` 或 `/docs`）
+  - [x] 在 App 設定頁與 Play Console 填入隱私權政策 URL
+  - [x] 隱私內容涵蓋：資料收集（出生資料等）、用途（生成分析）、保存（本機/加密/Drive App Folder）、用戶權利（刪除/導出）、第三方 SDK（Billing/Ads/Auth/Drive）說明
 - [ ] Google Play Console 上架前準備
   - [ ] 註冊 Google Play Developer（一次性費用）
   - [ ] 建立商家帳戶（Merchant）以啟用付費/訂閱
@@ -345,7 +358,7 @@
   - [ ] 允許取消背景任務並安全中斷
 - [ ] 內容與警語
   - [ ] 在結果頁底加入「僅供參考，不作醫療/法律/投資建議」
-  - [ ] 在設定頁加入「非官方聲明」對「天賦設計圖」
+  - [ ] 在設定頁加入「非官方聲明」對「能量圖」
   - [ ] 加入「用語避絕對化」敏感詞過濾（簡易詞典）
 - [ ] 本地化與語言切換
   - [ ] 在設定頁提供語言選擇（繁中/英文）

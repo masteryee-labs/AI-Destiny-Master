@@ -20,6 +20,8 @@ import com.aidestinymaster.data.db.PurchaseEntity
 import com.aidestinymaster.data.repository.PurchaseRepository
 import com.aidestinymaster.billing.BillingManager
 import kotlinx.coroutines.launch
+import com.aidestinymaster.app.util.AppLogger
+import com.android.billingclient.api.ProductDetails
 
 @Composable
 fun PaywallScreen(activity: ComponentActivity) {
@@ -32,10 +34,12 @@ fun PaywallScreen(activity: ComponentActivity) {
     val sampleSkus = listOf("iap_bazi_pro", "iap_ziwei_pro", "iap_design_pro", "iap_astro_pro", "android.test.purchased")
     val billing = remember { BillingManager.from(activity) }
     var lastMsg by remember { mutableStateOf("") }
+    var loading by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf("") }
     val featureMap = listOf(
         "八字 Pro" to "iap_bazi_pro",
         "紫微 Pro" to "iap_ziwei_pro",
-        "人設 Pro" to "iap_design_pro",
+        "能量圖 Pro" to "iap_design_pro",
         "星盤 Pro" to "iap_astro_pro",
         "VIP 月" to "sub_vip_month",
         "VIP 年" to "sub_vip_year"
@@ -60,10 +64,12 @@ fun PaywallScreen(activity: ComponentActivity) {
                         )
                         entitled = repo.isEntitled(p.products.firstOrNull() ?: sku)
                         lastMsg = "Handled purchase: ${p.products.joinToString()} ack=$acked"
+                        AppLogger.log(activity, lastMsg)
                     }
                 }
             } else {
                 lastMsg = "Billing result: ${result.responseCode}"
+                AppLogger.log(activity, lastMsg)
             }
         }
     }
@@ -79,7 +85,15 @@ fun PaywallScreen(activity: ComponentActivity) {
             } }) { Text("Mark Entitled") }
             Button(onClick = { scope.launch { activeCount = repo.getActive().size } }) { Text("Restore Active") }
             Button(onClick = { billing.startConnection { /* ready */ } }) { Text("Init Billing") }
-            Button(onClick = { scope.launch { products = billing.queryProducts(*sampleSkus.toTypedArray()) } }) { Text("Query Products") }
+            Button(onClick = {
+                scope.launch {
+                    loading = true; error = ""
+                    runCatching { products = billing.queryProducts(*sampleSkus.toTypedArray()) }
+                        .onFailure { t -> error = t.message ?: "未知錯誤" }
+                        .also { loading = false }
+                    AppLogger.log(activity, "Query Products: size=${products.size} error=$error")
+                }
+            }) { Text("Query Products") }
             Button(onClick = { scope.launch {
                 val purchases = billing.queryPurchasesAsync()
                 purchases.forEach { p ->
@@ -97,14 +111,24 @@ fun PaywallScreen(activity: ComponentActivity) {
                 }
                 activeCount = repo.getActive().size
                 entitled = repo.isEntitled(sku)
-                lastMsg = "Restored ${'$'}{purchases.size} purchases"
+                lastMsg = "Restored ${purchases.size} purchases"
+                AppLogger.log(activity, lastMsg)
             } }) { Text("Restore Purchases") }
+        }
+        if (loading) {
+            Text("載入中…")
+        }
+        if (error.isNotEmpty()) {
+            Text("錯誤：$error")
         }
         if (products.isNotEmpty()) {
             Text("Products:")
             products.forEach { pd ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(pd.name + " (" + pd.productId + ")")
+                    val price = formatPrice(pd)
+                    val period = formatPeriod(pd)
+                    val label = skuToLabel(pd.productId)
+                    Text((if (label.isNotEmpty()) label + " / " else "") + pd.name + " (" + pd.productId + ") · " + listOfNotBlank(price, period).joinToString(" · "))
                     Button(onClick = { billing.launchPurchase(activity, pd) }) { Text("Buy") }
                 }
             }
@@ -123,3 +147,42 @@ fun PaywallScreen(activity: ComponentActivity) {
         }
     }
 }
+
+private fun formatPrice(pd: ProductDetails): String {
+    pd.oneTimePurchaseOfferDetails?.let { return it.formattedPrice }
+    val subs = pd.subscriptionOfferDetails
+    if (!subs.isNullOrEmpty()) {
+        val phases = subs.first().pricingPhases.pricingPhaseList
+        val base = phases.lastOrNull() ?: phases.first()
+        return base.formattedPrice
+    }
+    return ""
+}
+
+private fun formatPeriod(pd: ProductDetails): String {
+    val subs = pd.subscriptionOfferDetails
+    if (!subs.isNullOrEmpty()) {
+        val phases = subs.first().pricingPhases.pricingPhaseList
+        val base = phases.lastOrNull() ?: phases.first()
+        val p = base.billingPeriod ?: return ""
+        return when {
+            p.contains("Y") -> "每年"
+            p.contains("M") -> "每月"
+            p.contains("W") -> "每週"
+            else -> "週期：$p"
+        }
+    }
+    return "一次性"
+}
+
+private fun skuToLabel(productId: String): String = when (productId) {
+    "iap_bazi_pro" -> "八字 Pro"
+    "iap_ziwei_pro" -> "紫微 Pro"
+    "iap_design_pro" -> "能量圖 Pro"
+    "iap_astro_pro" -> "星盤 Pro"
+    "sub_vip_month" -> "VIP 月訂"
+    "sub_vip_year" -> "VIP 年訂"
+    else -> ""
+}
+
+private fun listOfNotBlank(vararg s: String): List<String> = s.filter { it.isNotBlank() }

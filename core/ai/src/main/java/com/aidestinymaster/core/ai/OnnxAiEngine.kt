@@ -172,7 +172,7 @@ class OnnxAiEngine(
 
             sess.run(feeds).use { res ->
                 // Get logits
-                val logitsAny = res.get(schema.logits)?.value
+                val logitsAny = (res.get(schema.logits) as? OnnxTensor)?.getValue()
                 val nextId = when (logitsAny) {
                     is Array<*> -> {
                         // Expect shape [1, 1, vocab]; flatten last

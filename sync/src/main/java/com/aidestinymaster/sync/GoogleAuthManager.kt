@@ -15,6 +15,9 @@ object GoogleAuthManager {
     fun getSignInClient(context: Context): GoogleSignInClient {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
+            // Request ID token for backend verification using the Web client ID.
+            // Value is provided via BuildConfig from gradle.properties (GOOGLE_WEB_CLIENT_ID).
+            .requestIdToken(BuildConfig.GOOGLE_WEB_CLIENT_ID)
             .requestScopes(Scope(DriveScopes.DRIVE_APPDATA))
             .build()
         return GoogleSignIn.getClient(context, gso)
@@ -43,4 +46,8 @@ object GoogleAuthManager {
             null
         }
     }
+
+    /** Returns the last signed-in account's ID token, if available. */
+    fun getIdToken(context: Context): String? =
+        GoogleSignIn.getLastSignedInAccount(context)?.idToken
 }
