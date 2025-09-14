@@ -1,2 +1,0 @@
-﻿C:\Users\MasterYee\CascadeProjects\AIDestinyMaster\log_launch.txt:10:09-13 12:37:12.436   582  1500 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.aidestinymaster/.app.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
-C:\Users\MasterYee\CascadeProjects\AIDestinyMaster\log_launch.txt:130:09-13 12:37:13.168   582  1810 I ActivityManager: Process com.aidestinymaster (pid 6111) has died: fg  TOP 
