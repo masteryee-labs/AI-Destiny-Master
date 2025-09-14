@@ -41,3 +41,28 @@ Thumbs.db
 # Local OAuth/Google client secret files (never commit)
 client_secret_*.json
 **/client_secret_*.json
+
+# Python/virtual envs and temp
+scripts/.venv-onnx/
+venv/
+.env/
+.tmp/
+
+# Temporary repos
+.tmp_privacy_repo/
+tmp_privacy_repo/
+
+# Logs and dumps (root-level and general)
+*.log
+log*.txt
+logcat*.txt
+log_*.txt
+rpt*.xml
+pkg_dump.txt
+runas_*.txt
+uidump_*.xml
+apk_manifest.txt
+
+# Archives and local artifacts
+*.zip
+artifacts/

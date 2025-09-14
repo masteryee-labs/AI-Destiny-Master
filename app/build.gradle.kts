@@ -121,6 +121,27 @@ android {
     }
 }
 
+// 於 Windows 上在 build 前執行模型下載/驗證腳本（非 Windows 環境將略過）
+val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
+
+tasks.register<Exec>("prepareModels") {
+    onlyIf { isWindows }
+    workingDir = rootProject.projectDir
+    // 使用 PowerShell 執行專案根目錄下的腳本
+    commandLine(
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File",
+        rootProject.file("scripts/prepare_models.ps1").absolutePath
+    )
+}
+
+// 確保在 preBuild 之前執行（Windows 執行，其他平台略過，不影響 CI）
+tasks.named("preBuild") {
+    dependsOn("prepareModels")
+}
+
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
