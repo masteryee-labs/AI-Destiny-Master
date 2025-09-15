@@ -1068,62 +1068,7 @@
     - [ ] 在 非 VIP 顯示解鎖條（50 幣或單次 `jingfang_reading_one`）
     - [ ] 在 單元測試 `JingFangServiceTest.kt` 驗證輸出穩定與欄位合法
     - [ ] 在 UI 測試：起卦→解鎖→生成→分享
-- [ ] V16.0 神明拜拜系統
-  - [ ] 資產與資料結構
-    - [ ] 在 `:app/src/main/assets/altar` 建立 `AltarTheme.json`（`{"id":"basic","name":"經典","bg":"#...","items":[{"type":"incense","x":..,"y":..}]}`）
-    - [ ] 在 `:data/entity` 建立 `Wish.kt`（`id:String,title:String,notes:String?,createdAt:Instant,due:LocalDate?,status:String,completedAt:Instant?`）
-    - [ ] 在 `:data/dao` 建立 `WishDao.kt`（`upsert/get/listByStatus`）與 Repo 與 Migration
-  - [ ] 畫布與主題
-    - [ ] 在 `:app/ui/canvas` 建立 `AltarCanvas.kt`
-    - [ ] 在 `AltarCanvas.kt` 使用 `Canvas` 畫背景與供桌、燭台、香爐位置
-    - [ ] 在 `:app/ui/altar` 建立 `AltarThemeLoader.kt` 載入 `AltarTheme.json`
-    - [ ] 在 `:app/ui/altar` 建立 `ThemeSelectorSheet.kt` 顯示可用主題清單與預覽
-  - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ALTAR = "altar"`
-    - [ ] 在 `:app/ui/screens/altar` 建立 `AltarScreen.kt`
-    - [ ] 在 `AltarScreen.kt` 置頂 `TopAppBar` 標題「拜拜」
-    - [ ] 在 `AltarScreen.kt` 上半部顯示 `AltarCanvas(theme)`
-    - [ ] 在 `AltarScreen.kt` 下半部顯示「願望簿」清單與 FAB「新增願望」
-    - [ ] 在 `AltarScreen.kt` 點選願望可標記完成/編輯備註
-    - [ ] 在 `AltarScreen.kt` 溢位選單提供「更換主題」開啟 `ThemeSelectorSheet`
-  - [ ] 提醒與通知
-    - [ ] 在 `:app/workers` 建立 `AltarReminderWorker.kt`（每日固定時間推播「上香祈福」）
-    - [ ] 在 `NotificationHelper` 新增頻道 `ALTAR_REMINDER`
-    - [ ] 在 `SettingsScreen` 新增切換「每日提醒」與時間挑選器
-  - [ ] 付費
-    - [ ] 在 `:billing` 新增 `THEME_PACK_*` SKU 常數清單
-    - [ ] 在 `ThemeSelectorSheet.kt` 非 VIP 主題顯示鎖頭圖示與「購買主題」按鈕
-    - [ ] 在 「購買主題」呼叫 `BillingManager.launchPurchase(themePackSku)`
-    - [ ] 在 VIP 狀態顯示「VIP 免廣告」標籤（沿用 Ads 管控）
-  - [ ] 測試
-    - [ ] 在 UI 測試：切換主題即時生效且重啟後保持
-    - [ ] 在 單元測試：`WishDao` CRUD 與排序
-    - [ ] 在 推播測試：每日提醒觸發與點擊導向 `ROUTE_ALTAR`
-- [ ] V17.0 AI 求籤詩 + 解籤
-  - [ ] 資產與資料層
-    - [ ] 在 `:app/src/main/assets/lots` 建立 `LotsDatabase.json`（自撰 60~100 首結構：`{"id":1,"title":"…","poem":"…","meaning":"…","tier":"上/中/下"}`）
-    - [ ] 在 `:data/entity` 建立 `LotReading.kt`（`id:String, lotId:Int, temple:String?, question:String?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?, backupSynced:Boolean`）
-    - [ ] 在 `:data/dao` 建立 `LotReadingDao.kt` 與 Repo 與 Migration
-  - [ ] 服務層與抽籤
-    - [ ] 在 `:core/lots` 建立 `LotsService.kt`
-    - [ ] 在 `LotsService.kt` 實作 `fun draw(seed:Long): Int`（回傳籤號）
-    - [ ] 在 `LotsService.kt` 實作 `fun getLot(id:Int): Lot`（載入 `LotsDatabase.json`）
-    - [ ] 在 `:core/ai` 建立 `LotsPromptBuilder.kt` `fun build(lot:Lot, question:String?, locale:Locale): String`
-  - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS = "lots"`
-    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsScreen.kt`
-    - [ ] 在 `LotsScreen.kt` 放置輸入框「問題（選填）」與「寺廟（選填）」、Switch「自訂種子」
-    - [ ] 在 `LotsScreen.kt` 主要按鈕「抽籤」→ 顯示籤號/標題/要旨
-    - [ ] 在 `LotsScreen.kt` 提供「生成 AI 解籤（背景）」「分享」「儲存」
-  - [ ] AI 與雲備份（選配）
-    - [ ] 在 `:app/workers` 建立 `LotReadingWorker.kt`（模板→生成→加密→寫回）
-    - [ ] 在 `:sync/DriveService.kt` 新增 `lots.json` 同步支援（沿用 V1.1 AppFolder 規則）
-    - [ ] 在 `SyncRepository` 新增 `syncLots()` 與合併策略（以 `updatedAt` 新者覆蓋）
-  - [ ] 付費與測試
-    - [ ] 在 非 VIP 顯示解鎖條（50 幣或單次 `lots_reading_one`；雲備份僅 VIP）
-    - [ ] 在 單元測試 `LotsServiceTest.kt` 驗證抽籤 determinism（固定 seed）
-    - [ ] 在 UI 測試：抽籤→解鎖→生成→分享→（登入同步）雲備份
-- [ ] V18.0 合盤（星盤）AI 報告
+- [ ] V16.0 合盤（星盤）AI 報告
   - [ ] 專案與套件骨架
     - [ ] 在 `:core/astro` 建立套件 `core.astro.synastry`
     - [ ] 在 `:core/ai` 建立套件 `core.ai.synastry`
@@ -1246,7 +1191,7 @@
     - [ ] 在 `SynastryUiTest.kt` 測試選單選擇與交換互動
     - [ ] 在 `SynastryUiTest.kt` 測試權益不足時顯示解鎖條
     - [ ] 在 `SynastryUiTest.kt` 測試長文頁面捲動流暢不掉幀
-- [ ] V18.1 合盤（紫微）AI 報告
+- [ ] V16.1 合盤（紫微）AI 報告
   - [ ] 服務與演算法
     - [ ] 在 `:core/ziwei` 建立 `ZiweiSynastry.kt`
     - [ ] 在 `ZiweiSynastry.kt` 定義 `data class ZiweiPairScore(val palace:String,val score:Int,val rationale:String)`
@@ -1282,7 +1227,7 @@
     - [ ] 在 `ZiweiSynastryTest.kt` 測試四化衝突減分小於 0
     - [ ] 在 `:app/ui/screens/synastry` 建立 `ZiweiSynastryUiTest.kt`
     - [ ] 在 `ZiweiSynastryUiTest.kt` 測試選擇 → 權益 → 排程流程
-- [ ] V18.2 合盤（八字）AI 報告
+- [ ] V16.2 合盤（八字）AI 報告
   - [ ] 服務與演算法
     - [ ] 在 `:core/bazi` 建立 `BaziSynastry.kt`
     - [ ] 在 `BaziSynastry.kt` 定義 `data class TenGodCompat(val god:String,val score:Int,val reason:String)`
@@ -1318,7 +1263,7 @@
     - [ ] 在 `BaziSynastryTest.kt` 測試十神匹配細節項存在
     - [ ] 在 `:app/ui/screens/synastry` 建立 `BaziSynastryUiTest.kt`
     - [ ] 在 `BaziSynastryUiTest.kt` 測試選擇 → 權益 → 排程流程
-- [ ] V19.0 週期提醒（逆行／沖剋／吉日）
+- [ ] V17.0 週期提醒（逆行／沖剋／吉日）
   - [ ] 規則定義
     - [ ] 在 `:core/astro` 建立 `ReminderRules.kt`
     - [ ] 在 `ReminderRules.kt` 定義枚舉 `ReminderTopic { Retrograde, HardAspect, GoodDay }`
@@ -1371,6 +1316,120 @@
     - [ ] 在 單元測試 `IcsExporterTest.kt` 驗證輸出包含 `VCALENDAR`
     - [ ] 在 UI 測試 `ReminderSettingsUiTest.kt` 驗證開關與時間儲存
     - [ ] 在 手動測試排程通知準時顯示
+- [ ] V18.0 神明拜拜系統（為 V19 抽籤整合預備 UI/資料結構）
+  - [ ] 資產與資料結構（擴充以支援「籤筒」與神明對應）
+    - [ ] 在 `:app/src/main/assets/altar` 建立/擴充 `AltarTheme.json` 增加 `lotTube` 區塊（點位與尺寸）
+    - [ ] 在 `AltarTheme.json` 新增欄位 `{"id":"basic","name":"經典","bg":"#...","items":[{"type":"table","x":...,"y":...},{"type":"incense","x":...,"y":...},{"type":"lot_tube","x":0.72,"y":0.48,"w":0.12,"h":0.24,"tapTarget":"lot_tube"}]}`
+    - [ ] 在 `:data/entity` 建立 `Wish.kt`（`id:String,title:String,notes:String?,createdAt:Instant,due:LocalDate?,status:String,completedAt:Instant?`）
+    - [ ] 在 `:data/dao` 建立 `WishDao.kt`（`upsert(entity)`、`get(id)`、`listByStatus(status, limit)`）
+    - [ ] 在 `:data/repository` 建立 `WishRepository.kt`（`create/update/toggleComplete/listOpen/listDone`）
+    - [ ] 在 `:data/db/migrations` 新增 Wish 表 Migration 並於 `AppDatabase` 註冊
+  - [ ] 畫布與主題（加入「籤筒」視覺與可點擊區）
+    - [ ] 在 `:app/ui/canvas` 建立 `AltarCanvas.kt`
+    - [ ] 在 `AltarCanvas.kt` 使用 `Canvas` 繪製背景/供桌/燭台/香爐
+    - [ ] 在 `AltarCanvas.kt` 新增 `drawLotTube(area: Rect)` 畫出籤筒（簡化矩形+陰影）
+    - [ ] 在 `AltarCanvas.kt` 將 `lot_tube` 的 `x/y/w/h`（相對比例）轉實際像素 Rect 傳入 `drawLotTube`
+    - [ ] 在 `AltarCanvas.kt` 暴露 `onTap(hit:String?)` 回呼（點擊命中 `tapTarget` 回拋）
+    - [ ] 在 `:app/ui/altar` 建立 `AltarThemeLoader.kt`，讀取 `AltarTheme.json` 回傳 `AltarTheme`（含 `items` 與 `lot_tube` 定義）
+    - [ ] 在 `:app/ui/altar` 建立 `ThemeSelectorSheet.kt` 顯示主題清單（預覽圖/名稱/套用按鈕）
+  - [ ] 路由與畫面（保留「籤筒」點擊事件，V17 會掛上抽籤流程）
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ALTAR = "altar"`
+    - [ ] 在 `:app/ui/screens/altar` 建立 `AltarScreen.kt`
+    - [ ] 在 `AltarScreen.kt` 置頂 `TopAppBar` 標題「拜拜」
+    - [ ] 在 `AltarScreen.kt` 上半部顯示 `AltarCanvas(theme)` 並接 `onTap`
+    - [ ] 在 `AltarScreen.kt` 下半部顯示「願望簿」清單與 FAB「新增願望」
+    - [ ] 在 `AltarScreen.kt` 點選清單項可切換完成/編輯備註
+    - [ ] 在 `AltarScreen.kt` 溢位選單提供「更換主題」按鈕開啟 `ThemeSelectorSheet`
+    - [ ] 在 `AltarScreen.kt` 接收 `onTap("lot_tube")` 先以 `Snackbar` 顯示「抽籤將於下一版開放」（V17 接手綁定抽籤）
+  - [ ] 提醒與通知
+    - [ ] 在 `:app/workers` 建立 `AltarReminderWorker.kt`（每日固定時間推播「上香祈福」）
+    - [ ] 在 `NotificationHelper` 新增頻道 `ALTAR_REMINDER`
+    - [ ] 在 `SettingsScreen` 新增「每日提醒」開關與時間挑選器，變更後排程/取消 `AltarReminderWorker`
+  - [ ] 付費（沿用）
+    - [ ] 在 `:billing` 新增 `THEME_PACK_*` SKU 常數清單
+    - [ ] 在 `ThemeSelectorSheet.kt` 非 VIP 主題顯示鎖頭與「購買主題」按鈕
+    - [ ] 在 「購買主題」呼叫 `BillingManager.launchPurchase(themePackSku)`
+    - [ ] 在 VIP 狀態顯示「VIP 免廣告」標籤（沿用 Ads 管控）
+  - [ ] 測試
+    - [ ] 在 UI 測試：切換主題即時生效且重啟後保持
+    - [ ] 在 單元測試：`WishDao` CRUD 與排序
+    - [ ] 在 推播測試：每日提醒觸發與點擊導向 `ROUTE_ALTAR`
+    - [ ] 在 點擊測試：點擊 `lot_tube` 命中回呼且顯示 `Snackbar`
+- [ ] V19.0 AI 求籤詩 + 解籤（整合於 V18 拜拜系統之「籤筒」，亦支援外部籤詩輸入）
+  - [ ] 資產與資料層（多神明籤庫與讀數資料表）
+    - [ ] 在 `:app/src/main/assets/lots` 建立總目錄
+    - [ ] 在 `:app/src/main/assets/lots` 建立 `LotCatalog.json`（宣告可用籤庫與對應神明/寺廟）
+    - [ ] 在 `LotCatalog.json` 定義 `{"deities":[{"id":"guanyin","name":"觀音","temples":[{"id":"default","name":"通用觀音籤","range":100,"db":"guanyin/db.json"}]},{"id":"yuelao","name":"月老","temples":[{"id":"default","name":"通用月老籤","range":60,"db":"yuelao/db.json"}]}]}`
+    - [ ] 在 `:app/src/main/assets/lots/guanyin` 建立 `db.json`（1~100 首，`{"id":1,"title":"...","poem":"...","meaning":"...","tier":"上/中/下","tags":["婚姻","財運"]}`）
+    - [ ] 在 `:app/src/main/assets/lots/yuelao` 建立 `db.json`（1~60 首，同上結構）
+    - [ ] 在 `:data/entity` 建立 `LotReading.kt`（`id:String, deityId:String, templeId:String, lotId:Int, seed:Long?, question:String?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?, backupSynced:Boolean`）
+    - [ ] 在 `:data/dao` 建立 `LotReadingDao.kt`（`upsert/get/byDeity(list,limit)/recent(limit)`）
+    - [ ] 在 `:data/repository` 建立 `LotReadingRepository.kt`（封裝加/解密 `detailEnc` 與 `upsert/get/listRecent`）
+    - [ ] 在 `:data/db/migrations` 新增 LotReading 表 Migration 並於 `AppDatabase` 註冊
+  - [ ] 服務層與抽籤（依「當前供奉神明」決定籤庫；支援自訂種子）
+    - [ ] 在 `:core/lots` 建立 `LotsModels.kt`（`data class Lot(id:Int,title:String,poem:String,meaning:String,tier:String,tags:List<String>)`）
+    - [ ] 在 `:core/lots` 建立 `LotCatalog.kt` 載入 `LotCatalog.json` 並提供 `fun defaultTemple(deityId:String): Temple`
+    - [ ] 在 `:core/lots` 建立 `LotsRepo.kt` 載入指定 `db.json`，提供 `fun getLot(deityId:String, templeId:String, id:Int): Lot`
+    - [ ] 在 `:core/lots` 建立 `LotsService.kt`
+    - [ ] 在 `LotsService.kt` 實作 `fun draw(deityId:String, templeId:String, seed:Long?=null): Pair<Int,Long>`（回傳 `lotId` 與最終 `seed`，以 seed 決定 determinism）
+    - [ ] 在 `LotsService.kt` 實作 `fun validate(deityId, templeId, lotId): Boolean`（驗證區間）
+    - [ ] 在 `:core/lots` 建立 `LotsShareBuilder.kt`（`fun buildShare(reading:LotReading, lot:Lot): String`，避免個資）
+    - [ ] 在 `:app/ui/altar` 建立 `DeityResolver.kt`（由 `AltarTheme` 或使用者在 `AltarScreen` 選取當前神明，回傳 `deityId/templeId`）
+  - [ ] AI Prompt 與背景生成（同一機制服務內部抽籤與外部輸入）
+    - [ ] 在 `:core/ai` 建立 `LotsPromptBuilder.kt`
+    - [ ] 在 `LotsPromptBuilder.kt` 實作 `fun build(lot:Lot, deityName:String, templeName:String, question:String?, locale:Locale): String`（含 `[籤意] [適用議題] [建議] [提醒]` 段落與「僅供參考」）
+    - [ ] 在 `:app/workers` 建立 `LotReadingWorker.kt`
+    - [ ] 在 `LotReadingWorker.kt` 讀取 `readingId` → 取 `LotReading` 與 `Lot` → `OnnxLlamaSession.generate(prompt)` → 加密寫回 `detailEnc` 與填入 `summary`
+    - [ ] 在 `LotReadingWorker.kt` 完成後發送通知導向 `lots.result/{id}`
+  - [ ] 路由與畫面（整合於 Altar；支援外部籤詩輸入解籤）
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS_RESULT = "lots.result/{id}"`
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS_HISTORY = "lots.history"`
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS_MANUAL = "lots.manual"`（外部籤詩輸入）
+    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsResultScreen.kt`
+    - [ ] 在 `LotsResultScreen.kt` 顯示卡片：`籤號/標題/等第(tier)` 與 `poem` 摘要、`summary`（未解鎖則顯示解鎖條）
+    - [ ] 在 `LotsResultScreen.kt` 底部主要按鈕「生成 AI 解籤（背景）」；旁放「分享」「儲存」
+    - [ ] 在 `LotsResultScreen.kt` 監聽 Worker 狀態；完成後展開長文（已解鎖才可全文）
+    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsHistoryScreen.kt`（列表：日期/神明/籤號/摘要，可點進）
+    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsManualScreen.kt`
+    - [ ] 在 `LotsManualScreen.kt` 放置下拉選擇「神明/寺廟」，數字輸入「籤號」，輸入框「問題（選填）」，主要按鈕「解籤」
+    - [ ] 在 `LotsManualScreen.kt` 點擊「解籤」→ 驗證 `lotId` 合法 → 建立 `LotReading`（來源標記 `seed=null`）→ 導向 `LotsResultScreen`
+    - [ ] 在 `:app/ui/screens/altar/AltarScreen.kt` 接 `onTap("lot_tube")` 開啟底部抽籤面板
+    - [ ] 在 `AltarScreen` 抽籤面板放置：神明/寺廟（預設由 `DeityResolver`）、輸入框「問題（選填）」、Switch「自訂種子」、數字輸入（當 Switch 開啟）、主要按鈕「抽籤」
+    - [ ] 在 `AltarScreen` 抽籤面板點擊「抽籤」→ 呼叫 `LotsService.draw` 取得 `(lotId, seed)` → 建立 `LotReading`（含 `deityId/templeId/lotId/seed/question`）→ 導向 `LotsResultScreen`
+    - [ ] 在 `AltarScreen` 溢位選單新增「外部籤詩解籤」導向 `ROUTE_LOTS_MANUAL`
+    - [ ] 在 `Home` 或 `AltarScreen` 右上加「歷史」圖示導向 `ROUTE_LOTS_HISTORY`（非 Debug，正式可見）
+  - [ ] 付費與解鎖（僅 AI 長文需解鎖；抽籤與基本資訊免費）
+    - [ ] 在 `:billing` 新增常數 `LOTS_READING_ONE = "lots_reading_one"`
+    - [ ] 在 `LotsResultScreen.kt` 若 `isVIP=true` 直接顯示長文
+    - [ ] 在 `LotsResultScreen.kt` 若 `isVIP=false` 且 `reading.unlocked=false` 顯示解鎖條（「用 50 幣解鎖」「單次購買」）
+    - [ ] 在 「用 50 幣解鎖」呼叫 `CoinsService.spend(50)` 成功→`reading.unlocked=true`→刷新
+    - [ ] 在 「單次購買」呼叫 `BillingManager.launchPurchase(LOTS_READING_ONE)` 成功→`reading.unlocked=true`
+    - [ ] 在 已解鎖再次查看同一筆 `reading` 不重扣
+  - [ ] 雲備份（選配，VIP 專屬）
+    - [ ] 在 `:sync/DriveService.kt` 新增 `lots.json` 同步檔支援（遵循 AppFolder）
+    - [ ] 在 `SyncRepository` 新增 `syncLots()` 合併策略（`updatedAt` 新者覆蓋）
+    - [ ] 在 `SettingsScreen` 新增「同步籤詩讀數」開關（僅 VIP 顯示）
+    - [ ] 在 讀數變更後排程 `SyncRepository.syncLots()`（若啟用）
+  - [ ] 分享與隱私
+    - [ ] 在 `LotsShareBuilder.kt` 產出分享文：`神明/寺廟/籤號/標題/要旨/（可選）我的問題`（預設隱藏問題，需勾選才包含）
+    - [ ] 在 `LotsResultScreen.kt` 點擊「分享」觸發分享 Intent（僅文字，不含個資）
+  - [ ] 單元測試
+    - [ ] 在 `:core/lots/test` 建立 `LotsServiceTest.kt` 驗證固定 `seed` 於同 `deity/temple` 得到相同 `lotId`
+    - [ ] 在 `LotsServiceTest.kt` 驗證 `validate()` 對越界籤號回傳 `false`
+    - [ ] 在 `:core/ai/test` 建立 `LotsPromptBuilderTest.kt` 驗證模板包含段落 `[籤意][適用議題][建議][提醒]`
+    - [ ] 在 `:data/test` 建立 `LotReadingDaoTest.kt` 驗證 `upsert/get/recent` 正常
+  - [ ] UI 測試
+    - [ ] 在 `AltarScreenTest.kt` 測試點擊籤筒→開啟抽籤面板→抽籤→導向結果頁
+    - [ ] 在 `LotsManualScreenTest.kt` 測試外部籤詩輸入→結果頁
+    - [ ] 在 `LotsResultScreenTest.kt` 測試未解鎖顯示解鎖條→用幣解鎖→生成→展開長文
+    - [ ] 在 `LotsHistoryScreenTest.kt` 測試列表點擊進入既有讀數
+  - [ ] 效能與體驗
+    - [ ] 在 `LotsResultScreen` 長文渲染於 `LazyColumn` 分段（避免一次性重排）
+    - [ ] 在 抽籤面板抽籤時顯示 1.2 秒簡短抽動動畫（不加入 Debug 控制）
+    - [ ] 在 低 RAM 模擬器測試切換/返回流程不卡頓
+  - [ ] 無 Debug-only 控制檢查
+    - [ ] 檢查所有畫面無隱藏入口/測試按鈕
+    - [ ] 抽籤與解籤流程與 Release 版一致
 - [ ] V20.0 行動教練模式（To-Do 生成、日程推送）
   - [ ] 資料結構
     - [ ] 在 `:data/entity` 建立 `CoachTask.kt`
