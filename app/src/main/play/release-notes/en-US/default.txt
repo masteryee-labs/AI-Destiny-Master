@@ -1,5 +1,0 @@
-Initial Internal Track build for AIDestinyMaster.
-- Compose UI + Navigation
-- Room/DataStore baseline
-- Deep link support (aidm://)
-- Internal sync & debug flows

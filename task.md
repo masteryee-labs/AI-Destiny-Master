@@ -1,405 +1,2095 @@
 ## Task List
-- [X] 建立專案資料夾與版控
-  - [X] 在本機建立目錄 `AIDestinyMaster/` 作為專案根目錄
-  - [X] 初始化 Git 倉庫：`git init`
-  - [X] 建立 `.gitignore`（包含 `/build`, `.gradle`, `/app/build`, `/**/build`, `/local.properties`, `*.keystore`）
-  - [X] 建立 `README.md`（專案說明、建置指令、目標與授權）
-  - [X] 建立 `LICENSES.txt`（第三方授權彙整，先留空，後續補）
-  - [X] 建立 `CONTRIBUTING.md`（雖一人開發，仍列出提交流程與分支策略）
-  - [X] 建立 GitHub 私有倉庫並 `git remote add origin <repo-url>`、推送主分支
-- [X] 安裝與設定開發環境（WindSurf / VS Code 架構，不安裝 Android Studio）
-  - [X] 安裝 OpenJDK 17（Temurin 或 Adoptium），設定 `JAVA_HOME` 與 `PATH`
-  - [X] 安裝 WindSurf IDE（VS Code 相容）
-  - [X] 安裝 Android SDK Command-line Tools
-    - [X] 下載 `commandlinetools-<os>-latest.zip`
-    - [X] 解壓至 `~/Android/cmdline-tools/latest`
-    - [X] 設定 `ANDROID_HOME=~/Android`，`PATH` 加入 `~/Android/platform-tools` 與 `~/Android/cmdline-tools/latest/bin`
-    - [X] 執行 `sdkmanager --licenses` 並全部同意
-    - [X] 執行 `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-34;google_apis;x86_64"`
-    - [X] 建立 AVD：`avdmanager create avd -n Pixel6Api34 -k "system-images;android-34;google_apis;x86_64"`
-    - [X] 啟動模擬器：`emulator -avd Pixel6Api34 -netdelay none -netspeed full`
-  - [X] 安裝 WindSurf/VS Code 外掛（全部免費）
-    - [X] 安裝 Kotlin 插件（JetBrains）
-    - [X] 安裝 Java Extension Pack
-    - [X] 安裝 Gradle for Java
-    - [X] 安裝 ADB Interface
-    - [X] 安裝 YAML、JSON、Markdown All in One
-    - [X] 安裝 GitLens、Error Lens
-    - [X] 設定 JetBrains Mono 字型
-  - [X] 於 WindSurf 設定 Java/Kotlin 語言伺服器（確保語法檢查與跳轉可用）
-- [x] 初始化 Android 專案（純 Gradle CLI）
-  - [x] 建立 `settings.gradle.kts` 與 `build.gradle.kts`（根）檔案
-  - [x] 設定 `compileSdk = 35`, `targetSdk = 35`, `minSdk = 26`
-  - [x] 設定 Kotlin 版本 `1.9+` 與 Java 17 編譯選項
-  - [x] 啟用 Compose（`buildFeatures { compose = true }`、`composeOptions { kotlinCompilerExtensionVersion = ... }`）
-  - [x] 在 `settings.gradle.kts` 宣告多模組：`:app`, `:core:astro`, `:core:lunar`, `:core:ai`, `:data`, `:sync`, `:billing`, `:ads`, `:features:bazi`, `:features:ziwei`, `:features:astrochart`, `:features:design`, `:features:almanac`, `:features:mix-ai`
-  - [x] 在各模組建立 `build.gradle.kts` 並套用 `com.android.library` 或 `com.android.application`、`org.jetbrains.kotlin.android`
-  - [x] 在 `app/src/main/AndroidManifest.xml` 建立基本宣告與 `application` 屬性
-- [x] 加入 Gradle Wrapper 並驗證建置
-  - [x] 下載與設定 Gradle Wrapper（8.7）
-  - [x] 執行 `./gradlew :app:assembleDebug` 驗證
-- [x] 設定依賴（全部免費庫）
-  - [x] 在根 `build.gradle.kts` 設定版本管理（Compose BOM、Room、DataStore、WorkManager 等）
-  - [x] 在 `:app` 與各模組加入依賴：
-    - [x] `androidx.compose` BOM、`activity-compose`、`navigation-compose`
-    - [x] `androidx.room:room-ktx:2.6.+` 與 KAPT/ KSP
-    - [x] `androidx.datastore:datastore-preferences:1.1.+`
-    - [x] `androidx.work:work-runtime-ktx:2.9.+`
-    - [x] `androidx.security:security-crypto:1.1.+`
-    - [x] `com.microsoft.onnxruntime:onnxruntime-android:1.18.+`
-    - [x] `com.google.android.gms:play-services-auth:21.+`（Google Sign-In）
-    - [x] `google-api-client-android` + `google-api-services-drive:v3`（Drive REST）
-    - [x] `com.android.billingclient:billing-ktx:6.+`
-    - [x] `com.google.android.gms:play-services-ads:22.+`（AdMob Rewarded，可後期開啟）
-    - [x] `org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+`
-    - [x] `com.google.http-client:google-http-client-android` + `com.google.http-client:google-http-client-gson` + `com.google.code.gson:gson`
-  - [x] 在 `AndroidManifest.xml` 加入權限：
-    - [x] `INTERNET`
-    - [x] `ACCESS_NETWORK_STATE`
-    - [x] `POST_NOTIFICATIONS`（Android 13+）
-    - [x] `FOREGROUND_SERVICE`、`FOREGROUND_SERVICE_DATA_SYNC`（背景前景化）
-- [x] 設定 App 簽章與打包
-  - [x] 產生簽章檔：`keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
-  - [x] 在 `gradle.properties`（本機）設定 `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`
-  - [x] 在 `app/build.gradle.kts` 設定 `signingConfigs { release { ... } }`
-  - [x] 設定 `buildTypes { release { isMinifyEnabled = true; proguardFiles(...) } }`
-  - [x] 測試組建：`./gradlew assembleDebug`
-  - [x] 測試安裝：`adb install -r app/build/outputs/apk/debug/app-debug.apk`
-  - [x] 釋出組建：`./gradlew bundleRelease` 產出 `.aab`
-- [x] 建立資料層（Room + DataStore）
-  - [x] 在 `:data` 模組建立 Entity
-    - [x] `ReportEntity(id: String, type: String, title: String, createdAt: Long, updatedAt: Long, summary: String, contentEnc: String, chartRef: String)`
-    - [x] `ChartEntity(id: String, kind: String, birthDate: String, birthTime: String?, tz: String, place: String?, computedJson: String, snapshotJson: String)`
-    - [x] `WalletEntity(id: String = "wallet", coins: Int, lastEarnedAt: Long?, lastSpentAt: Long?)`
-    - [x] `PurchaseEntity(sku: String, type: String, state: Int, purchaseToken: String, acknowledged: Boolean, updatedAt: Long)`
-    - [x] `UserProfileEntity(id: String = "me", name: String?, lang: String, theme: String, syncEnabled: Boolean)`
-  - [x] 建立 DAO 介面
-    - [x] `ReportDao`：`insertOrUpdate(report)`, `getById(id)`, `listRecent(limit)`, `search(keyword)`
-    - [x] `ChartDao`：`insertOrUpdate(chart)`, `getById(id)`
-    - [x] `WalletDao`：`get()`, `updateCoins(delta)`, `setCoins(value)`
-    - [x] `PurchaseDao`：`upsert(purchase)`, `getActive()`
-    - [x] `UserProfileDao`：`get()`, `update(profile)`
-  - [x] 建立 `AppDatabase` 與 Migrations
-  - [x] 建立 Repository
-    - [x] `ReportRepository`：`createFromAi(type, chartId, content)`, `getReportFlow(id)`
-    - [x] Report 與 SyncManager 串接（ReportSyncBridge：push/pull）
-    - [x] Chart 與 SyncManager 串接（ChartSyncBridge：push/pull）
-    - [x] Wallet 與 SyncManager 串接（WalletSyncBridge：push/pull）
-    - [x] Purchase 與 SyncManager 串接（PurchaseSyncBridge：push/pull）
-    - [x] User 與 SyncManager 串接（UserSyncBridge：push/pull）
-    - [x] Report 端到端驗證（:app Debug Screen + ViewModel）
-    - [x] `ChartRepository`：`create(kind, input)`, `compute(kind, input)`, `getComputed(kind, id)`
-    - [x] `WalletRepository`：`earnCoins(source, amount)`, `spendCoins(reason, amount)`
-    - [x] `PurchaseRepository`：`syncFromBilling()`, `isEntitled(sku)`
-    - [x] `UserRepository`：`toggleSync(enabled)`, `setLanguage(lang)`
-  - [x] 設定 DataStore Preferences
-    - [x] keys：`PREF_LANG`, `PREF_THEME`, `PREF_NOTIF_ENABLED`, `PREF_SYNC_ENABLED`
-- [x] 建立曆法/八字引擎（:core:lunar）
-  - [x] 引入 `lunar-java`（MIT）
-  - [x] 建立 `BaziCalculator.kt`
-    - [x] `fun computeBazi(birthZonedDateTime: ZonedDateTime): BaziResult`
-    - [x] `fun computeTenGods(bazi: BaziResult): TenGodsProfile`
-    - [x] `fun evaluateFiveElements(bazi: BaziResult): FiveElementsScore`
-    - [x] `fun computeLuckCycles(birth: ZonedDateTime): List<LuckCycle>`
-  - [x] 建立 `AlmanacEngine.kt`
-    - [x] LunarCalculator：computeLunarSummary() 產出農曆/干支/節氣摘要 JSON
-    - [x] `fun getAlmanac(date: LocalDate): AlmanacDay`
-    - [x] `fun getZodiacForecast(year: Int, animal: String): ZodiacForecast`
-  - [x] 寫單元測試：對四柱/十神/五行計分覆蓋常見邊界（節氣換日、閏月）
-    - [x] 擴增節氣（立春/夏至/冬至）與閏月邊界測試（AlmanacEngineTest）
-    - [x] 擴增節氣（清明/白露）邊界測試（AlmanacEngineTest），並新增 UTC 與台北時區交界穩健性檢查（BaziCalculatorTest）
-- [x] 建立天文/星盤引擎（:core:astro）
-  - [x] 引入 `Astronomy Engine`（Java/Kotlin，MIT）
-  - [x] 建立 `AstroCalculator.kt`
-    - [x] `fun computePlanets(utcInstant: Instant, lat: Double, lon: Double): PlanetPositions`
-    - [x] `fun computeHouses(utcInstant: Instant, lat: Double, lon: Double, system: HouseSystem = HouseSystem.WHOLE_SIGN): Houses`
-    - [x] `fun computeAspects(planets: PlanetPositions, orbs: Orbs = defaultOrbs): List<Aspect>`
-  - [x] 建立 `NatalChartBuilder.kt`
-    - [x] 已於 computeSummary() 計算基本相位（0/60/90/120/180，orb=6°）
-    - [x] `fun buildNatalChart(input: BirthInput): NatalChart`
-    - [x] `fun summarizeNatal(natal: NatalChart): NatalSummary`
-  - [x] 單元測試：固定日期/地點比對行星經度與相位
-- [x] 建立人類圖（能量圖）引擎（:features:design）
-  - [x] 準備 64 閘門映射表（自製 CSV/JSON，不引用受保護教材原文）
-  - [x] 建立 `DesignMapper.kt`
-    - [x] `fun mapPlanetsToGates(planets: PlanetPositions): GateAssignments`
-    - [x] `fun inferTypeAuthority(assignments: GateAssignments): TypeAuthority`
-  - [x] 建立 BodyGraph 繪圖（Compose Canvas）
-    - [x] `BodyGraphComposable.kt`：`@Composable fun BodyGraph(viewModel: DesignViewModel, modifier: Modifier)`
-  - [x] 建立摘要生成功能
-    - [x] `fun summarizeDesign(assignments: GateAssignments, typeAuth: TypeAuthority): DesignSummary`
-- [x] 建立紫微斗數引擎（:features:ziwei）
-  - [x] 建立星曜/四化資料表（本地 JSON，自撰解釋）
-  - [x] `ZiweiCalculator.kt`
-    - [x] `fun computeZiweiChart(birth: ZonedDateTime): ZiweiChart`
-    - [x] `fun summarizeZiwei(chart: ZiweiChart): ZiweiSummary`
-  - [x] 繪製紫微命盤宮格（Compose）
-    - [x] `@Composable fun ZiweiChartView(chart: ZiweiChart)`
-- [x] 建立易經/卦象模組（:features:almanac 內或獨立 :features:iching）
-  - [x] `IchingEngine.kt`
-    - [x] `fun castHexagramByTime(now: ZonedDateTime): Hexagram`
-    - [x] `fun interpretHexagram(hex: Hexagram): IchingInterpretation`（公版/自撰釋義）
-  - [x] 簡易 UI：`@Composable fun HexagramCard(hex: Hexagram, interpretation: IchingInterpretation)`
-- [x] 建立西洋星盤 UI（:features:astrochart）
-  - [x] `AstroChartCanvas.kt`（Compose Canvas 畫圓盤、12宮、行星點）
-  - [x] `AspectList.kt`（列出相位表）
-  - [x] `@Composable fun NatalChartScreen(...)` 輸入與結果頁
-- [x] AI 綜合分析匯流（:features:mix-ai）
-  - [x] 建立 `MixedSummary.kt`
-    - [x] `fun collectSummaries(bazi: BaziSummary, ziwei: ZiweiSummary, natal: NatalSummary, design: DesignSummary, iching: IchingInterpretation?, almanac: AlmanacDay?): MixedSummary`
-  - [x] 建立 `PromptBuilder.kt`
-    - [x] `fun buildPrompt(mixed: MixedSummary, locale: Locale): String`
-  - [x] 建立 `MixAnalysisViewModel.kt`
-    - [x] `fun requestAiReport(chartIds: List<String>, mode: MixMode): LiveData<ReportId>`
-- [ ] AI 子系統（:core:ai，ONNX Runtime Mobile）
-  - [x] 準備 LLM 權重（TinyLlama-1.1B-Chat 或等價，開源授權允許商用）
-  - [x] 於開發機撰寫轉換腳本 `scripts/export_to_onnx.py`（離線執行）
-    - [x] 下載原始權重（離線保存，不提交到倉庫）
-    - [x] 使用 `transformers` + `optimum` 匯出 ONNX（腳本骨架已就緒）
-    - [x] 使用 `onnxruntime-tools` 進行 Dynamic/Integer 8-bit 量化（腳本骨架已就緒）
-    - [x] 輸出 `models/tinyllama-q8.onnx` 與 tokenizer 檔（腳本輸出路徑與流程就緒）
-    - [x] 產生 SHA-256 校驗碼 `models/tinyllama-q8.onnx.sha256`
-  - [x] 在 `:core:ai` 建立載入與推理
-    - [x] `OnnxAiEngine.kt`
-      - [x] `class OnnxAiEngine(context: Context, modelPath: String, tokenizerPath: String)`
-      - [x] `fun generateStreaming(prompt: String, maxTokens: Int, temperature: Float, topP: Float, onChunk: (String) -> Unit): Result<String>`（目前為受保護執行＋安全回退，待最終 I/O schema 後切換為真實逐 token）
-      - [x] `fun validateModelChecksum(expectedSha256: String): Boolean`
-    - [x] `Tokenizer.kt`
-      - [x] `fun encode(text: String): IntArray`
-      - [x] `fun decode(tokens: IntArray): String`
-  - [x] App 首次啟動時將 `assets/models.zip` 解壓至 `files/models/` 並驗證 SHA-256
-  - [x] 寫 ONNX 推理單元測試（以短 Prompt 產生有限 Token）
-- [x] 背景任務與通知（WorkManager + Foreground Service）
-  - [x] 建立通知頻道 `ANALYSIS_CHANNEL`
-  - [x] `AiReportWorker.kt : CoroutineWorker`
-    - [x] `override suspend fun doWork(): Result` 讀取 Chart 與 Summaries
-    - [x] 生成 Prompt → 呼叫 `OnnxAiEngine.generateStreaming` → 寫入 `ReportEntity`
-    - [x] 運行時間超過門檻時切換為前景服務通知
-  - [x] 完成後推送本地通知（點擊導向 Report 詳情頁）
-  - [x] 測試「滑掉 App」後任務不中斷情境
-- [x] UI/UX（Jetpack Compose）
-  - [x] 建立主題 `Theme.kt`（顏色、字體、形狀）
-  - [x] Onboarding 流程
-    - [x] `@Composable OnboardingScreen()`（同意條款與隱私、導入出生資料）
-  - [x] 主頁
-    - [x] `@Composable HomeScreen()`（快速排盤、工具選單、我的報告、每日黃曆卡）
-    - [x] Home 收藏卡區與搜尋（前 5 筆 + 快速開啟）
-  - [x] 輸入頁
-    - [x] `@Composable ChartInputScreen(kind)`（日期/時間/時區/地點輸入；地點可選城市清單＋手動時區）
-  - [x] 結果頁
-    - [x] @Composable ReportScreen(reportId)（支援分享/收藏/加註）
-    - [x] ReportScreen 以 Flow 觀察資料（observeById）
-    - [x] ReportScreen：Push/Pull 按鈕與狀態顯示
-    - [x] 收藏清單頁與搜尋（ReportFavoritesScreen）
-    - [x] ChartResultScreen：解鎖更多功能入口（PaywallSheet）
-    - [x] ReportScreen：生成 AI 詳解按鈕與即時內容串流（WorkManager + Flow）
-    - [x] ReportScreen：AI 進度條與段落剩餘估算（LinearProgressIndicator + N/M）
-    - [x] ReportScreen：進度條動畫與顏色切換（>80% 使用成功色）
-    - [x] ReportScreen：章節數選擇器（生成粒度 6/8/10/12）
-    - [x] ReportScreen：章節選擇說明（i）與展開詳解（啟發式解析/章節 token 與使用時機）
-  - [x] Demo：`@Composable MixAiDemoScreen()`（以現有 Design 摘要生成 Prompt 預覽）
-  - [x] 導航新增路由 `Routes.MixAiDemo` 與深連結 `aidm://mixai`
-  - [x] BodyGraph 互動與美化（縮放/拖曳/點擊 Tooltip）
-  - [x] 付費牆/解鎖
-    - [x] `@Composable PaywallSheet()`（內購/訂閱/點數選擇）
-    - [x] PaywallSheet：錯誤對話框（重試/網路設定/回報）與錯誤碼中文映射
-    - [x] PaywallSheet：偵測 Play 服務版本（`GoogleApiAvailability`）與「更新 Play 服務」引導
-    - [x] PaywallSheet：Play 服務中文狀態文案（依狀態碼顯示）
-    - [x] PaywallSheet：針對 SERVICE_UNAVAILABLE / DEVELOPER_ERROR 額外建議文案（更新或稍後重試／檢查設定或聯絡客服）
-  - [x] 點數與廣告彈窗
-    - [x] `@Composable RewardedAdDialog()`（顯示看廣告＋10 幣）
-  - [x] 設定頁
-    - [x] `@Composable SettingsScreen()`（語言、主題、同步開關、隱私政策連結、恢復購買）
-    - [x] Settings：Rewarded 狀態（可觀看/冷卻中）置頂顯示與每秒更新
-- [x] 導航結構（Navigation Compose）
-  - [x] 建立 `NavGraph.kt`
-  - [x] Chart 流程：Input→Create→Result 導航
-  - [x] 加入 Deep Link（通知點擊 → `report/{reportId}`）
-  - [x] 加入 Deep Link（settings：aidm://settings）
-  - [x] 設定頁可重看導覽（重置旗標）
-  - [x] Onboarding 從設定返回 Settings（popUpTo 清空返回堆疊）
-- [x] 安全加密與 Auto Backup
-  - [x] 使用 `androidx.security:security-crypto` 產生/管理對稱金鑰
-  - [ ] 加密 `ReportEntity.contentEnc`、`WalletEntity` 關鍵欄位
-  - [x] 在 `AndroidManifest` 啟用 Auto Backup 並排除敏感檔（via `res/xml/backup_rules.xml`）
-- [ ] Google Sign-In 與 Drive App Folder 同步（:sync）
-  - [ ] 於 Google Cloud Console 建立 OAuth 同意畫面與 Android OAuth Client（免費）
-  - [x] 在 `:sync` 建立 `GoogleAuthManager.kt`
-    - [x] `fun signIn(context): GoogleSignInAccount?`
-    - [x] `fun getAccessToken(account): String`
-  - [x] 建立 `DriveService.kt`
-    - [x] `fun ensureAppFolder(): String`（抓取 `drive.appdata` root）
-    - [x] `fun uploadJson(name: String, json: String, encrypt: Boolean = true)`
-    - [x] `fun downloadJson(name: String, decrypt: Boolean = true): String?`
-  - [x] 同步排程
-    - [x] `SyncManager.kt`：`fun syncUp()`、`fun syncDown()`、衝突以 `updatedAt` 較新覆蓋
-  - [x] 背景同步頻率 15 分鐘（WorkManager 最小間隔）
-  - [x] 手動立即同步按鈕（SettingsScreen → scheduleNow）
-  - [x] （Debug）加入 Sign-In/Sign-Out 按鈕與回呼
-  - [x] 設定頁提供同步開關；登入/登出流程；錯誤提示
-  - [x] 背景批次同步（WorkManager）：`SyncBatchWorker` + 排程（`SyncBatchScheduler`）
-- [ ] Google Play Billing v6（內購與訂閱）（:billing）
-  - [ ] 在 Play Console 建立商品 SKU：
-    - [ ] 一次性內購：`iap_bazi_pro`, `iap_ziwei_pro`, `iap_design_pro`, `iap_astro_pro`
-    - [ ] 訂閱：`sub_vip_month`, `sub_vip_year`
-  - [ ] `BillingManager.kt`
-    - [x] `fun startConnection()`
-    - [x] `suspend fun queryProducts()`（含訂閱 SUBS）
-    - [x] `fun launchPurchase(activity, productDetails)`（支援 offerToken）
-    - [x] `fun handlePurchase(purchase)`（確認權益、`acknowledgePurchase`）
-    - [x] `suspend fun queryPurchasesAsync()` 用於恢復購買
-  - [x] 權益判斷
-    - [x] `Entitlement.kt`：`fun hasPro(kind)`, `fun hasVip()`，搭配 `PurchaseRepository`
-  - [ ] UI 端整合付費牆與結果解鎖
-    - [x] 各頁 SKU 提示與快速解鎖（Report/Chart 顯示解鎖提示與跳轉）
-    - [x] Paywall 顯示功能→SKU 對應快速選擇
-  - [x] UI 解鎖（隱藏/禁用）：於 ChartInput 依權益控制建立按鈕
-  - [x] UI 解鎖（隱藏/禁用）：ReportScreen 推送/拉取/分享需 VIP 權益
-  - [x] PaywallScreen 與 PurchaseRepository 基礎互動（查權益/恢復/標記）
-- [ ] AdMob Rewarded Ads（:ads）
-  - [x] 申請 AdMob 帳戶與建立 App ID、Rewarded 廣告單元 ID（免費）
-  - [ ] 在 `AndroidManifest.xml` 新增 `com.google.android.gms.ads.APPLICATION_ID`
-  - [ ] `RewardedAdsManager.kt`
-    - [x] `fun loadRewardedAd(context, adUnitId, onLoaded, onFailed)`
-    - [x] `fun showRewardedAd(activity, onUserEarnedReward)`
-  - [x] 與 `WalletRepository.earnCoins(source="ad", amount=10)` 整合
-  - [x] 頻率限制與防濫用（冷卻時間、每日上限）
-  - [x] 修正啟動閃退：於 `AndroidManifest.xml` 加入 `APPLICATION_ID` meta-data 並在 Debug 使用 Google 測試 App ID（透過 `manifestPlaceholders["AD_APP_ID"]` 注入）
-- [ ] AI 生成工作流程（背景）
-  - [x] 使用者在結果頁點擊「生成 AI 詳解」
-  - [x] 建立 `OneTimeWorkRequest`，Data 包含 `chartIds`, `mode`, `locale`
-  - [x] 在 `AiReportWorker` 組裝各模組摘要 → `PromptBuilder.buildPrompt`（骨架）
-  - [x] 呼叫 `OnnxAiEngine.generateStreaming`，分段儲存至 `ReportEntity.contentEnc`（骨架）
-  - [x] 完成後 `NotificationManager` 發送完成通知（骨架）
-  - [x] 報告頁可持續讀取生成中內容（LiveData/Flow）
-  - [x] 章節解析：優先依模型章節 token（如 `<|section|>`）計算；無 token 則以啟發式規則；總段落預估收斂於 6–12 段
-  - [x] 可配置章節總數（sectionsPreset）並由 UI 傳入
-- [ ] 錯誤處理與離線保障
-  - [x] 建立本地錯誤日誌（寫入 `files/logs/app.log`）
-  - [ ] 設定「選用」匿名診斷上傳至 Drive App Folder（使用者可在設定同意/取消）
-  - [ ] 所有網路請求（登入/Drive/AdMob/Billing）均以可回復錯誤處理，不阻擋離線功能
-- [ ] 法務與商標檢查（避免侵權）
-  - [ ] 應用標題確認：「AI命理大師：八字・紫微・星盤・人類圖・塔羅占卜・農民曆」（不含他人商標）
-  - [ ] 文案中對「人類圖」以「能量圖（支援人類圖盤面）」表述
-  - [ ] 不引用受保護教材原文；所有詞典/釋義為自撰或公版改寫
-  - [ ] App 內與商店頁加入「非官方、僅供參考」聲明
-  - [X] 第三方授權列表整理入 `LICENSES.txt` 與 App 內「關於」頁
-- [ ] UI/UX 細節與動效
-  - [x] （Debug）Wallet/購買/Chart 測試 UI/狀態
-  - [x] Compose 動畫：分析進度「星塵」動畫（`animateFloatAsState` + Canvas）
-  - [x] 結果頁重點卡片（分領域：事業/情感/健康/財務）
-  - [x] 無障礙：字體大小調整、動畫關閉開關、語義標籤（`contentDescription`）
-  - [x] 多語：`values-zh-rTW/strings.xml` 與 `values-en/strings.xml`；先完成繁中，再上英文骨架
-  - [x] 評分提醒：第三次成功生成結果後觸發 `InAppReview` 或外跳商店評分頁
-- [ ] 測試（單元/整合/E2E/效能）
-  - [ ] 單元測試：`BaziCalculatorTest`, `AstroCalculatorTest`, `DesignMapperTest`, `ZiweiCalculatorTest`
-  - [ ] AI 產出測試：固定 Prompt 與隨機種子，驗證長度與敏感詞過濾
-  - [ ] 整合測試：Room + Repository + Worker 流程
-  - [ ] E2E：輸入出生 → 盤面摘要 → 生成詳解（背景）→ 通知 → 檢視報告 → 同步 → 登出/換機 → 恢復購買 → 點數兌換
-  - [ ] 效能：中階裝置（4GB RAM）測量 700~1200 tokens 生成時間，記錄 CPU/溫度
-  - [ ] 相容：API 26/28/30/34 實機/模擬器，飛航模式與低電測試
-- [ ] ASO 素材與策略（零行銷）
-  - [ ] 決定上架名稱（中文）：AI命理大師：八字・紫微・星盤・人類圖・塔羅占卜・農民曆
-  - [ ] 決定上架名稱（英文）：AI Destiny Master: Bazi・Ziwei・Astro・HD・Tarot・Farm Calendar
-  - [ ] 撰寫短描述：「離線 AI 算命｜一鍵產生命盤與深度建議｜支持八字、紫微、星盤、能量圖」
-  - [ ] 撰寫長描述前三行高關鍵字密度（離線 AI 算命、八字命盤、紫微斗數、星盤、AI 詳解、AI 綜合分析、黃曆、Google 帳號同步、背景運算通知）
-  - [ ] 製作 6 張截圖（主頁、排盤、AI 詳解、AI 綜合分析、同步設定、黃曆）
-  - [ ] 製作應用 Icon（自製向量，抽象圖騰/星象＋科技元素）
-  - [ ] 準備英文商店頁對應文案
-  - [ ] 避免標題中使用可能侵權詞彙（不放 Human Design）
-- [ ] GitHub Pages 隱私政策與條款（免費）
-  - [x] 建立 repo：`ai-destiny-master-privacy`
-  - [x] 建立 `index.md`（隱私政策）、`terms.md`（服務條款）、`support.md`（聯絡方式）
-  - [x] 於 repo 設定 GitHub Pages（分支 `main`，資料夾 `/` 或 `/docs`）
-  - [x] 在 App 設定頁與 Play Console 填入隱私權政策 URL
-  - [x] 隱私內容涵蓋：資料收集（出生資料等）、用途（生成分析）、保存（本機/加密/Drive App Folder）、用戶權利（刪除/導出）、第三方 SDK（Billing/Ads/Auth/Drive）說明
-- [ ] Google Play Console 上架前準備
-  - [ ] 註冊 Google Play Developer（一次性費用）
-  - [ ] 建立商家帳戶（Merchant）以啟用付費/訂閱
-  - [ ] 建立新應用（名稱、預設語言、類別 Lifestyle、聯絡 Email）
-  - [ ] 上傳商店素材（Icon、截圖、短/長描述、影片可後補）
-  - [ ] 填寫隱私政策 URL（GitHub Pages）
-  - [ ] 填寫 Data Safety 表單（資料收集、處理目的、加密、用戶控制、第三方 SDK）
-  - [ ] 廣告宣告（如啟用 Rewarded，需勾選含廣告）
-  - [ ] 內容分級問卷（一般使用者）
-  - [ ] 裝置 64-bit 要求確認
-  - [ ] 設定發佈國家/地區（TW/HK/MO/SG/MY 及英文地區）
-  - [ ] 設定定價與銷售（App 免費，SKU 與訂閱價格）
-- [ ] Google Play 內測/封測/公測流程
-  - [ ] 建立 Internal 測試軌，新增測試人員（Email 白名單）
-  - [ ] 上傳 `.aab` 與符號檔，填寫版本說明
-  - [ ] 測試內購流程（沙盒帳號）、恢復購買、訂閱取消/續訂
-  - [ ] 測試 Drive 同步（上傳/下載/衝突）
-  - [ ] 測試 Rewarded Ads（測試 ID 先行、上線改正式 ID）
-  - [ ] 收集 ANR/崩潰與回饋並修正
-  - [ ] 轉 Closed 測試（更大量使用者）
-  - [ ] 轉 Open 測試（選擇性）
-- [ ] 正式上架與分階段發布
-  - [ ] 最終審查自檢（權限最小化、表單一致性、文案合規）
-  - [ ] 設定「分階段發佈」（如 10% → 50% → 100%）
-  - [ ] 監控評分與回饋，回應問題（FAQ 指引）
-  - [ ] 首輪必要熱修（如相容性或致命錯誤）
-- [ ] 內購/訂閱商品實作收尾
-  - [ ] 在 `PaywallSheet` 顯示商品與價格（從 `BillingManager.queryProducts()` 讀取）
-  - [ ] 設定購買流程按鈕→`BillingManager.launchPurchase(...)`
-  - [ ] 購買回調→更新 `PurchaseRepository` 與 `Entitlement` 狀態
-  - [ ] 恢復購買入口（設定頁）
-  - [ ] 訂閱權益：解鎖所有深度與 AI 無限次
-- [ ] 點數與激勵廣告實作收尾
-  - [ ] 建立 `WalletViewModel` 與 UI 顯示餘額
-  - [ ] Rewarded Ads 成功回調 → `WalletRepository.earnCoins("ad", 10)`
-  - [ ] 以點數解鎖 AI（50 幣）與單次深度（視規則）
-  - [ ] 設定每日觀看上限與冷卻時間
-  - [ ] 錯誤處理（廣告載入失敗備援提示）
-- [ ] 背景運算 UX 與通知
-  - [ ] 分段渲染生成中文字（流式顯示）
-  - [ ] 長文自動分頁與本地快取
-  - [ ] 通知點擊返回報告頁的 Deep Link
-  - [ ] 允許取消背景任務並安全中斷
-- [ ] 內容與警語
-  - [ ] 在結果頁底加入「僅供參考，不作醫療/法律/投資建議」
-  - [ ] 在設定頁加入「非官方聲明」對「能量圖」
-  - [ ] 加入「用語避絕對化」敏感詞過濾（簡易詞典）
-- [ ] 本地化與語言切換
-  - [ ] 在設定頁提供語言選擇（繁中/英文）
-  - [ ] 在生成 Prompt 時依語言插入本地化模板
-  - [ ] 商店頁提供繁中與英文版文案
- - [ ] 日誌與除錯
-  - [ ] 建立 `LogRepository` 將錯誤寫入 `files/logs/app.log`
-  - [ ] 設定「上傳診斷」選項（Drive App Folder，匿名）
-  - [ ] WindSurf 終端 `adb logcat | grep AIDestinyMaster` 快速過濾
-  - [x] 修正啟動深連結處理 NPE（`NavController.handleDeepLink` 於 `NavGraph.kt`）
-  - [x] 修正 Debug 版 AdMob APPLICATION_ID（以 `app/src/debug/AndroidManifest.xml` 覆寫測試 ID，避免 `MobileAdsInitProvider` 啟動閃退）
-  - [x] 修正 DataStore 重複實例導致崩潰（統一以 `:data` 模組 `UserPrefsRepository` 單例存取）
-  - [x] Debug 變體移除/停用 `MobileAdsInitProvider`，避免 AdMob 初始化閃退（`app/src/debug/AndroidManifest.xml`）
-- [ ] CI（GitHub Actions）
-  - [ ] 建立 `.github/workflows/android.yml`
-    - [ ] 於 CI 安裝 JDK 17、Android SDK、授權 licenses
-    - [ ] 跑 `./gradlew build test lint`
-    - [ ] 產出 Debug APK 作為 artifacts
-  - [ ] 設定 release tag 觸發 `bundleRelease`（簽章資訊以 GitHub Secrets 提供）
-- [ ] 版本管理與路線圖
-  - [ ] 標記 V1 里程碑（此計畫全部完成）
-  - [ ] V1.1 任務板（英文完整化、相位擴充、AI 模板增量）
-  - [ ] V1.2 任務板（可評估相機功能與合盤）
-- [ ] 最後檢查清單（上架前 48 小時）
-  - [ ] 名稱/描述/截圖/影片/隱私 URL 檢查
-  - [ ] `.aab` 簽章可驗證與安裝測試
-  - [ ] 內購/訂閱購買與恢復流程通過
-  - [ ] 同步開關與換機流程通過
-  - [ ] 背景運算與通知在 Android 13/14/15 通過
-  - [ ] 第三方授權與商標風險檢查通過
-  - [ ] Data Safety/內容分級/廣告宣告與 App 實際行為一致
-- [ ] 發布後監測與低維護策略
-  - [ ] 監控評分與關鍵字排名（手動週檢）
-  - [ ] 只在必要時進行相容性更新
-  - [ ] 規劃模型/詞庫年度性小升級（如有收益支持）
-
-
-
-
-
-
-
-
-
+- [ ] 全域：環境檢查與基礎安裝（WindSurf IDE／Android CLT／模擬器／GitHub Pages）
+  - [ ] 盤點作業系統與 CPU 架構（決定系統映像：x86_64 或 arm64-v8a）
+    - [ ] 在終端輸入 `uname -m`（macOS/Linux）或 `wmic os get osarchitecture`（Windows）確認架構
+    - [ ] 若輸出含 `arm64` 或 `aarch64`（Apple Silicon/M1+）：後續選用 `system-images;android-35;google_apis;arm64-v8a`
+    - [ ] 若輸出含 `x86_64` 或 `AMD64`：後續選用 `system-images;android-35;google_apis;x86_64`
+  - [ ] 檢查與安裝 WindSurf IDE（VS Code 架構，已安裝則略過）
+    - [ ] 在系統搜尋列輸入 `WindSurf` 並啟動，若可開啟主視窗則視為已安裝
+    - [ ] 若未安裝：開啟瀏覽器進入官方下載頁，下載對應 OS 安裝檔後完成安裝
+    - [ ] 重新啟動 WindSurf，於「Help → About」確認版本資訊可正常顯示
+  - [ ] 檢查與安裝 JDK 17（已安裝則略過）
+    - [ ] 在 WindSurf「終端」輸入 `java -version`，確認版本字串含 `17`
+    - [ ] 在 WindSurf「終端」輸入 `echo $JAVA_HOME`（macOS/Linux）或 `echo %JAVA_HOME%`（Windows）檢查變數
+    - [ ] 若無 JDK 17：下載並安裝 Temurin/OpenJDK 17（LTS）
+    - [ ] 設定 `JAVA_HOME`（macOS/Linux：在 `~/.zshrc` 或 `~/.bashrc` 追加 `export JAVA_HOME=$(/usr/libexec/java_home -v 17)` 並 `source`；Windows：系統環境變數新增 `JAVA_HOME` 指向 JDK 17 安裝路徑）
+    - [ ] 在新終端再次執行 `java -version` 與 `echo $JAVA_HOME`/`%JAVA_HOME%` 驗證生效
+  - [ ] 檢查與安裝 Android SDK Command-line Tools（已安裝則略過）
+    - [ ] 在 WindSurf「終端」輸入 `sdkmanager --list`，若能列出套件清單則視為已裝
+    - [ ] 若 `sdkmanager` 指令不存在：下載 `commandlinetools-<os>-latest.zip`
+    - [ ] 建立目錄結構 `~/Android/cmdline-tools/latest`（Windows 請建立 `%USERPROFILE%\Android\cmdline-tools\latest`）
+    - [ ] 將 zip 解壓內容放入 `.../cmdline-tools/latest` 目錄（確保路徑包含 `.../cmdline-tools/latest/bin/sdkmanager`）
+    - [ ] 設定環境變數 `ANDROID_HOME`（macOS/Linux：`export ANDROID_HOME=~/Android`；Windows：新增系統變數 `ANDROID_HOME` 指向 `C:\Users\<你>\Android`）
+    - [ ] 將 `platform-tools` 與 `cmdline-tools/latest/bin` 加入 PATH（macOS/Linux：在 `~/.zshrc` 追加；Windows：系統 PATH 新增兩筆）
+    - [ ] 重新開啟終端，執行 `sdkmanager --version` 確認版本號
+    - [ ] 執行 `sdkmanager --licenses` 並輸入 `y` 全數接受授權
+  - [ ] 安裝必要 SDK 元件（已存在則略過）
+    - [ ] 在終端執行 `sdkmanager --update` 更新索引
+    - [ ] 在終端執行 `sdkmanager "platform-tools"`
+    - [ ] 在終端執行 `sdkmanager "platforms;android-35"`
+    - [ ] 在終端執行 `sdkmanager "build-tools;35.0.0"`
+    - [ ] 在終端執行 `sdkmanager "emulator"`
+    - [ ] 若 CPU 為 x86_64：在終端執行 `sdkmanager "system-images;android-35;google_apis;x86_64"`
+    - [ ] 若 CPU 為 arm64：在終端執行 `sdkmanager "system-images;android-35;google_apis;arm64-v8a"`
+    - [ ] 在終端執行 `avdmanager list device` 確認 `pixel_6` 裝置定義存在
+  - [ ] 啟用虛擬化加速（依作業系統）
+    - [ ] Windows：在 PowerShell 輸入 `systeminfo` 檢查「Hyper-V 要求」全部為「是」
+    - [ ] Windows：在「開啟或關閉 Windows 功能」勾選「Windows Hypervisor Platform」與「虛擬機器平台」並重新開機
+    - [ ] macOS：無需額外設定（使用 Apple Hypervisor）
+    - [ ] Linux：在終端輸入 `egrep -c '(vmx|svm)' /proc/cpuinfo`，輸出 > 0 表示支援；確認已安裝 KVM 並將使用者加入 `kvm` 群組
+    - [ ] 在終端執行 `emulator -accel-check` 確認加速已啟用
+  - [ ] 檢查/建立 AVD：Pixel6Api35（已存在則略過）
+    - [ ] 在終端執行 `avdmanager list avd | grep Pixel6Api35` 檢查是否存在
+    - [ ] 若不存在且為 x86_64：在終端執行 `avdmanager create avd -n Pixel6Api35 -k "system-images;android-35;google_apis;x86_64" -d pixel_6`
+    - [ ] 若不存在且為 arm64：在終端執行 `avdmanager create avd -n Pixel6Api35 -k "system-images;android-35;google_apis;arm64-v8a" -d pixel_6`
+    - [ ] 在終端執行 `avdmanager list avd` 確認 `Pixel6Api35` 已出現
+  - [ ] 啟動模擬器並驗證 ADB 連線
+    - [ ] 在終端執行 `emulator -avd Pixel6Api35 -netdelay none -netspeed full` 啟動模擬器
+    - [ ] 另開終端執行 `adb kill-server && adb start-server` 重新啟動 ADB
+    - [ ] 在終端執行 `adb devices`，確認出現一台 `emulator-` 裝置且狀態為 `device`
+    - [ ] 在終端執行 `adb shell getprop ro.build.version.sdk`，確認輸出為 `35`
+    - [ ] 在終端執行 `adb install -r <任意小型 APK>` 驗證安裝權限正常（無錯誤碼 `INSTALL_FAILED_...`）
+  - [ ] 設定 WindSurf 擴充套件（未裝則安裝）
+    - [ ] 開啟 WindSurf，按 `Ctrl/Cmd+Shift+X` 開啟 Extensions 面板
+    - [ ] 搜尋並安裝 `Kotlin`（JetBrains）
+    - [ ] 搜尋並安裝 `Java Extension Pack`
+    - [ ] 搜尋並安裝 `Gradle for Java`
+    - [ ] 搜尋並安裝 `Android XML`（語法高亮）
+    - [ ] 搜尋並安裝 `ADB Interface`
+    - [ ] 搜尋並安裝 `YAML`
+    - [ ] 搜尋並安裝 `JSON`
+    - [ ] 搜尋並安裝 `Markdown All in One`
+    - [ ] 搜尋並安裝 `GitLens`
+    - [ ] 搜尋並安裝 `Error Lens`
+    - [ ] 於 WindSurf「設定」搜尋 `terminal.integrated.inheritEnv` 勾選以繼承系統環境變數
+    - [ ] 在 WindSurf「終端」執行 `adb version`、`gradle -v`（或 `./gradlew -v`）確認可被擴充套件偵測
+  - [ ] 建立/連線 GitHub 專案（程式碼倉庫）
+    - [ ] 登入 GitHub 帳號（未登入者先註冊並驗證 Email）
+    - [ ] 在 GitHub 建立新 Repo `AI-Destiny-Master`（Public 或 Private 皆可）
+    - [ ] 在 Repo 啟用 Issues 與 Discussions（可選，便於後續追蹤）
+    - [ ] 在本機建立專案資料夾並於終端執行 `git init`
+    - [ ] 在終端執行 `git remote add origin <你的 repo SSH/HTTPS 位址>`
+    - [ ] 在專案根目錄新增 `.gitignore`（包含 `/app/build/`, `/build/`, `*.keystore`, `local.properties`, `.gradle/`）
+    - [ ] 在終端執行 `git add . && git commit -m "chore: init project"` 完成第一次提交
+    - [ ] 在終端執行 `git push -u origin main` 將程式碼推送至 GitHub
+  - [ ] 建立 GitHub Pages（隱私政策與開發者網站）
+    - [ ] 在 GitHub 新增 Repo `ai-destiny-master`（或使用主 Repo 的 `/docs` 資料夾）
+    - [ ] 在 `ai-destiny-master` 的根目錄新增 `index.md`（Privacy Policy 內容）
+    - [ ] 在 `ai-destiny-master` 的根目錄新增 `terms.md`（Terms of Service 內容）
+    - [ ] 在 `ai-destiny-master` 的根目錄新增 `support.md`（支援與聯絡資訊）
+    - [ ] 在 `ai-destiny-master` 的根目錄新增 `app-ads.txt` 並填入 `google.com, pub-1779359737796272, DIRECT, f08c47fec0942fa0`
+    - [ ] 在 GitHub Repo「Settings → Pages」打開 Pages 設定
+    - [ ] 在「Source」選擇 `Deploy from a branch`
+    - [ ] 在「Branch」下拉選擇 `main` 與根目錄 `/`（或選 `docs` 資料夾視你的結構）
+    - [ ] 按下「Save」啟用 Pages，等待右上方顯示已部署成功訊息
+    - [ ] 在瀏覽器開啟 `https://masteryee-labs.github.io/ai-destiny-master/` 驗證頁面可讀
+    - [ ] 在瀏覽器開啟 `https://masteryee-labs.github.io/ai-destiny-master/app-ads.txt` 驗證檔案可讀且內容正確
+  - [ ] 將 GitHub Pages 設為 Play Console 開發者網站
+    - [ ] 登入 Google Play Console（已註冊開發者帳）
+    - [ ] 進入「設定 → 開發者帳戶 → 開發者頁面」
+    - [ ] 在「開發者網站 URL」欄位貼上 `https://masteryee-labs.github.io/ai-destiny-master/`
+    - [ ] 在「聯絡資訊」填入有效支援 Email 與可公開顯示的聯絡方式
+    - [ ] 儲存變更並等待 Play Console 驗證網站可存取
+  - [ ] 內部 QA 驗收：環境與工具鏈
+    - [ ] 在 WindSurf「終端」執行 `java -version` 應為 JDK 17，`echo $JAVA_HOME`/`%JAVA_HOME%` 指向 JDK 17
+    - [ ] 在 WindSurf「終端」執行 `sdkmanager --list` 應可列出 `platform-tools`、`platforms;android-35`、`build-tools;35.0.0`
+    - [ ] 在 WindSurf「終端」執行 `avdmanager list avd` 應含 `Pixel6Api35`
+    - [ ] 在 WindSurf「終端」執行 `emulator -avd Pixel6Api35` 可啟動且不閃退
+    - [ ] 在 WindSurf「終端」執行 `adb devices` 顯示裝置為 `device` 狀態
+    - [ ] 在 WindSurf「終端」執行 `./gradlew tasks` 成功列出任務（首次會下載 Gradle 依賴）
+    - [ ] 在瀏覽器開啟 GitHub Pages 隱私政策首頁與 `app-ads.txt` 均可正常存取
+- [ ] 專案骨架初始化（Gradle 多模組／Compose／Room／WorkManager／ONNX／Billing／Ads／Auth）
+  - [ ] 在工作資料夾建立專案目錄 `aidestinymaster`
+    - [ ] 在終端切換到欲建立位置 `cd <你的工作資料夾>`
+    - [ ] 建立資料夾 `mkdir aidestinymaster`
+    - [ ] 進入資料夾 `cd aidestinymaster`
+    - [ ] 建立空的 `README.md` 以利版本控 `echo "# AIDestinyMaster" > README.md`
+    - [ ] 建立 `.gitignore` 並加入 `**/build/`, `.gradle/`, `local.properties`, `*.keystore`, `*.jks`, `*.aab`, `*.apk`
+  - [ ] 建立 Gradle Wrapper 與根層設定檔
+    - [ ] 檢查本機是否有 `gradle` 指令 `gradle -v`（若無則使用臨時方法產生 wrapper）
+    - [ ] 若有 `gradle` 指令：執行 `gradle wrapper --gradle-version 8.9 --distribution-type all`
+    - [ ] 若無 `gradle` 指令：下載官方 `gradle-8.9-bin.zip` 並解壓到暫時資料夾
+    - [ ] 使用暫時 gradle 呼叫 wrapper：`<暫時gradle>/bin/gradle wrapper --gradle-version 8.9 --distribution-type all`
+    - [ ] 確認產生 `gradlew`, `gradlew.bat`, `gradle/wrapper/gradle-wrapper.jar`, `gradle/wrapper/gradle-wrapper.properties`
+    - [ ] 建立 `settings.gradle.kts` 檔案於專案根目錄
+    - [ ] 建立 `build.gradle.kts` 檔案於專案根目錄
+    - [ ] 建立 `gradle.properties` 檔案於專案根目錄
+    - [ ] 建立 `local.properties` 並填入 `sdk.dir=<你的 ANDROID SDK 路徑>`
+  - [ ] 編寫 `settings.gradle.kts`（啟用插件管理與倉庫）
+    - [ ] 新增 `pluginManagement` 區塊設定 repositories：`google()`, `mavenCentral()`, `gradlePluginPortal()`
+    - [ ] 新增 `dependencyResolutionManagement` 區塊設定 repositories：`google()`, `mavenCentral()`
+    - [ ] 設定 `rootProject.name = "AIDestinyMaster"`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:app`, `:core:ai`, `:core:astro`, `:data`, `:billing`, `:ads`, `:sync`
+    - [ ] 為每個模組建立資料夾 `mkdir -p app core/ai core/astro data billing ads sync`
+    - [ ] 在 `settings.gradle.kts` 使用 `include(":app", ":core:ai", ":core:astro", ":data", ":billing", ":ads", ":sync")`
+  - [ ] 編寫根 `build.gradle.kts`（統一插件版本與 Kotlin 17）
+    - [ ] 在 `plugins` 加入 `id("com.android.application") version "8.6.0" apply false`
+    - [ ] 在 `plugins` 加入 `id("com.android.library") version "8.6.0" apply false`
+    - [ ] 在 `plugins` 加入 `id("org.jetbrains.kotlin.android") version "1.9.24" apply false`
+    - [ ] 在 `plugins` 加入 `id("com.google.devtools.ksp") version "1.9.24-1.0.20" apply false`
+    - [ ] 在 `tasks` 設定 `wrapper` 使用 `gradleVersion = "8.9"`
+  - [ ] 設定 `gradle.properties`（JVM 參數與 AndroidX）
+    - [ ] 加入 `org.gradle.jvmargs=-Xmx4g -Dfile.encoding=UTF-8 -XX:+UseParallelGC`
+    - [ ] 加入 `android.useAndroidX=true`
+    - [ ] 加入 `android.nonTransitiveRClass=true`
+    - [ ] 加入 `kotlin.code.style=official`
+    - [ ] 加入 `kotlin.incremental=true`
+  - [ ] 建立 `:app` 模組（Application）
+    - [ ] 在 `app` 建立 `build.gradle.kts`
+    - [ ] 在 `app/src/main` 建立 `AndroidManifest.xml`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster` 建立 `App.kt`（Application 類別檔之後再實作）
+    - [ ] 在 `app/src/main/res/values` 建立 `strings.xml`、`colors.xml`、`themes.xml`
+    - [ ] 在 `app/src/main/res/drawable` 建立 `ic_launcher_foreground.xml` 佔位
+    - [ ] 在 `app/src/main/res/mipmap-anydpi-v26` 建立 `ic_launcher.xml` 佔位
+  - [ ] 建立 `:core:ai` 模組（ONNX 與 Tokenizer）
+    - [ ] 在 `core/ai` 建立 `build.gradle.kts`
+    - [ ] 在 `core/ai/src/main` 建立 `AndroidManifest.xml`（空 manifest）
+    - [ ] 在 `core/ai/src/main/java/com/aidestinymaster/core/ai` 建立套件資料夾
+    - [ ] 在 `core/ai/src/main/assets/model` 建立占位資料夾（放置日後 `.onnx` 與 tokenizer）
+  - [ ] 建立 `:core:astro` 模組（星體計算）
+    - [ ] 在 `core/astro` 建立 `build.gradle.kts`
+    - [ ] 在 `core/astro/src/main` 建立 `AndroidManifest.xml`（空 manifest）
+    - [ ] 在 `core/astro/src/main/java/com/aidestinymaster/core/astro` 建立套件資料夾
+  - [ ] 建立 `:data` 模組（Room／DataStore）
+    - [ ] 在 `data` 建立 `build.gradle.kts`
+    - [ ] 在 `data/src/main` 建立 `AndroidManifest.xml`（空 manifest）
+    - [ ] 在 `data/src/main/java/com/aidestinymaster/data` 建立 `db`, `dao`, `entity`, `repo` 子資料夾
+  - [ ] 建立 `:billing` 模組（Play Billing v8 封裝）
+    - [ ] 在 `billing` 建立 `build.gradle.kts`
+    - [ ] 在 `billing/src/main` 建立 `AndroidManifest.xml`（空 manifest）
+    - [ ] 在 `billing/src/main/java/com/aidestinymaster/billing` 建立 `BillingManager.kt` 之後實作的檔案佔位
+  - [ ] 建立 `:ads` 模組（AdMob Rewarded 封裝 + UMP）
+    - [ ] 在 `ads` 建立 `build.gradle.kts`
+    - [ ] 在 `ads/src/main` 建立 `AndroidManifest.xml`（空 manifest）
+    - [ ] 在 `ads/src/main/java/com/aidestinymaster/ads` 建立 `AdsManager.kt`, `ConsentManager.kt` 之後實作的檔案佔位
+  - [ ] 建立 `:sync` 模組（V1.1 用，Google Sign-In + Drive）
+    - [ ] 在 `sync` 建立 `build.gradle.kts`
+    - [ ] 在 `sync/src/main` 建立 `AndroidManifest.xml`（空 manifest）
+    - [ ] 在 `sync/src/main/java/com/aidestinymaster/sync` 建立 `DriveService.kt`, `SyncRepository.kt` 之後實作的檔案佔位
+  - [ ] 在 `:app` 新增 `AndroidManifest.xml` 權限
+    - [ ] 在 `<manifest>` 內加入 `<uses-permission android:name="android.permission.INTERNET"/>`
+    - [ ] 在 `<manifest>` 內加入 `<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>`
+    - [ ] 在 `<manifest>` 內加入 `<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>`（Android 13+）
+    - [ ] 在 `<manifest>` 內加入 `<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>`
+    - [ ] 在 `<manifest>` 內加入 `<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>`
+    - [ ] 在 `<application>` 設定 `android:name=".App"` 與 `android:allowBackup="true"` 與 `android:supportsRtl="true"`
+    - [ ] 在 `<application>` 設定 `android:theme="@style/Theme.AIDestinyMaster"`
+  - [ ] 在各 module 的 `build.gradle.kts` 添加依賴（依責任切分）
+    - [ ] 在 `:app/build.gradle.kts` 啟用 Android 應用外掛 `com.android.application`
+    - [ ] 在 `:app/build.gradle.kts` 啟用 `org.jetbrains.kotlin.android`
+    - [ ] 在 `:app/build.gradle.kts` 設定 `compileSdk = 35`
+    - [ ] 在 `:app/build.gradle.kts` 的 `defaultConfig` 設定 `applicationId = "com.aidestinymaster"`, `minSdk = 26`, `targetSdk = 35`, `versionCode = 1`, `versionName = "1.0.0"`
+    - [ ] 在 `:app/build.gradle.kts` 的 `buildFeatures` 啟用 `compose = true`
+    - [ ] 在 `:app/build.gradle.kts` 的 `composeOptions` 設定 `kotlinCompilerExtensionVersion` 與 Compose BOM 對齊
+    - [ ] 在 `:app/build.gradle.kts` 的 `compileOptions` 設定 `sourceCompatibility = JavaVersion.VERSION_17` 與 `targetCompatibility = JavaVersion.VERSION_17`
+    - [ ] 在 `:app/build.gradle.kts` 的 `kotlinOptions` 設定 `jvmTarget = "17"`
+    - [ ] 在 `:app/build.gradle.kts` 的 `packaging` 加入 `resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"`
+    - [ ] 在 `:app/build.gradle.kts` 的 `dependencies` 加入 `implementation(platform("androidx.compose:compose-bom:2025.01.00"))`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("androidx.activity:activity-compose:1.9.2")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("androidx.navigation:navigation-compose:2.8.0")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("androidx.compose.material3:material3")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation(project(":core:astro"))`, `implementation(project(":core:ai"))`, `implementation(project(":data"))`, `implementation(project(":billing"))`, `implementation(project(":ads"))`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("androidx.work:work-runtime-ktx:2.9.1")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("androidx.security:security-crypto:1.1.0-alpha06")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("com.microsoft.onnxruntime:onnxruntime-android:1.18.0")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("com.google.android.gms:play-services-auth:21.2.0")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("com.android.billingclient:billing-ktx:8.1.1")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("com.google.android.gms:play-services-ads:22.6.0")`
+    - [ ] 在 `:app/build.gradle.kts` 加入 `implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")`
+    - [ ] 在 `:core:ai/build.gradle.kts` 套用 `com.android.library`, `org.jetbrains.kotlin.android`
+    - [ ] 在 `:core:ai/build.gradle.kts` 設定 `namespace = "com.aidestinymaster.core.ai"`, `compileSdk = 35`, `minSdk = 26`
+    - [ ] 在 `:core:ai/build.gradle.kts` 加入 `implementation("com.microsoft.onnxruntime:onnxruntime-android:1.18.0")`
+    - [ ] 在 `:core:ai/build.gradle.kts` 加入 `implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")`
+    - [ ] 在 `:core:astro/build.gradle.kts` 套用 `com.android.library`, `org.jetbrains.kotlin.android`
+    - [ ] 在 `:core:astro/build.gradle.kts` 設定 `namespace = "com.aidestinymaster.core.astro"`, `compileSdk = 35`, `minSdk = 26`
+    - [ ] 在 `:core:astro/build.gradle.kts` 加入 `implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")`
+    - [ ] 在 `:data/build.gradle.kts` 套用 `com.android.library`, `org.jetbrains.kotlin.android`, `com.google.devtools.ksp`
+    - [ ] 在 `:data/build.gradle.kts` 設定 `namespace = "com.aidestinymaster.data"`, `compileSdk = 35`, `minSdk = 26`
+    - [ ] 在 `:data/build.gradle.kts` 加入 `implementation("androidx.room:room-ktx:2.6.1")`
+    - [ ] 在 `:data/build.gradle.kts` 加入 `ksp("androidx.room:room-compiler:2.6.1")`
+    - [ ] 在 `:data/build.gradle.kts` 加入 `implementation("androidx.datastore:datastore-preferences:1.1.1")`
+    - [ ] 在 `:billing/build.gradle.kts` 套用 `com.android.library`, `org.jetbrains.kotlin.android`
+    - [ ] 在 `:billing/build.gradle.kts` 設定 `namespace = "com.aidestinymaster.billing"`, `compileSdk = 35`, `minSdk = 26`
+    - [ ] 在 `:billing/build.gradle.kts` 加入 `implementation("com.android.billingclient:billing-ktx:8.1.1")`
+    - [ ] 在 `:ads/build.gradle.kts` 套用 `com.android.library`, `org.jetbrains.kotlin.android`
+    - [ ] 在 `:ads/build.gradle.kts` 設定 `namespace = "com.aidestinymaster.ads"`, `compileSdk = 35`, `minSdk = 26`
+    - [ ] 在 `:ads/build.gradle.kts` 加入 `implementation("com.google.android.gms:play-services-ads:22.6.0")`
+    - [ ] 在 `:ads/build.gradle.kts` 加入 `implementation("com.google.android.ump:user-messaging-platform:3.0.0")`
+    - [ ] 在 `:sync/build.gradle.kts` 套用 `com.android.library`, `org.jetbrains.kotlin.android`
+    - [ ] 在 `:sync/build.gradle.kts` 設定 `namespace = "com.aidestinymaster.sync"`, `compileSdk = 35`, `minSdk = 26`
+    - [ ] 在 `:sync/build.gradle.kts` 加入 `implementation("com.google.android.gms:play-services-auth:21.2.0")`
+    - [ ] 在 `:sync/build.gradle.kts` 加入 `implementation("com.squareup.okhttp3:okhttp:4.12.0")`（Drive REST 直呼用）
+    - [ ] 在 `:sync/build.gradle.kts` 加入 `implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")`
+  - [ ] 在 `:app` 啟用 Compose 與 Kotlin 17，設定 SDK 版本
+    - [ ] 在 `android {}` 內設 `namespace = "com.aidestinymaster"`
+    - [ ] 在 `android {}` 內設 `compileSdk = 35`
+    - [ ] 在 `defaultConfig {}` 內設 `minSdk = 26`, `targetSdk = 35`
+    - [ ] 在 `buildFeatures {}` 內設 `compose = true`
+    - [ ] 在 `composeOptions {}` 設定 `kotlinCompilerExtensionVersion` 與 BOM 相容版本
+    - [ ] 在 `compileOptions {}` 設定 `sourceCompatibility = JavaVersion.VERSION_17`
+    - [ ] 在 `compileOptions {}` 設定 `targetCompatibility = JavaVersion.VERSION_17`
+    - [ ] 在 `kotlinOptions {}` 設定 `jvmTarget = "17"`
+  - [ ] 建立共用 UI 主題與導航骨架（Material 3 + BottomBar + NavHost）
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/theme` 建立 `Color.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/theme` 建立 `Typography.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/theme` 建立 `Theme.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/components` 建立 `BottomBar.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/navigation` 建立 `NavGraph.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/navigation` 建立 `Destinations.kt` 定義路由常數
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/screens/home` 建立 `HomeScreen.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/screens/chart` 建立 `ChartInputScreen.kt`, `ChartResultScreen.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/screens/report` 建立 `ReportDetailScreen.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/screens/wallet` 建立 `WalletScreen.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/screens/settings` 建立 `SettingsScreen.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/ui/screens/purchase` 建立 `PurchaseScreen.kt`
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/MainActivity.kt` 建立 `setContent { AIDestinyMasterTheme { NavGraph() } }`
+    - [ ] 在 `BottomBar.kt` 定義四個項目：首頁、報告、錢包、設定
+    - [ ] 在 `BottomBar.kt` 為每個項目定義 `icon` 與 `label` 並連結對應路由
+    - [ ] 在 `NavGraph.kt` 使用 `NavHost` 設定 `startDestination = "home"`
+    - [ ] 在 `NavGraph.kt` 註冊路由 `home`, `chart.input`, `chart.result`, `report.detail`, `wallet`, `settings`, `purchase`
+    - [ ] 在 `HomeScreen.kt` 放置主要 CTA 按鈕「快速排盤」於頁面上半部（FilledButton）
+    - [ ] 在 `HomeScreen.kt` 放置次要卡片區域「我的報告」「生成 AI 詳解」「今日黃曆」「我的點數/購買」
+    - [ ] 在 `HomeScreen.kt` 為「快速排盤」設定 `onClick` 導航至 `chart.input`
+    - [ ] 在 `ChartInputScreen.kt` 放置日期/時間/時區/地點輸入元件與「產生命盤」按鈕
+    - [ ] 在 `ChartInputScreen.kt` 為「產生命盤」設定 `onClick` 導航至 `chart.result` 並傳遞參數
+    - [ ] 在 `ChartResultScreen.kt` 放置圓盤占位繪製區與「生成 AI 詳解（可背景）」按鈕
+    - [ ] 在 `ReportDetailScreen.kt` 放置標題、重點摘要卡、長文區塊與分享按鈕占位
+    - [ ] 在 `WalletScreen.kt` 放置餘額顯示、「看廣告 +10 幣」與「兌換深度報告」按鈕占位
+    - [ ] 在 `SettingsScreen.kt` 放置語言/主題/通知開關與「恢復購買」按鈕占位
+    - [ ] 在 `PurchaseScreen.kt` 顯示 SKU 清單卡片與「立即購買」按鈕占位
+    - [ ] 在 `strings.xml` 定義所有 UI 文案鍵值（繁中與英文占位）
+  - [ ] 建立 DI（Service Locator / 單例，不引入 Dagger/Hilt）
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/di` 建立 `AppServices.kt`
+    - [ ] 在 `AppServices.kt` 建立 `object AppServices`
+    - [ ] 在 `AppServices.kt` 宣告 `lateinit var application: Application`
+    - [ ] 在 `AppServices.kt` 提供 `val database by lazy { AppDatabase.getInstance(application) }`
+    - [ ] 在 `AppServices.kt` 提供 `val reportRepository by lazy { ReportRepository(database.reportDao()) }`
+    - [ ] 在 `AppServices.kt` 提供 `val chartRepository by lazy { ChartRepository(database.chartDao()) }`
+    - [ ] 在 `AppServices.kt` 提供 `val walletRepository by lazy { WalletRepository(database.walletDao(), dataStore) }`
+    - [ ] 在 `AppServices.kt` 提供 `val purchaseRepository by lazy { PurchaseRepository(database.purchaseDao()) }`
+    - [ ] 在 `AppServices.kt` 提供 `val workManager by lazy { WorkManager.getInstance(application) }`
+    - [ ] 在 `AppServices.kt` 提供 `val onnxEngine by lazy { OnnxAiEngine(application) }`（稍後於 `:core:ai` 實作）
+    - [ ] 在 `AppServices.kt` 提供 `val billingManager by lazy { BillingManager(application) }`
+    - [ ] 在 `AppServices.kt` 提供 `val adsManager by lazy { AdsManager(application) }`
+    - [ ] 在 `AppServices.kt` 預留 `val driveService by lazy { DriveService(application) }`（V1.1 用）
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/App.kt` 初始化 `AppServices.application = this`
+    - [ ] 在 `MainActivity.kt` 使用 `val services = AppServices` 取得單例以注入 ViewModel
+  - [ ] 初始資料層骨架（對應 DI 使用）
+    - [ ] 在 `data/src/main/java/com/aidestinymaster/data/entity` 建立 `ReportEntity.kt`, `ChartEntity.kt`, `WalletEntity.kt`, `PurchaseEntity.kt`
+    - [ ] 在 `data/src/main/java/com/aidestinymaster/data/dao` 建立 `ReportDao.kt`, `ChartDao.kt`, `WalletDao.kt`, `PurchaseDao.kt`
+    - [ ] 在 `data/src/main/java/com/aidestinymaster/data/db` 建立 `AppDatabase.kt`（含 `@Database` 註解與 `Room.databaseBuilder`）
+    - [ ] 在 `data/src/main/java/com/aidestinymaster/data/repo` 建立 `ReportRepository.kt`, `ChartRepository.kt`, `WalletRepository.kt`, `PurchaseRepository.kt`
+    - [ ] 在 `data/src/main/java/com/aidestinymaster/data/datastore` 建立 `PreferencesModule.kt` 提供 `DataStore<Preferences>`
+  - [ ] 初始 AI/工作排程骨架（與 UI 鈕位串接）
+    - [ ] 在 `core/ai` 建立 `OnnxAiEngine.kt`（先放介面方法 `generateStreaming(prompt)` 的 TODO）
+    - [ ] 在 `app/src/main/java/com/aidestinymaster/work` 建立 `ReportGenerationWorker.kt`（先放 TODO）
+    - [ ] 在 `ChartResultScreen.kt` 的「生成 AI 詳解」按鈕 `onClick` 呼叫建立 `OneTimeWorkRequest` 的占位流程
+  - [ ] 初始 Billing/Ads 骨架（與 UI 鈕位串接）
+    - [ ] 在 `billing/BillingManager.kt` 建立 `startConnection()`, `queryPurchasesAsync()`, `launchPurchase(sku)` 的 TODO 介面
+    - [ ] 在 `ads/AdsManager.kt` 建立 `initialize(context)`, `loadRewarded(adUnit)`, `showRewarded(activity)` 的 TODO 介面
+    - [ ] 在 `ads/ConsentManager.kt` 建立 `requestConsentIfRequired(activity)` 的 TODO 介面
+    - [ ] 在 `WalletScreen.kt` 的「看廣告 +10 幣」按鈕 `onClick` 呼叫 `AdsManager.showRewarded()` 的占位
+    - [ ] 在 `PurchaseScreen.kt` 的「立即購買」按鈕 `onClick` 呼叫 `BillingManager.launchPurchase()` 的占位
+    - [ ] 在 `SettingsScreen.kt` 的「恢復購買」按鈕 `onClick` 呼叫 `BillingManager.queryPurchasesAsync()` 的占位
+  - [ ] 導航回退與狀態保存（UI/UX 操作邏輯基線）
+    - [ ] 在 `NavGraph.kt` 為每個目的地設定 `popUpTo` 與 `launchSingleTop` 選項避免重複堆疊
+    - [ ] 在 `HomeScreen.kt` 實作雙擊底部導覽同項回到列表頂部的占位邏輯
+    - [ ] 在 `ChartInputScreen.kt` 存放使用者最近輸入於 `DataStore`（占位）
+    - [ ] 在 `ReportDetailScreen.kt` 設定 `rememberSaveable` 保持捲動位置
+  - [ ] 執行第一次建置與啟動（驗證骨架）
+    - [ ] 在專案根執行 `./gradlew :app:assembleDebug` 確認編譯成功
+    - [ ] 啟動 AVD `emulator -avd Pixel6Api35`（如已啟動則略過）
+    - [ ] 安裝 Debug APK `adb install -r app/build/outputs/apk/debug/app-debug.apk`
+    - [ ] 啟動 App 並檢查首頁顯示底部列四項與「快速排盤」按鈕
+    - [ ] 點擊「快速排盤」應導向 `ChartInputScreen`
+    - [ ] 在 `ChartInputScreen` 點擊「產生命盤」應導向 `ChartResultScreen`
+    - [ ] 在底部列切換「錢包」「設定」「報告」頁面應能顯示占位 UI 並可返回
+- [ ] 資料層建立（Room／DataStore）
+  - [ ] 版本與命名規劃
+    - [ ] 設定資料庫版本號為 `DB_VERSION = 1`
+    - [ ] 設定遷移版本命名為 `MIGRATION_1_2`（預留檔案空殼與測試）
+    - [ ] 設定套件結構 `data/db`, `data/datastore`, `data/repository`, `data/model`
+    - [ ] 設定檔案命名後綴：`*Entity`, `*Dao`, `*Repository`
+    - [ ] 設定欄位時間統一單位為毫秒 `epochMillis`
+    - [ ] 設定文字編碼統一為 UTF-8（含 JSON 欄）
+    - [ ] 設定 ENUM 永久儲存型態為 `TEXT`（以 `name` 存）
+  - [ ] Gradle 與相依設定（Room／DataStore）
+    - [ ] 在 `build.gradle`（app）加入 `implementation("androidx.room:room-runtime")`
+    - [ ] 在 `build.gradle`（app）加入 `implementation("androidx.room:room-ktx")`
+    - [ ] 在 `build.gradle`（app）加入 `ksp("androidx.room:room-compiler")`
+    - [ ] 在 `build.gradle`（app）加入 `implementation("androidx.datastore:datastore-preferences")`
+    - [ ] 在 `build.gradle`（app）加入 `implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")`
+    - [ ] 在 `plugins` 區塊啟用 `com.google.devtools.ksp`
+    - [ ] 在 `kotlinOptions` 啟用 `-Xjvm-default=all`（若需要 Dao 預設介面）
+    - [ ] 執行 `./gradlew clean assembleDebug` 確認相依成功解析
+  - [ ] 型別轉換器（TypeConverters）
+    - [ ] 建立 `EnumConverters.kt`
+    - [ ] 在 `EnumConverters` 實作 `@TypeConverter fun fromReportKind(kind: ReportKind): String`
+    - [ ] 在 `EnumConverters` 實作 `@TypeConverter fun toReportKind(value: String): ReportKind`
+    - [ ] 在 `EnumConverters` 實作 `ChartKind` 互轉
+    - [ ] 在 `EnumConverters` 實作 `PurchaseType` 互轉
+    - [ ] 建立 `JsonConverters.kt`
+    - [ ] 在 `JsonConverters` 實作 `@TypeConverter fun fromMapString(map: Map<String, String>?): String?`
+    - [ ] 在 `JsonConverters` 實作 `@TypeConverter fun toMapString(json: String?): Map<String, String>?`
+    - [ ] 在 `AppDatabase` 以 `@TypeConverters(EnumConverters::class, JsonConverters::class)` 註冊
+  - [ ] 定義 Entity：`Report`
+    - [ ] 建立 `ReportEntity.kt`
+    - [ ] 定義 `@Entity(tableName = "reports")`
+    - [ ] 定義主鍵 `@PrimaryKey(autoGenerate = true) val id: Long = 0L`
+    - [ ] 定義欄位 `title: String`（NOT NULL，預設空字串）
+    - [ ] 定義欄位 `kind: ReportKind`（NOT NULL）
+    - [ ] 定義欄位 `summary: String`（NOT NULL，預設空字串）
+    - [ ] 定義欄位 `contentEnc: ByteArray?`（可為空，預留加密內容）
+    - [ ] 定義欄位 `chartId: Long?`（外鍵參照 `charts.id`）
+    - [ ] 定義欄位 `status: String`（如 `generating` / `ready` / `failed`）
+    - [ ] 定義欄位 `createdAt: Long`（NOT NULL）
+    - [ ] 定義欄位 `updatedAt: Long`（NOT NULL）
+    - [ ] 於 `@Entity` 設定索引 `index(title)`（LIKE 搜尋加速）
+    - [ ] 於 `@Entity` 設定索引 `index(kind, createdAt DESC)`
+    - [ ] 於 `@Entity` 設定外鍵 `ForeignKey(entity=ChartEntity, parentColumns=["id"], childColumns=["chartId"], onDelete=SET_NULL)`
+  - [ ] 定義 Entity：`Chart`
+    - [ ] 建立 `ChartEntity.kt`
+    - [ ] 定義 `@Entity(tableName = "charts")`
+    - [ ] 定義主鍵 `@PrimaryKey(autoGenerate = true) val id: Long = 0L`
+    - [ ] 定義欄位 `kind: ChartKind`（NOT NULL）
+    - [ ] 定義欄位 `inputJson: String`（NOT NULL，原始輸入）
+    - [ ] 定義欄位 `computedJson: String?`（可為空，計算快照）
+    - [ ] 定義欄位 `birthDateEpochDay: Long?`（可為空，日期）
+    - [ ] 定義欄位 `birthTimeMillisOfDay: Int?`（可為空，時間）
+    - [ ] 定義欄位 `timeUnknown: Boolean`（NOT NULL，預設 false）
+    - [ ] 定義欄位 `tzId: String?`（可為空）
+    - [ ] 定義欄位 `lat: Double?`（可為空）
+    - [ ] 定義欄位 `lon: Double?`（可為空）
+    - [ ] 定義欄位 `placeName: String?`（可為空）
+    - [ ] 定義欄位 `hash: String`（NOT NULL，用於去重）
+    - [ ] 定義欄位 `createdAt: Long`（NOT NULL）
+    - [ ] 定義欄位 `updatedAt: Long`（NOT NULL）
+    - [ ] 設定唯一索引 `index(hash, unique = true)`
+    - [ ] 設定索引 `index(kind, createdAt DESC)`
+  - [ ] 定義 Entity：`Wallet`
+    - [ ] 建立 `WalletEntity.kt`
+    - [ ] 定義 `@Entity(tableName = "wallets")`
+    - [ ] 定義主鍵 `@PrimaryKey val id: Long = 1L`（單例錢包）
+    - [ ] 定義欄位 `balance: Int`（NOT NULL，預設 0）
+    - [ ] 定義欄位 `lastEarnedAt: Long?`
+    - [ ] 定義欄位 `lastSpentAt: Long?`
+    - [ ] 定義欄位 `metadata: Map<String, String>?`（可為空）
+  - [ ] 定義 Entity：`Purchase`
+    - [ ] 建立 `PurchaseEntity.kt`
+    - [ ] 定義 `@Entity(tableName = "purchases")`
+    - [ ] 定義主鍵 `@PrimaryKey(autoGenerate = true) val id: Long = 0L`
+    - [ ] 定義欄位 `sku: String`（NOT NULL）
+    - [ ] 定義欄位 `type: PurchaseType`（NOT NULL，`inapp` / `sub`）
+    - [ ] 定義欄位 `token: String`（NOT NULL）
+    - [ ] 定義欄位 `purchaseTime: Long`（NOT NULL）
+    - [ ] 定義欄位 `acknowledged: Boolean`（NOT NULL）
+    - [ ] 定義欄位 `entitlementsJson: String?`（可為空）
+    - [ ] 設定索引 `index(sku)`
+    - [ ] 設定索引 `index(type, purchaseTime DESC)`
+    - [ ] 設定唯一索引 `index(token, unique = true)`
+  - [ ] 建立 DAO：`ReportDao`
+    - [ ] 建立介面 `ReportDao.kt` 並加上 `@Dao`
+    - [ ] 實作 `@Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insert(entity: ReportEntity): Long`
+    - [ ] 實作 `@Update suspend fun update(entity: ReportEntity): Int`
+    - [ ] 實作 `@Delete suspend fun delete(entity: ReportEntity): Int`
+    - [ ] 實作 `@Query("SELECT * FROM reports WHERE id = :id") fun observeById(id: Long): Flow<ReportEntity?>`
+    - [ ] 實作 `@Query("SELECT * FROM reports ORDER BY createdAt DESC LIMIT :limit") fun listRecent(limit: Int): Flow<List<ReportEntity>>`
+    - [ ] 實作 `@Query("SELECT * FROM reports WHERE title LIKE '%' || :keyword || '%' OR summary LIKE '%' || :keyword || '%' ORDER BY updatedAt DESC") fun search(keyword: String): Flow<List<ReportEntity>>`
+    - [ ] 實作 `@Query("UPDATE reports SET status = :status, updatedAt = :now WHERE id = :id") suspend fun updateStatus(id: Long, status: String, now: Long): Int`
+    - [ ] 實作 `@Transaction suspend fun upsert(entity: ReportEntity): Long`（以 `insert` + 失敗改 `update`）
+  - [ ] 建立 DAO：`ChartDao`
+    - [ ] 建立介面 `ChartDao.kt` 並加上 `@Dao`
+    - [ ] 實作 `@Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insert(entity: ChartEntity): Long`
+    - [ ] 實作 `@Update suspend fun update(entity: ChartEntity): Int`
+    - [ ] 實作 `@Delete suspend fun delete(entity: ChartEntity): Int`
+    - [ ] 實作 `@Query("SELECT * FROM charts WHERE id = :id") fun observeById(id: Long): Flow<ChartEntity?>`
+    - [ ] 實作 `@Query("SELECT * FROM charts WHERE hash = :hash") suspend fun getByHash(hash: String): ChartEntity?`
+    - [ ] 實作 `@Query("SELECT * FROM charts ORDER BY updatedAt DESC LIMIT :limit") fun listRecent(limit: Int): Flow<List<ChartEntity>>`
+  - [ ] 建立 DAO：`WalletDao`
+    - [ ] 建立介面 `WalletDao.kt` 並加上 `@Dao`
+    - [ ] 實作 `@Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun upsert(entity: WalletEntity)`
+    - [ ] 實作 `@Query("SELECT * FROM wallets WHERE id = 1") fun observe(): Flow<WalletEntity?>`
+    - [ ] 實作 `@Query("UPDATE wallets SET balance = balance + :delta, lastEarnedAt = CASE WHEN :delta > 0 THEN :now ELSE lastEarnedAt END, lastSpentAt = CASE WHEN :delta < 0 THEN :now ELSE lastSpentAt END WHERE id = 1") suspend fun addBalance(delta: Int, now: Long): Int`
+  - [ ] 建立 DAO：`PurchaseDao`
+    - [ ] 建立介面 `PurchaseDao.kt` 並加上 `@Dao`
+    - [ ] 實作 `@Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insert(entity: PurchaseEntity): Long`
+    - [ ] 實作 `@Update suspend fun update(entity: PurchaseEntity): Int`
+    - [ ] 實作 `@Query("SELECT * FROM purchases ORDER BY purchaseTime DESC") fun listAll(): Flow<List<PurchaseEntity>>`
+    - [ ] 實作 `@Query("SELECT * FROM purchases WHERE token = :token") suspend fun getByToken(token: String): PurchaseEntity?`
+    - [ ] 實作 `@Query("UPDATE purchases SET acknowledged = 1 WHERE id = :id") suspend fun markAcknowledged(id: Long): Int`
+  - [ ] 建立 Database：`AppDatabase`（含 migration v1）
+    - [ ] 建立 `AppDatabase.kt`
+    - [ ] 宣告 `@Database(entities = [ReportEntity::class, ChartEntity::class, WalletEntity::class, PurchaseEntity::class], version = 1, exportSchema = true)`
+    - [ ] 註冊 `@TypeConverters(EnumConverters::class, JsonConverters::class)`
+    - [ ] 宣告抽象函式 `fun reportDao(): ReportDao`
+    - [ ] 宣告抽象函式 `fun chartDao(): ChartDao`
+    - [ ] 宣告抽象函式 `fun walletDao(): WalletDao`
+    - [ ] 宣告抽象函式 `fun purchaseDao(): PurchaseDao`
+    - [ ] 建立 `DatabaseModule.kt`（DI）
+    - [ ] 在 `DatabaseModule` 實作 `provideAppDatabase(context)` 使用 `Room.databaseBuilder`
+    - [ ] 在 `DatabaseModule` 關閉 `fallbackToDestructiveMigration`（禁止破壞升級）
+    - [ ] 建立 `Migrations.kt`
+    - [ ] 在 `Migrations` 建立 `val MIGRATION_1_2 = object : Migration(1, 2) { override fun migrate(db: SupportSQLiteDatabase) { /* 預留 */ } }`
+    - [ ] 在 `DatabaseModule` 註冊 `addMigrations(MIGRATION_1_2)`（先行掛入）
+    - [ ] 建立 `RoomDatabase.Callback` 在 `onCreate` 插入 `WalletEntity(id=1, balance=0)`
+  - [ ] 實作 Repository：`ReportRepository`
+    - [ ] 建立 `ReportRepository.kt`
+    - [ ] 注入 `ReportDao`
+    - [ ] 實作 `fun observe(reportId: Long): Flow<ReportEntity?>`
+    - [ ] 實作 `fun listRecent(limit: Int): Flow<List<ReportEntity>>`
+    - [ ] 實作 `suspend fun createDraftFromChart(chartId: Long, title: String, kind: ReportKind, now: Long): Long`
+    - [ ] 實作 `suspend fun updateStatus(reportId: Long, status: String, now: Long)`
+    - [ ] 實作 `suspend fun attachEncryptedContent(reportId: Long, contentEnc: ByteArray, now: Long)`
+    - [ ] 實作 `fun search(keyword: String): Flow<List<ReportEntity>>`
+    - [ ] 確保所有 `suspend` 在 `Dispatchers.IO` 執行
+  - [ ] 實作 Repository：`ChartRepository`
+    - [ ] 建立 `ChartRepository.kt`
+    - [ ] 注入 `ChartDao`
+    - [ ] 實作 `fun observe(chartId: Long): Flow<ChartEntity?>`
+    - [ ] 實作 `suspend fun findByHash(hash: String): ChartEntity?`
+    - [ ] 實作 `suspend fun createOrGet(hash: String, builder: () -> ChartEntity): Long`
+    - [ ] 實作 `fun listRecent(limit: Int): Flow<List<ChartEntity>>`
+    - [ ] 實作 `suspend fun updateComputedJson(chartId: Long, json: String, now: Long)`
+  - [ ] 實作 Repository：`WalletRepository`
+    - [ ] 建立 `WalletRepository.kt`
+    - [ ] 注入 `WalletDao`
+    - [ ] 實作 `fun observe(): Flow<WalletEntity>`
+    - [ ] 實作 `suspend fun earnCoins(amount: Int, now: Long)`
+    - [ ] 實作 `suspend fun spendCoins(amount: Int, now: Long): Boolean`
+    - [ ] 實作 `suspend fun ensureWallet(): Unit`（App 啟動時呼叫，建立預設錢包）
+  - [ ] 實作 Repository：`PurchaseRepository`
+    - [ ] 建立 `PurchaseRepository.kt`
+    - [ ] 注入 `PurchaseDao`
+    - [ ] 實作 `fun listAll(): Flow<List<PurchaseEntity>>`
+    - [ ] 實作 `suspend fun upsertByToken(newPurchase: PurchaseEntity): Long`
+    - [ ] 實作 `suspend fun acknowledge(id: Long)`
+  - [ ] 設定 DataStore：`PreferencesKeys`（語言、主題、通知開關）
+    - [ ] 建立 `AppPreferences.kt`（資料類）
+    - [ ] 定義 `data class AppPreferences(language: String, theme: String, notificationsEnabled: Boolean)`
+    - [ ] 建立 `PreferencesKeys.kt`
+    - [ ] 定義 `val KEY_LANGUAGE = stringPreferencesKey("language")`
+    - [ ] 定義 `val KEY_THEME = stringPreferencesKey("theme")`
+    - [ ] 定義 `val KEY_NOTIFICATIONS = booleanPreferencesKey("notifications_enabled")`
+    - [ ] 建立 `DataStoreModule.kt`
+    - [ ] 在 `DataStoreModule` 建立 `val Context.appDataStore by preferencesDataStore(name = "app_prefs")`
+    - [ ] 建立 `PreferencesRepository.kt`
+    - [ ] 注入 `DataStore<Preferences>`
+    - [ ] 實作 `fun observe(): Flow<AppPreferences>`
+    - [ ] 實作 `suspend fun setLanguage(code: String)`
+    - [ ] 實作 `suspend fun setTheme(theme: String)`
+    - [ ] 實作 `suspend fun setNotificationsEnabled(enabled: Boolean)`
+    - [ ] 設定預設值：語言 `system`、主題 `system`、通知 `true`
+  - [ ] UI/UX 串接（以資料層優先級落地，不加入開發者特規入口）
+    - [ ] 在 `SettingsScreen` 讀取 `PreferencesRepository.observe()` 顯示目前設定
+    - [ ] 在 `SettingsScreen` 放置段落「一般」
+    - [ ] 在「一般」放置列表項「語言」
+    - [ ] 在「語言」列表項放置右側 `Dropdown`（選項：系統、繁中、English）
+    - [ ] 在選擇語言時呼叫 `PreferencesRepository.setLanguage(code)`
+    - [ ] 在「一般」放置列表項「主題」
+    - [ ] 在「主題」列表項放置右側 `Dropdown`（選項：系統、深色、淺色）
+    - [ ] 在選擇主題時呼叫 `PreferencesRepository.setTheme(theme)`
+    - [ ] 在「通知」區塊放置開關「啟用推播」
+    - [ ] 在切換通知開關時呼叫 `PreferencesRepository.setNotificationsEnabled(enabled)`
+    - [ ] 確保 `SettingsScreen` 為正式功能入口（主側邊或個人頁），Debug 與 Release 一致
+    - [ ] 在 `HomeScreen` 使用 `ReportRepository.listRecent(5)` 顯示最近 5 筆報告
+    - [ ] 在 `ChartInputScreen` 成功生成輸入後呼叫 `ChartRepository.createOrGet(...)`
+    - [ ] 在 `生成 AI 詳解` 按鈕按下前呼叫 `ReportRepository.createDraftFromChart(...)`
+    - [ ] 在生成期間更新 `ReportRepository.updateStatus(..., "generating", now)`
+    - [ ] 在生成完成時更新 `ReportRepository.attachEncryptedContent(...)`
+  - [ ] 邏輯校驗與錯誤處理
+    - [ ] 在 `ChartRepository.createOrGet` 檢查 `hash` 是否存在
+    - [ ] 在 `WalletRepository.spendCoins` 檢查餘額是否足夠
+    - [ ] 在 `ReportRepository.attachEncryptedContent` 檢查 `contentEnc` 不為空
+    - [ ] 在 DAO 層對 `Int` 回傳筆數進行斷言（小於 1 視為失敗）
+    - [ ] 在 Repository 層捕捉 `SQLiteConstraintException` 並映射為 Domain 錯誤
+  - [ ] 測試（僅使用正式路徑，不加入隱藏按鈕）
+    - [ ] 建立 `androidTest` 使用 `Room.inMemoryDatabaseBuilder` 測試 Dao
+    - [ ] 撰寫 `ReportDaoTest` 測 `insert`、`listRecent`、`search`
+    - [ ] 撰寫 `ChartDaoTest` 測唯一索引 `hash` 防重
+    - [ ] 撰寫 `WalletDaoTest` 測 `addBalance` 正負數更新欄位
+    - [ ] 撰寫 `PurchaseDaoTest` 測 `token` 唯一性
+    - [ ] 建立 `PreferencesRepositoryTest` 使用 `TestScope` 與 `runTest`
+    - [ ] 執行 `./gradlew connectedAndroidTest` 驗證通過
+  - [ ] CLI 驗證（無 Android Studio）
+    - [ ] 安裝 Debug APK 至 `Pixel6PlayApi35`
+    - [ ] 生成至少一筆 `Chart` 與 `Report` 實際資料
+    - [ ] 以 `adb shell run-as <package> ls files/` 確認 `databases/` 存在
+    - [ ] 以 `adb shell run-as <package> ls databases/` 確認 `app.db` 與 `app.db-shm/-wal`
+    - [ ] 以 `adb shell run-as <package> sqlite3 databases/app.db ".schema reports"` 檢查欄位與索引
+    - [ ] 以 `adb shell run-as <package> ls files/datastore/` 確認 `app_prefs.preferences_pb` 存在
+  - [ ] 文件與規約
+    - [ ] 在 `docs/data-layer.md` 記錄資料表結構（欄名/型別/索引）
+    - [ ] 在 `docs/data-layer.md` 記錄 DataStore key 與預設值
+    - [ ] 在 `docs/data-layer.md` 記錄 Repository 公開 API
+    - [ ] 在 `CHANGELOG.md` 新增 `DB_VERSION=1` 與未來 `MIGRATION_1_2` 規劃
+- [ ] :core:astro 星體計算與資料結構（版本路徑規劃）
+  - [ ] v0.1 模組初始化與授權合規
+    - [ ] 在 `settings.gradle.kts` 新增模組：`include(":core:astro")`
+    - [ ] 建立目錄結構：
+      - [ ] `core/astro/src/main/java/com/xxx/core/astro/`
+      - [ ] `core/astro/src/test/java/com/xxx/core/astro/`
+      - [ ] `core/astro/src/main/resources/licenses/`
+    - [ ] 在 `core/astro/build.gradle.kts` 設定：
+      - [ ] `plugins { kotlin("jvm") }`
+      - [ ] `java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))`
+      - [ ] `dependencies { testImplementation(kotlin("test")); testImplementation("org.junit.jupiter:junit-jupiter:5.10.2") }`
+      - [ ] 啟用 `tasks.test { useJUnitPlatform() }`
+    - [ ] 專案根目錄 `gradle.properties` 確保 `org.gradle.jvmargs` 與 `kotlin.code.style=official`
+    - [ ] 在 `core/astro/src/main/resources/licenses/ASTRONOMY_ENGINE_LICENSE.txt` 放入 Astronomy Engine MIT 授權全文
+    - [ ] 在 `core/astro/README.md` 紀錄：使用的天文來源、精度限制、座標系約定（地心/視位置）、時間尺度（UTC→TT/ΔT）
+  - [ ] v0.2 引入 Astronomy Engine（MIT）與封裝介面
+    - [ ] 選擇導入方式（擇一）：
+      - [ ] 方式 A（建議）：以 Git Submodule 導入 `astronomy` Java 原始碼至 `core/astro/src/main/java/com/xxx/core/astro/vendor/astronomy/`
+      - [ ] 方式 B：將 Astronomy Engine Java 版原始碼 Vendor 化複製到 `vendor/astronomy/`，保留原檔頭與註記
+    - [ ] 建立封裝介面 `com.xxx.core.astro.engine.AstroEngine.kt`：
+      - [ ] 定義介面 `AstroEngine`：`fun eclipticLon(body: Body, jdTt: Double, topo: Topo? = null): Double`、`fun ascMc(jdTt: Double, geo: GeoLocation): AscMc`
+      - [ ] 提供 `AstronomyEngineAdapter` 將 Astronomy Engine 封裝為上述介面，集中處理：ΔT、UTC→TT 換算、topocentric/ geocentric 選項
+    - [ ] 寫一個最小驗證測試 `AstronomySmokeTest`：
+      - [ ] 指定 `UTC 2000-01-01T12:00:00` 計算太陽黃經 ~280.147°（允差 ±0.2°）
+      - [ ] 測試可在 CI（`./gradlew :core:astro:test`）通過
+  - [ ] v0.3 資料結構與常數（kotlinx-serialization）
+    - [ ] 新增 `build.gradle.kts` 依賴：`implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")`
+    - [ ] `Enums.kt`：
+      - [ ] `enum class Planet { SUN, MOON, MERCURY, VENUS, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO }`
+      - [ ] `enum class AspectType { CONJ(0.0), SEXTILE(60.0), SQUARE(90.0), TRINE(120.0), OPPOSITION(180.0) }`
+      - [ ] `enum class HouseSystemType { WHOLE_SIGN, PORPHYRY }`
+      - [ ] `enum class ZodiacSign { ARIES, TAURUS, GEMINI, CANCER, LEO, VIRGO, LIBRA, SCORPIO, SAGITTARIUS, CAPRICORN, AQUARIUS, PISCES }`
+    - [ ] `Models.kt`（皆 `@Serializable`）：
+      - [ ] `data class GeoLocation(latDeg: Double, lonDeg: Double, elevationM: Double = 0.0)`
+      - [ ] `data class JulianDay(val jdUtc: Double, val jdTt: Double, val deltaT: Double)`
+      - [ ] `data class PlanetPos(planet: Planet, lonEclDeg: Double, latEclDeg: Double, raDeg: Double, decDeg: Double, distanceAu: Double, speedLonDegPerDay: Double, retrograde: Boolean)`
+      - [ ] `data class House(index: Int, cuspLonDeg: Double, sign: ZodiacSign)`
+      - [ ] `data class Aspect(a: Planet, b: Planet, type: AspectType, exactAngle: Double, diffDeg: Double, applying: Boolean)`
+      - [ ] `data class PlanetInHouse(planet: Planet, houseIndex: Int)`
+      - [ ] `data class NatalChart(val jd: JulianDay, val geo: GeoLocation, val houseSystem: HouseSystemType, val planets: List<PlanetPos>, val houses: List<House>, val aspects: List<Aspect>, val planetInHouses: List<PlanetInHouse>)`
+    - [ ] `MathExt.kt`：
+      - [ ] `fun norm360(x: Double): Double`（將角度歸一到 0..360）
+      - [ ] `fun angleDiffDeg(a: Double, b: Double): Double`（返回最小絕對角差 0..180）
+      - [ ] `fun signOf(lon: Double): ZodiacSign`（以 0..360 分段每 30°）
+  - [ ] v0.4 時間與座標轉換工具
+    - [ ] `TimeConv.kt`：
+      - [ ] `fun toJulianDayUtc(dt: ZonedDateTime): Double`
+      - [ ] `fun estimateDeltaT(year: Int, month: Int): Double`（用簡式多項式或 Astronomy Engine 內建）
+      - [ ] `fun utcToTt(jdUtc: Double, deltaT: Double): Double`（`jdTt = jdUtc + deltaT/86400.0`）
+      - [ ] `fun fromLocal(dateTime: LocalDateTime, zoneId: ZoneId): ZonedDateTime`（處理 DST 模糊/跳時，使用 `ofLocal(..., preferredOffset)`）
+    - [ ] `CoordConv.kt`：
+      - [ ] 以 Astronomy Engine 提供的黃道/赤道轉換，封裝 `ecl<->equ` 轉換函式
+      - [ ] 提供 `ascendant(geo, jdTt)`、`mc(geo, jdTt)` 取得 ASC / MC 黃道經度
+  - [ ] v0.5 實作 `AstroCalculator.kt`：`computePlanets(julianDay): List<PlanetPos>`
+    - [ ] 建立檔案 `AstroCalculator.kt`，注入 `AstroEngine`
+    - [ ] 定義行星計算清單：`val bodies = listOf(SUN, MOON, MERCURY, VENUS, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO)`
+    - [ ] 計算步驟（逐顆）：
+      - [ ] 使用 `engine.eclipticLon(body, jdTt)` 取得視黃經；同步取得黃緯（若可）與赤經/赤緯
+      - [ ] 以中心差分估速：`lon(t±ε)`，ε=0.5 天 → `speed = (lon(t+ε)-lon(t-ε)) / (2*ε)`（注意跨 0/360 正規化）
+      - [ ] `retrograde = speed < 0`
+      - [ ] `distanceAu` 取自引擎 `distance(body, jdTt)`（若無則以地心向量長度）
+      - [ ] 補齊 `PlanetPos` 欄位並 `norm360` 所有角度
+    - [ ] 邊界處理：
+      - [ ] 若引擎回傳 NaN/∞ → 丟出 `IllegalStateException("Invalid ephemeris result for $planet")`
+      - [ ] 若 `deltaT` 缺失 → 以估計函式回退並在 `Log` 記錄
+    - [ ] 單元測試 `AstroCalculatorTest`：
+      - [ ] 指定多日期驗證：`1991-08-13T04:00+08:00@Taipei`、`2012-12-21T11:11Z@Greenwich` 太陽/月亮黃經落在合理星座區間（±1.0°）
+      - [ ] 速度號誌跨越近衝/逆行邊界時不錯誤（火星逆行週期）
+  - [ ] v0.6 實作 `HouseSystem.kt`：`computeHouses(dateTime, tz, place): List<House>`
+    - [ ] 建立檔案 `HouseSystem.kt`，公開：
+      - [ ] `fun computeHouses(dt: ZonedDateTime, system: HouseSystemType, geo: GeoLocation): List<House>`
+    - [ ] 共用前置：
+      - [ ] 將 `dt` → `JulianDay`（含 `jdUtc/jdTt/deltaT`）
+      - [ ] 取得 `asc = ascendant(geo, jdTt)`、`mc = mc(geo, jdTt)`（黃經 0..360）
+    - [ ] Whole Sign 演算法：
+      - [ ] 以 `asc` 所屬星座為第 1 宮起點（該星座 0°）
+      - [ ] 依序每 30° 產生 12 個 `cuspLonDeg`：`Hn = (signIndex*30 + (n-1)*30) % 360`
+      - [ ] `sign` 依 `cuspLonDeg` 對應
+    - [ ] Porphyry 演算法：
+      - [ ] 求四軸點：ASC、MC、DESC=(ASC+180)%、IC=(MC+180)%
+      - [ ] 將四象限（ASC→MC、MC→DESC、DESC→IC、IC→ASC）沿黃道弧長各等分為三等份
+      - [ ] 依等分點依序建立 12 宮 `cuspLonDeg`
+      - [ ] 確保跨 0/360 度弧長計算使用有向角並 `norm360`
+    - [ ] 輸出排序與索引：
+      - [ ] `index` 從 1..12，`houses[0]` 表示第 1 宮
+    - [ ] 單元測試 `HouseSystemTest`：
+      - [ ] 相同輸入切換 `WHOLE_SIGN` 與 `PORPHYRY`，第 1 宮起點/四軸點相對關係符合定義
+      - [ ] 緯度 ±60° 邊界（高緯地區）演算法穩定；角度皆在 0..360
+  - [ ] v0.7 實作 `Aspects.kt`：`detectAspects(planets, orbDeg=6.0): List<Aspect>`
+    - [ ] 建立檔案 `Aspects.kt`，公開：
+      - [ ] `fun detectAspects(planets: List<PlanetPos>, orbDeg: Double = 6.0): List<Aspect>`
+    - [ ] 配對策略：
+      - [ ] 僅計算不重複組合（i<j）
+      - [ ] 針對 `AspectType` 列舉目標角 `target`，計算 `d = minAngle(|lonA - lonB|)`（0..180）
+      - [ ] 若 `abs(d - target) <= orbDeg` → 產生 `Aspect`
+    - [ ] 接近度與施受相位：
+      - [ ] `diffDeg = (d - target)`（負值代表尚未達成＝Applying）
+      - [ ] `applying = diffDeg < 0 && speed快者朝向目標角`（以 `speedLonDegPerDay` 粗略判定）
+    - [ ] 邊界處理：
+      - [ ] 接近 0°/360° 以 `norm360` 處理避免誤差
+      - [ ] 移除同一對行星出現多個相位的重複（不會發生於五大相位）
+    - [ ] 單元測試 `AspectsTest`：
+      - [ ] 以固定日期驗證至少一組 `TRINE`/`SQUARE` 命中；修改 `orbDeg` 將導致命中數量變化
+  - [ ] v0.8 實作 `NatalChartService.kt`（整合服務）
+    - [ ] 建立檔案 `NatalChartService.kt`
+      - [ ] 注入：`AstroEngine`、計算器 `AstroCalculator`、`HouseSystem`、`Aspects`
+      - [ ] API：`suspend fun buildNatalChart(dt: ZonedDateTime, geo: GeoLocation, house: HouseSystemType, orbDeg: Double): NatalChart`
+    - [ ] 流程：
+      - [ ] `val jd = toJulianDay(dt)`（含 `jdUtc/jdTt/deltaT`）
+      - [ ] `val planets = astroCalculator.computePlanets(jd)`
+      - [ ] `val houses = computeHouses(dt, house, geo)`
+      - [ ] 產生 `planetInHouses`：以行星黃經落入 `House.cuspLonDeg` 區段（順時針 30° 或 Porphyry 弧段）
+      - [ ] `val aspects = detectAspects(planets, orbDeg)`
+      - [ ] 彙整成 `NatalChart(jd, geo, house, planets, houses, aspects, planetInHouses)`
+    - [ ] 效能與快取：
+      - [ ] 建立簡易 LRU（Key=`dt.toEpochSecond()|geo|house|orb`）容量 32
+      - [ ] 對重覆查詢直接回傳快取；配置 TTL=10 分鐘
+    - [ ] 執行緒：
+      - [ ] 所有重計算在 `Dispatchers.Default`，不阻塞 UI；服務本身不觸及任何 UI/Compose 物件
+  - [ ] v0.9 設定參數與 UI/UX 串接（不新增特規按鈕；沿用既有入口）
+    - [ ] DataStore 鍵位（於 `:core:datastore` 或現有設定模組）：
+      - [ ] `pref_house_system: String`（`WHOLE_SIGN` | `PORPHYRY`；預設 `WHOLE_SIGN`）
+      - [ ] `pref_aspect_orb_deg: Double`（預設 6.0；上下限 2.0..8.0）
+    - [ ] ChartInputScreen（沿用既有介面區塊，不新增開發者專用入口）：
+      - [ ] 在「進階」區塊加入「House System」分段控制（2 鈕：Whole / Porphyry）
+      - [ ] 在「相位容許度」加入步進器（- / + 按鈕 ±0.5°；顯示目前數值）
+      - [ ] UI 行為：
+        - [ ] 切換時即時更新預覽（若已顯示圓盤），否則將設定值保存至 DataStore 供後續計算
+        - [ ] 所有按鈕具 `contentDescription`；鍵盤可聚焦；TalkBack 讀出目前選項
+      - [ ] 不新增任何 Debug 標籤或隱藏入口；Debug 與 Release 完全相同元件樹
+    - [ ] AstroChart 結果頁（沿用現有工具列）：
+      - [ ] 工具列右側保留既有「更多」選單，新增兩個標準選項：
+        - [ ] 「切換 House System」（二選一單選群組）
+        - [ ] 「相位容許度」子選單（2°~8° 列表項）
+      - [ ] 選單選取後呼叫 `NatalChartService.buildNatalChart(...)` 重新繪製；無另開測試面板
+      - [ ] 切換時保留當前縮放/平移狀態；避免因重算打斷閱讀流
+  - [ ] v1.0 單元測試全集與回歸樣本
+    - [ ] `DeltaTTest`：多年代 ΔT 估算範圍合理（±2 秒內）
+    - [ ] `AscMcTest`：高/低緯度、不同時區產出的 ASC/MC 皆在 0..360；跨 360° 鄰近區穩定
+    - [ ] `PlanetSpeedTest`：逆行期間 `retrograde=true`；順行恢復當日 `retrograde=false`
+    - [ ] `AspectApplySepTest`：驗證 `applying` 判定與速度號誌一致
+    - [ ] `HouseMappingTest`：行星落宮邊界（±0.1°）兩側結果對應正確
+    - [ ] 產生固定輸入快照集（JSON）：
+      - [ ] `fixtures/natal_utc_2000-01-01Z_greenwich.json`
+      - [ ] `fixtures/natal_1991-08-12T20:00Z_taipei.json`（對應台北 1991-08-13 04:00+08）
+      - [ ] 測試以允差比較（角度 ±0.3°、相位容許 ±0.2°）
+  - [ ] v1.1 效能與穩定性
+    - [ ] 基準測試（JMH 或簡式 Stopwatch）：
+      - [ ] 單次 `buildNatalChart` 目標 < 20ms（AVD 近似中階；Release 架構）
+      - [ ] 連續 100 次不同時刻計算，無配置洩漏（以 `Runtime.totalMemory()` 粗檢）
+    - [ ] 數值穩定：
+      - [ ] 在 0/360 附近隨機 1000 筆角度運算，`norm360` 與 `angleDiffDeg` 無跳變
+  - [ ] v1.2 文件與 KDoc
+    - [ ] 為公開 API 補齊 KDoc：座標系、時間尺度、輸入假設（地心視黃經）
+    - [ ] `README.md` 增加「如何從 UI 呼叫服務」範例（不新增 UI，僅說明）
+  - [ ] v1.3 合規與風險控管
+    - [ ] 再次檢視 MIT 授權保留與第三方致謝頁（統一於設定→關於）
+    - [ ] 在應用「關於」頁加入「資料僅供參考」說明（沿用既有設計樣式，不新增測試專用元素）
+- [ ] 引入 Astronomy Engine（MIT），建立包 `core.astro`（對應 v0.2 已細化，這裡追蹤落地）
+  - [ ] 完成 Vendor 原始碼放置與授權檔
+  - [ ] 完成 `AstroEngine` 封裝與 `AstronomyEngineAdapter`
+  - [ ] 完成冒煙測試通過
+- [ ] 實作 `AstroCalculator.kt`：`computePlanets(julianDay): List<PlanetPos>`（對應 v0.5）
+  - [ ] 依規格計算 10 顆天體位置與速度/逆行
+  - [ ] 錯誤處理與單測通過
+- [ ] 實作 `HouseSystem.kt`：`computeHouses(dateTime, tz, place): List<House>`（對應 v0.6）
+  - [ ] 實作 Whole Sign 與 Porphyry
+  - [ ] 單測涵蓋高緯/跨 360°
+- [ ] 實作 `Aspects.kt`：`detectAspects(planets, orbDeg=6.0): List<Aspect>`（對應 v0.7）
+  - [ ] 實作五大相位偵測與施受判定
+  - [ ] 單測驗證 orb 調整影響
+- [ ] 實作 `NatalChartService.kt`：整合行星/宮位/相位輸出 `NatalChart` 資料類型（對應 v0.8）
+  - [ ] 建立 `buildNatalChart` 串接管線
+  - [ ] 加入 LRU 快取與非阻塞執行緒策略
+- [ ] 單元測試：行星位置邏輯、相位偵測、宮位切法（Whole Sign／Porphyry 切換）（對應 v1.0）
+  - [ ] 建立完整測試套件並於 CI 執行
+  - [ ] 生成固定輸入快照並鎖定允差
+- [ ] :core:ai ONNX LLM（TinyLlama 1.1B Chat 8-bit）
+  - [ ] 準備模型與 tokenizer（開發機進行匯出，App 僅讀取）
+    - [ ] 建立開發機環境（僅於開發機執行，不在 App 內）
+      - [ ] 建立虛擬環境 `python -m venv .venv && source .venv/bin/activate`
+      - [ ] 安裝套件 `pip install 'transformers>=4.43' 'optimum[onnxruntime]>=1.20' onnx>=1.16 onnxruntime>=1.18 onnxruntime-tools sentencepiece`
+      - [ ] 鎖定版本 `pip freeze > export-req.txt` 並提交至 repo 的 `tools/export/`
+      - [ ] 建立資料夾 `tools/export/tinyllama/` 作為輸出與中繼檔存放
+    - [ ] 下載 TinyLlama-1.1B-Chat 權重（Apache 2.0）
+      - [ ] 以 `huggingface-cli download TinyLlama/TinyLlama-1.1B-Chat-v1.0 --local-dir tools/export/tinyllama/hf` 取得原始權重
+      - [ ] 下載授權檔與 model card，存為 `LICENSE`, `README.md`（存放於 `third_party/tinyllama/` 以便上架審查）
+      - [ ] 驗證檔案完整度：對 `config.json`, `tokenizer.json`, `tokenizer.model`, `generation_config.json`, `pytorch_model.bin*` 計算 SHA-256 並輸出 `sha256sum.txt`
+    - [ ] 使用 `transformers+optimum` 導出 ONNX（decoder-only）
+      - [ ] 確認任務類型為 `text-generation-with-past` 以開啟 KV-cache（decoder-only + cache）
+      - [ ] 執行導出：`python -m optimum.exporters.onnx --model tools/export/tinyllama/hf --task text-generation-with-past --opset 17 --framework pt tools/export/tinyllama/onnx`
+      - [ ] 產出檔案包含：`model.onnx`（有 `present`/`past_key_values`）、`model_decoder_with_past.onnx`（如分拆）
+      - [ ] 使用 `onnxruntime-tools` 進行圖最佳化 `python -m onnxruntime.tools.optimizer_cli --input model.onnx --output model.opt.onnx --optimization_level basic`
+      - [ ] 以 `python -c "import onnx; onnx.checker.check_model(onnx.load('model.opt.onnx'))"` 驗證模型
+      - [ ] 以 `onnxruntime_test --model_path model.opt.onnx` 做快速推理自測（CPU）
+    - [ ] 使用 onnxruntime 量化為 8-bit，產生 `tinyllama-chat-8bit.onnx`
+      - [ ] 動態量化：`python -m onnxruntime.quantization.quantize --input model.opt.onnx --output tinyllama-chat-8bit.onnx --mode Dynamic --per_channel --op_types_to_quantize MatMul,Gemm`
+      - [ ] 驗證量化可載入：`python - <<'PY'\nimport onnxruntime as ort; ort.InferenceSession('tinyllama-chat-8bit.onnx', providers=['CPUExecutionProvider'])\nprint('ok')\nPY`
+      - [ ] 紀錄模型尺寸（MB）與節省比例，寫入 `export_meta.json` 的 `size_bytes`, `quantization` 欄位
+    - [ ] 匯出 tokenizer（SentencePiece/BPE 檔）
+      - [ ] 從 HF 目錄複製 `tokenizer.model`, `tokenizer.json`, `special_tokens_map.json`, `tokenizer_config.json`
+      - [ ] 以 `python` 讀取 tokenizer，輸出 special token id（`bos`, `eos`, `unk`, `pad`）至 `export_meta.json`
+      - [ ] 以 `python` 產生 `vocab_hash.txt`（字彙表 SHA-256，日後校驗用）
+    - [ ] 產出模型資產包（供 App 首啟解壓）
+      - [ ] 建立目錄 `:core:ai/src/main/assets/model/tinyllama/`（僅提交最終壓縮檔，避免 .onnx 直接進 Git）
+      - [ ] 將 `tinyllama-chat-8bit.onnx`、`tokenizer.model`、`tokenizer.json`、`special_tokens_map.json`、`tokenizer_config.json`、`export_meta.json`、`LICENSE` 打包為 `models.zip`
+      - [ ] 以 `shasum -a 256 models.zip > models.zip.sha256` 生成校驗檔
+      - [ ] 將 `models.zip` 與 `models.zip.sha256` 放入 `:core:ai/src/main/assets/model/`（與既有首次啟動流程「解壓到 files/models/」一致）
+      - [ ] 在 `export_meta.json` 加入 `asset_version`（如 `tinyllama_v1`）供 App 判斷是否需更新與重解壓
+    - [ ] 在 `:core:ai` 模組新增 `ModelLocator.kt`
+      - [ ] 定義資產常數：`ASSET_ZIP="model/models.zip"`, `ASSET_SHA="model/models.zip.sha256"`, `FILES_DIR="files/models/tinyllama_v1/"`
+      - [ ] 定義檔名：`MODEL_ONNX="tinyllama-chat-8bit.onnx"`, `TOKENIZER_JSON="tokenizer.json"`, `SPM_MODEL="tokenizer.model"`, `META_JSON="export_meta.json"`
+      - [ ] 定義 `CURRENT_VERSION="tinyllama_v1"`
+      - [ ] 提供 `fun modelReadyMarker(): File`（回傳 `.../READY` 檔以表示已校驗完成）
+  - [ ] 實作 `OnnxLlamaSession.kt`
+    - [ ] 檔案與類別骨架
+      - [ ] 新增檔案 `:core:ai/src/main/kotlin/.../OnnxLlamaSession.kt`
+      - [ ] 類別 `class OnnxLlamaSession(private val dispatcher: CoroutineDispatcher = Dispatchers.Default)`
+      - [ ] 欄位：`env: OrtEnvironment?`, `session: OrtSession?`, `tokenizer: Tokenizer`, `meta: ModelMeta`, `job: Job?`, `closed: AtomicBoolean`
+    - [ ] `load(context): OrtSession`（首次啟動將 assets 複製至 `files/`，做 SHA-256 校驗）
+      - [ ] 讀取 `ModelLocator.CURRENT_VERSION`，建立目標資料夾 `context.filesDir/models/tinyllama_v1/`
+      - [ ] 若 `READY` 不存在或 `META` 版本不同：
+        - [ ] 從 `assets/model/models.zip` 以串流方式解壓到目標資料夾（避免記憶體峰值）
+        - [ ] 解壓後對 `tinyllama-chat-8bit.onnx`、`tokenizer.json`、`tokenizer.model` 計算 SHA-256，與 `export_meta.json` 或 `models.zip.sha256` 比對
+        - [ ] 校驗通過→寫入 `READY` 檔與 `version.txt`；失敗→刪除目標資料夾並拋出 `ModelIntegrityException`
+      - [ ] 初始化 ORT
+        - [ ] `env = OrtEnvironment.getEnvironment()`（設定 `OrtLoggingLevel.WARNING`）
+        - [ ] `SessionOptions`：`intraOpNumThreads=2`、`interOpNumThreads=1`、`setOptimizationLevel(BASIC_OPT)`、`setMemoryArena(true)`、`setUseOrtMemoryArena(true)`
+        - [ ] 裝置提供者僅用 `CPUExecutionProvider`（保持離線邏輯一致）
+        - [ ] `session = env!!.createSession(modelPath, sessionOptions)`
+      - [ ] 載入 `Tokenizer` 與 `ModelMeta`
+        - [ ] 讀取 `export_meta.json` 成為 `meta`（`vocabSize`, `eosId`, `bosId`, `contextWindow` 等）
+        - [ ] 以 `Tokenizer.fromAssets(filesPath)` 初始化（下節詳述）
+      - [ ] 回傳 `session!!`
+    - [ ] `generate(prompt: String, params: GenParams): Flow<String>`（流式輸出 token→字串）
+      - [ ] 定義 `GenParams`：`maxNewTokens`, `temperature`, `topK`, `topP`, `repetitionPenalty`, `seed`, `stopSequences`, `locale`
+      - [ ] 以 `PromptBuilder.buildNatalReport(chartSummary, params.locale)` 產生最終 `promptText`
+      - [ ] 以 `tokenizer.encode(promptText)` 取得 `inputIds: IntArray`
+      - [ ] 檢查 `inputIds.size + params.maxNewTokens <= meta.contextWindow`；超出則裁切前段（保留尾端）
+      - [ ] 建立 `MutableSharedFlow<String>(replay=0, extraBufferCapacity=64, onBufferOverflow=DROP_OLDEST)`
+      - [ ] 啟動 `job = CoroutineScope(dispatcher).launch { ... }`
+        - [ ] 固定隨機數：`Random(params.seed)`
+        - [ ] 初始化 `attention` 與 `pastKeyValues=null`
+        - [ ] 第一步執行：
+          - [ ] 建立輸入 `OrtValue`：`input_ids`（[1, N]）、`attention_mask`（[1, N]）
+          - [ ] 綁定 session 輸入輸出（prefer `IoBinding` 以減少複製）
+          - [ ] `run()` 取得 `logits` 與 `present_key_values`
+          - [ ] 以 `sampleNextToken(logits[-1], params)` 得到 `nextId`
+          - [ ] 使用 `tokenizer.decodeIncremental([nextId])` 得到 `piece` 並 `emit(piece)`
+          - [ ] 更新 `pastKeyValues=presentKeyValues`
+        - [ ] 迴圈產生剩餘 tokens（直到 `maxNewTokens` 或遇到 `eos` 或 `stopSequences`）
+          - [ ] 輸入 `lastTokenId`（[1,1]）與更新後 `attention_mask`、`pastKeyValues`
+          - [ ] `run()` → 取出 `logits` → `sampleNextToken`
+          - [ ] `decodeIncremental` → `emit`
+          - [ ] 檢查 `repetitionPenalty`：維護 `recentIds`，於取樣前調整 logits
+          - [ ] 檢查 `stopSequences`：將累積輸出尾端與 stop 字串比對，命中則結束
+          - [ ] `ensureActive()`：支援 `stop()` 取消
+        - [ ] 收尾：發出最終 flush 文本（若 incremental 尚有緩衝）
+      - [ ] 回傳 `flow`（UI 層以 `collectLatest` 逐段追加文字）
+    - [ ] `stop()`（釋放資源）
+      - [ ] 若 `job?.isActive == true` 則 `job?.cancel(CancellationException("user_stop"))`
+      - [ ] 關閉 `session`、`env` 與釋放 `OrtValue`、`IoBinding` 暫存
+      - [ ] 將 `closed` 設為 `true`；後續呼叫 `generate()` 應先 `load()` 重新建立
+    - [ ] 內部輔助：Logits 取樣與重複抑制
+      - [ ] `fun applyRepetitionPenalty(logits: FloatArray, recent: IntArray, penalty: Float)`
+      - [ ] `fun topKTopPFilter(logits: FloatArray, k: Int, p: Float)`
+      - [ ] `fun sampleNextToken(...)`：支援 `temperature=0` 時取 `argmax`
+    - [ ] 錯誤處理與回報
+      - [ ] 捕捉 `ModelIntegrityException`：由呼叫端顯示「模型檔案受損，請重新安裝或更新資產」的標準錯誤對話框（沿用現有錯誤樣式）
+      - [ ] 捕捉 OOM：在 logcat 輸出建議（降低 `maxNewTokens` / `intraOpNumThreads=1`），UI 顯示「裝置資源不足」
+      - [ ] 捕捉取消：不視為錯誤，不顯示 Snackbar
+  - [ ] 實作 `Tokenizer.kt`
+    - [ ] 決策：優先使用 HF Tokenizers（JNI）以支援 SentencePiece 與快速增量解碼；若裝置不支援則回退純 Kotlin SPM 解碼
+      - [ ] 依專案 `minSdk` 導入 `tokenizers` JNI AAR（單一 ABI；避免膨脹）
+      - [ ] 建立開關：偵測 JNI 可用性，否則載入 `KotlinSpmTokenizer`
+    - [ ] 介面設計
+      - [ ] `interface Tokenizer { fun encode(text: String): IntArray; fun decodeIncremental(tokens: IntArray): String; val bosId: Int; val eosId: Int; val padId: Int; val vocabSize: Int }`
+      - [ ] `companion object fun fromAssets(path: File): Tokenizer`
+    - [ ] HF Tokenizers 實作
+      - [ ] 從 `path/tokenizer.json` 載入模型
+      - [ ] 讀取 `special_tokens_map.json` 以設定 `bosId/eosId/padId`
+      - [ ] `encode`：關閉自動加上 special tokens（由 PromptBuilder 決定）
+      - [ ] `decodeIncremental`：維護一個 `DetokenizeState`，每次輸入新增 tokens 後輸出新字串片段
+    - [ ] Kotlin SPM 回退實作
+      - [ ] 從 `tokenizer.model` 以內建 SPM 解析器載入（JNI 或輕量純 Kotlin 實作）
+      - [ ] `encode`：執行規範化（NFKC）、byte-fallback、加入 `bos/eos` 規則根據參數
+      - [ ] `decodeIncremental`：維護拼接緩衝避免多位元組切割（UTF-8 安全）
+    - [ ] 測試樣本（離線）
+      - [ ] 中英混排、標點與表情符號 encode/decode 往返一致
+      - [ ] 特殊符號（％、全形、換行）不產生無效代碼點
+      - [ ] `eos` 提前出現時 `decodeIncremental` 不再輸出多餘內容
+  - [ ] 實作 Prompt 模板 `PromptBuilder.kt`
+    - [ ] 檔案與介面
+      - [ ] 新增 `:core:ai/src/main/kotlin/.../PromptBuilder.kt`
+      - [ ] `object PromptBuilder { fun buildNatalReport(chartSummary: ChartSummary, locale: Locale): String }`
+    - [ ] 模板規則（沿用既有 UI/UX 敘事風格，避免改變用語節奏）
+      - [ ] 採用 `system + user` 合併為單一文字 Prompt（TinyLlama 相容）
+      - [ ] `locale=zh-TW`：使用繁中語氣，半形標點，保留專有名詞
+      - [ ] `locale=en`：使用簡明英文，對應單位與日期格式
+      - [ ] 控制 token 預算：根據 `chartSummary` 長度動態裁切非關鍵段落（保證 new tokens 空間 ≥ 700）
+    - [ ] 欄位插入與次序（符合現有報告章節呈現順序，以減少新舊版本落差）
+      - [ ] 依序插入：`基本資料` → `行星/宮位重點` → `相位指標` → `四象限摘要` → `禁忌與提醒`
+      - [ ] 明確指示模型：避免醫療、法律定論；輸出具體建議以「可執行動詞 + 限時/頻率」
+    - [ ] 安全與一致性
+      - [ ] 加入停止序列（例如 `\n### END`）供 `generate()` 偵測
+      - [ ] 在 Prompt 尾端加入「不使用外部網路資料」聲明以維持離線一致性
+  - [ ] 串接 UI/UX（不新增 Debug 專用入口；沿用既有按鈕與流程）
+    - [ ] HomeScreen/ReportScreen 串接（以既有「生成 AI 詳解」按鈕為唯一入口）
+      - [ ] 點擊「生成 AI 詳解」→ 呼叫 `OnnxAiEngine.generateStreaming()`（底層轉呼 `OnnxLlamaSession.generate()`）
+      - [ ] UI 持續收集 `Flow<String>`：每次 `emit` 將片段追加至正文 Text composable（支援多段 recomposition）
+      - [ ] 顯示進度條與剩餘估計（以 tokens/s 粗估，僅顯示於同一既有位置，不新增任何隱藏開關）
+      - [ ] 保持 Release 與 Debug 完全一致的版面與行為（禁用任何 `BuildConfig.DEBUG` 旗標分支）
+    - [ ] 中斷與恢復
+      - [ ] 使用者點「停止」：呼叫 `OnnxLlamaSession.stop()`；UI 停止收集並將狀態置為「已中止」
+      - [ ] 返回上一頁或切到背景：WorkManager 仍持續任務（見性能測試），UI 回到前景後以報告 ID 還原文本
+    - [ ] 失敗狀態顯示
+      - [ ] 校驗失敗：顯示標準錯誤對話框（同首次啟動校驗失敗規格），提供「重新嘗試」與「關閉」
+      - [ ] 模型缺失：顯示「模型尚未安裝完成，請稍後再試」並自動觸發一次 `load()` 重試
+  - [ ] 資料與層次封裝
+    - [ ] 新增 `OnnxAiEngine` 間接層（若已存在則擴充）：`generateStreaming(chartSummary, locale, params)`
+      - [ ] 於首次呼叫前確保 `OnnxLlamaSession.load(context)` 已完成（以 Mutex 防止重入）
+      - [ ] 將 `PromptBuilder`、`Tokenizer`、`OnnxLlamaSession` 隔離在 `:core:ai` 模組內，不向上層暴露 ORT 細節
+    - [ ] 紀錄推理指標（僅本機）
+      - [ ] 每 50 tokens 計算 tokens/s，寫入 `files/logs/ai_perf.log`（沿用既有日誌系統，不新增 UI 入口）
+  - [ ] 測試與驗證（單元/整合/穩定性）
+    - [ ] 單元測試：`TokenizerTest`
+      - [ ] `encode/decode` 中英符號往返一致
+      - [ ] `decodeIncremental` 連續輸入可正確串接（含多位元組 UTF-8）
+    - [ ] 單元測試：`PromptBuilderTest`
+      - [ ] `buildNatalReport` 在 `zh-TW/en` 產生的模板包含必備區段與停止序列
+      - [ ] 長輸入時 token 預算控制不超限
+    - [ ] 整合測試：`OnnxLlamaSessionTest`
+      - [ ] `load()` 在資產完整時成功回傳 `OrtSession`；破壞檔案時拋出 `ModelIntegrityException`
+      - [ ] `generate()` 在 `maxNewTokens=32` 時可輸出非空字串且於 `eos` 結束
+      - [ ] `stop()` 會在下一個推理 step 內結束 Flow（無未捕捉例外）
+  - [ ] 效能測試：在 Pixel6Api35 模擬器生成 700 tokens，確認可於背景完成
+    - [ ] 測試前置
+      - [ ] 啟動 `emulator -avd Pixel6PlayApi35 -no-snapshot-load`
+      - [ ] 安裝 release-signed 或 debug 相同行為的 APK（兩者 UI 不得有差異）
+      - [ ] 首次開啟等待「models.zip 解壓 → files/models/」完成；確認 logcat 出現 `validateModelChecksum=true`
+    - [ ] 前景暖機
+      - [ ] 於 ReportScreen 以固定輸入（相同 `chartSummary`、`seed=42`）生成 50 tokens 暖機，忽略輸出
+      - [ ] 記錄 `tokens/s`（從第 10 個 token 起算）
+    - [ ] 背景長任務
+      - [ ] 按「生成 AI 詳解」→ 由既有流程建立 `OneTimeWorkRequest`（若已存在則覆用）
+      - [ ] 在 5 秒內按 Home 進入背景；確認 Work 保持執行（前景服務門檻觸發與否依既有策略）
+      - [ ] 生成目標 `maxNewTokens=700`；Work 成功時以通知回傳（沿用既有通知樣式與深連結）
+    - [ ] 結果驗收
+      - [ ] 回到 App 點通知開啟對應報告頁，確認完整 700 tokens 已寫入資料層並顯示
+      - [ ] 比對 `ai_perf.log`：總耗時、平均 tokens/s、最高記憶體占用（`Debug.getNativeHeapAllocatedSize()` 記錄）
+      - [ ] 期間切網路 / 關網路→不影響推理（僅離線模型）
+      - [ ] 連續執行 3 次背景生成皆成功、無崩潰與 ANR
+    - [ ] 失敗路徑驗證
+      - [ ] 手動破壞 `files/models/.../tinyllama-chat-8bit.onnx` 後重啟生成→應被阻擋並顯示資產損毀錯誤
+      - [ ] 設定 `maxNewTokens=1200` 超過上下文→應提前裁切或提示不可執行（依既有 UX 規則，不新增新對話框）
+- [ ] 背景任務（WorkManager／前景服務）
+  - [ ] 版本 V1.0：建立 Report 生成的基礎 Worker（僅背景、可完成全流程）
+    - [ ] 建立檔案 `app/src/main/java/.../background/ReportGenerationWorker.kt`
+      - [ ] 類別宣告 `class ReportGenerationWorker(appContext: Context, params: WorkerParameters) : CoroutineWorker(appContext, params)`
+      - [ ] 新增 `companion object`
+        - [ ] 定義 Input Key：`const val KEY_CHART_ID = "chartId"`
+        - [ ] 定義 Input Key：`const val KEY_ANALYSIS_SPEC = "analysisSpec"`（JSON 字串，≤ 10KB）
+        - [ ] 定義 Output Key：`const val KEY_REPORT_ID = "reportId"`
+        - [ ] 定義 Tag 前綴：`const val TAG_PREFIX = "REPORT_GENERATION_"`
+        - [ ] 提供 `fun buildRequest(chartId: Long, analysisSpecJson: String): OneTimeWorkRequest` 建立 `OneTimeWorkRequest`
+          - [ ] `Data.Builder().putLong(KEY_CHART_ID, chartId).putString(KEY_ANALYSIS_SPEC, analysisSpecJson).build()`
+          - [ ] `addTag("$TAG_PREFIX$chartId")` 避免重複排程
+          - [ ] `setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 10.seconds)`
+          - [ ] `setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())`
+    - [ ] 注入所需依賴（以 Hilt 或 ServiceLocator）
+      - [ ] `ChartDao`（讀取 `ChartEntity`）
+      - [ ] `ReportDao`（寫入 `ReportEntity`）
+      - [ ] `OnnxLlamaSession`（本機推理）
+      - [ ] `CryptoHelper`（加密工具，見 V1.0 下方步驟）
+      - [ ] `NotificationHelper`（見 V1.2）
+      - [ ] `Clock`（時間戳記）
+    - [ ] 解析 Input
+      - [ ] 以 `inputData.getLong(KEY_CHART_ID, -1)` 取得 `chartId`，為 -1 時回傳 `Result.failure()`
+      - [ ] 以 `inputData.getString(KEY_ANALYSIS_SPEC)` 取得 `analysisSpecJson`，為空回傳 `Result.failure()`
+      - [ ] 將 `analysisSpecJson` 轉為模型使用的 `AnalysisSpec`（kotlinx.serialization 或 Moshi）
+    - [ ] 讀取 Chart
+      - [ ] 以 `chartDao.getById(chartId)` 取得 `ChartEntity`，為 null 時回傳 `Result.failure()`
+      - [ ] 準備 Prompt 所需欄位：生日、時區、地點、已存的摘要欄位（若有）
+    - [ ] 建構 Prompt（純本機）
+      - [ ] 以 `PromptBuilder.build(chartEntity, analysisSpec)` 產出 `String`
+      - [ ] 控制長度與模板變數（避免超過模型 token 上限）
+    - [ ] 呼叫 `OnnxLlamaSession.generate()`
+      - [ ] 以固定 `seed` 與 `maxTokens`（依產品要求 700~1200 tokens）
+      - [ ] 串接阻塞式 `generate(prompt)`（V1.1 會改為前景化時逐步回報）
+      - [ ] 捕捉例外並記錄（寫入 app.log，不彈 UI）
+    - [ ] 加密並寫入 Report（Room）
+      - [ ] 建立 `ReportEntity`（`chartId`、`title`（由模板推得）、`summary`（前 120 bytes）、`contentEnc`（密文）、`createdAt`、`updatedAt`）
+      - [ ] 使用 `CryptoHelper.encryptToBase64(plainText)` 產生 `contentEnc`
+      - [ ] `reportDao.insert(entity)` 取得 `reportId`
+    - [ ] 發出完成通知（先以簡版，V1.2 完整化）
+      - [ ] 呼叫 `notificationHelper.notifyReportCompleted(reportId)`
+    - [ ] 回傳 `Result.success(workDataOf(KEY_REPORT_ID to reportId))`
+    - [ ] 建立 `CryptoHelper`（androidx.security.crypto）
+      - [ ] 建立 `MasterKey`（`AES256_GCM`）
+      - [ ] 以 `Cipher` GCM 封裝純文字→位元組→Base64 字串
+      - [ ] 提供 `encryptToBase64(text: String): String`、`decryptFromBase64(b64: String): String`
+      - [ ] 單元測試：中/英/符號往返一致，密文不可讀
+  - [ ] 版本 V1.1：長任務前景化（>10 分鐘）與進度通知（使用者感知一致）
+    - [ ] AndroidManifest 設定
+      - [ ] 新增 `uses-permission android:name="android.permission.POST_NOTIFICATIONS"`（Android 13+）
+      - [ ] 新增 `uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"`（對應前景型別）
+      - [ ] 視需要新增 `uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROCESSING"`（如模型計算歸類為媒體處理）
+      - [ ] 確認 `androidx.work.impl.foreground.SystemForegroundService` 合併後具備 `android:foregroundServiceType="dataSync|mediaProcessing"`（以 manifest merger 屬性合併，必要時 `tools:replace="android:foregroundServiceType"`）
+    - [ ] 通知頻道（進度用）
+      - [ ] 在 `NotificationHelper` 建立頻道 `ai_reports_progress`（IMPORTANCE_LOW，顯示長駐不震動）
+      - [ ] 小圖示 `ic_stat_ai_report`、應用名稱為 `channelName`、描述為「AI 報告生成進度」
+    - [ ] Worker 內的前景化流程
+      - [ ] 在 `doWork()` 開始時記錄 `val start = SystemClock.elapsedRealtime()`
+      - [ ] 初期以背景執行，先不前景化（避免短任務打擾使用者）
+      - [ ] 每 2 秒或每產生 N tokens 更新內部進度（`setProgress(workDataOf("progress" to x, "elapsedMs" to y))`）
+      - [ ] 若 `elapsed > 8 分鐘` 或預估剩餘時間 > 2 分鐘→切換為前景服務
+        - [ ] 構建 `ForegroundInfo(notificationId, buildProgressNotification(percent, eta))`
+        - [ ] 呼叫 `setForegroundAsync(foregroundInfo)`（只呼叫一次；後續僅 `notify()` 更新內容）
+      - [ ] 進度通知 UI 文案
+        - [ ] 標題：「正在生成 AI 詳解」
+        - [ ] 內容：「已完成 {percent}% · 仍可繼續使用 App」
+        - [ ] 顯示不確定性進度條（未能估計時顯示跑馬燈）
+      - [ ] 任務完成或失敗時關閉進度通知（`cancel(notificationId)`）
+    - [ ] 省電模式與 Doze 相容
+      - [ ] 不要求網路（本機推理），保留 `requiresBatteryNotLow(true)` 以避免低電量啟動
+      - [ ] 不使用 `setExpedited()`（避免 3 分鐘時限）
+    - [ ] 無額外開發者按鈕
+      - [ ] 確認 Debug/Release 皆從既有 UI「生成 AI 詳解」入口觸發，不新增隱藏入口
+  - [ ] 版本 V1.2：完成通知與深連結（導向 `report.detail/{reportId}`）
+    - [ ] 建立檔案 `app/src/main/java/.../notifications/NotificationHelper.kt`
+      - [ ] 建立頻道 `ai_reports_done`（IMPORTANCE_DEFAULT，單次提示）
+      - [ ] 實作 `fun notifyReportCompleted(reportId: Long)`
+        - [ ] 建立深連結 `PendingIntent`（`NavDeepLinkBuilder` 指向 `route="report.detail/{reportId}"`）
+        - [ ] `PendingIntent` 旗標：Android 12L- 以前使用 `FLAG_UPDATE_CURRENT`；Android 12L+ 使用 `FLAG_MUTABLE or FLAG_UPDATE_CURRENT`
+        - [ ] `NotificationCompat.Builder` 設定
+          - [ ] `setContentTitle("AI 報告已完成")`
+          - [ ] `setContentText("點擊查看完整詳解")`
+          - [ ] `setSmallIcon(R.drawable.ic_stat_ai_report_done)`
+          - [ ] `setContentIntent(pendingIntent)`
+          - [ ] `setAutoCancel(true)`
+      - [ ] 實作 `fun buildProgressNotification(percent: Int?, etaText: String?): Notification`
+        - [ ] 若 `percent != null` 則 `setProgress(100, percent, false)`；否則 `setProgress(0, 0, true)`
+        - [ ] `setOngoing(true)`；`setSilent(true)`；`setOnlyAlertOnce(true)`
+    - [ ] 導航圖設定
+      - [ ] 在 `NavGraph` 定義目的地 `composable("report.detail/{reportId}")`
+      - [ ] `arguments`：`reportId` 型別 `LongType`；從 `SavedStateHandle` 讀取並載入 `ReportEntity`
+      - [ ] 頁面進入動畫與返回行為與既有版本一致（不可新增調試入口）
+    - [ ] Worker 完成時呼叫通知
+      - [ ] `notificationHelper.cancelProgress()`（若存在）
+      - [ ] `notificationHelper.notifyReportCompleted(reportId)`
+  - [ ] 版本 V1.3：Worker 與 UI 串接（排程、避免重複、可見回饋）
+    - [ ] 建立 `ReportWorkManager.kt`
+      - [ ] `fun enqueue(chartId: Long, analysisSpecJson: String): UUID`
+        - [ ] 查詢是否已有相同 `"$TAG_PREFIX$chartId"` 且狀態為 `ENQUEUED/RUNNING` 的 Work
+        - [ ] 若存在則直接回傳既有 `id`（避免重複）
+        - [ ] 否則 `WorkManager.enqueue(request)` 並回傳 `id`
+      - [ ] `fun observeProgress(id: UUID): Flow<ProgressState>`（供結果頁顯示；不新增任何隱藏 UI）
+    - [ ] 在結果頁（`ReportScreen`）觸發
+      - [ ] 「生成 AI 詳解」按鈕 `onClick` → 調用 `ReportWorkManager.enqueue(chartId, analysisSpecJson)`
+      - [ ] 顯示「已開始在背景生成」的標準 Snackbar（沿用既有樣式）
+      - [ ] 按鈕進入 `loading` 狀態（文案「生成中…」）並禁用直到完成或失敗
+  - [ ] 版本 V1.4：錯誤處理、重試與資料一致性
+    - [ ] Result 與重試策略
+      - [ ] 模型初始化或推理失敗→`Result.retry()`（最多 3 次，依 Backoff）
+      - [ ] 輸入資料缺失/JSON 解析錯誤→`Result.failure()`
+    - [ ] 部分完成的清理
+      - [ ] 若已建立 `ReportEntity` 但內容未寫入完整→將狀態標記為 `FAILED` 並保留日誌欄位
+      - [ ] 失敗通知（可選）：以低等級通知提示使用者稍後重試（與 V1.2 完成通知頻道分開）
+    - [ ] 內容長度與分段
+      - [ ] `generate()` 回傳字數過長→切割為章節並合併後再加密
+      - [ ] 資料落盤前再次檢查 Base64 長度（避免超過 Room 欄位上限）
+  - [ ] 版本 V1.5：裝置與系統適配（Android 13/14/15）
+    - [ ] 通知權限請求
+      - [ ] 首次嘗試發通知前檢查 `POST_NOTIFICATIONS` 權限，未授權僅降級行為（仍可前景化但不噪音），不彈出開發者專用 UI
+    - [ ] 前景服務型別
+      - [ ] 以 `dataSync` 為主；如審核建議，改用 `mediaProcessing` 並同步調整 `uses-permission`
+    - [ ] 後台存活驗證
+      - [ ] 鎖屏與滑掉 App 後 5 分鐘驗證 Work 仍持續或已完成（符合 QA 清單）
+  - [ ] 版本 V1.6：多語系與無障礙
+    - [ ] 將所有通知字串加入 `values-zh-rTW/values-en`（標題、內文、動態百分比格式）
+    - [ ] 通知 `contentDescription` 對 TalkBack 讀報友善（以字串組合百分比）
+  - [ ] 版本 V1.7：整體 QA 任務（此模組專屬）
+    - [ ] 以相同入口測試 Debug/Release：UI 元件、文案、觸發點完全一致，無特規按鈕
+    - [ ] 觸發 3 筆不同 `chartId` 的生成，觀察同時進行與佇列是否正常（不互相覆蓋）
+    - [ ] 長任務超過 10 分鐘前景化成功；通知常駐不被系統回收
+    - [ ] 完成通知點擊可正確開啟 `report.detail/{reportId}` 並還原返回棧
+    - [ ] 模擬例外（模型拋錯）→自動重試≤3 次→最終失敗有記錄且不殘留半成品
+    - [ ] 檢查加密欄位：資料庫 `ReportEntity.contentEnc` 為密文且不可讀；解密顯示內容正確
+    - [ ] 權限未授予時通知降級但流程不阻斷；授權後再次生成可顯示完成通知
+- [ ] Billing v8（內購/訂閱）
+  - [ ] 專案依賴設定
+    - [ ] 在 `gradle/libs.versions.toml` 新增 `billingKtx` 版本常數
+    - [ ] 在 `app/build.gradle` 新增依賴 `implementation(libs.billingKtx)`
+    - [ ] 在 `proguard-rules.pro` 保留 `com.android.billingclient` 公用類別
+    - [ ] 在 `AndroidManifest.xml` 確認未加入任何開發者測試用的按鈕或 Activity
+  - [ ] 產品與權益模型定義
+    - [ ] 建立 `billing/BillingProducts.kt` 檔案
+    - [ ] 在 `BillingProducts.kt` 宣告 `object BillingIds`
+    - [ ] 在 `BillingIds` 定義 `const val ASTRO_DEEP_ONE = "astro_deep_one"`
+    - [ ] 在 `BillingIds` 定義 `const val SUB_VIP_MONTH = "sub_vip_month"`
+    - [ ] 在 `BillingIds` 定義 `const val SUB_VIP_YEAR = "sub_vip_year"`
+    - [ ] 建立 `enum class ProductKind` 以標示 `INAPP` 與 `SUBS`
+    - [ ] 建立 `data class ProductMeta` 儲存 `productId`
+    - [ ] 在 `ProductMeta` 加入 `productKind`
+    - [ ] 在 `ProductMeta` 加入 `titleFallback`
+    - [ ] 在 `ProductMeta` 加入 `featureBullets`
+    - [ ] 在 `BillingProducts.kt` 建立 `val AllProducts: List<ProductMeta>`
+    - [ ] 在 `AllProducts` 加入 `ASTRO_DEEP_ONE` 對應 `INAPP`
+    - [ ] 在 `AllProducts` 加入 `SUB_VIP_MONTH` 對應 `SUBS`
+    - [ ] 在 `AllProducts` 加入 `SUB_VIP_YEAR` 對應 `SUBS`
+    - [ ] 建立 `billing/OfferTokens.kt` 檔案
+    - [ ] 在 `OfferTokens.kt` 定義 `const val OFFER_MONTH_BASE = "REPLACE_WITH_CONSOLE_OFFER_TOKEN_MONTH"`
+    - [ ] 在 `OfferTokens.kt` 定義 `const val OFFER_YEAR_BASE = "REPLACE_WITH_CONSOLE_OFFER_TOKEN_YEAR"`
+  - [ ] 建立資料與狀態儲存
+    - [ ] 建立 `data/EntitlementStore.kt` 介面
+    - [ ] 在 `EntitlementStore` 定義 `suspend fun setVipActive(active: Boolean)`
+    - [ ] 在 `EntitlementStore` 定義 `suspend fun setVipSource(source: String)`
+    - [ ] 在 `EntitlementStore` 定義 `suspend fun addUnlockedReport(id: String)`
+    - [ ] 在 `EntitlementStore` 定義 `suspend fun removeUnlockedReport(id: String)`
+    - [ ] 在 `EntitlementStore` 定義 `val vipActive: Flow<Boolean>`
+    - [ ] 在 `EntitlementStore` 定義 `val unlockedReports: Flow<Set<String>>`
+    - [ ] 建立 `data/EntitlementStoreImpl.kt`
+    - [ ] 在 `EntitlementStoreImpl` 使用 `DataStore` 儲存 `vipActive`
+    - [ ] 在 `EntitlementStoreImpl` 使用 `DataStore` 儲存 `vipSource`
+    - [ ] 在 `EntitlementStoreImpl` 使用 `DataStore` 儲存 `unlockedReports`
+    - [ ] 建立 `data/PurchaseEntity.kt` 以 Room 儲存交易摘要
+    - [ ] 在 `PurchaseEntity` 定義 `productId: String`
+    - [ ] 在 `PurchaseEntity` 定義 `purchaseToken: String`
+    - [ ] 在 `PurchaseEntity` 定義 `purchaseTime: Long`
+    - [ ] 在 `PurchaseEntity` 定義 `acknowledged: Boolean`
+    - [ ] 在 `PurchaseEntity` 定義 `consumed: Boolean`
+    - [ ] 建立 `data/PurchaseDao.kt` 儲存與查詢交易
+    - [ ] 建立 `data/PurchaseRepository.kt` 封裝 DAO 與本地快取
+  - [ ] 建立 `BillingManager.kt` 檔案
+    - [ ] 在 `billing/BillingManager.kt` 建立 `class BillingManager`
+    - [ ] 在 `BillingManager` 建立內部狀態 `billingClient: BillingClient?`
+    - [ ] 在 `BillingManager` 建立 `applicationContext: Context` 參考
+    - [ ] 在 `BillingManager` 建立 `scope: CoroutineScope`
+    - [ ] 在 `BillingManager` 建立 `purchasesUpdatedListener: PurchasesUpdatedListener`
+    - [ ] 在 `BillingManager` 建立 `val productDetailsState: MutableStateFlow<Map<String, ProductDetails>>`
+    - [ ] 在 `BillingManager` 建立 `val connectionState: MutableStateFlow<Boolean>`
+    - [ ] 在 `BillingManager` 建立 `val purchaseEvents: MutableSharedFlow<BillingEvent>`
+    - [ ] 在 `BillingManager` 定義 `sealed interface BillingEvent`
+    - [ ] 在 `BillingEvent` 定義 `object Connected`
+    - [ ] 在 `BillingEvent` 定義 `data class PurchaseSuccess(val productId: String)`
+    - [ ] 在 `BillingEvent` 定義 `data class PurchasePending(val productId: String)`
+    - [ ] 在 `BillingEvent` 定義 `data class PurchaseFailed(val productId: String, val responseCode: Int)`
+    - [ ] 在 `BillingEvent` 定義 `data class Acknowledged(val productId: String)`
+    - [ ] 在 `BillingEvent` 定義 `data class Consumed(val productId: String)`
+    - [ ] 在 `BillingEvent` 定義 `data class Restored(val productIds: List<String>)`
+  - [ ] 實作 `startConnection()`
+    - [ ] 在 `startConnection()` 建立 `BillingClient.Builder`
+    - [ ] 在 `startConnection()` 呼叫 `enablePendingPurchases()`
+    - [ ] 在 `startConnection()` 設定 `setListener(purchasesUpdatedListener)`
+    - [ ] 在 `startConnection()` 建立 `billingClient = builder.build()`
+    - [ ] 在 `startConnection()` 呼叫 `billingClient.startConnection(stateListener)`
+    - [ ] 在 `stateListener.onBillingSetupFinished` 設定 `connectionState.value = true`
+    - [ ] 在 `stateListener.onBillingSetupFinished` 觸發 `purchaseEvents.emit(BillingEvent.Connected)`
+    - [ ] 在 `stateListener.onBillingSetupFinished` 呼叫 `queryProductDetailsAsync()`
+    - [ ] 在 `stateListener.onBillingServiceDisconnected` 設定 `connectionState.value = false`
+    - [ ] 在 `stateListener.onBillingServiceDisconnected` 安排指數退避重試
+  - [ ] 實作 `queryProductDetailsAsync()`
+    - [ ] 在 `queryProductDetailsAsync()` 建立 `QueryProductDetailsParams.Product` 清單
+    - [ ] 在 `queryProductDetailsAsync()` 為 `ASTRO_DEEP_ONE` 建立 `INAPP` 查詢項
+    - [ ] 在 `queryProductDetailsAsync()` 為 `SUB_VIP_MONTH` 建立 `SUBS` 查詢項
+    - [ ] 在 `queryProductDetailsAsync()` 為 `SUB_VIP_YEAR` 建立 `SUBS` 查詢項
+    - [ ] 在 `queryProductDetailsAsync()` 組裝 `QueryProductDetailsParams`
+    - [ ] 在 `queryProductDetailsAsync()` 呼叫 `billingClient.queryProductDetailsAsync(params, listener)`
+    - [ ] 在 `listener.onProductDetailsResponse` 檢查 `BillingResult.getResponseCode()`
+    - [ ] 在 `listener.onProductDetailsResponse` 將回傳 `ProductDetails` 放入 `productDetailsState`
+    - [ ] 在 `listener.onProductDetailsResponse` 將價格字串快取於 `PurchaseViewModel`
+  - [ ] 實作 `queryPurchasesAsync()`
+    - [ ] 在 `queryPurchasesAsync()` 呼叫 `billingClient.queryPurchasesAsync(INAPP)`
+    - [ ] 在 `queryPurchasesAsync()` 呼叫 `billingClient.queryPurchasesAsync(SUBS)`
+    - [ ] 在 `queryPurchasesAsync()` 合併兩種回傳的 `Purchase` 清單
+    - [ ] 在 `queryPurchasesAsync()` 遍歷每筆 `Purchase`
+    - [ ] 在 `queryPurchasesAsync()` 檢查 `purchase.purchaseState == PURCHASED`
+    - [ ] 在 `queryPurchasesAsync()` 檢查 `purchase.isAcknowledged`
+    - [ ] 在 `queryPurchasesAsync()` 對未 `acknowledged` 的交易呼叫 `acknowledgePurchase()`
+    - [ ] 在 `queryPurchasesAsync()` 對 `INAPP` 類型決定是否需要 `consume()`
+    - [ ] 在 `queryPurchasesAsync()` 呼叫 `applyEntitlementsFromPurchases(purchases)`
+    - [ ] 在 `queryPurchasesAsync()` 透過 `purchaseEvents.emit(BillingEvent.Restored(...))` 通知 UI
+  - [ ] 實作 `launchPurchase(productId: String)`
+    - [ ] 在 `launchPurchase()` 讀取 `productDetailsState.value[productId]`
+    - [ ] 在 `launchPurchase()` 若找不到對應 `ProductDetails` 則先呼叫 `queryProductDetailsAsync()`
+    - [ ] 在 `launchPurchase()` 若仍找不到則回報 `PurchaseFailed` 事件
+    - [ ] 在 `launchPurchase()` 對 `INAPP` 建立 `BillingFlowParams.ProductDetailsParams`
+    - [ ] 在 `launchPurchase()` 對 `SUBS` 讀取 `subscriptionOfferDetails`
+    - [ ] 在 `launchPurchase()` 對 `SUBS` 指定對應 `offerToken`
+    - [ ] 在 `launchPurchase()` 建立 `BillingFlowParams` 並帶入 `obfuscatedAccountId`
+    - [ ] 在 `launchPurchase()` 呼叫 `billingClient.launchBillingFlow(activity, params)`
+  - [ ] 實作 `acknowledge(purchaseToken: String)`
+    - [ ] 在 `acknowledge()` 建立 `AcknowledgePurchaseParams`
+    - [ ] 在 `acknowledge()` 呼叫 `billingClient.acknowledgePurchase(params, listener)`
+    - [ ] 在 `acknowledge()` 於成功後更新 `PurchaseEntity.acknowledged = true`
+    - [ ] 在 `acknowledge()` 於成功後觸發 `purchaseEvents.emit(BillingEvent.Acknowledged(productId))`
+    - [ ] 在 `acknowledge()` 於成功後呼叫 `applyEntitlementsForProduct(productId)`
+  - [ ] 實作 `consume(purchaseToken: String)`
+    - [ ] 在 `consume()` 建立 `ConsumeParams`
+    - [ ] 在 `consume()` 呼叫 `billingClient.consumeAsync(params, listener)`
+    - [ ] 在 `consume()` 於成功後更新 `PurchaseEntity.consumed = true`
+    - [ ] 在 `consume()` 於成功後觸發 `purchaseEvents.emit(BillingEvent.Consumed(productId))`
+    - [ ] 在 `consume()` 於成功後呼叫 `applyEntitlementsForProduct(productId)`
+  - [ ] 實作 `purchasesUpdatedListener`
+    - [ ] 在 `onPurchasesUpdated` 取得 `responseCode`
+    - [ ] 在 `onPurchasesUpdated` 於 `OK` 取得 `purchases`
+    - [ ] 在 `onPurchasesUpdated` 遍歷每筆 `Purchase`
+    - [ ] 在 `onPurchasesUpdated` 寫入或更新 `PurchaseEntity` 到 Room
+    - [ ] 在 `onPurchasesUpdated` 若為 `INAPP` 呼叫 `acknowledge()` 後再呼叫 `consume()`
+    - [ ] 在 `onPurchasesUpdated` 若為 `SUBS` 僅呼叫 `acknowledge()`
+    - [ ] 在 `onPurchasesUpdated` 於成功後觸發 `purchaseEvents.emit(PurchaseSuccess(productId))`
+    - [ ] 在 `onPurchasesUpdated` 於 `USER_CANCELED` 觸發 `PurchaseFailed(productId, code)`
+    - [ ] 在 `onPurchasesUpdated` 於其他錯誤碼觸發 `PurchaseFailed(productId, code)`
+  - [ ] 權益落地邏輯
+    - [ ] 建立 `applyEntitlementsForProduct(productId: String)` 函式
+    - [ ] 在 `applyEntitlementsForProduct` 處理 `ASTRO_DEEP_ONE` 解鎖一次性報告
+    - [ ] 在 `applyEntitlementsForProduct` 呼叫 `EntitlementStore.addUnlockedReport(reportId)`
+    - [ ] 在 `applyEntitlementsForProduct` 處理 `SUB_VIP_MONTH` 變更 `vipActive = true`
+    - [ ] 在 `applyEntitlementsForProduct` 設定 `vipSource = "subscription"`
+    - [ ] 在 `applyEntitlementsForProduct` 處理 `SUB_VIP_YEAR` 變更 `vipActive = true`
+    - [ ] 建立 `applyEntitlementsFromPurchases(purchases: List<Purchase>)` 函式
+    - [ ] 在 `applyEntitlementsFromPurchases` 若存在任一有效 `SUBS` 設定 `vipActive = true`
+    - [ ] 在 `applyEntitlementsFromPurchases` 若無有效 `SUBS` 設定 `vipActive = false`
+    - [ ] 在 `applyEntitlementsFromPurchases` 對 `INAPP` 根據本地記錄維持已解鎖報告清單
+    - [ ] 在 `applyEntitlementsFromPurchases` 更新 `WalletEntity` 或 `ReportEntity` 對應欄位
+  - [ ] 資料驗證與防呆
+    - [ ] 在 `BillingManager` 為所有公開 API 檢查 `connectionState`
+    - [ ] 在 `BillingManager` 於未連線時先呼叫 `startConnection()`
+    - [ ] 在 `BillingManager` 為所有公開 API 以 `Mutex` 保護並發
+    - [ ] 在 `BillingManager` 對回傳 `BillingResult` 記錄錯誤碼
+    - [ ] 在 `BillingManager` 對 `Null productDetails` 回覆明確錯誤事件
+  - [ ] ViewModel 串接
+    - [ ] 建立 `ui/purchase/PurchaseViewModel.kt`
+    - [ ] 在 `PurchaseViewModel` 注入 `BillingManager`
+    - [ ] 在 `PurchaseViewModel` 注入 `EntitlementStore`
+    - [ ] 在 `PurchaseViewModel` 暴露 `val uiState: StateFlow<PurchaseUiState>`
+    - [ ] 在 `PurchaseViewModel` 定義 `data class PurchaseUiState`
+    - [ ] 在 `PurchaseUiState` 包含 `productCards: List<ProductCardState>`
+    - [ ] 在 `PurchaseUiState` 包含 `isConnecting: Boolean`
+    - [ ] 在 `PurchaseUiState` 包含 `isProcessing: Boolean`
+    - [ ] 在 `PurchaseUiState` 包含 `snackbarMessage: String?`
+    - [ ] 在 `PurchaseViewModel` 收集 `BillingManager.productDetailsState`
+    - [ ] 在 `PurchaseViewModel` 收集 `BillingManager.purchaseEvents`
+    - [ ] 在 `PurchaseViewModel` 收集 `EntitlementStore.vipActive`
+    - [ ] 在 `PurchaseViewModel` 將 `ProductDetails` 轉為 `ProductCardState`
+    - [ ] 在 `PurchaseViewModel` 實作 `fun onBuyClick(productId: String)`
+    - [ ] 在 `PurchaseViewModel` 實作 `fun onRestoreClick()`
+    - [ ] 在 `PurchaseViewModel` 實作 `fun onSnackbarShown()`
+  - [ ] UI 串接與布局
+    - [ ] 建立 `ui/purchase/PurchaseScreen.kt`
+    - [ ] 在 `PurchaseScreen` 建立 `Scaffold`
+    - [ ] 在 `PurchaseScreen` 建立 `TopAppBar` 顯示標題
+    - [ ] 在 `PurchaseScreen` 建立 `SnackbarHost`
+    - [ ] 在 `PurchaseScreen` 使用 `LazyColumn` 顯示商品卡片
+    - [ ] 在 `PurchaseScreen` 首列顯示 VIP 權益摘要
+    - [ ] 在 `PurchaseScreen` 於列表尾端顯示「恢復購買」按鈕
+    - [ ] 在 `PurchaseScreen` 顯示全域載入遮罩於 `isProcessing` 為真時
+    - [ ] 建立 `@Composable ProductCard(state: ProductCardState)`
+    - [ ] 在 `ProductCard` 顯示產品標題
+    - [ ] 在 `ProductCard` 顯示價格字串
+    - [ ] 在 `ProductCard` 顯示功能要點列表
+    - [ ] 在 `ProductCard` 顯示主要 CTA 購買按鈕
+    - [ ] 在 `ProductCard` 於已擁有時將 CTA 顯示已擁有狀態
+    - [ ] 在 `ProductCard` 於已擁有時禁用 CTA 點擊
+    - [ ] 在 `ProductCard` 加入 `contentDescription` 供 TalkBack
+    - [ ] 在 `ProductCard` 於 `isProcessing` 顯示小型進度指示
+    - [ ] 在 `PurchaseScreen` 提供統一的底部安全間距
+  - [ ] UI 行為細節
+    - [ ] 在點擊購買按鈕時呼叫 `PurchaseViewModel.onBuyClick(productId)`
+    - [ ] 在點擊購買按鈕時將 `isProcessing` 設為真
+    - [ ] 在購買流程回傳 `PurchaseSuccess` 時顯示 Snackbar
+    - [ ] 在顯示 Snackbar 時文案顯示「權益已更新」
+    - [ ] 在顯示 Snackbar 時提供「查看」動作
+    - [ ] 在點擊「查看」時導向 `ReportScreen` 或 `HomeScreen`
+    - [ ] 在購買流程回傳 `PurchasePending` 時顯示等待提示
+    - [ ] 在購買流程回傳 `PurchaseFailed` 時顯示錯誤文案
+    - [ ] 在購買流程任意結束時將 `isProcessing` 設為假
+  - [ ] 恢復購買與啟動同步
+    - [ ] 在 `PurchaseScreen` 的「恢復購買」按鈕綁定 `onRestoreClick()`
+    - [ ] 在 `onRestoreClick()` 呼叫 `BillingManager.queryPurchasesAsync()`
+    - [ ] 在 App 啟動後的 `MainViewModel` 呼叫 `BillingManager.startConnection()`
+    - [ ] 在 `MainViewModel` 於連線成功後呼叫 `BillingManager.queryPurchasesAsync()`
+    - [ ] 在 `MainViewModel` 於回前景時再次呼叫 `queryPurchasesAsync()` 同步
+  - [ ] 訊息與文案
+    - [ ] 在 `strings.xml` 新增 `purchase_title`
+    - [ ] 在 `strings.xml` 新增 `purchase_restore`
+    - [ ] 在 `strings.xml` 新增 `purchase_processing`
+    - [ ] 在 `strings.xml` 新增 `purchase_success_snackbar`
+    - [ ] 在 `strings.xml` 新增 `purchase_failed_snackbar`
+    - [ ] 在 `values-zh-rTW/strings.xml` 提供繁中文案
+    - [ ] 在 `values-en/strings.xml` 提供英文文案
+  - [ ] 無障礙與狀態保存
+    - [ ] 在 `PurchaseScreen` 為主要區塊加上 `semantics` label
+    - [ ] 在 `ProductCard` 為價格加上 `semantics` role
+    - [ ] 在 `ProductCard` 為 CTA 加上 `semantics` role Button
+    - [ ] 在螢幕旋轉時保留 `isProcessing` 狀態
+    - [ ] 在螢幕旋轉時保留 Snackbar 顯示排程
+  - [ ] 錯誤處理與回退
+    - [ ] 在 `BillingManager` 對 `SERVICE_UNAVAILABLE` 顯示離線提示
+    - [ ] 在 `BillingManager` 對 `ITEM_ALREADY_OWNED` 導向 `queryPurchasesAsync()`
+    - [ ] 在 `BillingManager` 對 `DEVELOPER_ERROR` 記錄本地 log
+    - [ ] 在 `BillingManager` 對 `ITEM_UNAVAILABLE` 提示稍後重試
+    - [ ] 在 `BillingManager` 對 `NETWORK_ERROR` 提示檢查網路
+  - [ ] 安全與識別
+    - [ ] 在 `launchPurchase()` 設定 `obfuscatedAccountId` 以 `UUID或使用者雜湊`
+    - [ ] 在 `launchPurchase()` 設定 `obfuscatedProfileId` 以 `裝置雜湊`
+    - [ ] 在 `PurchaseRepository` 避免持久化完整收據
+    - [ ] 在 `PurchaseRepository` 僅儲存必要欄位
+  - [ ] 與資料層整合
+    - [ ] 在 `WalletEntity` 增加欄位以標示一次性解鎖來源
+    - [ ] 在 `ReportEntity` 增加欄位以標示 VIP 產出可見性
+    - [ ] 在 `ReportDao` 新增以 `vipActive` 過濾的查詢
+  - [ ] 導航與關聯頁面
+    - [ ] 在付費牆入口點呼叫 `navController.navigate("purchase")`
+    - [ ] 在購買成功後回傳上一頁並攜回 `result=updated`
+    - [ ] 在上一頁收到 `result=updated` 重新讀取 `vipActive`
+  - [ ] 開發與發佈一致性
+    - [ ] 在 Debug 組建維持與 Release 相同的 `PurchaseScreen`
+    - [ ] 在 Debug 組建不顯示任何隱藏入口
+    - [ ] 在 Debug 組建不顯示任何測試專用按鈕
+  - [ ] 單元與整合測試（不新增測試 UI）
+    - [ ] 為 `EntitlementStoreImpl` 撰寫讀寫測試
+    - [ ] 為 `applyEntitlementsFromPurchases` 撰寫狀態測試
+    - [ ] 為 `PurchaseViewModel` 撰寫事件到 UI 狀態轉換測試
+    - [ ] 為 `BillingManager` 在無網路情境模擬 `SERVICE_UNAVAILABLE` 回應
+- [ ] AdMob Rewarded（激勵廣告／Coins）
+  - [ ] 建立 `AdsManager.kt`
+    - [ ] `initialize(context)`、`loadRewarded(adUnitId)`、`showRewarded(activity)` 回呼 `onUserEarnedReward`
+    - [ ] 廣告單元 ID：`ca-app-pub-1779359737796272/5235603391`
+  - [ ] 建立 `CoinsService.kt`
+    - [ ] `earn(10)`、`spend(50)`、每日上限與冷卻（每小時 3 次、每日 8 次）
+  - [ ] 實作 UMP 同意（支援地區）
+    - [ ] `ConsentManager.kt`：載入同意表單→成功才允許請求廣告
+  - [ ] UI 串接
+    - [ ] `WalletScreen`：顯示 Coins、按鈕「看廣告 +10 幣」
+    - [ ] `AIReportCTA`：不足 50 幣時提示「看 5 支廣告兌換 1 次深度」
+- [ ] UI/UX（V1 全局樣式與版位）
+  - [ ] 全局 Design Token 與 Material3 主題
+    - [ ] 建立色票 `AppColors`（Light/Dark 各一套）
+      - [ ] 定義主色 `primary=#6750A4`、次色 `secondary=#625B71`、強調色 `tertiary=#7D5260`
+      - [ ] 定義背景 `background=#FFFBFE`、表面 `surface=#FFFBFE`、錯誤 `error=#B3261E`
+      - [ ] 深色模式對應 `primary=#D0BCFF`、`surface=#1C1B1F`
+      - [ ] 設定對比梯度（Container / On-Color）以通過 AA 對比標準
+    - [ ] 建立字型與排版 `AppTypography`
+      - [ ] 置入 `Noto Sans TC` 作為中文優先字型，英文字型回退 `Inter`
+      - [ ] 設定類型層級：`displayLarge`、`headlineLarge`、`titleLarge`、`bodyLarge`、`labelLarge`
+      - [ ] 調整中文字距（letterSpacing）與行高（lineHeight）確保 130% 字體放大不崩版
+    - [ ] 建立尺寸與間距 `AppDimens`
+      - [ ] 設定邊距刻度：`space2=2dp`、`space4=4dp`、`space8=8dp`、`space12=12dp`、`space16=16dp`、`space24=24dp`
+      - [ ] 設定圓角：卡片 `radius12=12dp`、按鈕 `radius20=20dp`、底部表單區 `radius16=16dp`
+      - [ ] 設定觸控目標高度：`minTouch48=48dp`、主要按鈕高度 `56dp`
+    - [ ] 建立陰影與層級 `AppElevation`
+      - [ ] 定義 `card=1dp`、`dialog=3dp`、`fab=6dp`、`topBar=2dp`
+    - [ ] 建立 Icon 與插圖規格
+      - [ ] 使用 Material Symbols `Outlined` 24dp 為預設，48dp 用於空狀態
+      - [ ] 插圖以 SVG 載入，確保深色主題自動調色或提供反白版
+    - [ ] 建立互動狀態規格
+      - [ ] Ripple 半徑 24dp，透明度 0.12
+      - [ ] Focus/Pressed/Hovered 樣式：按鈕邊框外輝度 8dp、透明度 0.2
+    - [ ] 實作 `AppTheme`（Compose）包裹全局
+      - [ ] 依系統主題自動切換 Light/Dark
+      - [ ] 提供 `LocalSpacing/LocalElevation/LocalStrings` CompositionLocal
+      - [ ] 在 `MaterialTheme` 中套用色票、字型、形狀
+  - [ ] 全局導覽規格（NavGraph）
+    - [ ] 建立單 Activity 架構 `MainActivity` 承載 `NavHost`
+    - [ ] 定義路由：`onboarding`、`home`、`chart_input/{kind}`、`chart_result/{chartId}`、`report_detail/{reportId}`、`settings`
+    - [ ] 設定返回邏輯
+      - [ ] `onboarding` 完成後 `popUpTo` 清除返回堆疊導向 `home`
+      - [ ] `chart_result` 返回至 `chart_input/{kind}`，保留使用者輸入狀態
+      - [ ] `report_detail` 返回上一頁來源（可能為 `home` 或通知深連結）
+    - [ ] 支援深連結
+      - [ ] `app://report/{reportId}` 開啟 `report_detail/{reportId}`
+      - [ ] `app://chart/{chartId}` 開啟 `chart_result/{chartId}`
+    - [ ] 設定過場動畫
+      - [ ] 入場：淡入 150ms + 位移 Y 8dp
+      - [ ] 退場：淡出 120ms
+  - [ ] 全局元件與狀態樣板
+    - [ ] 建立通用 `PrimaryButton(text, onClick, enabled, loading)`
+      - [ ] 高度 56dp、填滿寬度、圓角 20dp
+      - [ ] `loading=true` 顯示圓形進度，禁用點擊
+    - [ ] 建立 `FormField(label, content, helperText, errorText)`
+      - [ ] Label 採 `labelLarge`，錯誤色顯示於下
+      - [ ] 支援必填星號與 `contentDescription`
+    - [ ] 建立 `TopBar(title, onBack?, actions?)`
+      - [ ] 標題置左，返回箭頭 24dp，右側動作圖示列
+    - [ ] 建立 `CardSection(title?, subtitle?, content)`
+      - [ ] 內邊距 16dp，卡片圓角 12dp
+    - [ ] 建立空狀態 `EmptyState(icon, title, message, cta?)`
+      - [ ] Icon 48dp、間距 12dp、訊息 `bodyMedium`
+    - [ ] 建立骨架 `Skeleton(rects: List<RectSpec>)`
+      - [ ] 亮暗主題皆有灰階漸層動畫
+    - [ ] 建立錯誤提示 `InlineError(message, action?)`
+      - [ ] 錯誤色背景 8% 透明，文字錯誤色
+  - [ ] `OnboardingScreen`（條款/隱私 → 出生資料 → 啟用通知）
+    - [ ] Step 0：首次判斷與旗標
+      - [ ] 啟動時讀取 DataStore `onboarding_completed=false` 決定是否進入
+      - [ ] 若為 `true` 則直接導向 `home`
+    - [ ] Step 1：條款與隱私頁
+      - [ ] 版面
+        - [ ] `TopBar(title="歡迎")` 無返回鍵
+        - [ ] 條款摘要文字區塊，最大三段，每段不超過 4 行
+        - [ ] 兩個連結按鈕：`查看服務條款`、`查看隱私權政策`
+        - [ ] 同意勾選框 `我已閱讀並同意`（未勾選不可繼續）
+        - [ ] 底部 `PrimaryButton(text="繼續")` 置底 SafeArea 內
+      - [ ] 互動
+        - [ ] 點擊連結開啟內建 WebView（`/terms`、`/privacy`）
+        - [ ] 未勾選同意時 `繼續` disabled，按下顯示 `請先同意條款與隱私`
+        - [ ] 勾選後 `繼續` enabled，點擊前往 Step 2
+      - [ ] 無障礙
+        - [ ] 勾選框 `contentDescription="同意條款與隱私"`
+        - [ ] 連結加下劃線與焦點指示
+    - [ ] Step 2：出生資料頁（日期 / 時間 / 時區 / 地點）
+      - [ ] 版面
+        - [ ] `TopBar(title="建立個人化體驗")` 顯示進度指示 `2/3`
+        - [ ] 區塊 `日期`：日期選擇器輸入框，預設為今天
+        - [ ] 區塊 `時間`：時間選擇器輸入框，24h，提供 `未知時間` 切換
+        - [ ] 區塊 `時區`：下拉選單，預設系統時區，附搜尋
+        - [ ] 區塊 `地點`：城市下拉選單，支援關鍵字搜尋與最近使用
+        - [ ] 底部 `PrimaryButton(text="儲存")` 與次按鈕 `略過`（略過仍可用 App，僅影響預設建盤）
+      - [ ] 互動與驗證
+        - [ ] 點 `日期` 彈出日期選擇器（年/月/日），確認後寫回欄位
+        - [ ] 點 `時間` 彈出時間選擇器（時/分），`未知時間` 開啟時禁用時間欄位
+        - [ ] 點 `時區` 顯示列表（顯示 `GMT±HH:mm 名稱`），可輸入搜尋縮小結果
+        - [ ] 點 `地點` 顯示城市列表（含國家/城市），可輸入拼音/中文搜尋
+        - [ ] 未填 `日期` 時按 `儲存` 顯示錯誤 `請選擇日期`
+        - [ ] `八字/紫微` 允許無地點，`西洋星盤` 需地點時在首次建盤另行提示
+      - [ ] 資料持久化
+        - [ ] 儲存至 DataStore：`birth_date`、`birth_time` 或 `unknown_time=true`、`tz`、`cityId`
+        - [ ] 寫入 `UserProfileEntity` 初始值（若資料層已可用）
+      - [ ] 無障礙
+        - [ ] 每個欄位具 `contentDescription`，例如 `日期選擇器（必填）`
+    - [ ] Step 3：通知權限頁
+      - [ ] 版面
+        - [ ] `TopBar(title="開啟通知")` 顯示進度 `3/3`
+        - [ ] 說明文字：通知用於提醒生成完成與每日黃曆
+        - [ ] 圖示展示通知樣貌（示意卡片）
+        - [ ] `PrimaryButton(text="啟用通知")`
+        - [ ] 次按鈕 `稍後再說`
+      - [ ] 互動
+        - [ ] Android 13+ 呼叫 `POST_NOTIFICATIONS` 權限請求
+        - [ ] 使用者拒絕時顯示內嵌 Rationale 與 `前往系統設定` 按鈕
+        - [ ] 允許或選擇 `稍後再說` 皆可完成 Onboarding，寫 `onboarding_completed=true`，導向 `home`
+      - [ ] 邏輯
+        - [ ] 完成 Step 3 後 `popUpTo(onboarding)` 清堆疊
+  - [ ] `HomeScreen` 排版
+    - [ ] 頁面骨架
+      - [ ] `TopBar(title="首頁")`，右側 `設定` 圖示按鈕，點擊導向 `settings`
+      - [ ] `LazyColumn` 主區塊，內容分區之間間距 16dp
+    - [ ] 上方「快速排盤」主按鈕（Filled button）
+      - [ ] 版面
+        - [ ] 放於頁面首區 `CardSection` 內，左右邊距 16dp
+        - [ ] `PrimaryButton(text="快速排盤")` 寬度填滿，高度 56dp
+      - [ ] 互動
+        - [ ] 點擊導向 `chart_input/{kind}`，`kind` 以最近一次使用的類型帶入（無則預設 `astro`）
+        - [ ] 長按不提供隱藏功能（避免開發者特規入口）
+      - [ ] 無障礙
+        - [ ] `contentDescription="快速排盤"`
+    - [ ] 中段卡片：〔我的近期報告〕橫向列表
+      - [ ] 版面
+        - [ ] 標題 `我的近期報告`
+        - [ ] `LazyRow` 顯示最多 10 張報告卡
+        - [ ] 報告卡寬 240dp、高 140dp、圓角 12dp、內邊距 12dp
+        - [ ] 卡內顯示：標題一行、摘要兩行、日期一行、右下 `查看` 小按鈕
+      - [ ] 互動
+        - [ ] 點整張卡導向 `report_detail/{reportId}`
+        - [ ] 橫向滾動顯示指示陰影（左右漸層）
+      - [ ] 狀態
+        - [ ] 無資料時顯示 `EmptyState` 與 `立即建立第一份報告` CTA 連至 `chart_input/{kind}`
+        - [ ] 載入中顯示 3 張骨架卡
+    - [ ] 次要卡片群
+      - [ ] 卡片：〔生成 AI 詳解〕
+        - [ ] 版面：圖示 + 標題 + 說明 + `開始生成` 次按鈕
+        - [ ] 互動：點擊導向 `mix-ai` 功能入口（若 V1 僅占位則導向付費牆或說明）
+      - [ ] 卡片：〔今日黃曆（占位）〕
+        - [ ] 版面：日期、農曆、宜/忌摘要三行
+        - [ ] 狀態：無資料顯示骨架條 3 行
+        - [ ] 互動：點擊導向黃曆詳情（若未實作，僅顯示 Toast `即將推出`）
+      - [ ] 卡片：〔我的點數/購買〕
+        - [ ] 版面：餘額數字、`獲得點數` 次按鈕、`前往購買` 次按鈕
+        - [ ] 互動：`獲得點數` 導向激勵廣告頁；`前往購買` 導向付費牆
+    - [ ] 滑動行為與回到頂端
+      - [ ] 下滑收合 TopBar 陰影加深，上滑顯示 `回到頂端` 浮動按鈕（出現條件：滾過 600dp）
+  - [ ] `ChartInputScreen`（日期/時間選擇器、時區下拉、地點下拉、「生成星盤」按鈕）
+    - [ ] 頁面骨架
+      - [ ] `TopBar(title="輸入資料")` 顯示當前 `kind` 標籤（如：`西洋星盤`）
+      - [ ] `LazyColumn` 表單段落，底部固定行動列
+    - [ ] 表單欄位：日期
+      - [ ] 顯示輸入框與 `選擇日期` 按鈕
+      - [ ] 點擊開啟日期選擇器，限制未來日期不可選
+      - [ ] 驗證：必填，未填顯示 `請選擇日期`
+    - [ ] 表單欄位：時間
+      - [ ] 顯示輸入框、`選擇時間` 按鈕、切換 `未知出生時間` 開關
+      - [ ] 開啟 `未知出生時間` 時清空時間值並禁用輸入
+      - [ ] 時間為 24h，分鐘粒度 1 分
+    - [ ] 表單欄位：時區
+      - [ ] 預設帶入系統時區（顯示 `GMT±HH:mm`）
+      - [ ] 下拉清單可搜尋（支援 `Asia/Taipei`、`GMT+08:00`）
+      - [ ] 驗證：若手動修改，保存使用者選擇
+    - [ ] 表單欄位：地點
+      - [ ] 顯示城市下拉與搜尋框
+      - [ ] 顯示 `最近使用` 區塊（最多 5 筆）
+      - [ ] 西洋星盤為必填，八字/紫微非必填（可提交）
+      - [ ] 驗證：西洋星盤未填地點時阻止提交並提示 `請選擇地點以產生星盤`
+    - [ ] 行動列
+      - [ ] 左側 `重設` 次按鈕，清除所有欄位
+      - [ ] 右側 `PrimaryButton(text="產生命盤")`
+      - [ ] `enabled` 綁定驗證狀態（西洋星盤需地點，八字/紫微可省略）
+    - [ ] 成功提交
+      - [ ] 顯示非阻塞 `產生中…` 提示
+      - [ ] 導向 `chart_result/{chartId}`，傳遞輸入快照
+    - [ ] 失敗與錯誤
+      - [ ] 顯示 `InlineError`，提供 `重試` 行動
+  - [ ] `ChartResultScreen`（Canvas 顯示盤面、相位矩陣表、「生成 AI 詳解（可背景）」按鈕）
+    - [ ] 頁面骨架
+      - [ ] `TopBar(title="命盤結果")`，右側 `分享` 圖示按鈕（若未解鎖則禁用並顯示引導）
+      - [ ] 上方 Canvas 區呈現命盤（可縮放/平移）
+      - [ ] 中段 `相位矩陣表`（表格列行：行星 × 行星）
+      - [ ] 下方行動列 `生成 AI 詳解` 主按鈕
+    - [ ] Canvas 互動
+      - [ ] 支援 Pinch to Zoom（倍率 0.75–2.0）
+      - [ ] 支援拖曳平移，雙擊回復中心與 1.0 倍
+      - [ ] 點擊行星顯示底部 Sheet：名稱、度數、落宮
+    - [ ] 相位矩陣表
+      - [ ] 表格固定表頭，內容區可直向捲動
+      - [ ] 格內以圖標顏色區分 0/60/90/120/180
+      - [ ] 點擊某格高亮對應兩天體於 Canvas
+    - [ ] 行動：生成 AI 詳解
+      - [ ] 按鈕按下後顯示進度並禁用，出現說明 `可於背景繼續`
+      - [ ] 呼叫背景任務後導回本頁，顯示上方小橫幅 `已開始生成，完成後通知你`
+    - [ ] 狀態
+      - [ ] 載入骨架：Canvas 區 1 塊、表格 8×4 骨架格
+      - [ ] 計算失敗：顯示錯誤卡與 `回輸入頁`、`重試` 兩按鈕
+  - [ ] `ReportDetailScreen`（重點摘要卡、長文折疊、分享按鈕、解鎖 CTA）
+    - [ ] 頁面骨架
+      - [ ] `TopBar(title="報告詳情")`，右側 `分享` 圖示按鈕
+      - [ ] 上方重點摘要卡：3–5 點條列
+      - [ ] 主體長文區：預設折疊顯示前 4 段
+      - [ ] `展開更多` / `收合` 文字按鈕置中
+      - [ ] 底部解鎖區（若未解鎖）：單次 / 訂閱 / 用幣 三卡選擇
+    - [ ] 互動
+      - [ ] 點 `分享`：已解鎖→開啟系統分享；未解鎖→彈出付費牆
+      - [ ] 點摘要卡項目：平滑滾動至對應章節錨點
+      - [ ] 點解鎖任一方案：導向內購流程（此頁僅顯示 UI，不觸發購買行為）
+    - [ ] 狀態
+      - [ ] 生成中：顯示進度條（>80% 轉成功色）
+      - [ ] 內容不可用：顯示空狀態與 `回到首頁` CTA
+    - [ ] 無障礙
+      - [ ] 章節標題設為語意 Heading，方便 TalkBack 快速瀏覽
+  - [ ] `SettingsScreen`（語言、主題、通知開關、恢復購買、（V1.1）雲端同步）
+    - [ ] 頁面骨架
+      - [ ] `TopBar(title="設定")`，左側返回
+      - [ ] `LazyColumn` 群組化：一般、通知、購買、關於
+    - [ ] 一般
+      - [ ] `語言`：下拉 `繁體中文`、`English（占位）`
+      - [ ] `主題`：切換 `跟隨系統`、`淺色`、`深色`
+      - [ ] `重置新手引導`：切換後清除 `onboarding_completed=false`
+    - [ ] 通知
+      - [ ] `允許推播`：開關
+      - [ ] 關閉時顯示說明與 `前往系統設定` 按鈕
+    - [ ] 購買
+      - [ ] `恢復購買`：按鈕，點擊觸發查詢 SKU 擁有狀態（僅 UI 流程）
+      - [ ] `權益狀態`：顯示 VIP 與已解鎖模組標籤
+    - [ ] 雲端同步（V1.1 占位）
+      - [ ] 顯示說明文字 `即將推出`
+      - [ ] 灰階禁用的 `啟用同步` 切換，點擊顯示提示 `於 V1.1 開放`
+    - [ ] 關於
+      - [ ] `條款與隱私` 連結至內建 WebView
+      - [ ] `版本號` 顯示 `v1.0.x`
+  - [ ] 文字資源與在地化（V1 範圍）
+    - [ ] 建立 `values-zh-rTW/strings.xml` 完整鍵值
+    - [ ] 建立 `values-en/strings.xml` 對應鍵值（未翻譯鍵不得出現 Placeholder）
+    - [ ] 所有頁面文字改用 `LocalStrings` 讀取以支援即時切換
+  - [ ] 無障礙與可用性
+    - [ ] 所有互動元素設置 `contentDescription`
+    - [ ] 動態字體至 130% 進行視覺檢查，不溢位、不截斷
+    - [ ] 深/淺色對比度檢查（文字對背景至少 4.5:1）
+    - [ ] 鍵盤導航順序與焦點顯示清楚
+  - [ ] 手機尺寸與方向
+    - [ ] 小螢幕（360×640dp）檢查主要流程可見
+    - [ ] 橫向模式：結果 Canvas 可填滿寬度，表格切換為雙欄
+    - [ ] 鎖定 Onboarding 為直向，避免鍵盤遮擋
+  - [ ] 錯誤與空狀態樣板套用
+    - [ ] Onboarding 連線失敗（條款頁載入）：顯示離線提示與 `重試`
+    - [ ] Home `我的近期報告` 空列表：顯示空狀態 CTA
+    - [ ] ChartInput 驗證錯誤：就地紅字提示與欄位聚焦
+    - [ ] ChartResult 計算失敗：錯誤卡 + `重試` + `回輸入頁`
+  - [ ] 動效與回饋
+    - [ ] 按鈕按下 50ms 壓下縮放 0.98 回彈
+    - [ ] 切頁轉場 150ms 淡入淡出
+    - [ ] 成功事件 Snackbar（2.5s 自動消失）
+  - [ ] 不加入任何開發者專用入口
+    - [ ] 移除 Debug 切換按鈕、實驗旗標 UI
+    - [ ] 保證 Debug 與 Release 介面一致
+  - [ ] 可測性（不影響 UI 呈現）
+    - [ ] 為關鍵元素加入 `testTag`（Compose）供 UI 測試定位
+    - [ ] 重要 CTA（快速排盤、產生命盤、生成 AI 詳解、分享、恢復購買）皆具唯一 `testTag`
+- [ ] 安全與加密
+  - [ ] 使用 `Security Crypto` 將 `Report.content` 加密落地（AES-GCM）
+  - [ ] 啟動時校驗模型與 tokenizer 的 SHA-256
+  - [ ] App 內標示「僅供參考／非專業建議」警語
+- [ ] 上架前準備（共用）
+  - [ ] 產生發行 keystore（Upload key）
+    - [ ] 在終端確認 `keytool -version` 正常且 JDK 版本為 17（若非 17 → 調整 `JAVA_HOME` 指向 JDK 17）
+    - [ ] 決定 keystore 存放路徑（建議：`$HOME/secrets/aidd/aidd.keystore`；避免置於專案與版控）
+    - [ ] 建立存放目錄：`mkdir -p $HOME/secrets/aidd && cd $HOME/secrets/aidd`
+    - [ ] 產生 keystore：`keytool -genkey -v -keystore aidd.keystore -alias aidd -keyalg RSA -keysize 2048 -validity 10000`
+    - [ ] 於互動提示填寫資訊（密碼/姓名/組織/城市/省份/國家；可用產品名稱作為 CN）
+    - [ ] 列出憑證指紋以備紀錄：`keytool -list -v -keystore aidd.keystore -alias aidd`
+    - [ ] 匯出上傳憑證（.pem）：`keytool -export -rfc -alias aidd -file aidd_upload_cert.pem -keystore aidd.keystore`
+    - [ ] 設定檔案權限（避免其他使用者讀取）：`chmod 600 aidd.keystore aidd_upload_cert.pem`
+    - [ ] 將 `aidd.keystore` 與 `aidd_upload_cert.pem` 備份至密碼管理器（附註密碼與 alias）
+    - [ ] 確認專案 `.gitignore` 已忽略 `*.keystore` / `*.jks` / `aidd_upload_cert.pem`（避免誤入版控）
+  - [ ] 在 `gradle.properties`（本機）設定簽章資訊（不入版控）
+    - [ ] 開啟本機使用者層級檔案 `~/.gradle/gradle.properties`（無則建立）
+    - [ ] 新增簽章屬性（以絕對路徑存放）
+      - [ ] 新增一行 `AIDD_SIGNING_STORE_FILE=/Users/<you>/secrets/aidd/aidd.keystore`
+      - [ ] 新增一行 `AIDD_SIGNING_STORE_PASSWORD=<你的-keystore-密碼>`
+      - [ ] 新增一行 `AIDD_SIGNING_KEY_ALIAS=aidd`
+      - [ ] 新增一行 `AIDD_SIGNING_KEY_PASSWORD=<你的-key-密碼>`
+    - [ ] 儲存檔案後回到專案根目錄：`cd <project-root>`
+    - [ ] 在 `app/build.gradle.kts` 讀取屬性（逐步加入以下設定）
+      - [ ] 於檔案頂端確認可使用 `project.findProperty(...)`（無需額外 import）
+      - [ ] 在 `android { signingConfigs { ... } }` 區塊新增 `release`
+        - [ ] 加入一行 `val storeFileProp = (project.findProperty("AIDD_SIGNING_STORE_FILE") as String?) ?: ""`
+        - [ ] 加入一行 `val storePasswordProp = (project.findProperty("AIDD_SIGNING_STORE_PASSWORD") as String?) ?: ""`
+        - [ ] 加入一行 `val keyAliasProp = (project.findProperty("AIDD_SIGNING_KEY_ALIAS") as String?) ?: ""`
+        - [ ] 加入一行 `val keyPasswordProp = (project.findProperty("AIDD_SIGNING_KEY_PASSWORD") as String?) ?: ""`
+        - [ ] 加入一段 `signingConfigs.create("release") { storeFile = if (storeFileProp.isNotEmpty()) file(storeFileProp) else null }`
+        - [ ] 在同一區塊加入 `storePassword = storePasswordProp`
+        - [ ] 在同一區塊加入 `keyAlias = keyAliasProp`
+        - [ ] 在同一區塊加入 `keyPassword = keyPasswordProp`
+      - [ ] 在 `buildTypes { release { ... } }` 內指定 `signingConfig = signingConfigs.getByName("release")`
+      - [ ] 儲存後執行 `./gradlew tasks` 確認組態無誤（無紅字錯誤）
+    - [ ] 檢查簽章檔案未被追蹤：`git ls-files -- aidd.keystore aidd_upload_cert.pem`（應無輸出）
+  - [ ] `./gradlew bundleRelease` 產生 `app-release.aab`
+    - [ ] 清理舊輸出：`rm -rf app/build/outputs/bundle/release app/build/outputs/mapping/release`
+    - [ ] 停止舊 Daemon（可選）：`./gradlew --stop`
+    - [ ] 執行建置：`./gradlew clean bundleRelease`
+    - [ ] 等待完成並確認輸出存在：`ls app/build/outputs/bundle/release/app-release.aab`
+    - [ ] 確認同時產出對應混淆對映：`ls app/build/outputs/mapping/release/mapping.txt`
+    - [ ] 以 bundletool 驗證（若尚未安裝，先下載 `bundletool-all.jar` 至 `tools/`）
+      - [ ] 建立通用 APK 集：`java -jar tools/bundletool-all.jar build-apks --mode=universal --bundle app/build/outputs/bundle/release/app-release.aab --output out/universal.apks --ks $HOME/secrets/aidd/aidd.keystore --ks-key-alias aidd --ks-pass pass:<密碼> --key-pass pass:<密碼>`
+      - [ ] 解壓 `universal.apks`：`unzip -o out/universal.apks -d out/universal_apks`
+      - [ ] 使用 `apksigner` 驗證簽章：`apksigner verify --print-certs out/universal_apks/universal.apk`
+      - [ ] 在 64 位 AVD（`Pixel6PlayApi35`）上安裝：`java -jar tools/bundletool-all.jar install-apks --apks=out/universal.apks`
+      - [ ] 啟動 App 並檢查 UI 與 Debug 版一致（不得有測試專用按鈕/入口）
+    - [ ] 將 `.aab`、`mapping.txt`、`aidd_upload_cert.pem` 備份歸檔至日期目錄 `release/<YYYYMMDD>/`
+  - [ ] 驗證 `targetSdk=35` 與 64-bit
+    - [ ] 在 `app/build.gradle.kts` 的 `android {}` 中逐一檢查（必要時新增）
+      - [ ] 確認 `compileSdk = 35`
+      - [ ] 在 `defaultConfig {}` 內確認 `targetSdk = 35`
+      - [ ] 儲存檔案並重新同步：`./gradlew :app:properties | grep -E "compileSdk|targetSdk"`
+    - [ ] 以 bundletool 檢視 AAB Manifest 之 targetSdk
+      - [ ] 執行：`java -jar tools/bundletool-all.jar dump manifest --bundle app/build/outputs/bundle/release/app-release.aab --module base | grep -i "targetSdkVersion"`
+      - [ ] 確認輸出為 `targetSdkVersion=35`
+    - [ ] 檢查是否含原生 `.so` 檔（判斷是否需符合 64-bit）
+      - [ ] 執行：`zipgrep -n "lib/.*\.so" app/build/outputs/bundle/release/app-release.aab || echo "no native libs"`
+      - [ ] 若無任何 `.so` → 標記「純 Java/Kotlin，64-bit 要求自動符合」
+    - [ ] 若有原生 `.so` → 驗證 64-bit 架構齊備
+      - [ ] 檢查 arm64：`zipgrep -n "lib/arm64-v8a/.*\.so" app/build/outputs/bundle/release/app-release.aab`
+      - [ ] 檢查 x86_64（可選）：`zipgrep -n "lib/x86_64/.*\.so" app/build/outputs/bundle/release/app-release.aab`
+      - [ ] 若只找到 `armeabi-v7a` 或缺少 `arm64-v8a` → 在 `app/build.gradle.kts` 修正 NDK/ABI 設定
+        - [ ] 在 `android { defaultConfig { ndk { abiFilters += listOf("arm64-v8a") } } }` 新增/確保 `arm64-v8a`
+        - [ ] 如需支援模擬器 64 位 x86_64，再加入 `"x86_64"`（非 Play 必要）
+        - [ ] 重新建置：`./gradlew clean bundleRelease`
+        - [ ] 重新以 `zipgrep` 檢查 `arm64-v8a` 是否出現在 `.aab`
+    - [ ] 在 64 位 AVD 上實裝驗證（確保實機也可）
+      - [ ] 確認裝置 ABI：`adb shell getprop ro.product.cpu.abi`（應回傳含 `arm64-v8a` 或 `x86_64`）
+      - [ ] 以 `bundletool install-apks` 安裝前述 `universal.apks` 並啟動，確認可正常運作
+    - [ ] 產生與保存證書指紋（供 Play Console 對照）
+      - [ ] 執行：`keytool -list -v -keystore $HOME/secrets/aidd/aidd.keystore -alias aidd | sed -n 's/\s\+//gp' | grep -E 'SHA1:|SHA-256:'`
+      - [ ] 把 SHA-1 與 SHA-256 保存至 `release/<YYYYMMDD>/fingerprints.txt`
+    - [ ] 確認 Release 與 Debug UI 完整一致（嚴禁 Debug 專用入口）
+      - [ ] 搜尋程式碼中 UI 受 `BuildConfig.DEBUG` 影響之處：`rg -n "BuildConfig\.DEBUG" app/src`
+      - [ ] 僅允許日誌/診斷用途；若發現任何 UI 條件分支 → 立即移除或改為權益/設定開關
+      - [ ] 檢查 Release 可執行檔 `android:debuggable`：閱讀 `app/build/outputs/logs/manifest-merger-release-report.txt` 應為 `false`
+      - [ ] 以 Debug 與 Release 分別跑一次主要流程（首頁→輸入→生成→通知→報告），核對畫面元件與可見入口完全一致
+- [ ] Play Console 初始設定（一次性）
+  - [ ] 註冊 Google Play Developer（付一次性費用）
+    - [ ] 使用將用於上架與收款的 Google 帳號登入 `play.google.com/console`
+    - [ ] 確認該帳號已啟用兩步驟驗證（以降低後續風險）
+    - [ ] 在首頁點擊「開始使用」進入註冊流程
+    - [ ] 選擇帳戶類型（個人或公司），依實際營業型態選擇
+    - [ ] 輸入開發者名稱（此名稱將顯示於商店頁面底部）
+    - [ ] 輸入聯絡電子郵件（使用者可在商店頁面看到）
+    - [ ] 輸入聯絡電話（可選，但建議填寫以利審查聯繫）
+    - [ ] 輸入聯絡地址（收據與合規用途）
+    - [ ] 勾選並閱讀開發者發行者協議及政策條款
+    - [ ] 以信用卡/金融卡支付一次性註冊費
+    - [ ] 等待付款授權完成並返回 Play Console 首頁
+    - [ ] 檢查收件匣是否收到註冊成功與收據通知
+    - [ ] 首次登入後完成引導設定並確認側邊欄可見各模組（政策、釋出、測試、貨幣化等）
+  - [ ] 建立商家帳戶（Merchant）並完成驗證
+    - [ ] 在 Play Console 側邊欄點「收款設定」或「付款設定」進入商家帳戶設定
+    - [ ] 點「建立商家帳戶」或「建立付款資料檔案」
+    - [ ] 選擇商家類型（個人/公司）以符合收款稅務需求
+    - [ ] 輸入法定商家名稱（需與銀行帳戶一致）
+    - [ ] 輸入商家註冊地址（含郵遞區號與城市）
+    - [ ] 輸入商家聯絡電子郵件與聯絡電話
+    - [ ] 選擇主要銷售國家/地區與預設幣別
+    - [ ] 儲存基本資料後進入身份驗證步驟（如系統要求）
+    - [ ] 上傳身份/營業登記文件（依畫面要求之檔案格式）
+    - [ ] 進入「收款」設定新增銀行帳戶
+    - [ ] 輸入銀行名稱、帳戶持有人姓名、帳號與 Swift/分行資訊（依地區差異填寫）
+    - [ ] 提交銀行帳戶以觸發小額入帳驗證（若系統適用）
+    - [ ] 於取得小額入帳後回到系統輸入驗證金額完成銀行綁定
+    - [ ] 進入「稅務資訊」填報稅表（如 W-8BEN 或 W-8BEN-E 等，依地區而定）
+    - [ ] 儲存所有收款與稅務設定
+    - [ ] 返回 Play Console 檢查商家帳戶狀態顯示為「有效」或「已核准」
+  - [ ] 建立應用：名稱「AI命理大師：西洋星盤・AI解盤」，預設語言繁中
+    - [ ] 在 Play Console 側邊欄點「全部應用程式」
+    - [ ] 點「建立應用程式」
+    - [ ] 在「應用程式名稱」輸入「AI命理大師：西洋星盤・AI解盤」
+    - [ ] 在「預設語言」下拉選擇「繁體中文（台灣）」
+    - [ ] 在「應用程式或遊戲」選擇「應用程式」
+    - [ ] 在「付費或免費」選擇「免費」
+    - [ ] 勾選政策聲明與出口法規遵循（依引導逐項勾選）
+    - [ ] 點「建立應用程式」進入此 App 的主控台
+    - [ ] 在左側導覽確認可見「政策」「店面展示」「釋出」「測試」「貨幣化」模組
+  - [ ] 填寫開發者資訊與聯絡 Email、開發者網站（GitHub Pages）
+    - [ ] 進入「店面展示」>「商店資訊」或「聯絡資訊」
+    - [ ] 在「開發者電子郵件」填入服務聯絡信箱（與註冊信箱可相同）
+    - [ ] 在「網站」欄位填入 GitHub Pages 網站 URL（稍後建立隱私頁並重用此網域）
+    - [ ] 在「電話」欄位填入國碼+號碼（可選）
+    - [ ] 點「儲存」並確認頁面顯示已儲存
+  - [ ] 新增隱私權政策 URL（GitHub Pages `/index.md`）
+    - [ ] 在 GitHub 建立新 Repository（例如 `ai-astro-privacy` 或主站 repo）
+    - [ ] 新增檔案 `index.md` 並撰寫隱私權政策全文（繁中為主，含資料用途、保存、刪除機制、聯絡方式）
+    - [ ] 將隱私權政策中提及之 SDK 包含項目（Billing/Ads/Auth/Drive）與資料處理敘述對齊
+    - [ ] Commit 並 Push `index.md` 至 `main` 分支
+    - [ ] 進入該 Repository 的「Settings」>「Pages」
+    - [ ] 在「Build and deployment」選擇「Deploy from a branch」
+    - [ ] 選擇「Branch: main」與「Folder: /root」後點「Save」
+    - [ ] 觀察 Pages 部署狀態顯示「deployed」，取得公開網址（例如 `https://{username}.github.io/ai-astro-privacy/`）
+    - [ ] 使用桌機與手機瀏覽器打開該網址確認可讀、HTTPS 安全、回應 200
+    - [ ] 返回 Play Console 進入「政策」>「應用程式內容」>「隱私權政策」
+    - [ ] 在「隱私權政策 URL」貼上 GitHub Pages 的網址
+    - [ ] 點「儲存」並確認狀態從「未完成」變為「完成」
+  - [ ] 完成內容分級問卷
+    - [ ] 進入「政策」>「應用程式內容」>「內容分級」
+    - [ ] 點「開始」
+    - [ ] 填寫聯絡資訊（電子郵件、公司/個人名稱）
+    - [ ] 選擇問卷提供者為 IARC（預設）
+    - [ ] 逐題回答應用是否含使用者互動、暴力、裸露、賭博、位置使用等
+    - [ ] 對於不包含的類別選擇「否」，包含的類別選擇「是」並補充描述
+    - [ ] 送出問卷產生各地區分級結果（將用於商店顯示與目標受眾限制）
+    - [ ] 點「套用」並確認內容分級頁狀態為「完成」
+  - [ ] 填寫 Data Safety（僅本機處理、可選同步、使用 Billing/Ads/Auth/Drive SDK）
+    - [ ] 進入「政策」>「應用程式內容」>「資料安全性」
+    - [ ] 點「開始」啟動資料安全性問卷
+    - [ ] 在「是否收集或分享用戶資料」選擇符合實作之選項（本機推理為主，僅在用戶同意時才同步）
+    - [ ] 在「資料收集」逐項檢查是否有收集聯絡資訊、個人資訊、位置、裝置或其他 ID（無則全部標示不收集）
+    - [ ] 在「資料分享」確認是否分享給第三方（如無則標示不分享）
+    - [ ] 在「資料處理方式」勾選「資料已加密傳輸」與「使用者可要求刪除資料」（若實作提供）
+    - [ ] 在「兒童」與「受監管區域」依實際目標受眾作答
+    - [ ] 在「第三方 SDK 與服務」列出 Google Play Billing、Google Mobile Ads、Google Sign-In、Google Drive 等
+    - [ ] 若使用廣告 SDK，於「資料可能由第三方收集」段落如實勾選可能的裝置與使用資料類型
+    - [ ] 完成摘要預覽確認顯示與 App 行為一致
+    - [ ] 點「儲存」並提交，確保狀態顯示為「完成」
+  - [ ] 在「應用內產品」建立 SKU：`astro_deep_one`, `sub_vip_month`, `sub_vip_year`（區域定價）
+    - [ ] 進入「貨幣化」>「應用內產品」
+    - [ ] 切換到「一次性商品」分頁
+    - [ ] 點「建立產品」
+    - [ ] 在「產品 ID」輸入 `astro_deep_one`（建立後不可更改）
+    - [ ] 在「名稱」輸入「AI 深度解析（一次）」
+    - [ ] 在「說明」輸入購買將解鎖的權益與使用範圍
+    - [ ] 在「價格」點「設定價格」
+    - [ ] 選擇基準幣別與價格，勾選「使用區域定價」自動換算各地幣值
+    - [ ] 儲存價格後將狀態切換為「啟用」
+    - [ ] 返回「應用內產品」切換到「訂閱」分頁
+    - [ ] 點「建立訂閱」
+    - [ ] 在「訂閱 ID」輸入 `sub_vip_month`
+    - [ ] 在「名稱」輸入「VIP 月訂閱」
+    - [ ] 在「說明」輸入 VIP 權益（如 N+1 詳解、進階報告、移除廣告等，依實作）
+    - [ ] 在「基地方案」新增 Base plan，計費週期選擇「每月」
+    - [ ] 在 Base plan 的「價格」設定基準價格並啟用「區域定價」
+    - [ ] 在 Base plan 的「承諾/試用/優惠」視需求設定試用期或導入優惠（若無則略過）
+    - [ ] 在 Base plan 的「帳單彈性」設定寬限期、比例計費與升降級規則（依預期體驗）
+    - [ ] 儲存並啟用 `sub_vip_month` 的 Base plan
+    - [ ] 重複建立另一個訂閱：`sub_vip_year`
+    - [ ] 在「訂閱 ID」輸入 `sub_vip_year`
+    - [ ] 在「名稱」輸入「VIP 年訂閱」
+    - [ ] 在 Base plan 設定計費週期為「每年」
+    - [ ] 設定年費價格並啟用「區域定價」
+    - [ ] 視需求新增年付專屬優惠（如首年折扣）
+    - [ ] 儲存並啟用 `sub_vip_year` 的 Base plan
+    - [ ] 返回清單確認三個產品/訂閱狀態皆為「啟用」，價格表顯示已套用區域定價
+  - [ ] 新增測試人員名單（Internal/Closed 測試）
+    - [ ] 進入「測試」>「內部測試」
+    - [ ] 點「設定測試人員」
+    - [ ] 選擇「電子郵件清單」類型建立名單（例如 `internal-testers`）
+    - [ ] 逐一貼上測試者 Google 帳號電子郵件（確保為個人可用帳號）
+    - [ ] 儲存名單並確認顯示測試者人數
+    - [ ] 於「發佈設定」取得內部測試的加入連結（稍後釋出使用）
+    - [ ] 返回「測試」>「封閉測試」
+    - [ ] 建立封閉測試軌與測試人員名單（例如 `closed-cbt`）以便後續更大範圍測試
+    - [ ] 確認兩個名單皆顯示「有效」且可用於對應軌道
+    - [ ] 標註團隊準則：App 不提供任何開發者測試專用入口或按鈕，測試流程與正式使用者一致
+  - [ ] 新增釋出：上傳 `app-release.aab`，填寫版本更新說明
+    - [ ] 準備 `app-release.aab`（簽章與 `versionCode`、`versionName` 已正確）
+    - [ ] 在 Play Console 進入「釋出」>「內部測試」>「建立新版本」
+    - [ ] 首次上傳前接受「Play 應用程式簽署」條款以啟用 App Signing
+    - [ ] 拖放或選擇上傳檔案 `app-release.aab`
+    - [ ] 等待處理完成並檢查「套件名稱」與「版本碼」是否正確
+    - [ ] 在「App 內容問題」面板確認「隱私權政策」「內容分級」「資料安全性」狀態皆為「完成」
+    - [ ] 若有警示（權限宣告、廣告宣告、定位等）依指示逐一修正對應頁面
+    - [ ] 在「版本說明」輸入繁體中文的更新說明（簡明描述本版內容）
+    - [ ] 切換語言至英文新增相同版本說明的英文占位文本（確保多語一致）
+    - [ ] 點「儲存」版本草稿
+    - [ ] 點「檢閱版本」確認無阻擋項目
+    - [ ] 點「發佈到內部測試」完成釋出
+    - [ ] 於「測試人員存取」複製測試連結並分享給內部名單測試者
+    - [ ] 在測試裝置以測試者帳號打開連結，加入測試並於 Play 商店頁安裝
+    - [ ] 啟動 App 確認可正常登入/瀏覽/產生基本內容（依 App 核心流程）
+    - [ ] 在 App 中打開「付費牆」僅檢查 UI 與 SKU 顯示，不進行實購（購買將於最後階段測試）
+    - [ ] 如需進入封閉測試，於「釋出」>「封閉測試」重複上述上傳與發佈流程
+- [ ] V1.0：西洋星盤 + AI 解析 + 付費 + 廣告點數 + 同帳號恢復付費（上架）
+  - [ ] 基礎架構與版本約束（Release 與 Debug 介面一致，無特規測試入口）
+    - [ ] 在 `:app` 設定 `versionCode/VersionName` 與 `applicationId`，確保與 Play Console 對應
+    - [ ] 新增 `:core:billing`, `:core:ads`, `:core:ai`, `:core:astro`, `:features:wallet`, `:features:purchase`, `:features:report` 模組依賴圖
+    - [ ] 設定 `minSdk/targetSdk/compileSdk=35`，打開 `viewBinding/compose` 與 `R8` 混淆規則
+    - [ ] 建立 `Release` 與 `Debug` 共用 `BuildConfig` 旗標（不含任何測試解鎖開關）
+    - [ ] 在 `AndroidManifest` 註冊 `BillingClient`, `WorkManager`, `ForegroundService`, `Firebase/MobileAds`（如使用）等必要權限與服務
+    - [ ] 建立 `NavigationGraph`：`HomeScreen` → `ChartInputScreen` → `ResultScreen` → `ReportScreen` → `WalletScreen` → `PurchaseScreen` → `SettingsScreen`
+  - [ ] 實作星盤離線排盤（`NatalChartService` 完成）
+    - [ ] 資料與演算法資產
+      - [ ] 將離線星曆檔（ephemeris）放入 `assets/ephemeris/`，含 1900–2100 年基本精度檔
+      - [ ] 將城市離線清單（城市名稱/國家/lat/lng/tzid）置於 `assets/cities.json`
+      - [ ] 建立 `TimeZoneResolver`，由 `tzid` 轉換至實際時區（離線映射表）
+      - [ ] 建立 `HouseSystem` 列舉（Whole Sign / Porphyry），預設 Whole Sign
+    - [ ] 計算流程（服務層）
+      - [ ] `NatalChartService.compute(input)`：驗證必填（日期/時間/地點），若缺地點則阻止西洋星盤並提示
+      - [ ] 轉換本地時間至 UTC（含夏令時間檢查）
+      - [ ] 計算 Julian Day（小數）
+      - [ ] 由星曆計算行星黃經（太陽/月亮/水/金/火/木/土，選擇性含天王/海王/冥王）
+      - [ ] 計算上升點與中天（依緯度/經度/當地恆星時）
+      - [ ] 計算 12 宮分界（依 `HouseSystem`）
+      - [ ] 計算相位矩陣（0/60/90/120/180，orb=6°），輸出相位清單
+      - [ ] 產出 `ChartComputed`：行星度數、落宮、相位、宮頭度數、設定檔
+      - [ ] 將 `ChartComputed` 序列化至 `ChartEntity.computedJson`，寫入 `summary`（上升星座/太陽/月亮摘要）
+    - [ ] UI/UX（`ChartInputScreen` / `ResultScreen`）
+      - [ ] `ChartInputScreen`：日期選擇器（西元），時間 24h，地點搜尋（離線下拉），時區顯示只讀；提交按鈕「產生命盤」
+      - [ ] 提交成功導航至 `ResultScreen(chartId)`，頂部顯示基本資訊（太陽/月亮/上升）
+      - [ ] `ResultScreen` 圓盤視圖：可放大/縮小/拖移；行星點位以標籤顯示度數；點擊任一行星彈出卡片（星座/宮位/相位列表）
+      - [ ] 切換 House 系統的 SegmentedControl（Whole Sign / Porphyry），切換時重新渲染
+      - [ ] 圓盤旁顯示相位表（矩陣）與列表（依強度排序）
+      - [ ] 儲存按鈕「加入我的報告」：建立 `ReportEntity` 概要（不含 AI 詳解）
+    - [ ] 穩定與驗證
+      - [ ] 加入固定日期對照測試（與公開參考比對），允許 ±0.5° 誤差
+      - [ ] 單元測試：邊界生日（閏年/時區邊界/跨日）
+      - [ ] 快取與效能：首次計算後快取結果，重入同一 `chartId` 時直接讀取
+  - [ ] 實作 AI 詳解（`ReportGenerationWorker` + `OnnxLlamaSession` 串接）
+    - [ ] 模型初始化與資產校驗
+      - [ ] 啟動時檢查 `files/models/llama-*.onnx` 與 tokenizer，通過 SHA-256 校驗後置 `aiReady=true`
+      - [ ] 失敗則在任何生成入口顯示錯誤訊息卡（引導重新下載模型資產的流程按鈕）
+    - [ ] 產生任務排程
+      - [ ] 在 `ResultScreen`／`ReportScreen` 顯示「生成 AI 詳解」主按鈕
+      - [ ] 按下後檢查權益（VIP 或 50 幣），不足顯示付費牆或廣告入口（引導至 `PurchaseScreen` 或 `WalletScreen`）
+      - [ ] 通過權益檢查後建立 `OneTimeWorkRequest(reportId, chartId, seed, length)`，Constraints：充電非必要、網路非必要
+      - [ ] 若推理預估 > N 秒，升級為前景服務並顯示進度通知
+    - [ ] 推理與串流
+      - [ ] `OnnxLlamaSession.generateStreaming(prompt, maxTokens, temperature, topP, seed)` 以固定 seed 產生可重現輸出
+      - [ ] 將片段透過 `ReportRepository.appendPartial(reportId, delta)` 寫入，UI 逐段更新
+      - [ ] 進度條以產生 tokens 比例估算；>80% 切換成功色
+      - [ ] 完成後標記 `ReportEntity.status=Done`、`wordCount`、`sections` 切分
+    - [ ] 中斷與恢復
+      - [ ] 切至背景不終止；App 被回收後 WorkManager 能復原
+      - [ ] 使用者可點「取消生成」，停止 session 並標記 `status=Cancelled`
+    - [ ] 提示詞與結構
+      - [ ] Prompt 包含：個人摘要（不含個資）、星盤要點（太陽/月亮/上升/主相位）、章節配置（6/8/10/12）
+      - [ ] 產出格式：關鍵特質、四象限（事業/情感/健康/財務）機會與風險、3~5 條具體建議、決策陷阱提醒
+  - [ ] 實作購買流程（`BillingManager` + `PurchaseScreen`）
+    - [ ] 產品定義
+      - [ ] 一次性內購 SKU：`iap_astro_pro`（解鎖西洋星盤深度報告）、`iap_mix_ai`（如需）
+      - [ ] 訂閱 SKU：`sub_vip_month`, `sub_vip_year`（解鎖高級功能與折扣）
+      - [ ] 價格展示：自動本地化貨幣；SKU 卡片顯示名稱/功能/價格/試用（如有）
+    - [ ] `BillingManager` 實作
+      - [ ] `startConnection()`、`queryProductDetailsAsync()` 啟動與快取結果
+      - [ ] `launchBillingFlow(activity, params)` 觸發購買，回調處理 `onPurchasesUpdated`
+      - [ ] `acknowledgePurchase()` 確認；訂閱即時權益更新
+      - [ ] `queryPurchasesAsync()` 啟動時與恢復購買使用
+    - [ ] 權益與錢包同步
+      - [ ] 建立 `EntitlementRepository`：映射已購項目 → 功能旗標（VIP、深度報告權限）
+      - [ ] 購買成功寫入 `PurchaseEntity`，更新 `WalletEntity`（如附贈 Coins）
+      - [ ] 失敗/取消顯示錯誤或提示卡，不新增任何權益
+    - [ ] `PurchaseScreen` UI/UX
+      - [ ] 顯示 SKU 卡片：標題、功能清單、價格、購買按鈕、條款連結
+      - [ ] 已擁有之項目顯示「已擁有」並禁用購買按鈕
+      - [ ] 底部顯示「恢復購買」按鈕、隱私政策、服務條款鏈結
+      - [ ] 全流程走一般 UI（無測試開關），相同於 Release 版
+  - [ ] 實作恢復購買（啟動與設定頁按鈕觸發）
+    - [ ] App 啟動流程
+      - [ ] `Splash` 完成後背景呼叫 `BillingManager.queryPurchasesAsync()`，對結果套用權益
+      - [ ] 如有變更，發出 Snackbar「已恢復購買」
+    - [ ] `SettingsScreen` 恢復按鈕
+      - [ ] 點擊「恢復購買」→ 顯示進度 → 呼叫 `queryPurchasesAsync()` → 成功則提示「已恢復」
+      - [ ] 若無可恢復項目顯示資訊卡；錯誤顯示重試
+  - [ ] 實作激勵廣告（`AdsManager` + `WalletScreen` + 冷卻/上限）
+    - [ ] SDK 與初始化
+      - [ ] 初始化 Mobile Ads（或等效），於 `App` onCreate 啟動
+      - [ ] 若需用戶同意（GDPR/UMP），在 `Onboarding` 或首次進入 `WalletScreen` 顯示同意表（非測試專用開關）
+    - [ ] `AdsManager`
+      - [ ] `loadRewardedAd(placement)` 預載；`showRewarded(activity)` 顯示；錯誤碼回報
+      - [ ] `onUserEarnedReward` → `WalletRepository.earnCoins(+10)`
+      - [ ] 設定每日上限（例如 5 次）與單次冷卻（例如 10 分鐘），寫入 DataStore
+    - [ ] `WalletScreen` UI/UX
+      - [ ] 顯示餘額、交易紀錄（收入/支出）
+      - [ ] 「看廣告賺 10 幣」主按鈕；達上限或冷卻中顯示不可用狀態與倒數
+      - [ ] 空狀態：尚無交易時顯示引導文字
+  - [ ] 實作 Coins 消耗規則（50 幣換一次深度報告）
+    - [ ] 資料層
+      - [ ] `WalletEntity(balance, updatedAt)`；`WalletTxnEntity(id, type, amount, source, reportId, createdAt)`
+      - [ ] `WalletRepository.spendCoins(50, reason="深度報告")` 原子交易與回滾
+    - [ ] 流程約束
+      - [ ] 於「生成 AI 詳解」前檢查餘額，足夠則扣 50 幣並建立 `ReportGenerationWorker`
+      - [ ] 若扣款後任務建立失敗，立即回滾交易
+      - [ ] 不足時顯示引導：前往 `PurchaseScreen` 或 `WalletScreen` 看廣告
+    - [ ] UI/UX
+      - [ ] 在 `ReportScreen` 的生成區塊顯示「需 50 幣」文案與餘額
+      - [ ] 成功扣款後顯示 Toast「已扣 50 幣，開始生成」
+  - [ ] 完成 UI/UX：首頁/排盤/結果/報告/錢包/設定
+    - [ ] `HomeScreen`
+      - [ ] 區塊 1「快速排盤」：主行動按鈕 → `ChartInputScreen(kind=上次使用類型)`
+      - [ ] 區塊 2「工具選單」：八字/紫微/西洋星盤/天賦設計圖/易經/黃曆/N+1 綜合分析
+      - [ ] 區塊 3「我的報告」：最近 5 筆，列表卡片可點入 `ReportScreen`
+      - [ ] 區塊 4「每日黃曆卡」：農曆/節氣/宜忌摘要
+    - [ ] `ChartInputScreen`
+      - [ ] 日期/時間/地點/時區輸入區；未填必要欄位禁用提交
+      - [ ] 二級導覽：切換排盤類型（預設西洋星盤）
+    - [ ] `ResultScreen`
+      - [ ] 頂部摘要（太陽/月亮/上升），中部圓盤，底部相位列表與「生成 AI 詳解」按鈕
+      - [ ] 右上角切換 House 系統；分享入口（僅分享文字，無個資）
+    - [ ] `ReportScreen`
+      - [ ] 生成中：進度條與星塵動效；>80% 成功色；可取消
+      - [ ] 完成：章節收合、收藏、分享（純文字）；未解鎖功能顯示禁用與引導
+    - [ ] `WalletScreen`
+      - [ ] 顯示餘額、交易紀錄、看廣告賺幣按鈕、每日上限與冷卻狀態
+    - [ ] `SettingsScreen`
+      - [ ] 語言切換、主題、通知、隱私條款、恢復購買、關於
+    - [ ] 無障礙
+      - [ ] 所有互動元素設置 `contentDescription`
+      - [ ] 深淺色與字體 130% 不崩版
+  - [ ] 完成本地通知與背景生成
+    - [ ] 建立通知通道 `report_generation`（低/中優先，前景服務為必需）
+    - [ ] 生成中顯示常駐通知（標題含報告名稱，進度百分比）
+    - [ ] 生成完成推送通知；點擊以深連結打開 `ReportScreen(reportId)`
+    - [ ] 取消生成時關閉通知並回滾狀態
+  - [ ] 實作分享文字（不含個資）
+    - [ ] 建立 `ShareFormatter`：從 `ReportEntity` 轉為純文字（移除姓名/生日/地點/時區等個資）
+    - [ ] 文末附加免責聲明與 App 品名
+    - [ ] `ShareCompat.IntentBuilder` 呼叫系統分享選單
+    - [ ] 在 `ResultScreen`／`ReportScreen` 顯示「分享」按鈕；無報告時禁用
+  - [ ] ASO 文案與素材（繁中/英文 Short/Long 描述、6 張截圖）
+    - [ ] 文案撰寫
+      - [ ] 繁中短描述（≤80 字）與長描述（關鍵詞：星盤、AI 解析、離線、付費、廣告點數）
+      - [ ] 英文短描述/長描述對應語意與關鍵詞
+      - [ ] 避免敏感商標與保證性用語
+    - [ ] 截圖製作（6 張）
+      - [ ] 截圖 1：首頁與功能總覽
+      - [ ] 截圖 2：西洋星盤圓盤與相位表
+      - [ ] 截圖 3：AI 詳解報告章節
+      - [ ] 截圖 4：錢包與看廣告賺幣
+      - [ ] 截圖 5：購買頁與權益
+      - [ ] 截圖 6：多語與深色模式
+      - [ ] 雙語標註一致；尺寸與安全區符合 Play 規範
+    - [ ] 圖標與特徵圖
+      - [ ] App Icon 與 Feature Graphic 使用自製向量，風格一致
+  - [ ] 生成 AAB 並上傳 Internal 測試，完成測試購買/廣告驗證
+    - [ ] 簽章
+      - [ ] 準備 release keystore；設定 `signingConfig` 與 `bundle { storeFile }`
+      - [ ] 於 `proguard-rules.pro` 保留 Billing/Ads/Ai 相關反射類
+    - [ ] 打包
+      - [ ] 執行 `./gradlew clean bundleRelease` 產生 `app-release.aab`
+      - [ ] 驗證 AAB：本地 `bundletool validate` 無錯
+    - [ ] Play Console Internal 測試軌
+      - [ ] 上傳 `.aab` 至 Internal testing
+      - [ ] 新增測試裝置與測試帳（含授權內購測試資格）
+      - [ ] 發佈測試版並取得安裝連結
+    - [ ] 測試驗證（以正式 UI 流程進行，無任何特規入口）
+      - [ ] 內購一次性：購買 `iap_astro_pro`，回調 `acknowledgePurchase` 成功，權益立即生效
+      - [ ] 訂閱：購買 `sub_vip_month`，權益生效；取消後顯示寬限/過期狀態
+      - [ ] 激勵廣告：成功展示一次觸發 `onUserEarnedReward`，餘額 +10 幣，交易紀錄新增
+      - [ ] 廣告每日上限與冷卻：連看 > 次數後按鈕禁用並顯示倒數
+      - [ ] 以 5 次廣告累積 50 幣 → 觸發一次深度報告生成 → 餘額正確扣除
+  - [ ] 灰度上線 10% → 監控 ANR/崩潰 → 擴大至 100%
+    - [ ] 發佈前檢查
+      - [ ] Data Safety/分級/廣告宣告與實際一致
+      - [ ] 隱私政策/服務條款 URL 可開啟
+      - [ ] 上架文案與截圖多語完成
+    - [ ] 分段釋出
+      - [ ] 於 Production 設定首次 10% 滾動釋出，地區全開或分區
+      - [ ] 監控 Play Console Vitals：ANR、崩潰、冷啟動、前景服務警示
+      - [ ] 收集使用者回饋與評分波動
+    - [ ] 擴大與回滾策略
+      - [ ] 指標達標（ANR/Crash 低於門檻、無主要崩潰）→ 擴至 50% → 100%
+      - [ ] 若指標異常：暫停滾動、熱修復並發佈新版本後重啟滾動
+- [ ] V1.1：Google 雲端同步（Drive App Folder／跨裝置恢復報告與點數）
+  - [ ] 設定 OAuth（Debug）
+    - [ ] 套件名：`com.aidestinymaster`，Debug SHA-1：`4C:31:F8:77:F4:8F:9A:7A:29:9F:2E:DD:61:A3:54:57:B8:E2:D8:A3`
+    - [ ] Android 用戶端 ID（Debug）：`486797680754-o57bjhvdvt0bfu6abm54sf3qa36j9rhf.apps.googleusercontent.com`
+  - [ ] 設定 OAuth（Release）
+    - [ ] 使用發行 keystore 取得 Release SHA-1，於 Google Cloud Console 建立 Android 用戶端 ID（Release）
+    - [ ] 更新 OAuth 同意畫面與隱私權政策連結
+  - [ ] Google Sign-In 串接（`play-services-auth`）
+    - [ ] 在登入流程 `GoogleSignInOptions` 內 `requestScopes(Scope("https://www.googleapis.com/auth/drive.appdata"))`
+    - [ ] 取得 `GoogleSignInAccount` 與 access token
+  - [ ] Drive REST v3 客戶端
+    - [ ] 建立 `DriveService.kt`：`uploadOrMerge(file: String, json: String, enc: Boolean)`、`download(file: String): String?`
+    - [ ] 同步檔：`reports.json`, `wallet.json`, `purchases.json`
+    - [ ] `SyncRepository`：合併策略 `updatedAt` 較新者覆蓋；敏感欄位先 AES-GCM 再上傳
+  - [ ] 設定頁新增「雲端同步」開關與狀態
+    - [ ] 開啟後觸發首次上傳/下載與合併
+    - [ ] 換機後登入同帳號自動拉取並合併
+  - [ ] 測試：離線修改→恢復網路→自動同步；雙裝置衝突解決；內購權益與點數一致
+  - [ ] 上架：更新商店頁描述（新增「Google 帳號同步」），上傳新 AAB
+- [ ] V2.0：每日星座/個人化運勢（離線生成）
+  - [ ] 新增 `DailyTransitService.kt`：計算行星行進對個人盤的影響
+  - [ ] 新增 `DailyReportWorker`（週期性 WorkManager，每日 06:00 執行）
+  - [ ] `HomeScreen` 新增「今日運勢卡」，顯示重點與「查看長文」按鈕
+  - [ ] 付費門檻：VIP 直接查看長文；非 VIP 以 50 幣或廣告 5 次兌換
+  - [ ] 通知：每日 08:00 推送「今日重點」
+  - [ ] 上架：新增描述與截圖（今日運勢卡）
+- [ ] V3.0：每日黃曆卡（本地規則）
+  - [ ] 建立 `AlmanacRules.json`（自撰資料，不用通勝原文）
+  - [ ] 建立 `AlmanacService.kt`：依日期/節氣輸出宜/忌/提示
+  - [ ] `HomeScreen` 黃曆卡完成；月檢視頁提供列表
+  - [ ] 付費：VIP 月總覽；非 VIP 以 50 幣單次解鎖
+  - [ ] 上架：更新描述與截圖（黃曆卡）
+- [ ] V4.0：紫微斗數（基礎命盤 + AI 詳解）
+  - [ ] 建立 `ZiweiEngine.kt`：十二宮排布、星曜落宮、四化
+  - [ ] 建立 `ZiweiGlossary.json`（自撰釋義）
+  - [ ] 新增 `ZiweiChartScreen` 與 AI 詳解模板
+  - [ ] 付費：`ziwei_deep_one`（NT$150）或 VIP
+  - [ ] 上架：新增關鍵詞「紫微斗數」
+- [ ] V5.0：八字（四柱/十神/喜忌 + AI）
+  - [ ] 引入 `lunar-java`，建立 `BaziEngine.kt`：日主強弱、十神、五行計分
+  - [ ] 新增 `BaziChartScreen` 與 AI 模板
+  - [ ] 付費：`bazi_deep_one`（NT$150）或 VIP
+  - [ ] 上架：新增關鍵詞「八字」「四柱」
+- [ ] V6.0：能量圖（人類圖替代名）+ AI（避商標）
+  - [ ] 建立 `EnergyMapMapper.json`：64 閘門映射與通用描述（自撰）
+  - [ ] `EnergyMapCanvas.kt`：Compose Canvas 繪製圖形（非官方樣式）
+  - [ ] AI 模板避免官方教材詞彙，顯示「非官方、僅供參考」
+  - [ ] 付費：`energy_deep_one`（NT$200）或 VIP
+  - [ ] 上架：描述使用「能量圖（支援人類圖盤面）」且避用商標
+- [ ] V7.0：綜合 AI 總結（多體系合流）
+  - [ ] 建立 `FusionService.kt`：彙整各體系摘要→交叉主題→風險提示→30/90 天行動清單
+  - [ ] 新增 `FusionReportScreen`
+  - [ ] 付費：`fusion_deep_one`（NT$250）或 VIP
+  - [ ] 上架：新增關鍵詞「AI 綜合分析」
+- [ ] V8.0：塔羅運勢（年/月/日）+ AI
+  - [ ] 建立 `TarotDeck.json`（自撰牌義）
+  - [ ] `TarotService.kt`：隨機（可重現種子）抽牌與解讀
+  - [ ] `TarotFortuneScreen`：年/月/日運勢卡
+  - [ ] 付費：`tarot_fortune_one`（NT$120）或 VIP/Coins
+  - [ ] 上架：新增「塔羅運勢」素材
+- [ ] V9.0：易經運勢（年/月/日）+ AI
+  - [ ] 建立 `IChingData.json`（卦象、爻辭白話自撰）
+  - [ ] `IChingFortuneService.kt`：起卦→運勢卡
+  - [ ] 付費與上架同 V8.0
+- [ ] V10.0：流年/流月/流日（多體系合流趨勢）
+  - [ ] `TrendEngine.kt`：時間範圍內事件分數聚合
+  - [ ] `TrendScreen`：曲線/標籤（純 Compose，不用付費圖表）
+  - [ ] 付費：VIP 專屬長期趨勢
+- [ ] V11.0：每日總和分析儀表板
+  - [ ] 合併星盤/塔羅/易經/黃曆/流日重點
+  - [ ] 付費：VIP；非 VIP 可看廣告 5 次解鎖 1 天
+  - [ ] 上架：新增「總和分析」
+- [ ] V11.1：每月總和分析儀表板
+  - [ ] 月度聚合與 PDF 匯出（純本機生成）
+  - [ ] 付費：VIP；非 VIP 50 幣單次
+- [ ] V11.2：每年總和分析儀表板
+  - [ ] 年度聚合與長文建議
+  - [ ] 付費：VIP；非 VIP 80 幣單次
+- [ ] V12.0：塔羅占卜 + AI 解牌
+  - [ ] `TarotSpreadService.kt`：多牌陣（自撰）
+  - [ ] `TarotReadingScreen`：抽牌→AI 解牌→保存
+  - [ ] 付費：`tarot_reading_one` 或 VIP/Coins
+- [ ] V13.0：易經占卜 + AI 解卦
+  - [ ] `IChingDivinationService.kt`：搖卦/時間起卦
+  - [ ] `IChingReadingScreen`：卦象→AI 解卦
+  - [ ] 付費：同 V12.0
+- [ ] V14.0：梅花易（主動數字）+ AI
+  - [ ] `MeihuaNumberService.kt`：數字→卦
+  - [ ] `MeihuaNumberScreen`
+  - [ ] 付費：同上
+- [ ] V14.1：梅花易（事件取卦）+ AI
+  - [ ] `MeihuaEventService.kt`：事件→卦
+  - [ ] `MeihuaEventScreen`
+  - [ ] 付費：同上
+- [ ] V15.0：京房易占
+  - [ ] `JingFangService.kt`：演算法與詞庫（自撰）
+  - [ ] `JingFangScreen`
+  - [ ] 付費：同上
+- [ ] V16.0：神明拜拜系統（神桌/主題/布置/願望簿/每日提醒）
+  - [ ] `AltarTheme.json` 與 `AltarCanvas.kt`
+  - [ ] `WishRepository`：許願與達成追蹤
+  - [ ] 通知：每日提醒
+  - [ ] 付費：主題包 `theme_pack_*`、VIP 免廣告
+- [ ] V17.0：AI 求籤詩 + 解籤
+  - [ ] `LotsDatabase.json`（詩籤庫）
+  - [ ] `LotsService.kt`：抽籤→AI 解籤
+  - [ ] 付費：高級解籤、雲備份（Drive）
+- [ ] V18.0：合盤（星盤）AI 報告
+  - [ ] `SynastryEngine.kt`：兩人盤相位與主題
+  - [ ] `SynastryReportScreen`
+  - [ ] 付費：`synastry_deep_one`、`synastry_bundle_5`、VIP/Coins
+- [ ] V18.1：合盤（紫微）AI 報告
+  - [ ] `ZiweiSynastry.kt` 與模板
+  - [ ] 付費：同 V18.0
+- [ ] V18.2：合盤（八字）AI 報告
+  - [ ] `BaziSynastry.kt` 與模板
+  - [ ] 付費：同 V18.0
+- [ ] V19.0：週期提醒（逆行/沖剋/吉日）
+  - [ ] `ReminderRules.kt` 與 `ReminderScheduler.kt`
+  - [ ] `ReminderSettingsScreen`：主題、時段、濾器
+  - [ ] 付費：VIP 全類；單包/Month Pass/Coins 體驗
+  - [ ] 匯出 `ICS`（本機生成 .ics）
+- [ ] V20.0：行動教練模式（To-Do 生成、日程推送）
+  - [ ] `CoachEngine.kt`：從報告抽取目標→行動清單
+  - [ ] `CoachSessionScreen`：回合式對話→任務落地
+  - [ ] 通知：每日任務、每週回顧
+  - [ ] 付費：`coach_session_one`、`coach_month_pass`、VIP/Coins
+- [ ] V21.0：市集主題（盤面皮膚）
+  - [ ] `ThemeStore.json` 與 `ThemeManager.kt`：套用主題
+  - [ ] `ThemeStoreScreen`：瀏覽/試用/購買
+  - [ ] 付費：`theme_pack_*`、`theme_all_access`、VIP 全開、Coins 兌換
+- [ ] 上架流程（每次版本上架都需執行）
+  - [ ] 更新商店頁：短描述/長描述關鍵詞（繁中/英文）
+  - [ ] 更新截圖與影片（若功能新增）
+  - [ ] 檢查 Data Safety 是否需更新（新增 SDK/資料）
+  - [ ] 產出 `bundleRelease` 上傳至 Internal 測試
+  - [ ] 使用測試帳號驗證：安裝→排盤→AI→Coins→廣告→購買→恢復→（有同步版本）登入同步
+  - [ ] 修正問題後建立 Closed/Open 測試（必要時）
+  - [ ] 灰度發佈 10%→觀察 ANR/崩潰/留存→擴大到 100%
+- [ ] AdMob 串接與申請（一次性設定後版本沿用）
+  - [ ] 確認 AdMob 帳號已建立並加上 App（Android 包名 `com.aidestinymaster`）
+  - [ ] 確認 Rewarded 單元 ID 已可用：`ca-app-pub-1779359737796272/5235603391`
+  - [ ] 在網站（GitHub Pages）部署 `app-ads.txt` 並於 AdMob 驗證通過
+  - [ ] 在 App 啟動流程中呼叫 `AdsManager.initialize()` 與 UMP 同意流程
+  - [ ] 在 `WalletScreen` 加入「看廣告 +10 幣」按鈕，事件 → `AdsManager.showRewarded()` → 回呼發幣 `CoinsService.earn(10)`
+  - [ ] 實作冷卻與上限策略（每小時 3 次、每日 8 次），寫入 `Wallet` 與本地日誌
+  - [ ] 測試：廣告成功觀看、半途離開不發幣、超額限制提示
+- [ ] 訂閱/付費 串接與申請（一次性設定後版本沿用）
+  - [ ] Play Console 建立 `astro_deep_one`、`sub_vip_month`、`sub_vip_year`（設定區域與價格）
+  - [ ] 在 App 以 `BillingManager.launchPurchase(sku)` 串接 UI
+  - [ ] 在 `onPurchasesUpdated` 驗證狀態並 `acknowledge` 或 `consume`（消耗性）
+  - [ ] 權益發放：更新 `EntitlementStore` 與 UI 狀態；（有同步版本）寫入 Drive `purchases.json`
+  - [ ] 恢復購買：設定頁按鈕→`BillingManager.queryPurchasesAsync()`
+  - [ ] 測試：測試卡購買、退款流程、恢復購買成功
+- [ ] 隱私與法遵（每版檢查）
+  - [ ] 確認標題與商店頁文字未使用商標詞（Human Design／BodyGraph 等）
+  - [ ] App 內顯示「僅供參考」警語
+  - [ ] 隱私政策同步更新第三方 SDK 清單與資料用途
+  - [ ] 兒少保護：不面向 13 歲以下，不做定向廣告，必要同意彈窗
+- [ ] 測試與品質（每版）
+  - [ ] 單元測試：`core.astro`、`core.ai`、`CoinsService`、`BillingManager` 流程
+  - [ ] 整合測試：排盤→AI 報告→背景→通知→解鎖→（同步版）合併
+  - [ ] 相容性：API 26/28/30/33/35 模擬器走一輪核心流程
+  - [ ] 效能：生成 700–1200 tokens 時間可接受；背景不中斷
+  - [ ] 安全：模型檔校驗、資料庫加密、廣告濫用防護
+- [ ] ASO 與素材（每版）
+  - [ ] 調整短描述與關鍵詞（新增功能用語；中英雙語）
+  - [ ] 產生 6 張截圖（功能對應頁面）
+  - [ ] 若新增模組：在前三行長描述提高關鍵詞密度
+  - [ ] 檢查圖示與圖形避免侵權（自製向量）
+- [ ] 發行與監控（每版）
+  - [ ] 上線後 48 小時監控崩潰與 ANR
+  - [ ] 蒐集評分與評論，若評分 ≥ 4.5 維持 ASO 策略，若 < 4 調整引導與新手教學
+  - [ ] 僅進行必要相容性更新與重大錯誤修正
