@@ -1249,16 +1249,222 @@
     - [ ] 為 `PurchaseViewModel` 撰寫事件到 UI 狀態轉換測試
     - [ ] 為 `BillingManager` 在無網路情境模擬 `SERVICE_UNAVAILABLE` 回應
 - [ ] AdMob Rewarded（激勵廣告／Coins）
-  - [ ] 建立 `AdsManager.kt`
-    - [ ] `initialize(context)`、`loadRewarded(adUnitId)`、`showRewarded(activity)` 回呼 `onUserEarnedReward`
-    - [ ] 廣告單元 ID：`ca-app-pub-1779359737796272/5235603391`
-  - [ ] 建立 `CoinsService.kt`
-    - [ ] `earn(10)`、`spend(50)`、每日上限與冷卻（每小時 3 次、每日 8 次）
-  - [ ] 實作 UMP 同意（支援地區）
-    - [ ] `ConsentManager.kt`：載入同意表單→成功才允許請求廣告
-  - [ ] UI 串接
-    - [ ] `WalletScreen`：顯示 Coins、按鈕「看廣告 +10 幣」
-    - [ ] `AIReportCTA`：不足 50 幣時提示「看 5 支廣告兌換 1 次深度」
+  - [ ] v0 基礎整備（依賴／權限／資源）
+    - [ ] 在 `settings.gradle` 啟用 `google()` 儲存庫
+    - [ ] 在 `app/build.gradle` 新增依賴 `com.google.android.gms:play-services-ads`
+    - [ ] 在 `app/build.gradle` 新增依賴 `com.google.android.ump:ump`
+    - [ ] 在 `app/build.gradle` 確保已啟用 Kotlin、Compose 與 `minifyEnabled` 對應的 R8 規則
+    - [ ] 在 `app/proguard-rules.pro` 新增保留 `com.google.android.gms.ads.**` 類別
+    - [ ] 在 `app/proguard-rules.pro` 新增保留 `com.google.android.ump.**` 類別
+    - [ ] 在 `app/src/main/AndroidManifest.xml` 新增權限 `android.permission.INTERNET`
+    - [ ] 在 `app/src/main/AndroidManifest.xml` 新增權限 `android.permission.ACCESS_NETWORK_STATE`
+    - [ ] 在 `app/src/main/AndroidManifest.xml` 新增權限 `com.google.android.gms.permission.AD_ID`
+    - [ ] 在 `app/src/main/AndroidManifest.xml` 新增 `<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" ...>` 並填入實際 AdMob App ID
+    - [ ] 在 `app/src/main/res/values/strings.xml` 新增字串鍵 `admob_rewarded_unit_id`
+    - [ ] 在 `admob_rewarded_unit_id` 寫入 `ca-app-pub-1779359737796272/5235603391`
+    - [ ] 在 `app/src/main/java/.../App.kt` 建立 `Application` 類別
+    - [ ] 在 `Application.onCreate()` 呼叫 `MobileAds.initialize(this)`
+    - [ ] 在 `AndroidManifest.xml` 的 `<application>` 指向 `android:name=".App"`
+    - [ ] 在 `:core` 或 `:shared` 建立封裝套件 `ads/` 供 UMP 與 AdMob 管理類別存放
+    - [ ] 在 `:data` 或 `:core:data` 確認存在 `WalletEntity` 與 `WalletRepository` 介面
+    - [ ] 在 `:data` 準備 `DataStore` 或 `Room` 用於保存 Coins 與限額統計
+    - [ ] 在 `:core:ui` 準備常用 `SnackbarController` 或等效 UI 反饋工具
+  - [ ] v0.1 UMP 同意管理（ConsentManager.kt）
+    - [ ] 在 `:core/ads/` 建立 `ConsentManager.kt`
+    - [ ] 在 `ConsentManager.kt` 宣告方法 `initialize(context: Context): Unit`
+    - [ ] 在 `ConsentManager.kt` 宣告方法 `loadAndShowFormIfRequired(activity: Activity, onReady: () -> Unit, onError: (Throwable) -> Unit): Unit`
+    - [ ] 在 `ConsentManager.kt` 宣告方法 `canRequestAds(): Boolean`
+    - [ ] 在 `ConsentManager.kt` 宣告方法 `isConsentObtained(): Boolean`
+    - [ ] 在 `ConsentManager.kt` 宣告屬性 `lastUpdateTimeMillis: Long`
+    - [ ] 在 `initialize(context)` 取得 `ConsentInformation` 實例
+    - [ ] 在 `initialize(context)` 呼叫 `requestConsentInfoUpdate` 以更新同意狀態
+    - [ ] 在 `initialize(context)` 記錄更新成功時間戳
+    - [ ] 在 `initialize(context)` 捕捉更新錯誤並回呼錯誤處理
+    - [ ] 在 `loadAndShowFormIfRequired(activity, ...)` 判斷是否需要顯示表單
+    - [ ] 在 `loadAndShowFormIfRequired(activity, ...)` 載入 UMP `ConsentForm`
+    - [ ] 在 `loadAndShowFormIfRequired(activity, ...)` 若需要顯示則呼叫 `form.show(activity)`
+    - [ ] 在 `loadAndShowFormIfRequired(activity, ...)` 表單完成時更新內部同意旗標
+    - [ ] 在 `loadAndShowFormIfRequired(activity, ...)` 當不需要顯示時直接回呼 `onReady`
+    - [ ] 在 `loadAndShowFormIfRequired(activity, ...)` 捕捉載入與顯示錯誤並回呼 `onError`
+    - [ ] 在 `canRequestAds()` 回傳 UMP 狀態允許請求廣告的布林值
+    - [ ] 在 `isConsentObtained()` 回傳使用者是否已給同意
+    - [ ] 在 `DataStore` 儲存同意狀態鍵 `prefs_consent_can_request_ads`
+    - [ ] 在 `DataStore` 儲存同意狀態鍵 `prefs_consent_obtained`
+    - [ ] 在 App 啟動流程先呼叫 `ConsentManager.initialize(this)`
+    - [ ] 在首頁或 Splash 期間呼叫 `ConsentManager.loadAndShowFormIfRequired(...)`
+    - [ ] 在 `ConsentManager.canRequestAds()` 為 `true` 時才允許下一步 Ad 請求
+  - [ ] v1 廣告管理器（AdsManager.kt）
+    - [ ] 在 `:core/ads/` 建立 `AdsManager.kt`
+    - [ ] 在 `AdsManager.kt` 宣告方法 `initialize(context: Context): Unit`
+    - [ ] 在 `AdsManager.kt` 宣告方法 `loadRewarded(adUnitId: String, onLoaded: () -> Unit, onFailed: (AdError) -> Unit): Unit`
+    - [ ] 在 `AdsManager.kt` 宣告方法 `showRewarded(activity: Activity, onUserEarnedReward: (amount: Int) -> Unit, onClosed: () -> Unit, onFailedToShow: (AdError) -> Unit): Unit`
+    - [ ] 在 `AdsManager.kt` 宣告屬性 `private var rewardedAd: RewardedAd?`
+    - [ ] 在 `AdsManager.kt` 宣告屬性 `private var isLoading: Boolean`
+    - [ ] 在 `AdsManager.kt` 宣告屬性 `private var lastLoadError: AdError?`
+    - [ ] 在 `AdsManager.kt` 宣告屬性 `private var lastLoadedAt: Long`
+    - [ ] 在 `initialize(context)` 儲存 `ApplicationContext`
+    - [ ] 在 `initialize(context)` 設定 `RequestConfiguration`（如需可設定內容分級）
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 檢查 `ConsentManager.canRequestAds()` 狀態
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 檢查目前是否正在載入
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 建立 `AdRequest`
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 呼叫 `RewardedAd.load(...)`
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 設定成功回呼並保存 `rewardedAd`
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 設定失敗回呼並保存 `lastLoadError`
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 成功時更新 `lastLoadedAt`
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 成功時回呼 `onLoaded()`
+    - [ ] 在 `loadRewarded(adUnitId, ...)` 失敗時回呼 `onFailed(error)`
+    - [ ] 在 `showRewarded(activity, ...)` 檢查 `rewardedAd` 是否存在
+    - [ ] 在 `showRewarded(activity, ...)` 設定 `FullScreenContentCallback`
+    - [ ] 在 `showRewarded(activity, ...)` 監聽 `onAdShowedFullScreenContent` 以鎖定重入
+    - [ ] 在 `showRewarded(activity, ...)` 監聽 `onAdDismissedFullScreenContent` 回呼 `onClosed()`
+    - [ ] 在 `showRewarded(activity, ...)` 監聽 `onAdFailedToShowFullScreenContent` 回呼 `onFailedToShow(error)`
+    - [ ] 在 `showRewarded(activity, ...)` 呼叫 `rewardedAd?.show(activity) { rewardItem -> ... }`
+    - [ ] 在 `showRewarded(activity, ...)` 於 `onUserEarnedReward` 回呼 `onUserEarnedReward(rewardItem.amount)`
+    - [ ] 在 `showRewarded(activity, ...)` 顯示後將 `rewardedAd` 清空以避免重複使用
+    - [ ] 在 `showRewarded(activity, ...)` 顯示後立即觸發下一次 `loadRewarded(...)`
+    - [ ] 在 `AdsManager.kt` 邏輯中避免同時多次載入
+    - [ ] 在 `AdsManager.kt` 提供錯誤碼與可讀錯誤訊息對應
+    - [ ] 在 `AdsManager.kt` 提供方法 `isAdReady(): Boolean`
+    - [ ] 在 `AdsManager.kt` 提供方法 `getLastError(): AdError?`
+    - [ ] 在 `Application.onCreate()` 呼叫 `AdsManager.initialize(this)`
+    - [ ] 在 `Application.onCreate()` 呼叫 `AdsManager.loadRewarded(getString(R.string.admob_rewarded_unit_id), ...)`
+  - [ ] v1.1 點數服務（CoinsService.kt）
+    - [ ] 在 `:core/wallet/` 建立 `CoinsService.kt`
+    - [ ] 在 `CoinsService.kt` 宣告常數 `REWARD_PER_AD = 10`
+    - [ ] 在 `CoinsService.kt` 宣告常數 `SPEND_COST = 50`
+    - [ ] 在 `CoinsService.kt` 宣告常數 `MAX_PER_HOUR = 3`
+    - [ ] 在 `CoinsService.kt` 宣告常數 `MAX_PER_DAY = 8`
+    - [ ] 在 `CoinsService.kt` 宣告方法 `earn(amount: Int): Result<Unit>`
+    - [ ] 在 `CoinsService.kt` 宣告方法 `spend(cost: Int): Result<Unit>`
+    - [ ] 在 `CoinsService.kt` 宣告方法 `canEarnNow(): Boolean`
+    - [ ] 在 `CoinsService.kt` 宣告方法 `earnBlockReason(): String?`
+    - [ ] 在 `CoinsService.kt` 宣告方法 `nextAvailableAtMillis(): Long?`
+    - [ ] 在 `CoinsService.kt` 注入 `WalletRepository`
+    - [ ] 在 `CoinsService.kt` 從 `WalletRepository` 讀取目前 `coins` 數量
+    - [ ] 在 `CoinsService.kt` 從 `DataStore` 讀取每小時看廣告次數
+    - [ ] 在 `CoinsService.kt` 從 `DataStore` 讀取每日看廣告次數
+    - [ ] 在 `CoinsService.kt` 從 `DataStore` 讀取上次計數更新時間戳
+    - [ ] 在 `CoinsService.kt` 以當地時區計算當前小時鍵值
+    - [ ] 在 `CoinsService.kt` 以當地時區計算當前日期鍵值
+    - [ ] 在 `CoinsService.kt` 當小時變更時重置每小時次數
+    - [ ] 在 `CoinsService.kt` 當日期變更時重置每日次數
+    - [ ] 在 `canEarnNow()` 檢查小時次數是否小於 `MAX_PER_HOUR`
+    - [ ] 在 `canEarnNow()` 檢查每日次數是否小於 `MAX_PER_DAY`
+    - [ ] 在 `earn(amount)` 先呼叫 `canEarnNow()`
+    - [ ] 在 `earn(amount)` 若不可獲取回傳錯誤原因
+    - [ ] 在 `earn(amount)` 增加 `coins` 數量
+    - [ ] 在 `earn(amount)` 累加每小時次數
+    - [ ] 在 `earn(amount)` 累加每日次數
+    - [ ] 在 `earn(amount)` 更新 `updatedAt` 欄位
+    - [ ] 在 `spend(cost)` 檢查餘額是否足夠
+    - [ ] 在 `spend(cost)` 扣除 `coins` 數量
+    - [ ] 在 `spend(cost)` 更新 `updatedAt` 欄位
+    - [ ] 在 `CoinsService.kt` 提供 `coinsFlow(): Flow<Int>`
+    - [ ] 在 `CoinsService.kt` 提供 `dailyEarnedCountFlow(): Flow<Int>`
+    - [ ] 在 `CoinsService.kt` 提供 `hourlyEarnedCountFlow(): Flow<Int>`
+    - [ ] 在 `CoinsService.kt` 對 `WalletRepository` 寫入時使用單一協程 Dispatcher
+    - [ ] 在 `CoinsService.kt` 對外僅回傳不可變 `Result`
+  - [ ] v1.2 流程整合（AdsManager × ConsentManager × CoinsService）
+    - [ ] 在 `App.onCreate()` 先初始化 `ConsentManager`
+    - [ ] 在 `App.onCreate()` 等待 `ConsentManager.canRequestAds()` 為 `true`
+    - [ ] 在 `App.onCreate()` 初始化 `AdsManager`
+    - [ ] 在 `App.onCreate()` 載入一次 Rewarded 廣告
+    - [ ] 在 `AdsManager.showRewarded(...)` 成功回呼時呼叫 `CoinsService.earn(REWARD_PER_AD)`
+    - [ ] 在 `AdsManager.showRewarded(...)` 錯誤回呼時顯示錯誤訊息
+    - [ ] 在 `CoinsService.earn(...)` 成功時通知 UI 更新餘額
+    - [ ] 在 `CoinsService.earn(...)` 失敗時顯示阻擋原因
+  - [ ] v1.3 UI 串接：WalletScreen
+    - [ ] 在 `:features:wallet/ui/` 建立 `WalletScreen.kt`
+    - [ ] 在 `WalletScreen` 讀取 `coinsFlow()` 並顯示目前 Coins
+    - [ ] 在 `WalletScreen` 讀取每小時次數並顯示「本小時已看次數」
+    - [ ] 在 `WalletScreen` 讀取每日次數並顯示「本日已看次數」
+    - [ ] 在 `WalletScreen` 顯示主按鈕「看廣告 +10 幣」
+    - [ ] 在 `WalletScreen` 為主按鈕設定 `contentDescription="觀看激勵廣告以獲得 10 幣"`
+    - [ ] 在 `WalletScreen` 主按鈕預設為禁用狀態
+    - [ ] 在 `WalletScreen` 當 `ConsentManager.canRequestAds()` 為 `true` 時檢查 `AdsManager.isAdReady()`
+    - [ ] 在 `WalletScreen` 若 `AdsManager.isAdReady()` 為 `true` 則啟用主按鈕
+    - [ ] 在 `WalletScreen` 若 `AdsManager.isAdReady()` 為 `false` 顯示次要按鈕「準備廣告」
+    - [ ] 在 `WalletScreen` 點擊「準備廣告」呼叫 `AdsManager.loadRewarded(adUnitId, ...)`
+    - [ ] 在 `WalletScreen` 顯示載入中指示器於按鈕上
+    - [ ] 在 `WalletScreen` 若 `CoinsService.canEarnNow()` 為 `false` 將主按鈕設為禁用
+    - [ ] 在 `WalletScreen` 若 `CoinsService.canEarnNow()` 為 `false` 顯示阻擋原因文字
+    - [ ] 在 `WalletScreen` 主按鈕點擊時再次檢查 `canEarnNow()`
+    - [ ] 在 `WalletScreen` 主按鈕點擊時呼叫 `AdsManager.showRewarded(activity, ...)`
+    - [ ] 在 `WalletScreen` 於 `onUserEarnedReward` 顯示 Snackbar「+10 幣已入帳」
+    - [ ] 在 `WalletScreen` 於 `onClosed` 觸發預載下一則廣告
+    - [ ] 在 `WalletScreen` 於 `onFailedToShow` 顯示錯誤訊息
+    - [ ] 在 `WalletScreen` 禁用任何隱藏或特殊測試入口
+    - [ ] 在 `WalletScreen` 使用相同 UI 與行為於 Debug 與 Release
+    - [ ] 在 `WalletScreen` 支援深色與淺色樣式一致呈現
+    - [ ] 在 `WalletScreen` 保證 TalkBack 可朗讀 Coins 數字
+    - [ ] 在 `WalletScreen` 保證 TalkBack 可朗讀按鈕狀態
+  - [ ] v1.4 UI 串接：AIReportCTA
+    - [ ] 在 `:features:mix-ai/ui/` 建立 `AIReportCTA.kt`
+    - [ ] 在 `AIReportCTA` 接收屬性 `requiredCoins = 50`
+    - [ ] 在 `AIReportCTA` 顯示當前 Coins 與所需 Coins
+    - [ ] 在 `AIReportCTA` 當 Coins 小於 50 顯示文案「看 5 支廣告兌換 1 次深度」
+    - [ ] 在 `AIReportCTA` 顯示子文案「每次 +10 幣」
+    - [ ] 在 `AIReportCTA` 顯示進度條對應 `currentCoins / 50`
+    - [ ] 在 `AIReportCTA` 顯示次要文字「已看 X／5」
+    - [ ] 在 `AIReportCTA` 顯示按鈕「看廣告 +10 幣」
+    - [ ] 在 `AIReportCTA` 檢查 `ConsentManager.canRequestAds()` 並決定按鈕是否啟用
+    - [ ] 在 `AIReportCTA` 檢查 `AdsManager.isAdReady()` 並決定按鈕是否啟用
+    - [ ] 在 `AIReportCTA` 檢查 `CoinsService.canEarnNow()` 並決定按鈕是否啟用
+    - [ ] 在 `AIReportCTA` 點擊按鈕呼叫 `AdsManager.showRewarded(activity, ...)`
+    - [ ] 在 `AIReportCTA` 於 `onUserEarnedReward` 更新顯示進度
+    - [ ] 在 `AIReportCTA` 當 Coins 大於等於 50 顯示「兌換一次深度」按鈕
+    - [ ] 在 `AIReportCTA` 點擊「兌換一次深度」呼叫 `CoinsService.spend(50)`
+    - [ ] 在 `AIReportCTA` 於扣幣成功時回呼 `onRedeemed()` 以啟動深度生成流程
+    - [ ] 在 `AIReportCTA` 於扣幣失敗時顯示餘額不足訊息
+    - [ ] 在 `AIReportCTA` 使用相同 UI 與行為於 Debug 與 Release
+    - [ ] 在 `AIReportCTA` 為按鈕與進度提供 `contentDescription`
+  - [ ] v1.5 狀態與錯誤處理（跨 UI）
+    - [ ] 在 UI 顯示「等待同意完成」提示當 `canRequestAds()` 為 `false`
+    - [ ] 在 UI 顯示「廣告準備中」提示當 `isAdReady()` 為 `false` 且正在載入
+    - [ ] 在 UI 顯示「稍後再試」提示當 `earnBlockReason()` 存在
+    - [ ] 在 UI 顯示下一次可觀看時間當達冷卻或上限
+    - [ ] 在 UI 顯示網路錯誤提示當 `AdError` 為網路相關
+    - [ ] 在 UI 顯示無填充提示當 `AdError` 為無填充
+    - [ ] 在 UI 顯示一般錯誤提示當 `AdError` 為其他類型
+    - [ ] 在 UI 於錯誤後提供「重試載入」按鈕
+  - [ ] v1.6 可用性與無障礙
+    - [ ] 在 `WalletScreen` 為 Coins 數字提供動態朗讀更新
+    - [ ] 在 `WalletScreen` 為冷卻剩餘時間提供可讀格式
+    - [ ] 在 `AIReportCTA` 為進度條提供百分比朗讀
+    - [ ] 在兩處主要按鈕加入點擊回饋震動
+    - [ ] 在兩處主要按鈕加入按下狀態視覺回饋
+  - [ ] v1.7 紀錄與診斷（本地）
+    - [ ] 在 `AdsManager` 於載入成功寫入本地日誌 `ads_rewarded_loaded`
+    - [ ] 在 `AdsManager` 於載入失敗寫入本地日誌與錯誤碼
+    - [ ] 在 `AdsManager` 於顯示成功寫入本地日誌 `ads_rewarded_shown`
+    - [ ] 在 `AdsManager` 於顯示失敗寫入本地日誌與錯誤碼
+    - [ ] 在 `CoinsService` 於 `earn` 成功寫入本地日誌 `coins_earned_10`
+    - [ ] 在 `CoinsService` 於冷卻阻擋寫入本地日誌 `coins_earn_blocked`
+    - [ ] 在 `CoinsService` 於 `spend` 成功寫入本地日誌 `coins_spent_50`
+  - [ ] v2 品質驗收（針對此模組）
+    - [ ] 在冷啟動後確認 `ConsentManager` 狀態能於 2 秒內完成更新
+    - [ ] 在同意已獲得狀態下確認 `AdsManager.loadRewarded(...)` 可成功載入
+    - [ ] 在 `WalletScreen` 確認主按鈕狀態隨 `isAdReady()` 與 `canEarnNow()` 即時變化
+    - [ ] 在 `AIReportCTA` 確認 5 次成功觀看可達成 50 幣
+    - [ ] 在達成 50 幣時顯示「兌換一次深度」按鈕
+    - [ ] 在點擊「兌換一次深度」後餘額變為 0 或正確扣除 50
+    - [ ] 在每小時第 4 次嘗試顯示冷卻提示
+    - [ ] 在每日第 9 次嘗試顯示上限提示
+    - [ ] 在無網路時顯示網路錯誤訊息並允許重試
+    - [ ] 在拒絕同意時不請求廣告並顯示同意提示
+    - [ ] 在 Debug 與 Release 比對 UI 元件一致
+  - [ ] v2.1 合規與資源
+    - [ ] 在 `strings.xml` 補齊所有相關文案的中英文
+    - [ ] 在 UI 顯示「含廣告」資訊於適當位置
+    - [ ] 在隱私政策頁新增廣告與 UMP 說明
+    - [ ] 在 `README` 記錄 Ad 單元與 Coins 流程說明
+  - [ ] v3 穩定與最佳化
+    - [ ] 在 `AdsManager` 增加退避重試間隔
+    - [ ] 在 `AdsManager` 於 App 回到前景時觸發預載
+    - [ ] 在 `CoinsService` 使用原子寫入避免併發條件
+    - [ ] 在 `CoinsService` 增加單元測試檢查冷卻與上限
+    - [ ] 在 `WalletScreen` 增加 UI 測試檢查按鈕狀態
+    - [ ] 在 `AIReportCTA` 增加 UI 測試檢查進度顯示
 - [ ] UI/UX（V1 全局樣式與版位）
   - [ ] 全局 Design Token 與 Material3 主題
     - [ ] 建立色票 `AppColors`（Light/Dark 各一套）
@@ -1519,10 +1725,205 @@
   - [ ] 可測性（不影響 UI 呈現）
     - [ ] 為關鍵元素加入 `testTag`（Compose）供 UI 測試定位
     - [ ] 重要 CTA（快速排盤、產生命盤、生成 AI 詳解、分享、恢復購買）皆具唯一 `testTag`
-- [ ] 安全與加密
-  - [ ] 使用 `Security Crypto` 將 `Report.content` 加密落地（AES-GCM）
-  - [ ] 啟動時校驗模型與 tokenizer 的 SHA-256
-  - [ ] App 內標示「僅供參考／非專業建議」警語
+- [ ] 安全與加密（版本路徑規劃；以舊版 UI/UX 為基礎逐版強化）
+  - [ ] v1.0 基礎安全（MVP）
+    - [ ] 使用 `Security Crypto` 將 `Report.content` 加密落地（AES-GCM）
+      - [ ] 在 `settings.gradle` 確認已包含 `:core:security`（如使用多模組）
+      - [ ] 在 `app/build.gradle` 新增 `androidx.security:security-crypto` 依賴
+      - [ ] 在 `app/build.gradle` 鎖定 `security-crypto` 版本號
+      - [ ] 在 `app/build.gradle` 啟用 `minSdk 26` 以上設定
+      - [ ] 在 `app/build.gradle` 啟用 `compileSdk 35` 設定
+      - [ ] 在 `:core:security` 建立 `CryptoModule` 介面
+      - [ ] 在 `:core:security` 建立 `CryptoManager` 類別
+      - [ ] 在 `CryptoManager` 初始化 `MasterKey`（AES256_GCM）
+      - [ ] 在 `CryptoManager` 建立 `createEncryptCipher()` 方法
+      - [ ] 在 `CryptoManager` 建立 `createDecryptCipher(iv: ByteArray)` 方法
+      - [ ] 在 `CryptoManager` 建立 `encrypt(plain: ByteArray, aad: ByteArray?): EncryptedPayload` 方法
+      - [ ] 在 `CryptoManager` 建立 `decrypt(payload: EncryptedPayload, aad: ByteArray?): ByteArray` 方法
+      - [ ] 在 `:core:security` 定義 `EncryptedPayload` 資料結構
+      - [ ] 在 `EncryptedPayload` 加入欄位 `version: Byte`
+      - [ ] 在 `EncryptedPayload` 加入欄位 `iv: ByteArray`
+      - [ ] 在 `EncryptedPayload` 加入欄位 `ciphertext: ByteArray`
+      - [ ] 在 `EncryptedPayload` 加入欄位 `tagIncluded` 標記（若使用 API 自動附帶則標註 true）
+      - [ ] 在 `EncryptedPayload` 提供 `toBase64(): String` 方法
+      - [ ] 在 `EncryptedPayload` 提供 `fromBase64(src: String): EncryptedPayload` 方法
+      - [ ] 在 `:core:data` 的 `ReportEntity` 新增欄位 `contentEnc: String?`
+      - [ ] 在 `ReportEntity` 標記 `@ColumnInfo(name = "content_enc")`
+      - [ ] 在 Room 資料庫新增 `Migration X_Y` 以新增 `content_enc` 欄位
+      - [ ] 在 Room `ReportDao` 新增 `updateContentEnc(reportId, contentEnc)` 方法
+      - [ ] 在 Room `ReportDao` 新增 `getContentEnc(reportId)` 方法
+      - [ ] 在 `:core:repository` 的 `ReportRepository` 注入 `CryptoManager`
+      - [ ] 在 `ReportRepository` 新增 `saveEncryptedContent(reportId, plainText)` 方法
+      - [ ] 在 `saveEncryptedContent` 使用 `reportId` 與 `schemaVersion` 組合 AAD
+      - [ ] 在 `saveEncryptedContent` 呼叫 `CryptoManager.encrypt(...)`
+      - [ ] 在 `saveEncryptedContent` 將 `EncryptedPayload.toBase64()` 寫入 `content_enc`
+      - [ ] 在 `ReportRepository` 新增 `loadDecryptedContent(reportId)` 方法
+      - [ ] 在 `loadDecryptedContent` 讀取 `content_enc` 字串
+      - [ ] 在 `loadDecryptedContent` 呼叫 `EncryptedPayload.fromBase64(...)`
+      - [ ] 在 `loadDecryptedContent` 呼叫 `CryptoManager.decrypt(...)`
+      - [ ] 在 `:features:mix-ai` 生成完成後改呼叫 `saveEncryptedContent(...)`
+      - [ ] 在 `:features:mix-ai` 拔除舊 `Report.content` 明文寫入
+      - [ ] 在 `:features:report` 讀取內容時改呼叫 `loadDecryptedContent(...)`
+      - [ ] 在 `:features:report` 建立「解密中」暫位視圖
+      - [ ] 在 `:features:report` 顯示「解密中」骨架屏
+      - [ ] 在 `:features:report` 解密成功後替換為內容區塊
+      - [ ] 在 `:features:report` 解密失敗時顯示錯誤狀態
+      - [ ] 在 `:features:report` 錯誤狀態提供「重試解密」按鈕
+      - [ ] 在 `:features:report` 錯誤狀態提供「刪除此報告」按鈕
+      - [ ] 在 `:features:report` 錯誤狀態提供「前往協助中心」連結
+      - [ ] 在 `:features:report` 保持按鈕排列遵循既有 UI Primary/Secondary 階層
+      - [ ] 在 `:features:report` Primary 按鈕放置於右側（與舊版一致）
+      - [ ] 在 `:features:report` Secondary 按鈕放置於左側（與舊版一致）
+      - [ ] 在 `:features:report` 錯誤文案連結至本地 FAQ 頁面
+      - [ ] 在 `:core:ai` 將推理輸出改為寫入暫存記憶體
+      - [ ] 在 `:core:ai` 推理結束後觸發加密保存流程
+      - [ ] 在 `:core:ai` 於保存成功後清空暫存記憶體
+      - [ ] 在 `:core:ai` 於保存失敗時停留在結果頁並顯示錯誤
+      - [ ] 在 `:core:ai` 不在任何日誌輸出明文內容
+      - [ ] 在 `:core:ai` 明確封鎖 Crash 報告中包含明文內容
+      - [ ] 在 `:core:security` 為 `CryptoManager` 加入 `@Singleton`
+      - [ ] 在 `:core:security` 於 DI 容器中提供 `CryptoManager` 綁定
+      - [ ] 在 `:core:security` 為 `CryptoManager` 加入單元測試檔
+      - [ ] 在 `CryptoManager` 單元測試驗證 AES-GCM 成功加解密
+      - [ ] 在 `CryptoManager` 單元測試驗證 AAD 改變導致解密失敗
+      - [ ] 在 `CryptoManager` 單元測試驗證 IV 不重複性
+      - [ ] 在 `ReportRepository` 單元測試驗證 `saveEncryptedContent` 成功
+      - [ ] 在 `ReportRepository` 單元測試驗證 `loadDecryptedContent` 成功
+      - [ ] 在 `:app` 實機測試建立一筆報告
+      - [ ] 在 `:app` 實機測試關閉 App 後重新開啟仍可解密
+      - [ ] 在 `:app` 以 root 檔案檢視器檢查 DB 明文不可讀
+      - [ ] 在 `:app` 以 root 檔案檢視器檢查欄位為 Base64 密文
+      - [ ] 在 `:app` 驗證 Debug 與 Release 版 UI 按鈕位置一致
+      - [ ] 在 `:app` 驗證 Debug 與 Release 版流程一致
+      - [ ] 在 `:app` 禁止出現任何僅供開發者的特規入口
+      - [ ] 在 `:app` 禁止出現任何加解密測試開關
+      - [ ] 在 `:app` 禁止出現顯示明文的偵錯按鈕
+    - [ ] 啟動時校驗模型與 tokenizer 的 SHA-256
+      - [ ] 在 `:app` 建立 `:buildSrc` 或 Gradle 任務 `generateModelChecksums`
+      - [ ] 在 `generateModelChecksums` 指定模型輸入資料夾 `app/src/main/assets/models`
+      - [ ] 在 `generateModelChecksums` 計算所有 `.onnx` 檔案 SHA-256
+      - [ ] 在 `generateModelChecksums` 計算所有 `tokenizer` 檔案 SHA-256
+      - [ ] 在 `generateModelChecksums` 產生 `model_checksums.json`
+      - [ ] 在 `generateModelChecksums` 輸出至 `app/src/main/res/raw/model_checksums.json`
+      - [ ] 在 `:core:ai` 新增 `ModelValidator` 類別
+      - [ ] 在 `ModelValidator` 讀取 `R.raw.model_checksums` 並解析
+      - [ ] 在 `ModelValidator` 掃描 `files/models` 目錄實際檔案
+      - [ ] 在 `ModelValidator` 計算實際檔案 SHA-256
+      - [ ] 在 `ModelValidator` 比對期望與實際雜湊
+      - [ ] 在 `ModelValidator` 回傳驗證結果物件
+      - [ ] 在 `:app` 的 `AppStartup` 呼叫 `ModelValidator`
+      - [ ] 在 `AppStartup` 當驗證成功紀錄 `validateModelChecksum=true`
+      - [ ] 在 `AppStartup` 當驗證成功繼續初始化推理引擎
+      - [ ] 在 `AppStartup` 當驗證失敗中止推理引擎初始化
+      - [ ] 在 `:features:onboarding` 若首次啟動先解壓 `models.zip`
+      - [ ] 在 `:features:onboarding` 解壓後立即呼叫 `ModelValidator`
+      - [ ] 在 `:features:onboarding` 顯示「資產驗證中」進度條
+      - [ ] 在 `:features:onboarding` 驗證成功顯示「驗證通過」圖示
+      - [ ] 在 `:features:onboarding` 驗證失敗顯示阻擋對話框
+      - [ ] 在 `阻擋對話框` 顯示標題「模型驗證失敗」
+      - [ ] 在 `阻擋對話框` 顯示內文包含錯誤碼與建議
+      - [ ] 在 `阻擋對話框` 提供「重新解壓」按鈕
+      - [ ] 在 `阻擋對話框` 提供「稍後再試」按鈕
+      - [ ] 在 `阻擋對話框` Primary 按鈕為「重新解壓」
+      - [ ] 在 `阻擋對話框` Secondary 按鈕為「稍後再試」
+      - [ ] 在 `重新解壓` 流程清空 `files/models` 目錄
+      - [ ] 在 `重新解壓` 流程重新解壓 `models.zip`
+      - [ ] 在 `重新解壓` 流程再次呼叫 `ModelValidator`
+      - [ ] 在 `重新解壓` 流程成功則關閉對話框
+      - [ ] 在 `重新解壓` 流程失敗則維持阻擋狀態
+      - [ ] 在 `:features:settings` 新增「重新驗證模型」項目
+      - [ ] 在 `重新驗證模型` 點擊後執行 `ModelValidator`
+      - [ ] 在 `重新驗證模型` 驗證中顯示 loading 列
+      - [ ] 在 `重新驗證模型` 成功後顯示綠色狀態列
+      - [ ] 在 `重新驗證模型` 失敗後顯示紅色狀態列
+      - [ ] 在 `:core:ai` 在每次推理前檢查快取的驗證結果
+      - [ ] 在 `:core:ai` 若驗證結果過期則觸發快速驗證
+      - [ ] 在 `:core:ai` 若快速驗證失敗則拒絕推理請求
+      - [ ] 在 `:core:ai` 若拒絕推理則回傳錯誤至 UI
+      - [ ] 在 `:features:report` 若接到推理拒絕則顯示錯誤橫幅
+      - [ ] 在 `:features:report` 錯誤橫幅提供「檢視詳情」按鈕
+      - [ ] 在 `:features:report` 「檢視詳情」導向設定頁的驗證列
+      - [ ] 在 `:app` 實機測試刻意改動 `.onnx` 檔案
+      - [ ] 在 `:app` 實機測試改動後啟動應出現阻擋對話框
+      - [ ] 在 `:app` 實機測試改動後無法開始推理
+      - [ ] 在 `:app` 實機測試使用「重新解壓」可恢復
+      - [ ] 在 `:app` 確認 Debug 與 Release 的阻擋對話框一致
+      - [ ] 在 `:app` 確認 Debug 與 Release 的設定頁文案一致
+    - [ ] App 內標示「僅供參考／非專業建議」警語
+      - [ ] 在 `values-zh-rTW/strings.xml` 新增 `disclaimer_reference_only` 字串
+      - [ ] 在 `values-en/strings.xml` 新增 `disclaimer_reference_only` 字串
+      - [ ] 在 `:features:onboarding` 條款頁加入警語段落
+      - [ ] 在 `:features:onboarding` 條款頁將警語置於主要同意勾選上方
+      - [ ] 在 `:features:onboarding` 條款頁將警語字級小於標題字級
+      - [ ] 在 `:features:onboarding` 條款頁將警語顏色使用次要文字色
+      - [ ] 在 `:features:onboarding` 條款頁將警語前加 `ℹ︎` 圖示
+      - [ ] 在 `:features:onboarding` 條款頁圖示使用向量資產
+      - [ ] 在 `:features:home` 新增底部輕量警語條
+      - [ ] 在 `:features:home` 警語條置於首頁卡片區塊下方
+      - [ ] 在 `:features:home` 警語條使用可展開展開箭頭
+      - [ ] 在 `:features:home` 警語條展開後顯示完整敘述
+      - [ ] 在 `:features:home` 警語條收合後顯示簡短敘述
+      - [ ] 在 `:features:report` 新增結果頁頁尾警語
+      - [ ] 在 `:features:report` 頁尾警語置於分享按鈕區上方
+      - [ ] 在 `:features:report` 頁尾警語支援換行
+      - [ ] 在 `:features:report` 頁尾警語不遮擋內容
+      - [ ] 在 `:features:report` 頁尾警語可點擊開啟「了解更多」
+      - [ ] 在 `:features:report` 「了解更多」導向隱私與條款頁
+      - [ ] 在 `:features:settings` 新增「查看警語」項目
+      - [ ] 在 `:features:settings` 點擊「查看警語」顯示模態視窗
+      - [ ] 在 模態視窗 顯示完整警語與法律補充
+      - [ ] 在 模態視窗 提供關閉按鈕
+      - [ ] 在 模態視窗 不提供其他導向按鈕
+      - [ ] 在 `:core:ui` 建立 `DisclaimerBanner` 元件
+      - [ ] 在 `DisclaimerBanner` 支援深色主題
+      - [ ] 在 `DisclaimerBanner` 支援字體放大 130%
+      - [ ] 在 `DisclaimerBanner` 設定 `contentDescription`
+      - [ ] 在 `DisclaimerBanner` 設定 TalkBack 朗讀順序
+      - [ ] 在 `DisclaimerBanner` 設定最小點擊區 48dp
+      - [ ] 在 `:app` 確認 Debug 與 Release 顯示警語一致
+      - [ ] 在 `:app` 確認無任何隱藏警語開關
+      - [ ] 在 `:app` 確認語系切換警語文字即時更新
+      - [ ] 在 `:app` 確認警語不會被捲動列遮擋
+  - [ ] v1.1 強化（金鑰與完整性）
+    - [ ] 金鑰輪替策略（不破壞既有資料）
+      - [ ] 在 `CryptoManager` 新增 `keyAliasV2`
+      - [ ] 在 `CryptoManager` 檢測 `keyAliasV2` 是否存在
+      - [ ] 在 `CryptoManager` 不存在時建立 `keyAliasV2`
+      - [ ] 在 `ReportRepository` 新增 `migrateEncryptionToV2()` 方法
+      - [ ] 在 `migrateEncryptionToV2` 逐筆讀取 `content_enc`
+      - [ ] 在 `migrateEncryptionToV2` 以舊金鑰解密
+      - [ ] 在 `migrateEncryptionToV2` 以新金鑰加密
+      - [ ] 在 `migrateEncryptionToV2` 寫回 `content_enc`
+      - [ ] 在 `migrateEncryptionToV2` 更新 `EncryptedPayload.version`
+      - [ ] 在 `:app` 啟動後背景執行遷移
+      - [ ] 在 `:app` 遷移中顯示溫和通知橫幅
+      - [ ] 在 `:app` 遷移失敗記錄錯誤並稍後重試
+    - [ ] 模型與字典完整性加強（檔案層與目錄層）
+      - [ ] 在 `generateModelChecksums` 新增 `manifest.json` 的 SHA-256
+      - [ ] 在 `ModelValidator` 驗證檔案總數與清單一致
+      - [ ] 在 `ModelValidator` 驗證目錄結構與清單一致
+      - [ ] 在 `ModelValidator` 驗證空檔案不通過
+      - [ ] 在 `ModelValidator` 新增快取驗證結果至 `DataStore`
+      - [ ] 在 `ModelValidator` 新增驗證結果時間戳
+      - [ ] 在 `AppStartup` 若驗證結果超過 7 天則重新驗證
+      - [ ] 在 `:features:settings` 顯示最近驗證時間
+  - [ ] v1.2 合規與可用性（文案與無障礙）
+    - [ ] 警語可讀性提升
+      - [ ] 在 `DisclaimerBanner` 提升行高至 1.4 倍
+      - [ ] 在 `DisclaimerBanner` 提升對比度達 AA
+      - [ ] 在 `DisclaimerBanner` 新增鍵盤焦點環
+      - [ ] 在 `DisclaimerBanner` 新增螢幕閱讀順序測試
+    - [ ] 文案審閱流程
+      - [ ] 在 `values-zh-rTW` 警語文案送審
+      - [ ] 在 `values-en` 警語文案送審
+      - [ ] 在 `:features:onboarding` 警語位置確認
+      - [ ] 在 `:features:home` 警語顯示頻率確認
+      - [ ] 在 `:features:report` 警語頁尾對齊方式確認
+    - [ ] 測試覆蓋
+      - [ ] 在 `CryptoManager` 新增儀表測試覆蓋 GCM 錯誤路徑
+      - [ ] 在 `ModelValidator` 新增假檔案測試
+      - [ ] 在 `DisclaimerBanner` 新增可存取性測試
+      - [ ] 在 `:app` 進行 API 26/28/30/34 警語可讀性檢查
 - [ ] 上架前準備（共用）
   - [ ] 產生發行 keystore（Upload key）
     - [ ] 在終端確認 `keytool -version` 正常且 JDK 版本為 17（若非 17 → 調整 `JAVA_HOME` 指向 JDK 17）
