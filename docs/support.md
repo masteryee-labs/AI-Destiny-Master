@@ -1,5 +1,6 @@
 ﻿# AI Destiny Master Support / 支援資訊 / 支持信息
 
+**Links / 連結 / 链接**: [Privacy Policy](index.md) · [Terms of Service](terms.md)
 _Last updated: 2025-09-16_
 
 ## English (EN)
