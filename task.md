@@ -1,27 +1,27 @@
- ## Task List
+## Task List
 - [ ] V0.0 全域環境與基建（一次性，完成後僅維護）
   - [ ] 作業系統與基本工具檢查
     - [ ] 開啟終端機確認可執行 `bash` 或對應 Shell
     - [ ] 在終端機輸入 `git --version` 確認已安裝 Git
-    - [ ] 在終端機輸入 `node -v`，如非必要可略過 Node（僅 GitHub Pages 靜態頁需）
+    - [ ] 在終端機輸入 `node -v`（僅 GitHub Pages 靜態頁需，無則略過）
   - [ ] 安裝與驗證 WindSurf IDE
-    - [ ] 在系統搜尋「WindSurf」嘗試啟動
+    - [ ] 在系統搜尋列輸入「WindSurf」嘗試啟動
     - [ ] 若可正常開啟則標記為已安裝
-    - [ ] 若未安裝，前往官方頁面下載安裝 WindSurf（VS Code 架構）
+    - [ ] 若未安裝前往官方頁面下載安裝 WindSurf（VS Code 架構）
     - [ ] 完成安裝後再次啟動 WindSurf 確認可用
   - [ ] 安裝與驗證 JDK 17
     - [ ] 在終端機輸入 `java -version`
     - [ ] 確認輸出版本字串包含 `17`
-    - [ ] 若版本非 17，下載並安裝 Temurin/OpenJDK 17
-    - [ ] 設定 `JAVA_HOME` 指向 JDK 安裝路徑
+    - [ ] 若版本非 17 下載並安裝 Temurin/OpenJDK 17
+    - [ ] 設定環境變數 `JAVA_HOME` 指向 JDK 安裝路徑
     - [ ] 將 `$JAVA_HOME/bin` 加入 `PATH`
     - [ ] 重新開啟終端機驗證 `java -version` 輸出為 17
   - [ ] 安裝與驗證 Android SDK Command-line tools
     - [ ] 在終端機輸入 `sdkmanager --list` 驗證是否可執行
-    - [ ] 若指令不存在，下載 `commandlinetools-<os>-latest.zip`
+    - [ ] 若指令不存在下載 `commandlinetools-<os>-latest.zip`
     - [ ] 在家目錄建立 `~/Android/cmdline-tools/`
     - [ ] 將壓縮檔解至 `~/Android/cmdline-tools/latest`
-    - [ ] 設定環境變數 `ANDROID_HOME=~/Android`
+    - [ ] 設定 `ANDROID_HOME=~/Android`
     - [ ] 將 `~/Android/platform-tools` 加入 `PATH`
     - [ ] 將 `~/Android/cmdline-tools/latest/bin` 加入 `PATH`
     - [ ] 在終端機輸入 `sdkmanager --licenses`
@@ -34,7 +34,7 @@
     - [ ] 在終端機執行 `sdkmanager "system-images;android-35;google_apis;x86_64"`
   - [ ] 建立並驗證 AVD：Pixel6Api35
     - [ ] 在終端機執行 `avdmanager list avd | grep Pixel6Api35`
-    - [ ] 若查無結果，執行 `avdmanager create avd -n Pixel6Api35 -k "system-images;android-35;google_apis;x86_64" -d pixel_6"`
+    - [ ] 若查無結果執行 `avdmanager create avd -n Pixel6Api35 -k "system-images;android-35;google_apis;x86_64" -d pixel_6"`
     - [ ] 在終端機啟動模擬器 `emulator -avd Pixel6Api35 -netdelay none -netspeed full`
     - [ ] 另開終端機執行 `adb devices`
     - [ ] 確認列出一台 `emulator-` 開頭裝置狀態為 `device`
@@ -52,7 +52,7 @@
     - [ ] 搜尋並安裝 Error Lens
     - [ ] 重新載入 WindSurf 驗證擴充已生效
   - [ ] 建立與設定 GitHub 專案與 GitHub Pages
-    - [ ] 在 GitHub 建立 repo `masteryee-labs/AI-Destiny-Master`（或確認已存在）
+    - [ ] 在 GitHub 建立 repo `masteryee-labs/AI-Destiny-Master` 或確認已存在
     - [ ] 在本機建立資料夾 `~/work/aidestinymaster`
     - [ ] 在終端機執行 `git clone git@github.com:masteryee-labs/AI-Destiny-Master.git`
     - [ ] 進入目錄 `cd AI-Destiny-Master`
@@ -60,7 +60,7 @@
     - [ ] 在 `docs` 建立 `index.md` 作為 Privacy Policy
     - [ ] 在 `docs` 建立 `terms.md` 作為 Terms of Service
     - [ ] 在 `docs` 建立 `support.md` 作為 Support
-    - [ ] 在 `docs` 根目錄建立 `app-ads.txt`
+    - [ ] 在 `docs` 建立 `app-ads.txt`
     - [ ] 在 `app-ads.txt` 填入 `google.com, pub-1779359737796272, DIRECT, f08c47fec0942fa0`
     - [ ] 在 GitHub 專案設定開啟 Pages
     - [ ] 將 Pages 來源設為 `main` 分支 `/docs` 資料夾
@@ -74,21 +74,21 @@
     - [ ] 確認驗證狀態為通過
   - [ ] 設定 Play Console（帳號層級一次性）
     - [ ] 註冊 Google Play Developer 並完成付款
-    - [ ] 建立商家帳戶（Merchant）並完成驗證
+    - [ ] 建立商家帳戶並完成驗證
     - [ ] 新增開發者網站為 GitHub Pages 網址
     - [ ] 準備開發者聯絡 Email 並填入
 - [ ] V1.0 基礎應用建置（西洋星盤 + AI 解析 + 付費 + 激勵廣告 + Coins + 恢復購買）
   - [ ] 專案骨架初始化（多模組 Gradle）
     - [ ] 在專案根目錄執行 `gradle wrapper`
     - [ ] 建立 `settings.gradle.kts`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:app`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:core:ai`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:core:astro`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:data`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:billing`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:ads`
-    - [ ] 在 `settings.gradle.kts` 註冊 `:sync`
-    - [ ] 建立根 `build.gradle.kts` 設定 Kotlin 版本與通用 repos
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:app`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:core:ai`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:core:astro`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:data`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:billing`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:ads`
+    - [ ] 在 `settings.gradle.kts` 註冊模組 `:sync`
+    - [ ] 建立根 `build.gradle.kts` 設定 Kotlin 版本與 repositories
     - [ ] 在 `:app` 建立 `build.gradle.kts`
     - [ ] 在 `:core:ai` 建立 `build.gradle.kts`
     - [ ] 在 `:core:astro` 建立 `build.gradle.kts`
@@ -97,18 +97,18 @@
     - [ ] 在 `:ads` 建立 `build.gradle.kts`
     - [ ] 在 `:sync` 建立 `build.gradle.kts`
   - [ ] Android 專案基本設定
-    - [ ] 在 `:app` 啟用 Compose
+    - [ ] 在 `:app` 啟用 Jetpack Compose
     - [ ] 在 `:app` 設定 `compileSdk=35`
     - [ ] 在 `:app` 設定 `targetSdk=35`
     - [ ] 在 `:app` 設定 `minSdk=26`
-    - [ ] 在 `:app` 設定 Kotlin 17 編譯
+    - [ ] 在 `:app` 設定 Java/Kotlin 17 編譯
     - [ ] 在 `:app/src/main/AndroidManifest.xml` 加入 `INTERNET` 權限
     - [ ] 在 `:app/src/main/AndroidManifest.xml` 加入 `ACCESS_NETWORK_STATE` 權限
     - [ ] 在 `:app/src/main/AndroidManifest.xml` 加入 `POST_NOTIFICATIONS` 權限
     - [ ] 在 `:app/src/main/AndroidManifest.xml` 加入 `FOREGROUND_SERVICE` 權限
     - [ ] 在 `:app/src/main/AndroidManifest.xml` 加入 `FOREGROUND_SERVICE_DATA_SYNC` 權限
   - [ ] 相依套件導入與版本鎖定
-    - [ ] 在 `:app` 加入 `implementation(platform("androidx.compose:compose-bom:2025.+" ))`
+    - [ ] 在 `:app` 加入 `implementation(platform("androidx.compose:compose-bom:2025.+"))`
     - [ ] 在 `:app` 加入 `implementation("androidx.activity:activity-compose:<latest>")`
     - [ ] 在 `:app` 加入 `implementation("androidx.navigation:navigation-compose:<latest>")`
     - [ ] 在 `:data` 加入 `implementation("androidx.room:room-ktx:2.6.+")`
@@ -120,6 +120,46 @@
     - [ ] 在 `:billing` 加入 `implementation("com.android.billingclient:billing-ktx:8.+")`
     - [ ] 在 `:ads` 加入 `implementation("com.google.android.gms:play-services-ads:22.+")`
     - [ ] 在 共用模組加入 `implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")`
+  - [ ] 共用 UI 設計系統（高級感＋神秘感＋深淺色）
+    - [ ] 在 `:app` 建立 `ui/design/DesignTokens.kt`
+    - [ ] 在 `DesignTokens.kt` 定義色彩種子 `Primary/Secondary/Accent/Surface/Backdrop`
+    - [ ] 在 `DesignTokens.kt` 定義深色主題色票 `Primary90/Surface10/Outline60`
+    - [ ] 在 `DesignTokens.kt` 定義淺色主題色票 `Primary40/Surface98/Outline40`
+    - [ ] 在 `DesignTokens.kt` 定義排版 `Display/Title/Body/Label` 權重與字級
+    - [ ] 在 `DesignTokens.kt` 定義圓角 `4/8/12/20dp` 與陰影層級 `0/1/2/3`
+    - [ ] 在 `DesignTokens.kt` 定義動效曲線 `FastOutSlowIn` 與時長 `120/200/320ms`
+    - [ ] 在 `DesignTokens.kt` 定義觸控回饋 `Ripple` 透明度
+    - [ ] 在 `:app` 建立 `ui/theme/Color.kt` 匯出深色與淺色 `ColorScheme`
+    - [ ] 在 `:app` 建立 `ui/theme/Typography.kt` 匯出 `Typography`
+    - [ ] 在 `:app` 建立 `ui/theme/Shapes.kt` 匯出 `Shapes`
+    - [ ] 在 `:app` 建立 `ui/theme/Theme.kt` 提供 `AppTheme(darkTheme:Boolean,content)`
+    - [ ] 在 `Theme.kt` 實作系統主題自動跟隨與手動覆寫
+    - [ ] 在 `Theme.kt` 設定高對比模式底色與文本對比比值大於 7:1
+    - [ ] 在 `:app` 建立 `ui/foundation/AppScaffold.kt` 封裝 `TopAppBar/BottomBar/SnackbarHost`
+  - [ ] Icon 視覺規範與資產導入（Duotone 線性＋幾何占星符號）
+    - [ ] 在 `:app` 建立 `ui/icons/README.md` 記錄風格與尺寸
+    - [ ] 在 `ui/icons` 定義描邊厚度 `2dp` 與圓角端點 `Round`
+    - [ ] 在 `ui/icons` 定義主色 `IconPrimary` 與次色 `IconTint`
+    - [ ] 在 `ui/icons` 設計底部列圖示 `home/report/wallet/settings` 為 24dp
+    - [ ] 在 `ui/icons` 設計操作圖示 `share/lock/unlock/vip/coin/ads/play` 為 20dp
+    - [ ] 在 `ui/icons` 設計占星符號 `Sun/Moon/Mercury/Venus/Mars/Jupiter/Saturn/Uranus/Neptune/Pluto/ASC/MC` 為 16dp
+    - [ ] 在 `ui/icons` 設計幾何標誌 `Trine/Square/Sextile/Opposition/Conjunction` 為 14dp
+    - [ ] 在 `ui/icons` 匯出 SVG 檔並以 `ImageVector` 產生器轉 Compose 可用向量
+    - [ ] 在 `ui/icons` 驗證深色模式以 `IconTint` 半透明 72% 呈現
+  - [ ] 導航骨架與路由（沿用全局樣式）
+    - [ ] 在 `:app` 建立 `ui/navigation/NavGraph.kt`
+    - [ ] 在 `NavGraph.kt` 定義 route `home`
+    - [ ] 在 `NavGraph.kt` 定義 route `chart.input`
+    - [ ] 在 `NavGraph.kt` 定義 route `chart.result/{chartId}`
+    - [ ] 在 `NavGraph.kt` 定義 route `report.detail/{reportId}`
+    - [ ] 在 `NavGraph.kt` 定義 route `wallet`
+    - [ ] 在 `NavGraph.kt` 定義 route `settings`
+    - [ ] 在 `NavGraph.kt` 定義 route `purchase`
+    - [ ] 在 `:app` 建立 `ui/components/BottomBar.kt`
+    - [ ] 在 `BottomBar.kt` 建立項目「首頁」
+    - [ ] 在 `BottomBar.kt` 建立項目「報告」
+    - [ ] 在 `BottomBar.kt` 建立項目「錢包」
+    - [ ] 在 `BottomBar.kt` 建立項目「設定」
   - [ ] 資料層實作（Room／DataStore）
     - [ ] 在 `:data` 定義 Entity `Report`
     - [ ] 在 `:data` 定義 Entity `Chart`
@@ -145,20 +185,20 @@
     - [ ] 在 `AppServices.kt` 提供 `PurchaseRepository` 單例
     - [ ] 在 `AppServices.kt` 提供 `BillingManager` 單例
     - [ ] 在 `AppServices.kt` 提供 `AdsManager` 單例
-  - [ ] :core:astro 星體計算
+  - [ ] :core:astro 星體計算（互動星盤基礎）
     - [ ] 在 `:core:astro` 引入 Astronomy Engine 原始碼或依賴
-    - [ ] 建立資料類型 `PlanetPos`
-    - [ ] 建立資料類型 `House`
-    - [ ] 建立資料類型 `Aspect`
-    - [ ] 建立 `AstroCalculator.kt` 實作 `computePlanets(julianDay)`
-    - [ ] 建立 `HouseSystem.kt` 實作 `computeHouses(dateTime, tz, place)`
-    - [ ] 建立 `Aspects.kt` 實作 `detectAspects(planets, orbDeg=6.0)`
-    - [ ] 建立 `NatalChart` 資料類型
-    - [ ] 建立 `NatalChartService.kt` 整合行星/宮位/相位
-    - [ ] 寫單元測試：行星位置邏輯
-    - [ ] 寫單元測試：相位偵測邏輯
-    - [ ] 寫單元測試：宮位切法 Whole Sign
-    - [ ] 寫單元測試：宮位切法 Porphyry
+    - [ ] 在 `:core:astro` 建立資料類型 `PlanetPos`
+    - [ ] 在 `:core:astro` 建立資料類型 `House`
+    - [ ] 在 `:core:astro` 建立資料類型 `Aspect`
+    - [ ] 在 `AstroCalculator.kt` 實作 `computePlanets(julianDay)`
+    - [ ] 在 `HouseSystem.kt` 實作 `computeHouses(dateTime, tz, place)`
+    - [ ] 在 `Aspects.kt` 實作 `detectAspects(planets, orbDeg=6.0)`
+    - [ ] 在 `:core:astro` 建立 `NatalChart` 資料類型
+    - [ ] 在 `:core:astro` 建立 `NatalChartService.kt` 整合行星/宮位/相位
+    - [ ] 在 `:core:astro` 寫單元測試行星位置邏輯
+    - [ ] 在 `:core:astro` 寫單元測試相位偵測邏輯
+    - [ ] 在 `:core:astro` 寫單元測試宮位切法 Whole Sign
+    - [ ] 在 `:core:astro` 寫單元測試宮位切法 Porphyry
   - [ ] :core:ai ONNX TinyLlama（App 僅讀）
     - [ ] 在開發機下載 TinyLlama-1.1B-Chat 權重
     - [ ] 在開發機使用 `transformers` 導出 ONNX decoder-only
@@ -178,7 +218,7 @@
     - [ ] 在 `:core:ai` 建立 `PromptBuilder.kt`
     - [ ] 在 `PromptBuilder.kt` 實作 `buildNatalReport(chartSummary, locale)`
     - [ ] 在模擬器 Pixel6Api35 測試生成 700 tokens 背景可完成
-  - [ ] 背景任務與前景服務
+  - [ ] 背景任務與前景服務（報告生成）
     - [ ] 在 `:app` 建立 `ReportGenerationWorker.kt`
     - [ ] 在 `ReportGenerationWorker` 讀取 Chart
     - [ ] 在 `ReportGenerationWorker` 建立 Prompt
@@ -188,7 +228,7 @@
     - [ ] 在 `ReportGenerationWorker` 實作 `setForegroundAsync()` 提升
     - [ ] 在 `:app` 建立 `NotificationHelper.kt`
     - [ ] 在 `NotificationHelper` 建立通知頻道
-    - [ ] 在通知點擊導向 `report.detail/{reportId}`
+    - [ ] 在 通知點擊導向 `report.detail/{reportId}`
   - [ ] Billing v8 付款流程
     - [ ] 在 `:billing` 建立 `BillingManager.kt`
     - [ ] 在 `BillingManager` 實作 `startConnection()`
@@ -201,7 +241,7 @@
     - [ ] 在 `:billing` 定義 SKU `sub_vip_year`
     - [ ] 在 `:billing` 建立 `EntitlementStore`
     - [ ] 在 App 啟動呼叫 `queryPurchasesAsync()` 同步權益
-  - [ ] AdMob Rewarded 與 Coins
+  - [ ] AdMob Rewarded 與 Coins（不加入 Debug-only 控制）
     - [ ] 在 `:ads` 建立 `AdsManager.kt`
     - [ ] 在 `AdsManager` 實作 `initialize(context)`
     - [ ] 在 `AdsManager` 實作 `loadRewarded(adUnitId)`
@@ -214,24 +254,7 @@
     - [ ] 在 `:ads` 建立 `ConsentManager.kt`
     - [ ] 在 `ConsentManager` 載入 UMP 同意表單
     - [ ] 在 `ConsentManager` 成功同意後允許請求廣告
-  - [ ] 共用 UI 主題與導航骨架（V1 全局樣式）
-    - [ ] 在 `:app` 建立 `ui/theme/Color.kt`
-    - [ ] 在 `:app` 建立 `ui/theme/Typography.kt`
-    - [ ] 在 `:app` 建立 `ui/theme/Theme.kt`
-    - [ ] 在 `:app` 建立 `ui/navigation/NavGraph.kt`
-    - [ ] 在 `NavGraph.kt` 定義 route `home`
-    - [ ] 在 `NavGraph.kt` 定義 route `chart.input`
-    - [ ] 在 `NavGraph.kt` 定義 route `chart.result`
-    - [ ] 在 `NavGraph.kt` 定義 route `report.detail`
-    - [ ] 在 `NavGraph.kt` 定義 route `wallet`
-    - [ ] 在 `NavGraph.kt` 定義 route `settings`
-    - [ ] 在 `NavGraph.kt` 定義 route `purchase`
-    - [ ] 在 `:app` 建立 `ui/components/BottomBar.kt`
-    - [ ] 在 `BottomBar` 建立項目「首頁」
-    - [ ] 在 `BottomBar` 建立項目「報告」
-    - [ ] 在 `BottomBar` 建立項目「錢包」
-    - [ ] 在 `BottomBar` 建立項目「設定」
-  - [ ] UI/UX 畫面與互動（V1 版位固定，日後版本沿用邏輯）
+  - [ ] UI/UX 畫面與互動（固定版位，後續版本沿用）
     - [ ] 建立 `OnboardingScreen`
     - [ ] 在 `OnboardingScreen` 顯示條款同意勾選框
     - [ ] 在 `OnboardingScreen` 顯示隱私權同意勾選框
@@ -284,9 +307,19 @@
     - [ ] 在 `PurchaseScreen` 為每商品放置「購買」按鈕
     - [ ] 在 `PurchaseScreen` 放置「恢復購買」按鈕
     - [ ] 在 `PurchaseScreen` 完成購買顯示 Snackbar 權益變更
-    - [ ] 在所有畫面加入頂部 App Bar 顯示標題
-    - [ ] 在所有畫面遵循 Material 3 間距與可觸區
-  - [ ] 互動流程串接（V1 端到端）
+    - [ ] 在 所有畫面加入頂部 App Bar 顯示標題
+    - [ ] 在 所有畫面遵循 Material 3 間距與可觸區
+  - [ ] 星盤互動強化（高級感互動規格）
+    - [ ] 在 `ChartResultScreen` 實作雙指縮放以 0.8–2.0 倍
+    - [ ] 在 `ChartResultScreen` 實作單指拖曳旋轉盤面
+    - [ ] 在 `ChartResultScreen` 實作長按行星顯示 Tooltip（度數與宮位）
+    - [ ] 在 `ChartResultScreen` 實作點擊相位線高亮相對行星
+    - [ ] 在 `ChartResultScreen` 實作「顯示/隱藏相位」切換
+    - [ ] 在 `ChartResultScreen` 實作「顯示/隱藏宮位線」切換
+    - [ ] 在 `ChartResultScreen` 實作「匯出圖片」分享 Intent
+    - [ ] 在 `ChartResultScreen` 深色主題以柔和漸層背景與低噪點紋理
+    - [ ] 在 `ChartResultScreen` 淺色主題以霧面白底與淡金邊界
+  - [ ] 互動流程串接（端到端閉環）
     - [ ] 在 `HomeScreen` 點擊「快速排盤」導向 `chart.input`
     - [ ] 在 `ChartInputScreen` 點擊「生成星盤」寫入 `Chart` 到 DB
     - [ ] 在 `ChartInputScreen` 完成後導向 `chart.result/{chartId}`
@@ -303,12 +336,12 @@
     - [ ] 在 `ReportRepository` 實作 AES-GCM 加密 `Report.content`
     - [ ] 在 App 啟動校驗模型與 tokenizer 的 SHA-256
     - [ ] 在 `ReportDetailScreen` 顯示「僅供參考／非專業建議」警語
-  - [ ] 商店與法遵準備（V1）
-    - [ ] 撰寫繁中短描述（50 字內）
-    - [ ] 撰寫繁中長描述（首三行含核心關鍵詞）
+  - [ ] 商店與法遵準備（首次上架素材）
+    - [ ] 撰寫繁中短描述 50 字內
+    - [ ] 撰寫繁中長描述前三行含核心關鍵詞
     - [ ] 撰寫英文短描述
     - [ ] 撰寫英文長描述
-    - [ ] 擷取 6 張功能對應截圖（首頁／排盤／結果／報告／錢包／設定）
+    - [ ] 擷取 6 張截圖（首頁／排盤／結果／報告／錢包／設定）
     - [ ] 檢查標題與描述避免商標詞
     - [ ] 在 GitHub Pages 確認隱私政策 URL 可存取
     - [ ] 填寫 Data Safety（本機處理／Billing／Ads）
@@ -318,7 +351,7 @@
     - [ ] 在終端機執行 `./gradlew clean`
     - [ ] 在終端機執行 `./gradlew bundleRelease`
     - [ ] 確認輸出 `app-release.aab` 產生
-  - [ ] Play Console 建置（首次上架準備到 Internal 測試）
+  - [ ] Play Console 建置（Internal 測試）
     - [ ] 在 Play Console 建立應用名稱「AI命理大師：西洋星盤・AI解盤」
     - [ ] 設定預設語言為繁中
     - [ ] 填寫開發者資訊與聯絡 Email
@@ -332,1424 +365,1115 @@
     - [ ] 建立 Internal 釋出並上傳 `app-release.aab`
     - [ ] 填寫版本更新說明
   - [ ] 測試與灰度
-    - [ ] 使用測試帳安裝並啟動 App
+    - [ ] 使用測試帳安裝並啟動 App 完成 Onboarding
     - [ ] 在 API 26 模擬器跑一輪核心流程
     - [ ] 在 API 28 模擬器跑一輪核心流程
     - [ ] 在 API 30 模擬器跑一輪核心流程
     - [ ] 在 API 33 模擬器跑一輪核心流程
     - [ ] 在 API 35 模擬器跑一輪核心流程
-    - [ ] 測試：排盤成功寫入 DB
-    - [ ] 測試：AI 報告背景生成不中斷
-    - [ ] 測試：廣告成功觀看與發幣
-    - [ ] 測試：半途離開不發幣
-    - [ ] 測試：冷卻與每日上限生效
-    - [ ] 測試：單次購買成功與 `acknowledge`
-    - [ ] 測試：訂閱成功與權益同步
-    - [ ] 測試：恢復購買成功
+    - [ ] 測試排盤成功寫入 DB
+    - [ ] 測試 AI 報告背景生成不中斷
+    - [ ] 測試廣告成功觀看與發幣
+    - [ ] 測試半途離開不發幣
+    - [ ] 測試冷卻與每日上限生效
+    - [ ] 測試單次購買成功與 `acknowledge`
+    - [ ] 測試訂閱成功與權益同步
+    - [ ] 測試恢復購買成功
     - [ ] 驗證 `targetSdk=35` 與 64-bit
     - [ ] 建立 Closed 測試（必要時）
     - [ ] 建立 Open 測試（必要時）
     - [ ] 進行灰度 10% 上線
     - [ ] 使用 Crash/ANR 監控 48 小時
     - [ ] 視監控結果擴大至 100%
-- [ ] V1.1 Google 雲端同步（沿用 V1 UI 模式，設定頁新增開關）
-  - [ ] OAuth Debug 設定（Google Cloud Console）
-    - [ ] 在瀏覽器登入 Google Cloud Console（使用將要發布 App 的同一組開發者帳號）
-    - [ ] 在頂部搜尋列輸入 `APIs & Services` 並開啟
-    - [ ] 在左側選單點擊 `Credentials`
-    - [ ] 點擊上方 `+ CREATE CREDENTIALS` 下拉選 `OAuth client ID`
-    - [ ] 若尚未建立同意畫面則按導引先建立 OAuth 同意畫面（外部或內部均可，先選外部以利測試）
-    - [ ] 在 OAuth 同意畫面 `App information` 輸入應用名稱（與 Play Console 一致）
-    - [ ] 在 OAuth 同意畫面 `User support email` 選擇開發者 Email
-    - [ ] 在 OAuth 同意畫面 `App domain` 的 `Privacy policy link` 暫填 GitHub Pages 隱私權政策 URL
-    - [ ] 在 OAuth 同意畫面 `Authorized domains` 新增 GitHub Pages 網域（例：`masteryee-labs.github.io`）
-    - [ ] 在 OAuth 同意畫面 `Scopes` 保持最小範圍（可先空白，之後自動加入 drive.appdata）
-    - [ ] 在 OAuth 同意畫面 `Test users` 新增內測帳號 Email（至少一個）
-    - [ ] 儲存並返回 `Credentials`
-    - [ ] 點擊 `+ CREATE CREDENTIALS` 選擇 `OAuth client ID`
-    - [ ] 在 `Application type` 選擇 `Android`
-    - [ ] 在 `Name` 輸入 `Android Debug`
-    - [ ] 在 `Package name` 輸入 `com.aidestinymaster`
-    - [ ] 在 `SHA-1 certificate fingerprint` 貼上 Debug SHA-1 `4C:31:F8:77:F4:8F:9A:7A:29:9F:2E:DD:61:A3:54:57:B8:E2:D8:A3`
-    - [ ] 點擊 `Create` 並等待顯示 Client ID
-    - [ ] 複製並記錄 Android 用戶端 ID `486797680754-o57bjhvdvt0bfu6abm54sf3qa36j9rhf.apps.googleusercontent.com`
-    - [ ] 返回 `APIs & Services > Enabled APIs & services`
-    - [ ] 點擊 `+ ENABLE APIS AND SERVICES`
-    - [ ] 搜尋 `Google Drive API` 並點擊進入
-    - [ ] 點擊 `ENABLE` 以啟用 Drive API 供專案使用
-  - [ ] OAuth Release 設定（Google Cloud Console）
-    - [ ] 在本機以發行 keystore 產出 Release SHA-1（於終端機執行 `keytool -list -v -keystore aidd.keystore -alias aidd` 並輸入密碼）
-    - [ ] 複製 `SHA1` 值並備註為 Release SHA-1
-    - [ ] 返回 Google Cloud Console `Credentials`
-    - [ ] 點擊 `+ CREATE CREDENTIALS` 選擇 `OAuth client ID`
-    - [ ] 在 `Application type` 選擇 `Android`
-    - [ ] 在 `Name` 輸入 `Android Release`
-    - [ ] 在 `Package name` 輸入 `com.aidestinymaster`
-    - [ ] 在 `SHA-1 certificate fingerprint` 貼上 Release SHA-1
-    - [ ] 點擊 `Create` 完成建立 Release Android OAuth
-    - [ ] 開啟 `OAuth consent screen` 頁籤
-    - [ ] 在 `App domain` 的 `Privacy policy link` 更新為已上線之 GitHub Pages 隱私政策 URL
-    - [ ] 在 `Authorized domains` 確認已包含隱私政策所屬網域
-    - [ ] 在 `Scopes` 區塊新增/確認 `https://www.googleapis.com/auth/drive.appdata` 範圍
-    - [ ] 在 `Test users` 保留測試 Email（發行前可改為送審，必要時提升至生產）
-    - [ ] 儲存並發布同意畫面（若需要，將狀態從測試切換為生產）
+- [ ] V1.1 Google 雲端同步（沿用 V1 UI，設定頁新增開關）
+  - [ ] 設定頁 UI 先行佈局（禁用功能）
+    - [ ] 在 `SettingsScreen` 新增卡片區塊「雲端同步」
+    - [ ] 在 卡片顯示目前登入帳號預設為「未登入」
+    - [ ] 在 卡片左側放置「登入 Google 帳號」主要按鈕禁用
+    - [ ] 在 卡片左側放置「登出」次要按鈕隱藏
+    - [ ] 在 卡片右側放置「雲端同步」開關禁用
+    - [ ] 在 卡片底部顯示狀態列文字預設 `上次同步：—`
+  - [ ] Google Cloud Console OAuth Debug 設定
+    - [ ] 在瀏覽器登入 Google Cloud Console
+    - [ ] 開啟 `APIs & Services`
+    - [ ] 開啟 `Credentials`
+    - [ ] 建立 OAuth 同意畫面外部測試
+    - [ ] 填入 App 名稱與支援 Email
+    - [ ] 新增 Authorized domains 為 GitHub Pages 網域
+    - [ ] 暫不填 Scopes
+    - [ ] 新增 Test users 測試 Email
+    - [ ] 建立 `OAuth client ID` 類型 Android Debug
+    - [ ] 填入 `com.aidestinymaster` 與 Debug SHA-1
+    - [ ] 啟用 `Google Drive API`
   - [ ] App 端 Google Sign-In 串接（play-services-auth）
-    - [ ] 在 `:app/build.gradle.kts` 確認已加入 `implementation("com.google.android.gms:play-services-auth:21.+")`
-    - [ ] 在 `AndroidManifest.xml` `application` 內確認存在網路權限與正確的 `package` 名稱 `com.aidestinymaster`
-    - [ ] 在 `SettingsScreen` 對應的 ViewModel 新增狀態 `syncEnabled: StateFlow<Boolean>` 與 `syncStatus: StateFlow<String>`
-    - [ ] 在 `:app` 建立檔案 `auth/GoogleAuth.kt` 作為登入封裝
-    - [ ] 在 `GoogleAuth.kt` 新增函式 `fun buildGSO(context): GoogleSignInOptions`
+    - [ ] 在 `:app` 新增 `implementation("com.google.android.gms:play-services-auth:21.+")`
+    - [ ] 在 `AndroidManifest.xml` 確認 `package` 與網路權限正確
+    - [ ] 在 `:app/auth/GoogleAuth.kt` 建立 `buildGSO(context)`
     - [ ] 在 `buildGSO` 設定 `requestEmail()`
     - [ ] 在 `buildGSO` 設定 `requestScopes(Scope("https://www.googleapis.com/auth/drive.appdata"))`
-    - [ ] 在 `GoogleAuth.kt` 新增函式 `fun getClient(context): GoogleSignInClient`
-    - [ ] 在登入流程新增 `ActivityResultLauncher` 以啟動 `getClient(context).signInIntent`
-    - [ ] 在登入回傳的 `onActivityResult` 或 `ActivityResultCallback` 解析 `GoogleSignIn.getSignedInAccountFromIntent(data)`
-    - [ ] 在解析成功後取得 `GoogleSignInAccount` 物件並保存至 `AuthState`（含 `email`, `grantedScopes`）
-    - [ ] 在 `AuthState` 新增函式 `suspend fun getAccessToken(context): String` 使用 `GoogleAuthUtil.getToken(context, account.account, "oauth2:https://www.googleapis.com/auth/drive.appdata")` 以取得存取權杖
-    - [ ] 在 `AuthState` 捕捉 `UserRecoverableAuthException` 並透過 `startActivityForResult` 觸發授權補救流程
-    - [ ] 在 `SettingsScreen` 畫面新增「登入 Google 帳號」按鈕（初次或登出狀態顯示）
-    - [ ] 在「登入 Google 帳號」按鈕點擊時呼叫 `getClient(context).signInIntent`
-    - [ ] 在登入成功後將 UI 切換為顯示帳號 Email 與同步開關
-    - [ ] 在 `SettingsScreen` 畫面新增「登出」按鈕（已登入狀態顯示）
-    - [ ] 在「登出」按鈕點擊時呼叫 `GoogleSignIn.getClient(context, gso).signOut()` 並清除 `AuthState`
-  - [ ] Drive REST v3 客戶端（以 REST + OkHttp 實作 appDataFolder 存取）
-    - [ ] 在 `:sync` 模組建立套件 `com.aidestinymaster.sync.drive`
-    - [ ] 在 `:sync/build.gradle.kts` 新增 `implementation("com.squareup.okhttp3:okhttp:<latest>")`
-    - [ ] 在 `:sync/build.gradle.kts` 確認 `implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")`
-    - [ ] 在 `:sync` 建立 `DriveModels.kt` 定義 `DriveFile`（id,name,modifiedTime）
-    - [ ] 在 `:sync` 建立 `DriveEndpoints.kt` 常數 `BASE_URL = "https://www.googleapis.com/drive/v3/"`
-    - [ ] 在 `DriveEndpoints.kt` 定義 `FILES_LIST = "files"`
-    - [ ] 在 `DriveEndpoints.kt` 定義 `UPLOAD_CREATE = "upload/drive/v3/files?uploadType=multipart"`
-    - [ ] 在 `DriveEndpoints.kt` 定義 `FILES_UPDATE = "upload/drive/v3/files/{fileId}?uploadType=multipart"`
-    - [ ] 在 `:sync` 建立 `DriveHttp.kt` 建立 `OkHttpClient` 與共用 `User-Agent`
-    - [ ] 在 `DriveHttp.kt` 實作 `fun authHeader(token:String) = "Bearer $token"`
-    - [ ] 在 `DriveHttp.kt` 實作 `suspend fun get(url:String, token:String): Response`
-    - [ ] 在 `DriveHttp.kt` 實作 `suspend fun multipartCreate(metaJson:String, dataBytes:ByteArray, token:String): Response`
-    - [ ] 在 `DriveHttp.kt` 實作 `suspend fun multipartUpdate(fileId:String, metaJson:String, dataBytes:ByteArray, token:String): Response`
-    - [ ] 在 `:sync` 建立 `DriveService.kt`
-    - [ ] 在 `DriveService.kt` 實作 `suspend fun findFileIdByName(name:String, token:String): String?`（呼叫 `files.list` 參數 `spaces=appDataFolder`, `q=name='xxx'`, `fields=files(id,name,modifiedTime)`）
-    - [ ] 在 `DriveService.kt` 實作 `suspend fun download(name:String, token:String): String?`（先查 `id`，再呼叫 `GET https://www.googleapis.com/drive/v3/files/{id}?alt=media`）
-    - [ ] 在 `DriveService.kt` 實作 `suspend fun uploadOrMerge(name:String, json:String, encrypted:Boolean, token:String): String`（若無檔則 `create`，有檔則 `update`；皆指定 `parents=["appDataFolder"]`）
-    - [ ] 在 `DriveService.kt` 處理錯誤碼 `401/403` 觸發重新登入或重新要求授權
-    - [ ] 在 `DriveService.kt` 對 `429/5xx` 實作指數退避重試
-    - [ ] 在 `DriveService.kt` 對 `If-Match`（Etag）或 `modifiedTime` 做衝突保護（優先較新）
-    - [ ] 在 `:sync` 建立 `Crypto.kt` 使用 `Security Crypto` AES-GCM 封裝 `encrypt(bytes): ByteArray`、`decrypt(bytes): ByteArray`
-    - [ ] 在 `Crypto.kt` 建立 `MasterKey` 初始化與本機 Keystore 綁定
-    - [ ] 在 `:sync` 建立 `SyncRepository.kt`
-    - [ ] 在 `SyncRepository.kt` 注入 `DriveService`、本地 `ReportRepository`、`WalletRepository`、`PurchaseRepository`
-    - [ ] 在 `SyncRepository.kt` 實作 `suspend fun pullAll(token:String)` 下載 `reports.json`、`wallet.json`、`purchases.json`
-    - [ ] 在 `SyncRepository.kt` 實作 `suspend fun pushAll(token:String)` 上傳三檔（敏感欄位先經 AES-GCM）
-    - [ ] 在 `SyncRepository.kt` 實作 `fun merge(local:List<T>, remote:List<T>): List<T>` 以 `updatedAt` 較新者覆蓋
-    - [ ] 在 `SyncRepository.kt` 對 `reports.json` 實作欄位層級合併（以 `id` 為鍵）
-    - [ ] 在 `SyncRepository.kt` 對 `wallet.json` 實作餘額與日誌合併（以 `updatedAt` 與 `opId` 去重）
-    - [ ] 在 `SyncRepository.kt` 對 `purchases.json` 實作權益清單去重合併（以 `purchaseToken` 唯一）
-    - [ ] 在 `:sync` 建立 `SyncUseCases.kt` 封裝 `oneShotSync(token)`、`continuousSync(token)`
-    - [ ] 在 `:sync` 建立 `SyncStatus.kt` 狀態列舉 `Idle`、`Syncing`、`Success`、`Error(message)`
-  - [ ] 設定頁 UI 調整（沿用 V1 UI 版位，新增同步區塊）
-    - [ ] 在 `SettingsScreen` 新增卡片區塊「雲端同步」
-    - [ ] 在卡片內上方顯示目前登入帳號（未登入顯示「未登入」）
-    - [ ] 在卡片內左側放置「登入 Google 帳號」主要按鈕（未登入時顯示）
-    - [ ] 在卡片內左側放置「登出」次要按鈕（已登入時顯示）
-    - [ ] 在卡片內右側放置「雲端同步」開關（僅已登入時可用）
-    - [ ] 在卡片底部顯示狀態列文字 `上次同步：yyyy/MM/dd HH:mm` 或錯誤訊息
-    - [ ] 在開啟「雲端同步」開關時觸發 `oneShotSync(token)` 進行首次上傳/下載與合併
-    - [ ] 在開啟後於 App 冷啟時自動執行 `continuousSync(token)`（前景/網路可用時）
-    - [ ] 在同步進行中於 UI 顯示 `LinearProgressIndicator`
-    - [ ] 在同步成功後顯示 `Snackbar("同步完成")`
-    - [ ] 在同步失敗時顯示 `Snackbar("同步失敗：{message}")`
+    - [ ] 在 `GoogleAuth.kt` 建立 `getClient(context)`
+    - [ ] 在 Activity 建立 `ActivityResultLauncher` 啟動 `getClient(context).signInIntent`
+    - [ ] 在 回傳解析 `GoogleSignIn.getSignedInAccountFromIntent(data)`
+    - [ ] 在 解析成功保存 `GoogleSignInAccount` 至 `AuthState`
+    - [ ] 在 `AuthState` 建立 `suspend fun getAccessToken(context): String`
+    - [ ] 在 `AuthState` 處理 `UserRecoverableAuthException`
+    - [ ] 在 `SettingsScreen` 啟用「登入 Google 帳號」按鈕可點
+    - [ ] 在 登入成功切換顯示帳號 Email 與同步開關可用
+    - [ ] 在 顯示「登出」按鈕於已登入狀態
+  - [ ] Drive REST v3 客戶端（appDataFolder）
+    - [ ] 在 `:sync` 建立套件 `com.aidestinymaster.sync.drive`
+    - [ ] 在 `:sync` 新增 `okhttp` 與 `serialization-json`
+    - [ ] 在 `:sync` 建立 `DriveModels.kt` 定義 `DriveFile`
+    - [ ] 在 `:sync` 建立 `DriveEndpoints.kt` 定義各端點
+    - [ ] 在 `:sync` 建立 `DriveHttp.kt` 實作 `get/multipartCreate/multipartUpdate`
+    - [ ] 在 `:sync` 建立 `DriveService.kt` 實作 `findFileIdByName`
+    - [ ] 在 `DriveService.kt` 實作 `download(name, token)`
+    - [ ] 在 `DriveService.kt` 實作 `uploadOrMerge(name, json, encrypted, token)`
+    - [ ] 在 `DriveService.kt` 處理 `401/403` 重新授權
+    - [ ] 在 `DriveService.kt` 對 `429/5xx` 指數退避
+    - [ ] 在 `DriveService.kt` 以 `modifiedTime` 做衝突保護
+    - [ ] 在 `:sync` 建立 `Crypto.kt` AES-GCM 封裝
+    - [ ] 在 `:sync` 建立 `SyncRepository.kt` 實作 `pullAll/pushAll/merge`
+    - [ ] 在 `:sync` 建立 `SyncUseCases.kt` `oneShotSync/continuousSync`
+    - [ ] 在 `:sync` 建立 `SyncStatus.kt` 狀態列舉
+  - [ ] 設定頁 UI 解鎖與行為綁定
+    - [ ] 在 `SettingsScreen` 啟用「登入 Google 帳號」按鈕點擊事件
+    - [ ] 在 登入成功顯示帳號與「雲端同步」開關啟用
+    - [ ] 在 開啟開關觸發 `oneShotSync(token)`
+    - [ ] 在 App 冷啟若啟用同步觸發 `continuousSync(token)`
+    - [ ] 在 同步進行中顯示 `LinearProgressIndicator`
+    - [ ] 在 同步成功顯示 `Snackbar("同步完成")`
+    - [ ] 在 同步失敗顯示 `Snackbar("同步失敗：{message}")`
   - [ ] 邏輯串接與權限流轉
-    - [ ] 在 App 啟動流程檢查 `GoogleSignIn.getLastSignedInAccount(context)`
-    - [ ] 若帳號存在且已授權 `drive.appdata` 將 `syncEnabled` 從 DataStore 載入並恢復開關狀態
-    - [ ] 若 `syncEnabled=true` 則於 App 啟動後 5 秒啟動背景 `oneShotSync`（避免啟動競態）
-    - [ ] 在 `ReportRepository`、`WalletRepository`、`PurchaseRepository` 之 `insert/update` 成功後標記 `dirty=true`
-    - [ ] 在 `continuousSync` 定時（例如每 30 分鐘）檢查是否有 `dirty` 再觸發增量上傳
+    - [ ] 在 App 啟動檢查 `GoogleSignIn.getLastSignedInAccount(context)`
+    - [ ] 在 已授權 `drive.appdata` 載入 DataStore `syncEnabled`
+    - [ ] 在 `syncEnabled=true` 冷啟後 5 秒執行 `oneShotSync`
+    - [ ] 在 各 Repository `insert/update` 標記 `dirty=true`
+    - [ ] 在 `continuousSync` 每 30 分鐘檢查 `dirty` 後增量上傳
   - [ ] 測試與上架更新（同步功能）
-    - [ ] 在 裝置A：登入 Google → 開啟同步 → 新增一筆 `Report` → 關網路 → 編輯該 `Report` 並儲存
-    - [ ] 在 裝置A：恢復網路 → 觀察自動推送至雲端 → 狀態顯示 `同步完成`
-    - [ ] 在 裝置B：登入同帳號 → 開啟同步 → 觀察自動下載與合併 → 查看 `Report` 為較新版本
-    - [ ] 在 裝置A/B：同時離線各自修改同一 `Report` → 恢復網路 → 驗證以 `updatedAt` 較新者覆蓋
-    - [ ] 在 內購與點數：分別於兩裝置修改 → 同步後檢查權益與餘額一致
-    - [ ] 在 同意畫面：確認隱私政策連結可開啟與網域授權正確
-    - [ ] 在 商店頁：更新描述新增「Google 帳號同步」並擷取設定頁新截圖
-    - [ ] 產生新 `app-release.aab` → 上傳 Internal 測試 → 用測試帳驗證登入與同步閉環
-- [ ] V2.0 每日星座／個人化運勢（離線生成，復用 V1 UI 模式）
-  - [ ] 基礎資料與服務建立
-    - [ ] 在 `:core:astro` 建立 `DailyTransitService.kt`
-    - [ ] 在 `DailyTransitService` 新增 `fun computeFor(date: LocalDate, natal: NatalChart): DailyTransit`
-    - [ ] 在 `DailyTransitService` 新增 `fun summarize(transit: DailyTransit): String`（輸出重點摘要）
-    - [ ] 在 `:data` 建立 `DailyReport` Entity（id,date,summary,detail,updatedAt）
-    - [ ] 在 `:data` 建立 `DailyReportDao` 與查詢 `by date`
-    - [ ] 在 `:data` 建立 `DailyReportRepository`
-  - [ ] 排程與背景生成
-    - [ ] 在 `:app` 建立 `DailyReportWorker.kt`
-    - [ ] 在 `DailyReportWorker` 讀取預設個人盤 `NatalChart`
-    - [ ] 在 `DailyReportWorker` 呼叫 `DailyTransitService.computeFor(today, natal)`
-    - [ ] 在 `DailyReportWorker` 呼叫 `summarize` 產出 `summary`
+    - [ ] 在 裝置A 登入啟用同步並離線編輯 Report
+    - [ ] 在 裝置A 恢復網路驗證自動推送與狀態
+    - [ ] 在 裝置B 登入同帳號驗證自動下載與合併
+    - [ ] 在 同筆 Report 兩端衝突以 `updatedAt` 較新者覆蓋
+    - [ ] 在 內購與點數雙裝置同步一致
+    - [ ] 在 同意畫面隱私政策連結可開啟
+    - [ ] 在 商店頁更新描述新增「Google 帳號同步」
+    - [ ] 在 產生新 `app-release.aab` 上傳 Internal 測試驗證閉環
+- [ ] V2.0 每日星座／個人化運勢（離線生成，復用 V1 UI）
+  - [ ] 服務與資料建立
+    - [ ] 在 `:core:astro` 建立 `DailyTransitService.kt`（只依賴開源免費：Astronomy Engine/本地演算法，無雲端 API）
+    - [ ] 在 `DailyTransitService` 實作 `computeFor(date, natal)`：回傳 `DailyTransit`（行星當日位置、與本命相位、當日重點分數）
+    - [ ] 在 `DailyTransitService` 實作 `summarize(transit)`：產出 `summary: String`（300–500 字，重點 3 條，避免醫療/投資建議）
+    - [ ] 在 `:core:astro` 新增 `TransitAspectRules.kt`（相位權重：合/沖/刑/拱/六合；容許度可配置）
+    - [ ] 在 `:core:astro` 新增 `TransitScoring.kt`（情感/事業/學習/健康/人際 5 維度分數 0–100）
+    - [ ] 在 `:core:astro` 新增 `TransitCache.kt`（以 `date` 快取日運行星度數，避免重算）
+    - [ ] 在 `:core:astro` 擴充 `Aspects.kt`：支援「過境對本命」相位偵測與 orb 規則
+    - [ ] 在 `:core:astro` 擴充宮位算法：以本命上升座與 Whole Sign 推算過境行星落宮
+    - [ ] 在 `:data` 建立 `DailyReport` Entity（`date: LocalDate`,`chartId: Long`,`summary: String`,`longText: String?`,`scores: Map<String,Int>`,`unlocked: Boolean`,`updatedAt`）
+    - [ ] 在 `:data` 建立 `DailyReportDao` 與 `DailyReportRepository`（含 `upsert(report)`、`findByDate(date, chartId)`）
+    - [ ] 在 `:data` 建立 Migration v2（新增 `daily_reports` 資料表，索引 `date, chartId` 唯一）
+    - [ ] 在 `:core:astro` 寫單元測試：行星當日位置、相位偵測、權重分數邏輯
+    - [ ] 在 `:core:astro` 新增 `LocaleRules.kt`（時區/夏令時間修正，全部離線）
+  - [ ] 背景排程
+    - [ ] 在 `:app` 建立 `DailyReportWorker.kt`（WorkManager：唯一 workName `daily_report_generate`）
+    - [ ] 在 `DailyReportWorker` 讀取預設 `NatalChart`（若無則跳過並標記 `needsSetup`）
+    - [ ] 在 `DailyReportWorker` 計算 `DailyTransitService.computeFor(today, natal)`
+    - [ ] 在 `DailyReportWorker` 生成 `summary` 與 `longText`（`longText` 可混合規則模板＋V1 TinyLlama 本地生成）
     - [ ] 在 `DailyReportWorker` 寫入 `DailyReportRepository.upsert`
-    - [ ] 在 `DailyReportWorker` 發送完成廣播或事件
-    - [ ] 在 `:app` 建立 `WorkScheduler.kt` 計算距離次日 06:00 的初次延遲
-    - [ ] 在 `WorkScheduler` 註冊 `PeriodicWorkRequest` 每 24 小時執行（近似 06:00）
-  - [ ] UI/UX：Home 卡片
-    - [ ] 在 `HomeScreen` 新增「今日運勢卡」區塊（置於「近期報告」卡片之上）
-    - [ ] 在卡片左側顯示 `summary` 一行至兩行（溢出省略）
-    - [ ] 在卡片右上方顯示日期 `yyyy/MM/dd`
-    - [ ] 在卡片右下方放置主要按鈕「查看長文」
-    - [ ] 在卡片右下方主要按鈕被點擊時導向 `daily.detail/{date}`
+    - [ ] 在 `DailyReportWorker` 發送完成廣播或事件（LocalBroadcast/`DailyReportReady(date)`）
+    - [ ] 在 `DailyReportWorker` 設置 `Result.retry()` 對應 I/O 失敗（指數退避）
+    - [ ] 在 `:app` 建立 `WorkScheduler.kt` 註冊每日 06:00 週期任務（`setInitialDelay` 對齊當地時區）
+    - [ ] 在 `WorkScheduler` 設置限制條件（裝置待機可執行、網路不要求、電量 > 15%）
+    - [ ] 在 `BOOT_COMPLETED` 時重新排程（Manifest Receiver）
+  - [ ] UI/UX 佈局與互動
+    - [ ] 在 `HomeScreen` 新增「今日運勢卡」置於「近期報告」之上（骨架載入、錯誤重試）
+    - [ ] 在 「今日運勢卡」顯示 `summary` 與日期、5 維度小型條狀分數
+    - [ ] 在 「今日運勢卡」右下放置「查看長文」按鈕（含 VIP 標籤）
     - [ ] 在 `NavGraph` 新增 route `daily.detail/{date}`
-    - [ ] 在 `DailyDetailScreen` 顯示長文 `detail`
-    - [ ] 在 `DailyDetailScreen` 顯示分享按鈕（分享文字不含個資）
-  - [ ] 付費門檻與權益控制
-    - [ ] 在 `EntitlementStore` 新增 `isVIP: StateFlow<Boolean>`
-    - [ ] 在 `DailyDetailScreen` 若 `isVIP=true` 直接顯示全文
-    - [ ] 在 `DailyDetailScreen` 若 `isVIP=false` 顯示解鎖條（50 幣或看 5 支廣告）
-    - [ ] 在 解鎖條「看廣告」按鈕呼叫 `AdsManager.showRewarded()` 累計至 5 支後解鎖一次
-    - [ ] 在 解鎖條「用幣解鎖」按鈕呼叫 `CoinsService.spend(50)` 成功則解鎖
-  - [ ] 通知
-    - [ ] 在 `NotificationHelper` 新增頻道 `DAILY_TIPS`
-    - [ ] 在 `DailyReportWorker` 完成後排程 08:00 發送 `今日重點` 通知
-    - [ ] 在 通知點擊導向 `daily.detail/{date}`
-  - [ ] 測試
-    - [ ] 模擬器調整系統時間至次日 06:05 驗證 Worker 觸發與資料寫入
-    - [ ] 驗證 VIP 與非 VIP 的解鎖邏輯與 UI
-    - [ ] 驗證 08:00 通知與點擊導向
-    - [ ] 擷取新截圖並更新商店描述加入「今日運勢卡」
-- [ ] V3.0 每日黃曆卡（本地規則）
-  - [ ] 規則與資料
-    - [ ] 在 WindSurf 檔案總管建立目錄 `:app/src/main/assets/almanac`
-    - [ ] 在 `:app/src/main/assets/almanac` 建立空白檔案 `AlmanacRules.json`
-    - [ ] 在 `AlmanacRules.json` 輸入 JSON 陣列骨架 `[]`
-    - [ ] 在 `AlmanacRules.json` 新增欄位結構範例物件 `{"date":"YYYY-MM-DD","solarTerm":"string","good":["string"],"bad":["string"],"tips":"string"}`
-    - [ ] 在 `AlmanacRules.json` 加入至少 7 天測試資料（連續日期，含不同 `good` 與 `bad` 項目各 3+ 筆）
-    - [ ] 在 WindSurf 終端機執行 `./gradlew :app:assembleDebug` 驗證 assets 無語法錯誤（若失敗修正 JSON）
-    - [ ] 在 `:core` 建立套件 `core.almanac`
-    - [ ] 在 `:core` 建立檔案 `AlmanacModels.kt`
-    - [ ] 在 `AlmanacModels.kt` 定義 `data class AlmanacEntry(val date: LocalDate, val solarTerm: String?, val good: List<String>, val bad: List<String>, val tips: String?)`
-    - [ ] 在 `AlmanacModels.kt` 定義 `object AlmanacConstants { const val FILE_PATH = "almanac/AlmanacRules.json"; const val MAX_WORD = 6 }`
-    - [ ] 在 `:core` 建立檔案 `AlmanacService.kt`
-    - [ ] 在 `AlmanacService.kt` 匯入 `kotlinx.serialization` 與 `java.time.LocalDate`
-    - [ ] 在 `AlmanacService.kt` 定義 `object AlmanacService`
-    - [ ] 在 `AlmanacService.kt` 新增私有函式 `private fun load(context: Context): List<AlmanacEntry>`
-    - [ ] 在 `AlmanacService.kt` 的 `load` 以 `context.assets.open(AlmanacConstants.FILE_PATH)` 讀取檔案
-    - [ ] 在 `AlmanacService.kt` 的 `load` 使用 `Json{ ignoreUnknownKeys = true }` 反序列化為 `List<AlmanacEntry>`
-    - [ ] 在 `AlmanacService.kt` 新增快取欄位 `private var cache: Map<LocalDate, AlmanacEntry>? = null`
-    - [ ] 在 `AlmanacService.kt` 新增私有函式 `private fun ensureCache(context: Context)`
-    - [ ] 在 `AlmanacService.kt` 的 `ensureCache` 將清單轉 `associateBy { it.date }` 指派給 `cache`
-    - [ ] 在 `AlmanacService.kt` 新增公開函式 `fun forDate(context: Context, date: LocalDate): AlmanacEntry?`
-    - [ ] 在 `AlmanacService.kt` 的 `forDate` 先呼叫 `ensureCache(context)` 再回傳 `cache?.get(date)`
-    - [ ] 在 `AlmanacService.kt` 新增安全回退 `fun fallback(date: LocalDate): AlmanacEntry`（無規則時提供空白 good/bad 與提示）
-    - [ ] 在 `:core` 建立檔案 `AlmanacText.kt`
-    - [ ] 在 `AlmanacText.kt` 新增 `fun clamp6(text: String): String = if (text.codePointCount(0, text.length) <= AlmanacConstants.MAX_WORD) text else text.substring(0, text.offsetByCodePoints(0, AlmanacConstants.MAX_WORD))`
-    - [ ] 在 `:core` 建立單元測試檔 `AlmanacServiceTest.kt`
-    - [ ] 在 `AlmanacServiceTest.kt` 寫測試 `載入 JSON 成功時 forDate 回傳對應日期`
-    - [ ] 在 `AlmanacServiceTest.kt` 寫測試 `缺資料時 fallback 回傳空白 good/bad`
-    - [ ] 在 `AlmanacServiceTest.kt` 寫測試 `clamp6 對中英文混排能安全截斷不破壞字元`
-    - [ ] 在 WindSurf 終端機執行 `./gradlew test` 驗證測試通過
+    - [ ] 在 `DailyDetailScreen` 顯示長文、分享按鈕、可展開「相位明細」與「本命對應」
+    - [ ] 在 `DailyDetailScreen` 顯示「生成時間」與「重新生成」二級動作（本地，無流量）
+    - [ ] 在 `DailyDetailScreen` 加入字級縮放、可存為本地純文字檔
+    - [ ] 在 深/淺色主題與無障礙：支援 TalkBack、內容語意標籤
+  - [ ] 權益控制
+    - [ ] 在 `EntitlementStore` 新增 `isVIP`
+    - [ ] 在 `DailyDetailScreen` 非 VIP 顯示解鎖條（50 幣或看 5 支廣告）
+    - [ ] 在 解鎖條「看廣告」累計 5 支後解鎖一次（使用 `AdsManager` 免費激勵廣告）
+    - [ ] 在 解鎖條「用幣解鎖」扣除 50 幣後解鎖（記錄到 `DailyUnlock` 表：`date, chartId`）
+    - [ ] 在 `DailyReportRepository` 對應查詢時合併 `DailyUnlock` 與 VIP 權益
+    - [ ] 在 `CoinsService` 增加「日運解鎖」事件與收支紀錄
+  - [ ] 通知與驗證
+    - [ ] 在 `NotificationHelper` 新增頻道 `DAILY_TIPS`（免費、本地）
+    - [ ] 在 08:00 發送 `今日重點` 通知（顯示前三條重點）
+    - [ ] 在 通知點擊導向 `daily.detail/{date}`（深連結）
+    - [ ] 在 模擬次日 06:05 驗證 Worker 觸發與資料寫入（時間旅行測試）
+    - [ ] 在 低電量/Doze 模式下的容錯與補發機制
+  - [ ] 隱私與落地
+    - [ ] 全部內容離線生成與儲存（免費資料與演算法），無外部 API
+    - [ ] 在 UI 顯示「僅供參考」警語（沿用 V1 樣式）
+    - [ ] 資料表加入 `updatedAt` 以支援重算覆寫與審計
+  - [ ] 測試與品質
+    - [ ] 單元測試：相位偵測/分數/摘要模板覆蓋 90%+
+    - [ ] UI 測試：`HomeScreen` 卡片呈現、解鎖條流程、分享 Intent
+    - [ ] 穩定性：冷啟/重啟/離線/無網環境驗證全通過
+- [ ] V3.0 每日黃曆卡（本地規則，沿用 V1 版位）
+  - [ ] 規則與資料檔
+    - [ ] 在 `:app/src/main/assets/almanac` 建立 `AlmanacRules.json`（免費本地檔）
+    - [ ] 在 `AlmanacRules.json` 建立基礎欄位：`date`,`yi[]`,`ji[]`,`chong`,`pengzu`,`gods`,`luckyHours[]`,`unluckyHours[]`,`notes`
+    - [ ] 在 `AlmanacRules.json` 建立 7 天測試資料與示例註解
+    - [ ] 在 `:core` 建立 `AlmanacSchemaValidator.kt`（啟動時校驗欄位）
+    - [ ] 支援農曆/閏月換算（使用開源 `lunar-java`，免費）
+  - [ ] 服務與測試
+    - [ ] 在 `:core` 建立 `core.almanac` 與 `AlmanacModels.kt`
+    - [ ] 在 `:core` 建立 `AlmanacService.kt` 實作 `load/forDate/fallback`（assets→記憶體快取）
+    - [ ] 在 `:core` 建立 `AlmanacText.kt` 實作 `clamp6`（中文字 6 碼截斷+省略）
+    - [ ] 在 `:core` 建立 `AlmanacServiceTest.kt` 三項測試（載入、fallback、clamp6）
+    - [ ] 在 `:data` 建立 `AlmanacUnlock` 表與 Repo（`date`,`unlocked: Boolean`,`method`）
   - [ ] UI/UX：Home 黃曆卡
-    - [ ] 在 `:app` 開啟 `ui/navigation/NavGraph.kt`
-    - [ ] 在 `NavGraph.kt` 確認既有 `home`、`daily` 區塊存在
-    - [ ] 在 `NavGraph.kt` 新增常數路由字串 `const val ROUTE_ALMANAC_MONTH = "almanac.month"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_ALMANAC_MONTH) { AlmanacMonthScreen() }`
-    - [ ] 在 `:app` 建立檔案 `ui/components/AlmanacCard.kt`
-    - [ ] 在 `AlmanacCard.kt` 定義 `@Composable fun AlmanacCard(today: LocalDate, onOpenMonth: () -> Unit)`
-    - [ ] 在 `AlmanacCard.kt` 的卡片最上方顯示標題文字「今日黃曆」
-    - [ ] 在 `AlmanacCard.kt` 取得 `val entry = AlmanacService.forDate(context, today) ?: AlmanacService.fallback(today)`
-    - [ ] 在 `AlmanacCard.kt` 建立一列 `Row` 顯示「宜」圖標與三個 `Text`
-    - [ ] 在 `AlmanacCard.kt` 的每個 `Text` 套用 `maxLines = 1` 與 `overflow = TextOverflow.Ellipsis`
-    - [ ] 在 `AlmanacCard.kt` 的每個 `Text` 內容呼叫 `clamp6(item)` 後顯示
-    - [ ] 在 `AlmanacCard.kt` 建立第二列 `Row` 顯示「忌」圖標與三個 `Text` 以相同規則
-    - [ ] 在 `AlmanacCard.kt` 於卡片右下方加入 `TextButton` 文案「查看月曆」
-    - [ ] 在 `AlmanacCard.kt` 的 `TextButton` 點擊時呼叫 `onOpenMonth()`
-    - [ ] 在 `:app` 開啟 `ui/screens/HomeScreen.kt`
-    - [ ] 在 `HomeScreen.kt` 找到「今日運勢卡」所在 Composable 區塊
-    - [ ] 在「今日運勢卡」下一個位置插入 `AlmanacCard(today = LocalDate.now()) { navController.navigate(ROUTE_ALMANAC_MONTH) }`
-    - [ ] 在 `HomeScreen.kt` 確認卡片使用 Material 3 樣式與 16dp 外距
-    - [ ] 在 `HomeScreen.kt` 確認無任何 Debug-only 元件或隱藏入口
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ALMANAC_MONTH`
+    - [ ] 在 `:app` 建立 `ui/components/AlmanacCard.kt`（顯示今日 `宜/忌` 前 2–3 項、`沖`）
+    - [ ] 在 `HomeScreen` 插入 `AlmanacCard` 並導向 `ROUTE_ALMANAC_MONTH`
+    - [ ] 在 `AlmanacCard` 提供「更多」按鈕，跳往月視圖
   - [ ] UI/UX：AlmanacMonthScreen
-    - [ ] 在 `:app` 建立檔案 `ui/screens/AlmanacMonthScreen.kt`
-    - [ ] 在 `AlmanacMonthScreen.kt` 定義 `@Composable fun AlmanacMonthScreen()`
-    - [ ] 在 `AlmanacMonthScreen.kt` 上方加入 `TopAppBar` 標題「黃曆月檢視」
-    - [ ] 在 `AlmanacMonthScreen.kt` 右側 `TopAppBar` 加入月份切換 IconButton「上一月」
-    - [ ] 在 `AlmanacMonthScreen.kt` 右側 `TopAppBar` 加入月份切換 IconButton「下一月」
-    - [ ] 在 `AlmanacMonthScreen.kt` 使用 `LazyColumn` 顯示 1~31 日清單
-    - [ ] 在 `AlmanacMonthScreen.kt` 的每列 `item` 顯示日期 `MM/dd(E)`、三個「宜」項目、三個「忌」項目、以及單行 `tips` 省略號
-    - [ ] 在 `AlmanacMonthScreen.kt` 的每列右側放置 `OutlinedButton` 文案「查看」
-    - [ ] 在 `AlmanacMonthScreen.kt` 的「查看」點擊導向 `daily.detail/{date}`（若已實作每日詳文）
-    - [ ] 在 `AlmanacMonthScreen.kt` 列首加入 `Divider()` 分隔各天
-    - [ ] 在 `AlmanacMonthScreen.kt` 讀取每日資料 `AlmanacService.forDate(context, date) ?: fallback(date)`
-    - [ ] 在 `AlmanacMonthScreen.kt` 所有字串使用 `clamp6` 與 `maxLines=1` 避免換行
-  - [ ] 付費控制與文案
-    - [ ] 在 `:data` 建立資料表 `AlmanacUnlock` 欄位 `id(UUID)`, `date(LocalDate)`, `unlockedAt(Instant)`
-    - [ ] 在 `:data` 建立 `AlmanacUnlockDao` 含 `isUnlocked(date)` 與 `insert(unlock)`
-    - [ ] 在 `:data` 建立 `AlmanacUnlockRepository` 封裝查詢與新增
-    - [ ] 在 `:app` 開啟 `EntitlementStore` 確認有 `isVIP: StateFlow<Boolean>`
-    - [ ] 在 `AlmanacMonthScreen.kt` 取得 `isVIP` 狀態
-    - [ ] 在 `AlmanacMonthScreen.kt` 每列加入解鎖條區域（僅 `isVIP=false` 且 `!isUnlocked(date)` 顯示）
-    - [ ] 在 解鎖條區域顯示文案「單日解鎖 50 幣」
-    - [ ] 在 解鎖條區域放置主要按鈕「用幣解鎖」
-    - [ ] 在 「用幣解鎖」點擊呼叫 `CoinsService.spend(50)` 成功則 `AlmanacUnlockRepository.insert(date)`
-    - [ ] 在 `AlmanacMonthScreen.kt` 若 `isVIP=true` 直接隱藏所有解鎖條並顯示完整內容
-    - [ ] 在 `AlmanacMonthScreen.kt` 解鎖成功後以 `Snackbar("已解鎖本日")` 提示
-    - [ ] 在 `AlmanacMonthScreen.kt` 退出重進後驗證 `isUnlocked(date)` 仍為已解鎖
-  - [ ] 測試
-    - [ ] 在 模擬器設定系統日期切換至有資料的 3 個日期逐一檢視卡片顯示
-    - [ ] 在 Home 黃曆卡驗證三個「宜」與三個「忌」截斷規則與省略號
-    - [ ] 在 月檢視頁向左切換至上一月時所有日期仍能 fallback 顯示
-    - [ ] 在 非 VIP 身份點擊「用幣解鎖」扣除 50 幣後顯示完整內容
-    - [ ] 在 重新啟動 App 後再次進入相同日期仍為已解鎖狀態
-    - [ ] 在 VIP 身份直接顯示整月內容無解鎖條
-    - [ ] 擷取 Home 黃曆卡截圖 1080x1920
-    - [ ] 擷取 月檢視頁截圖 1080x1920
-    - [ ] 更新商店描述文案新增關鍵詞「黃曆卡」「月檢視」
+    - [ ] 在 `:app` 建立 `AlmanacMonthScreen.kt`
+    - [ ] 在 `AlmanacMonthScreen` 加入月份切換（左右滑/箭頭）與列表
+    - [ ] 在 `AlmanacMonthScreen` 加入 `OutlinedButton`「查看」導向日詳文（共用 `daily.detail/{date}` 或 `almanac.detail/{date}`）
+    - [ ] 在 月視圖加入篩選（只看宜/避開忌）
+    - [ ] 在 詳文頁呈現吉時/凶時與備註
+  - [ ] 付費控制
+    - [ ] 在 `:data` 建立 `AlmanacUnlock` 表與 Repo（免費本地記錄）
+    - [ ] 在 `AlmanacMonthScreen` 非 VIP 顯示「單日解鎖 50 幣」
+    - [ ] 在 「用幣解鎖」成功後記錄並提示 `Snackbar("已解鎖本日")`
+    - [ ] 在 VIP 狀態自動全開，無需消費
+  - [ ] 通知與本地化
+    - [ ] 可選：07:30 推送 `今日黃曆`（使用 `DAILY_TIPS` 頻道）
+    - [ ] 文案在繁中/英文雙語檔，沿用 V1 i18n 機制
+  - [ ] 邊界與驗證
+    - [ ] 閏月/跨月/跨年顯示驗證
+    - [ ] 無資料日走 `fallback`（顯示基本提示）
+    - [ ] UI 測試：卡片→月視圖→詳文導覽
 - [ ] V4.0 紫微斗數（基礎命盤 + AI）
-  - [ ] 引擎
-    - [ ] 在 `:core` 建立套件 `core.ziwei`
-    - [ ] 在 `:core` 建立檔案 `ZiweiModels.kt`
-    - [ ] 在 `ZiweiModels.kt` 定義 `data class Palace(val name: String, val index: Int)`
-    - [ ] 在 `ZiweiModels.kt` 定義 `data class Star(val name: String, val palaceIndex: Int, val weight: Int)`
-    - [ ] 在 `ZiweiModels.kt` 定義 `data class ZiweiChart(val palaces: List<Palace>, val stars: List<Star>)`
-    - [ ] 在 `:core` 建立檔案 `ZiweiEngine.kt`
-    - [ ] 在 `ZiweiEngine.kt` 實作 `fun computeChart(birth: ZonedDateTime): ZiweiChart`
-    - [ ] 在 `ZiweiEngine.kt` 建立十二宮清單與基本排布（命、兄、夫、子、財、疾、遷、僕、官、田、福、父）
-    - [ ] 在 `ZiweiEngine.kt` 實作主星落宮簡化規則（以出生時辰與月令映射，先放置 5~8 顆示意主星）
-    - [ ] 在 `:app/src/main/assets/ziwei` 建立 `ZiweiGlossary.json`
-    - [ ] 在 `ZiweiGlossary.json` 定義結構 `{"star":"string","meaning":"string"}` 陣列
-    - [ ] 在 `ZiweiGlossary.json` 為每顆主星新增 1~2 句釋義
-    - [ ] 在 `:core` 建立檔案 `ZiweiGlossary.kt` 載入 `ZiweiGlossary.json` 並提供 `fun meaning(star:String): String?`
-    - [ ] 在 `:core` 建立單元測試 `ZiweiEngineTest.kt` 驗證十二宮數量與主星數量大於 0
-  - [ ] UI/UX
-    - [ ] 在 `NavGraph.kt` 新增常數 `const val ROUTE_ZIWEI_CHART = "ziwei.chart"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_ZIWEI_CHART) { ZiweiChartScreen() }`
-    - [ ] 在 `:app` 建立檔案 `ui/screens/ZiweiChartScreen.kt`
-    - [ ] 在 `ZiweiChartScreen.kt` 放置 `TopAppBar` 標題「紫微命盤」
-    - [ ] 在 `ZiweiChartScreen.kt` 使用 `LazyVerticalGrid` 以 3x4 方格呈現十二宮
-    - [ ] 在 `ZiweiChartScreen.kt` 每格上方顯示宮名 `Palace.name`
-    - [ ] 在 `ZiweiChartScreen.kt` 每格中段以 `FlowRow` 顯示該宮主星名稱（最多 4 個，超出以 `+n`）
-    - [ ] 在 `ZiweiChartScreen.kt` 底部置中加入主要按鈕「生成 AI 詳解」
-    - [ ] 在 `HomeScreen.kt` 新增入口卡片「紫微命盤」按鈕導向 `ROUTE_ZIWEI_CHART`
-    - [ ] 在 `ZiweiChartScreen.kt` 確認所有版位遵循 Material 3 與 V1 間距
-  - [ ] AI 串接與付費
-    - [ ] 在 `:core:ai` 開啟 `PromptBuilder.kt`
-    - [ ] 在 `PromptBuilder.kt` 新增 `fun buildZiweiReport(chart: ZiweiChart, glossary: (String)->String?): String`
-    - [ ] 在 `PromptBuilder.kt` 的模板加入各宮重點與主星釋義占位
-    - [ ] 在 `:billing` 新增 SKU 常數 `ZIWEI_DEEP_ONE = "ziwei_deep_one"`
-    - [ ] 在 `:app` 的 `PurchaseScreen` 新增商品卡 `ziwei_deep_one`
-    - [ ] 在 `ZiweiChartScreen.kt` 按下「生成 AI 詳解」時檢查是否已擁有 `ziwei_deep_one` 或 `isVIP`
-    - [ ] 在 未擁有時彈出購買流程 `BillingManager.launchPurchase(ZIWEI_DEEP_ONE)`
-    - [ ] 在 擁有或 VIP 時建立 `ReportGenerationWorker` 任務並帶入 `PromptBuilder.buildZiweiReport`
-    - [ ] 在 生成完成通知點擊導向 `report.detail/{reportId}`
-  - [ ] 測試
-    - [ ] 在 模擬器輸入固定出生資料生成命盤並檢視 12 宮渲染
-    - [ ] 在 點擊「生成 AI 詳解」未購買時導向購買並完成付款
-    - [ ] 在 付款後再次點擊直接生成並於 `ReportDetailScreen` 顯示長文
-    - [ ] 在 商店頁更新關鍵詞「紫微斗數」並擷取兩張截圖
+  - [ ] 引擎建立
+    - [ ] 在 `:core` 建立 `core.ziwei` 與 `ZiweiModels.kt`（命宮/兄弟/夫妻/子女/財帛…十二宮、主星/副星/煞星）
+    - [ ] 在 `ZiweiEngine.kt` 實作 `computeChart(birth)`（以 `lunar-java` 換算農曆與時辰，全部本地免費）
+    - [ ] 在 `:app/src/main/assets/ziwei` 建立 `ZiweiGlossary.json`（星曜、四化、宮位釋義，免費本地檔）
+    - [ ] 在 `:core` 建立 `ZiweiGlossary.kt` 提供釋義查詢與本地快取
+    - [ ] 在 `:core` 建立 `ZiweiEngineTest.kt` 驗證星曜數量與宮位落點
+    - [ ] 在 `:core` 新增 `FortunePeriod.kt` 計算大限/小限（十年/流年）區段
+  - [ ] UI/UX：紫微命盤
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ZIWEI_CHART`
+    - [ ] 在 `ZiweiChartScreen.kt` 以 3x4 方格呈現十二宮（自動縮放、滾動容器）
+    - [ ] 在 `ZiweiChartScreen.kt` 宮格點擊顯示星曜清單與釋義 BottomSheet
+    - [ ] 在 `ZiweiChartScreen.kt` 底部加入「生成 AI 詳解」主要按鈕
+    - [ ] 在 `HomeScreen` 新增卡片入口「紫微命盤」
+    - [ ] 在 `ZiweiChartScreen` 加入「切換流年」DropDown（今年/指定年）
+  - [ ] AI 串接與付費（全部離線，無付費 API）
+    - [ ] 在 `PromptBuilder.kt` 新增 `buildZiweiReport(chart, year, locale)`（規則提示 + Glossary 摘要）
+    - [ ] 復用 V1 `:core:ai` TinyLlama ONNX 本地推論（免費）
+    - [ ] 在 `:billing` 新增 SKU `ZIWEI_DEEP_ONE`
+    - [ ] 在 `PurchaseScreen` 新增商品卡 `ziwei_deep_one`
+    - [ ] 在 `ZiweiChartScreen` 未擁有時啟動購買流程；擁有或 VIP 時排程 `ReportGenerationWorker`
+    - [ ] 在 生成完成寫入 `Report` 表並推送完成通知（本地分享）
+  - [ ] 驗證流程
+    - [ ] 在 模擬器生成命盤檢視十二宮與星曜數量
+    - [ ] 在 付款與生成閉環驗證（離線推論可完成）
+    - [ ] 在 商店頁更新「紫微斗數」關鍵詞與截圖
+    - [ ] 在 單元測試覆蓋：命宮計算、四化分派、期間切換
+  - [ ] 可及性與落地
+    - [ ] 支援 TalkBack 朗讀宮名/星曜
+    - [ ] 大字體自動換行與縮排
+    - [ ] 所有資料與 AI 皆本地，無網路依賴
 - [ ] V5.0 八字（四柱／十神／喜忌 + AI）
-  - [ ] 引擎
-    - [ ] 在 `:core` 建立套件 `core.bazi`
-    - [ ] 在 `:core` 的 `build.gradle.kts` 新增 `implementation("com.nlf.calendar:lunar-java:<latest>")`
-    - [ ] 在 `:core` 建立檔案 `BaziModels.kt`
-    - [ ] 在 `BaziModels.kt` 定義 `data class Pillar(val heavenlyStem:String, val earthlyBranch:String)`
-    - [ ] 在 `BaziModels.kt` 定義 `data class BaziChart(val year:Pillar, val month:Pillar, val day:Pillar, val hour:Pillar)`
-    - [ ] 在 `BaziModels.kt` 定義 `data class Scores(val fiveElements: Map<String, Int>, val tenGods: Map<String, Int>)`
-    - [ ] 在 `:core` 建立檔案 `BaziEngine.kt`
-    - [ ] 在 `BaziEngine.kt` 實作 `fun computeChart(birth: ZonedDateTime): BaziChart` 以 `lunar-java` 轉四柱
-    - [ ] 在 `BaziEngine.kt` 實作 `fun evaluate(chart: BaziChart): Scores` 計分五行與十神
-    - [ ] 在 `:core` 建立單元測試 `BaziEngineTest.kt` 驗證固定生日四柱輸出與分數和大於 0
-  - [ ] UI/UX
-    - [ ] 在 `NavGraph.kt` 新增常數 `const val ROUTE_BAZI_CHART = "bazi.chart"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_BAZI_CHART){ BaziChartScreen() }`
-    - [ ] 在 `:app` 建立檔案 `ui/screens/BaziChartScreen.kt`
-    - [ ] 在 `BaziChartScreen.kt` 放置 `TopAppBar` 標題「八字排盤」
-    - [ ] 在 `BaziChartScreen.kt` 上半區塊以四列顯示 年柱、月柱、日柱、時柱
-    - [ ] 在 `BaziChartScreen.kt` 下半區塊顯示五行雷達或條狀簡表（純文字百分比）
-    - [ ] 在 `BaziChartScreen.kt` 底部置中加入主要按鈕「生成 AI 詳解」
-    - [ ] 在 `HomeScreen.kt` 新增入口卡片「八字排盤」導向 `ROUTE_BAZI_CHART`
-  - [ ] 付費與測試
-    - [ ] 在 `:billing` 新增 SKU 常數 `BAZI_DEEP_ONE = "bazi_deep_one"`
-    - [ ] 在 `PurchaseScreen` 新增商品卡 `bazi_deep_one`
-    - [ ] 在 `BaziChartScreen.kt` 按下「生成 AI 詳解」時檢查是否已擁有 `bazi_deep_one` 或 `isVIP`
-    - [ ] 在 未擁有時啟動 `BillingManager.launchPurchase(BAZI_DEEP_ONE)`
-    - [ ] 在 擁有或 VIP 時以 `PromptBuilder.buildBaziReport(chart, scores)` 建立 Prompt 並呼叫 `ReportGenerationWorker`
-    - [ ] 在 模擬器驗證四柱正確、AI 長文生成、購買解鎖流程
-    - [ ] 在 商店頁更新關鍵詞「八字」「四柱」並擷取截圖
-- [ ] V6.0 能量圖（人類圖替代名）+ AI
+  - [ ] 引擎建立（免費開源）
+    - [ ] 在 `:core` 建立 `core.bazi` 與 `BaziModels.kt`（天干地支、四柱、十神、五行）
+    - [ ] 在 `:core` 新增 `implementation("com.nlf.calendar:lunar-java:<latest>")`（免費/開源）
+    - [ ] 在 `BaziEngine.kt` 實作 `computeChart(birth)`（年/月/日/時 四柱推算）
+    - [ ] 在 `BaziEngine.kt` 實作 `evaluate(chart)`（日主強弱、五行平衡、十神分佈、喜忌判定）
+    - [ ] 在 `BaziEngineTest.kt` 驗證四柱輸出與分數（比對已知案例）
+    - [ ] 在 `:core` 新增 `LuckCycle.kt`（大運流轉計算，起運歲數本地規則）
+  - [ ] UI/UX：八字排盤
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_BAZI_CHART`
+    - [ ] 在 `BaziChartScreen.kt` 顯示四柱（天干地支）與五行摘要（柱/五行條圖）
+    - [ ] 在 `BaziChartScreen.kt` 顯示十神分佈與喜忌提示（標示用/忌）
+    - [ ] 在 `HomeScreen` 新增卡片「八字排盤」
+    - [ ] 在 `BaziChartScreen` 支援切換大運/流年觀測
+  - [ ] AI 與付費（全部本地）
+    - [ ] 在 `:billing` 新增 `BAZI_DEEP_ONE`
+    - [ ] 在 `PurchaseScreen` 新增商品卡（說明本地 AI 生成）
+    - [ ] 在 `BaziChartScreen` 權益檢查與生成流程（無付費 API）
+    - [ ] 在 `PromptBuilder.kt` 新增 `buildBaziReport(chart, eval, locale)`（結構：總論/五行/十神/喜忌/建議）
+    - [ ] 復用 TinyLlama ONNX 離線推論與分段流式寫入 `Report`
+  - [ ] 驗證流程
+    - [ ] 在 模擬器驗證四柱正確（跨時區/夏令時間/邊界時刻）
+    - [ ] 在 AI 長文生成與購買解鎖流程驗證
+    - [ ] 在 兼容性測試：API 26/28/30/33/35 全通過
+    - [ ] 在 單元/整合/UI 測試覆蓋 >80%
+  - [ ] 隱私與合規
+    - [ ] 全流程離線、免費資料來源與演算法，無外部網路呼叫
+    - [ ] 報告含「僅供參考」提示，與可一鍵刪除本地資料
+- [ ] V6.0 能量圖（人類圖替代名）+ AI（避免商標詞）
   - [ ] 資料與畫布
-    - [ ] 在 `:app/src/main/assets/energy` 建立 `EnergyMapMapper.json`
-    - [ ] 在 `EnergyMapMapper.json` 定義結構 `{"gate":1,"name":"G1","theme":"string","desc":"string"}` 陣列（1~64）
-    - [ ] 在 `:core` 建立套件 `core.energy`
-    - [ ] 在 `:core` 建立檔案 `EnergyModels.kt` 定義 `data class Gate(val id:Int, val name:String, val theme:String, val desc:String)`
-    - [ ] 在 `:core` 建立檔案 `EnergyRepo.kt` 載入 `EnergyMapMapper.json` 並提供 `fun allGates(): List<Gate>`
-    - [ ] 在 `:app` 建立檔案 `ui/canvas/EnergyMapCanvas.kt`
-    - [ ] 在 `EnergyMapCanvas.kt` 定義 `@Composable fun EnergyMapCanvas(gates: List<Gate>)`
-    - [ ] 在 `EnergyMapCanvas.kt` 使用 `Canvas(modifier = Modifier.fillMaxWidth().height(360.dp))`
-    - [ ] 在 `EnergyMapCanvas.kt` 繪製人體輪廓簡化圖形（頭心喉等節點以圓與線連接）
-    - [ ] 在 `EnergyMapCanvas.kt` 於對應節點旁以 `drawContext.canvas.nativeCanvas` 渲染 gate 簡碼
-  - [ ] UI/UX 與文案
-    - [ ] 在 `NavGraph.kt` 新增常數 `const val ROUTE_ENERGY_MAP = "energy.map"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_ENERGY_MAP){ EnergyMapScreen() }`
-    - [ ] 在 `:app` 建立檔案 `ui/screens/EnergyMapScreen.kt`
-    - [ ] 在 `EnergyMapScreen.kt` 放置 `TopAppBar` 標題「能量圖（非官方）」與副標「僅供參考」
-    - [ ] 在 `EnergyMapScreen.kt` 上半部顯示 `EnergyMapCanvas(gates)`
-    - [ ] 在 `EnergyMapScreen.kt` 下半部以 `LazyColumn` 顯示 64 閘門列表（名稱、主題、摘要）
-    - [ ] 在 `HomeScreen.kt` 新增入口卡片「能量圖」導向 `ROUTE_ENERGY_MAP`
-    - [ ] 在 `EnergyMapScreen.kt` 確認畫面無任何 Debug-only 控制
-  - [ ] 付費
-    - [ ] 在 `:billing` 新增 SKU 常數 `ENERGY_DEEP_ONE = "energy_deep_one"`
-    - [ ] 在 `PurchaseScreen` 新增商品卡 `energy_deep_one`
-    - [ ] 在 `EnergyMapScreen.kt` 底部加入主要按鈕「生成 AI 詳解」
-    - [ ] 在 按鈕點擊檢查是否已擁有 `energy_deep_one` 或 `isVIP` 才允許生成
-    - [ ] 在 允許生成時以 `PromptBuilder.buildEnergyReport(gates)` 建立 Prompt 並呼叫 `ReportGenerationWorker`
-  - [ ] 測試
-    - [ ] 在 模擬器檢視 Canvas 繪製效能於中階裝置 60fps 以上
-    - [ ] 在 調整螢幕密度與深色模式下圖形不變形與文字可讀
-    - [ ] 在 購買後可直接生成 AI 長文，未購買會導向購買
-    - [ ] 在 AI 文案確保未出現商標詞（Human Design／BodyGraph 等）
+    - [ ] 在 `:app/src/main/assets/energy` 建立 `EnergyMapMapper.json`（Schema：`centers[]`、`channels[]`、`gates[]`、`positions{centerId:[x,y], gateId:[x,y]}`、`bounds{width,height}`）
+    - [ ] 在 `:app/src/main/assets/energy` 建立 `EnergyGates64.json`（自定義描述，避免商標詞；欄位：`id(1..64)`,`name`,`keywords[]`,`shadow`,`gift`,`virtue`）
+    - [ ] 在 `:core` 建立 `core.energy` 與 `EnergyModels.kt`（資料類：`Center`,`Gate`,`Channel`,`EnergyMapLayout`,`EnergyProfile`）
+    - [ ] 在 `:core` 建立 `EnergyRepo.kt` 載入 64 閘門與版面（以 `AssetManager` 讀取；提供 `getLayout()`,`getGate(id)`，快取於記憶體）
+    - [ ] 在 `:core` 建立 `EnergyInterpreter.kt`（將生日資料映射至 `EnergyProfile`，演算法可先以隨機固定種子或配置檔對照，後續版本可換演算法）
+    - [ ] 在 `:app` 建立 `ui/canvas/EnergyMapCanvas.kt`（Compose Canvas 繪製輪廓/中心/通道/閘門；支援縮放與平移）
+    - [ ] 在 `EnergyMapCanvas.kt` 繪製規格（中心以圓角矩形、通道以貝茲曲線、閘門以小圓點與序號；最小可讀尺寸 12sp）
+    - [ ] 在 `EnergyMapCanvas.kt` 提供 `Dark/Light` 顏色表（暗色：高對比線 80% 透明；淺色：中對比線 60% 透明）
+    - [ ] 在 `EnergyMapCanvas.kt` 提供節點點擊回呼 `onGateClick(id:Int)`、`onCenterClick(id:String)`
+    - [ ] 在 `:app` 建立 `ui/components/EnergyLegend.kt`（圖例：中心類型、通道狀態、閘門顏色）
+    - [ ] 在 `:app` 建立 `ui/components/EnergyGateItem.kt`（列表項：序號、標題、關鍵字、狀態 Badge）
+  - [ ] UI/UX 與入口
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ENERGY_MAP`
+    - [ ] 在 `EnergyMapScreen.kt` 上半部顯示 Canvas（提供縮放重置、適應畫布按鈕）
+    - [ ] 在 `EnergyMapScreen.kt` 下半部顯示 64 閘門列表（支援篩選：全部/啟動/未啟動）
+    - [ ] 在 `EnergyMapScreen.kt` 長按閘門顯示 BottomSheet（顯示 `shadow/gift/virtue`）
+    - [ ] 在 `HomeScreen` 新增入口卡片「能量圖」與最近檢視記錄
+    - [ ] 在 `EnergyMapScreen.kt` 提供「匯出圖片」分享 Intent（不含個資）
+    - [ ] 在 `EnergyMapScreen.kt` 提供可存取性：對每個中心/閘門加入 `contentDescription`
+  - [ ] 本地 AI（免費、離線）
+    - [ ] 在 `:core:ai` 新增 `PromptBuilder.buildEnergyReport(profile, locale)`（避免商標詞，使用通用語彙）
+    - [ ] 在 `EnergyMapScreen` 權益檢查後以 `PromptBuilder.buildEnergyReport` 生成長文（呼叫既有 ONNX 小語言模型）
+    - [ ] 在 `EnergyMapScreen` 顯示生成進度（流式追加）
+    - [ ] 在 `EnergyMapScreen` 生成完成後允許「儲存到報告」與「分享文字」
+  - [ ] 付費與權益（僅使用 Google Billing SDK，本機檢查）
+    - [ ] 在 `:billing` 新增 `ENERGY_DEEP_ONE`
+    - [ ] 在 `PurchaseScreen` 新增商品卡（顯示一次性深度解析權益）
+    - [ ] 在 `EnergyMapScreen` 權益檢查（VIP/一次性/看廣告用幣）通過後允許生成
+  - [ ] 效能與驗證
+    - [ ] 在 中階裝置 Canvas 繪製 60fps（畫布尺寸 ≥ 1080×1440；物件分層繪製與快取 Path）
+    - [ ] 在 深色模式與高密度螢幕檢查可讀性（對比比 ≥ 7:1）
+    - [ ] 在 旋轉/多視窗維持狀態（`rememberSaveable` 保存縮放）
+    - [ ] 在 單元測試 `EnergyRepo` JSON 解析正確性
+    - [ ] 在 Snapshot 測試 `EnergyGateItem` 深/淺色外觀一致
 - [ ] V7.0 綜合 AI 總結（多體系合流）
-  - [ ] 資料結構與儲存（不新增模組，放現有模組內）
-    - [ ] 在 `:data` 新增檔 `entity/FusionReport.kt` 定義 `data class FusionReport(id: String, createdAt: Instant, period: String, overview: String, crossThemes: List<String>, risks: List<String>, actions30: List<String>, actions90: List<String>, rawPromptHash: String, tokens:Int)`
-    - [ ] 在 `:data` 新增 `dao/FusionReportDao.kt` 定義 `insert(FusionReport)`, `getById(id)`, `listRecent(limit:Int)`, `deleteOlderThan(days:Int)`
-    - [ ] 在 `:data` 的 `AppDatabase` 加入 `abstract fun fusionReportDao(): FusionReportDao`
-    - [ ] 在 `:data` 新增 `repository/FusionReportRepository.kt` 封裝 `suspend fun upsert(report: FusionReport)`, `suspend fun recent(limit:Int):List<FusionReport>`
-  - [ ] 服務層（多體系合流）
-    - [ ] 在 `:core` 建立套件 `core.fusion`
-    - [ ] 在 `core.fusion` 建立 `FusionModels.kt` 定義
-    - [ ] 在 `FusionModels.kt` 定義 `data class FusionInput(natal:NatalChart?, ziwei:ZiweiChart?, bazi:BaziChart?, energy:List<Gate>?)`
-    - [ ] 在 `FusionModels.kt` 定義 `data class FusionSummary(natal:String, ziwei:String, bazi:String, energy:String)`
-    - [ ] 在 `FusionModels.kt` 定義 `data class FusionOutput(overview:String, crossThemes:List<String>, risks:List<String>, actions30:List<String>, actions90:List<String>)`
-    - [ ] 在 `core.fusion` 建立 `FusionGatherer.kt` 提供 `suspend fun gather(userId:String): FusionInput`
-    - [ ] 在 `FusionGatherer.kt` 讀取本地 DB 最近一次 `NatalChart`，若無則回傳 `null`
-    - [ ] 在 `FusionGatherer.kt` 讀取最近一次 `ZiweiChart`，若無則回傳 `null`
-    - [ ] 在 `FusionGatherer.kt` 讀取最近一次 `BaziChart`，若無則回傳 `null`
-    - [ ] 在 `FusionGatherer.kt` 讀取最近一次 `EnergyMap`（已選閘門/預設映射），若無則回傳 `null`
-    - [ ] 在 `core.fusion` 建立 `FusionSummarizer.kt` 提供 `fun summarize(input:FusionInput): FusionSummary`
-    - [ ] 在 `FusionSummarizer.kt` 對 `natal` 呼叫既有摘要器（若無則以規則詞庫取前三重點）
-    - [ ] 在 `FusionSummarizer.kt` 對 `ziwei` 呼叫 `ZiweiGlossary.meaning` 組合 3 條重點敘述
-    - [ ] 在 `FusionSummarizer.kt` 對 `bazi` 根據五行分數輸出 3 條重點敘述
-    - [ ] 在 `FusionSummarizer.kt` 對 `energy` 取前 3 個關鍵閘門主題敘述
-    - [ ] 在 `core.fusion` 建立 `FusionPromptBuilder.kt` 提供 `fun build(summary:FusionSummary, locale:Locale): String`
-    - [ ] 在 `FusionPromptBuilder.kt` 模板加入：`[概覽]`、`[交叉主題]`、`[風險]`、`[30天行動]`、`[90天行動]` 段落標題
-    - [ ] 在 `core.fusion` 建立 `FusionGenerator.kt` 提供 `suspend fun generate(summary:FusionSummary): FusionOutput`
-    - [ ] 在 `FusionGenerator.kt` 以 `OnnxLlamaSession.generate(prompt)` 取得流式輸出並解析為段落
-    - [ ] 在 `FusionGenerator.kt` 將每段以標頭切分放入 `FusionOutput`
-    - [ ] 在 `core.fusion` 建立單元測試 `FusionPromptBuilderTest.kt` 驗證必含 5 個段落標頭
-    - [ ] 在 `core.fusion` 建立單元測試 `FusionGeneratorParseTest.kt` 給定固定輸出字串能解析成 5 區塊
-  - [ ] 背景任務與權益檢查
-    - [ ] 在 `:app` 建立 `workers/FusionReportWorker.kt`
-    - [ ] 在 `FusionReportWorker.kt` `doWork()` 先查 `EntitlementStore.isVIP` 或是否擁有 `fusion_deep_one`
-    - [ ] 在 無權益時回傳 `Result.failure(Data().putString("needPurchase","true"))`
-    - [ ] 在 `FusionReportWorker.kt` 取得 `FusionInput` → `FusionSummary` → `FusionOutput`
-    - [ ] 在 `FusionReportWorker.kt` 建立 `FusionReport` 寫入 `FusionReportRepository.upsert`
-    - [ ] 在 `FusionReportWorker.kt` 發送完成通知，點擊導向 `fusion.report/{reportId}`
+  - [ ] 資料結構
+    - [ ] 在 `:data` 建立 `FusionReport(entityId, createdAt, sections[], tokensUsed, locale)` 與 DAO/Repo
+    - [ ] 在 `:data` 為 `FusionReport` 建立索引（`createdAt DESC`）
+    - [ ] 在 `:data` 定義 `FusionInput(natal, ziwei, bazi, energy)` 可為可選欄位
+  - [ ] 服務與模板（全部離線本地模型）
+    - [ ] 在 `:core` 建立 `core.fusion` 與 `FusionModels.kt`（`FusionSection(id,title,content,tags[])`）
+    - [ ] 在 `FusionGatherer.kt` 聚合 `natal/ziwei/bazi/energy`（讀取各 Repo 最新資料）
+    - [ ] 在 `FusionSummarizer.kt` 生成單體系摘要（每體系 200–300 tokens 目標）
+    - [ ] 在 `FusionPromptBuilder.kt` 產生多段模板（導論/整體/優勢/盲點/提醒；避免商標詞）
+    - [ ] 在 `FusionGenerator.kt` 以區塊方式生成並解析為 `FusionOutput`（支援流式）
+    - [ ] 在 `FusionConsistency.kt` 對跨體系關鍵詞做合併/去重（避免自相矛盾）
+  - [ ] 背景任務
+    - [ ] 在 `:app` 建立 `FusionReportWorker.kt`（`WorkManager`，網路可選、電量條件為充足時優先）
+    - [ ] 在 權益檢查通過後生成 `FusionReport`（序列化與 AES-GCM 加密存檔）
+    - [ ] 在 進度通知（前景服務）與完成 Action（前往詳頁）
   - [ ] 路由與畫面
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增常數 `const val ROUTE_FUSION_REPORT = "fusion.report/{reportId}"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_FUSION_REPORT){ backStack -> FusionReportScreen(reportId = backStack.arguments?.getString("reportId")!!) }`
-    - [ ] 在 `:app/ui/screens` 建立 `FusionReportScreen.kt`
-    - [ ] 在 `FusionReportScreen.kt` 置頂 `TopAppBar` 標題「綜合 AI 總結」
-    - [ ] 在 `FusionReportScreen.kt` 以 `LazyColumn` 依序放置卡片 `概覽/交叉主題/風險/30天/90天`
-    - [ ] 在 `概覽` 卡片：顯示一段 `overview` 摘要與「分享」IconButton
-    - [ ] 在 `交叉主題` 卡片：以 `AssistChip` 列出 `crossThemes`，可水平捲動
-    - [ ] 在 `風險` 卡片：以帶圖示的 `ListItem` 顯示 `risks`
-    - [ ] 在 `30天行動` 卡片：以核取清單顯示 `actions30`，可勾選本地完成狀態
-    - [ ] 在 `90天行動` 卡片：以核取清單顯示 `actions90`，可勾選本地完成狀態
-    - [ ] 在 `FusionReportScreen.kt` 底部 `ExtendedFloatingActionButton` 文案「重新生成」
-    - [ ] 在 `重新生成` 點擊時檢查權益，具備則排程 `FusionReportWorker`
-    - [ ] 在 `:app/ui/screens/HomeScreen.kt` 新增入口卡片「綜合 AI 總結」導向最近 `reportId` 或顯示「生成一次」
-    - [ ] 在 所有元件遵循 Material 3 間距與觸控區；不得加入 Debug-only 按鈕
-  - [ ] 付費與 SKU 串接
-    - [ ] 在 `:billing` 新增常數 `FUSION_DEEP_ONE = "fusion_deep_one"`
-    - [ ] 在 `PurchaseScreen` 新增商品卡「綜合 AI 總結」
-    - [ ] 在 `FusionReportScreen.kt` 若無權益則顯示解鎖條（單次購買或 VIP）
-    - [ ] 在 解鎖條「立即購買」呼叫 `BillingManager.launchPurchase(FUSION_DEEP_ONE)`
-    - [ ] 在 購買成功後自動啟動一次 `FusionReportWorker`
-  - [ ] 效能與一致性測試
-    - [ ] 在 模擬器 Pixel6Api35 測試生成 700~900 tokens 時間不超過既定閾值
-    - [ ] 在 快速捲動 `FusionReportScreen` 驗證 60fps 以上（開啟 `Show layout bounds` 檢視 Overdraw）
-    - [ ] 在 跨三次生成比較文案不重複過高（哈希相似度 < 0.9）
-    - [ ] 在 斷網狀態點擊重新生成顯示錯誤提示且不崩潰
-    - [ ] 在 權益切換（購買/退訂/VIP）對 UI 即時反應
-- [ ] V8.0 塔羅運勢（年／月／日）+ AI
-  - [ ] 資料與資產
-    - [ ] 在 `:app/src/main/assets/tarot` 建立 `TarotDeck.json`
-    - [ ] 在 `TarotDeck.json` 定義結構 `{"id":0,"name":"The Fool","upright":"...","reversed":"...","theme":"..."}` * 78 張
-    - [ ] 在 `:core/tarot` 建立套件與 `TarotModels.kt` 定義 `data class Card(id:Int,name:String,upright:String,reversed:String,theme:String)`
-    - [ ] 在 `:core/tarot` 建立 `TarotRepo.kt` 載入 `TarotDeck.json` 提供 `fun all():List<Card>`
-  - [ ] 服務（種子抽牌）
-    - [ ] 在 `:core/tarot` 建立 `TarotService.kt`
-    - [ ] 在 `TarotService.kt` 實作 `fun draw(seed:Long, count:Int=1): List<Pair<Card,Boolean>>`（Boolean 表正逆位）
-    - [ ] 在 `TarotService.kt` 實作 `fun fortune(scope:Scope, seed:Long): List<Pair<Card,Boolean>>`（scope=Year/Month/Day）
-    - [ ] 在 `:core/tarot` 建立 `TarotPromptBuilder.kt` `fun buildFortune(cards, scope, locale):String`
-    - [ ] 在 `:core/tarot` 建立單元測試 `TarotServiceDeterminismTest.kt` 驗證相同 seed 穩定輸出
-  - [ ] 資料表與儲存
-    - [ ] 在 `:data` 建立 `entity/TarotFortune.kt`（id,scope,date,cards,detail,updatedAt）
-    - [ ] 在 `:data` 建立 `dao/TarotFortuneDao.kt` 含 `getByDate(scope,date)`, `upsert`
-    - [ ] 在 `:data` 建立 `repository/TarotFortuneRepository.kt`
-  - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_TAROT_FORTUNE = "tarot.fortune"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_TAROT_FORTUNE){ TarotFortuneScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `TarotFortuneScreen.kt`
-    - [ ] 在 `TarotFortuneScreen.kt` 放置分段控制 `Year/Month/Day`
-    - [ ] 在 `TarotFortuneScreen.kt` 顯示卡片縮圖（3~5 張）與重點 `theme`
-    - [ ] 在 `TarotFortuneScreen.kt` 右下方主要按鈕「查看長文」
-    - [ ] 在 `TarotFortuneScreen.kt` 點擊「查看長文」若無全文則以 `OnnxLlamaSession` 生成並寫入 DB
-    - [ ] 在 `HomeScreen.kt` 新增入口卡片「塔羅運勢」導向 `ROUTE_TAROT_FORTUNE`
-    - [ ] 在 畫面不加入 Developer-only 控制
-  - [ ] 付費與解鎖
-    - [ ] 在 `:billing` 新增常數 `TAROT_FORTUNE_ONE = "tarot_fortune_one"`
-    - [ ] 在 `TarotFortuneScreen.kt` 非 VIP 顯示解鎖條：單次 `50 幣` 或 `購買 TAROT_FORTUNE_ONE`
-    - [ ] 在 `TarotFortuneScreen.kt` 若選廣告方案需觀看 5 支 Rewarded 後解鎖一次
-    - [ ] 在 `TarotFortuneScreen.kt` 解鎖後當日同 scope 可重看不重扣
+    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_FUSION_REPORT`
+    - [ ] 在 `FusionReportScreen.kt` 顯示五卡段內容（導論/四體系/整體結語）與 `EFAB` 重新生成
+    - [ ] 在 `HomeScreen` 新增入口卡片「綜合 AI 總結」（顯示最近一次時間）
+    - [ ] 在 `FusionReportScreen.kt` 提供「複製全文」「匯出 txt」
+  - [ ] 付費 SKU
+    - [ ] 在 `:billing` 新增 `FUSION_DEEP_ONE`
+    - [ ] 在 `PurchaseScreen` 新增商品卡（一次性解鎖）
+  - [ ] 效能與一致性
+    - [ ] 在 700–900 tokens 測試完成時間（中階裝置 ≤ 90 秒）
+    - [ ] 在 快速捲動保持 60fps（LazyColumn 穩定鍵與 item 快取）
+    - [ ] 在 斷網與權益變更場景穩定（回退到已保存內容）
+    - [ ] 在 單元測試：各段落解析器、關鍵詞合併器
+    - [ ] 在 快照測試：五卡段一致
+    - [ ] 在 i18n：`zh-TW/en` 模板鍵值可覆寫
+- [ ] V8.0 塔羅運勢（年／月／日）+ AI（沿用 V1 UI 模式）
+  - [ ] 資產與核心（全部本機與免費）
+    - [ ] 在 `assets/tarot` 建立 `TarotDeck.json`（78 張：`id`,`name`,`upright`,`reversed`,`suit`,`number`）
+    - [ ] 在 `:core/tarot` 建立 `TarotModels.kt`（`TarotCard`,`TarotDraw`,`TarotSpread`）
+    - [ ] 在 `:core/tarot` 建立 `TarotRepo.kt`（讀取牌義，提供快取）
+    - [ ] 在 `assets/tarot` 建立 `Spreads.json`（年/月/日對應牌位與意義）
+  - [ ] 服務與測試（可重現、免費、離線）
+    - [ ] 在 `TarotService.kt` 實作 `draw(seed, spread): TarotDraw`（固定 seed 來自 `userId+date+scope`）
+    - [ ] 在 `TarotPromptBuilder.kt` 實作 `buildFortune(draw, scope)`（年/月/日不同語氣）
+    - [ ] 在 `TarotServiceDeterminismTest.kt` 驗證 determinism（相同 seed 產出一致）
+    - [ ] 在 `TarotMeaningComposer.kt` 合併 `upright/reversed` 與主題詞
+  - [ ] 資料表
+    - [ ] 在 `:data` 建立 `TarotFortune(id, scope, date, draw, contentEnc, tokens, locale)` 與 DAO/Repo
+    - [ ] 在 `:data` 為 `date+scope` 加索引
+  - [ ] 路由與畫面（沿用 V1 設計）
+    - [ ] 在 `NavGraph` 新增 `ROUTE_TAROT_FORTUNE`
+    - [ ] 在 `TarotFortuneScreen.kt` 置頂分段 `Year/Month/Day`
+    - [ ] 在 `TarotFortuneScreen.kt` 顯示卡片縮圖與主題（每張卡牌小圖＋關鍵詞）
+    - [ ] 在 `TarotFortuneScreen.kt` 右下主要按鈕「查看長文」（生成或顯示已存）
+    - [ ] 在 `HomeScreen` 新增入口卡片「塔羅運勢」
+  - [ ] 付費與解鎖（不依賴任何付費外部 API）
+    - [ ] 在 `:billing` 新增 `TAROT_FORTUNE_ONE`
+    - [ ] 在 非 VIP 顯示解鎖條（50 幣 或 `TAROT_FORTUNE_ONE`）
+    - [ ] 在 廣告方案需 5 支 Rewarded 後解鎖（Coins 亦可）
   - [ ] 測試與素材
-    - [ ] 在 測試以固定 seed 驗證抽牌重現性
-    - [ ] 在 測試 UI 捲動與卡片載入效能
-    - [ ] 在 測試 付費與廣告解鎖流程
-    - [ ] 在 擷取 2 張畫面截圖（Year/Day）供上架
-- [ ] V9.0 易經運勢（年／月／日）+ AI
-  - [ ] 資料與資產
-    - [ ] 在 `:app/src/main/assets/iching` 建立 `IChingData.json`
-    - [ ] 在 `IChingData.json` 定義 `{"hex":1,"name":"乾為天","judgement":"...","image":"...","lines":["...","...","...","...","...","..."]}`
-  - [ ] 服務（起卦與運勢）
-    - [ ] 在 `:core/iching` 建立 `IChingModels.kt` 與 `data class Hexagram(...)`
-    - [ ] 在 `:core/iching` 建立 `IChingRepo.kt` 讀取資料
-    - [ ] 在 `:core/iching` 建立 `IChingFortuneService.kt` 實作 `fun cast(seed:Long): Hexagram` 與 `fun fortune(scope, seed): Hexagram`
-    - [ ] 在 `:core/iching` 建立 `IChingPromptBuilder.kt` `fun buildFortune(hex, scope, locale):String`
-  - [ ] 儲存與畫面
-    - [ ] 在 `:data` 建立 `entity/IChingFortune.kt`（id,scope,date,hex,detail,updatedAt）
-    - [ ] 在 `:data` 建立 `dao/IChingFortuneDao.kt` 與 `repository/IChingFortuneRepository.kt`
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_ICHING_FORTUNE = "iching.fortune"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_ICHING_FORTUNE){ IChingFortuneScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `IChingFortuneScreen.kt` 顯示卦象、卦名、重點、與「查看長文」
-    - [ ] 在 `HomeScreen.kt` 新增入口卡片「易經運勢」導向 `ROUTE_ICHING_FORTUNE`
-  - [ ] 付費與沿用樣式
-    - [ ] 在 `IChingFortuneScreen.kt` 沿用 V8.0 解鎖條設計
-    - [ ] 在 非 VIP 可 `50 幣` 或 `看 5 支廣告` 解鎖
-  - [ ] 測試
-    - [ ] 在 固定 seed 驗證卦象映射穩定
-    - [ ] 在 UI 檢查文案排版與省略
-    - [ ] 在 解鎖流程與儲存一致性驗證
+    - [ ] 在 固定 seed 驗證抽牌重現性（100 組日期種子）
+    - [ ] 在 UI 效能與截圖產出驗證（深/淺色）
+    - [ ] 在 可存取性：每張卡 `contentDescription` 生成簡述
+    - [ ] 在 本地化：`zh-TW/en` 牌義字串抽離
+- [ ] V9.0 易經運勢（年／月／日）+ AI（全部免費資料與本地模型）
+  - [ ] 資產與核心
+    - [ ] 在 `assets/iching` 建立 `IChingData.json`（64 卦：`hexId`,`name`,`judgement`,`image`,`lines[1..6]` 自編撰）
+    - [ ] 在 `:core/iching` 建立 `IChingModels.kt`（`Hexagram`,`Cast`,`ChangingLine`）
+    - [ ] 在 `:core/iching` 建立 `IChingRepo.kt`（讀取卦辭，快取）
+    - [ ] 在 `IChingFortuneService.kt` 實作 `cast(seed, scope): Cast`（以 `userId+date+scope` 做可重現拋筊/擲錢演算法）
+    - [ ] 在 `IChingPromptBuilder.kt` 實作 `buildFortune(cast, scope)`（包含本卦/之卦/變爻）
+  - [ ] 資料表與畫面
+    - [ ] 在 `:data` 建立 `IChingFortune(id, scope, date, cast, contentEnc, tokens, locale)` 與 DAO/Repo
+    - [ ] 在 `NavGraph` 新增 `ROUTE_ICHING_FORTUNE`
+    - [ ] 在 `IChingFortuneScreen.kt` 顯示卦象（上下卦圖）、關鍵語與長文入口
+    - [ ] 在 `HomeScreen` 新增入口卡片「易經運勢」
+  - [ ] 付費沿用
+    - [ ] 在 非 VIP 顯示解鎖條與 5 支廣告機制（或 50 幣）
+  - [ ] 測試驗證
+    - [ ] 在 固定 seed 驗證卦象穩定與 UI 排版（100 組日期種子）
+    - [ ] 在 單元測試：變爻規則、之卦推導
+    - [ ] 在 可存取性：卦象以文字另述（Voice 支援）
 - [ ] V10.0 流年／流月／流日（多體系趨勢）
-  - [ ] 引擎與計分
-    - [ ] 在 `:core/trend` 建立 `TrendModels.kt` 定義 `data class TrendPoint(date: LocalDate, score: Int, tags: List<String>)`
-    - [ ] 在 `:core/trend` 建立 `TrendEngine.kt`
-    - [ ] 在 `TrendEngine.kt` 實作 `fun aggregateDaily(input:FusionInput, date: LocalDate): TrendPoint`
-    - [ ] 在 `TrendEngine.kt` 實作 `fun range(start: LocalDate, end: LocalDate, input:FusionInput): List<TrendPoint>`
-    - [ ] 在 `TrendEngine.kt` 實作 平滑 `movingAverage(window=7)`
-    - [ ] 在 `TrendEngine.kt` 實作 分解 `monthBuckets()` 與 `yearBuckets()`
+  - [ ] 引擎與計分（純本地、免費）
+    - [ ] 在 `:core/trend` 建立 `TrendModels.kt`（`TrendPoint(date,value,tags[])`、`TrendSeries(scope,points[])`）
+    - [ ] 在 `TrendEngine.kt` 實作 `aggregateDaily(inputs)`（整合 natal/ziwei/bazi/energy/tarot/iching 指標）
+    - [ ] 在 `TrendEngine.kt` 實作 `range(from,to)`、`movingAverage(window)`、`monthBuckets()`、`yearBuckets()`
+    - [ ] 在 `TrendEngine.kt` 設計可插拔規則（權重、衝突抵銷、正負分）
+    - [ ] 在 單元測試：邊界日（閏年、跨月）、移動平均一致性
   - [ ] 儲存與快取
-    - [ ] 在 `:data` 建立 `entity/TrendCache.kt`（date, score, tags, updatedAt）
-    - [ ] 在 `:data` 建立 `dao/TrendCacheDao.kt` 與 `repository/TrendRepository.kt`
+    - [ ] 在 `:data` 建立 `TrendCache(scope, granularity, rangeKey, seriesEnc, updatedAt)` 與 DAO/Repo
+    - [ ] 在 設置 LRU 記憶體快取（近 30 日）
   - [ ] UI/UX 與互動
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_TREND = "trend"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_TREND){ TrendScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `TrendScreen.kt`
-    - [ ] 在 `TrendScreen.kt` 上方放置時間範圍分段控制 `Year/Month/Day`
-    - [ ] 在 `TrendScreen.kt` 使用 `Canvas` 畫折線圖與標籤（純 Compose，不用付費圖表）
-    - [ ] 在 `TrendScreen.kt` 提供手勢：水平拖曳捲動、雙指縮放
-    - [ ] 在 `TrendScreen.kt` 提供日期範圍選擇器（開始/結束）
-    - [ ] 在 `TrendScreen.kt` 點選節點顯示 Tooltip（date/score/tags）
-  - [ ] 付費與門檻
-    - [ ] 在 `TrendScreen.kt` 若 `isVIP=false` 只顯示最近 14 天
-    - [ ] 在 `TrendScreen.kt` 若 `isVIP=true` 顯示 1 年與 5 年範圍
+    - [ ] 在 `NavGraph` 新增 `ROUTE_TREND`
+    - [ ] 在 `TrendScreen.kt` 上方分段 `Year/Month/Day`
+    - [ ] 在 `TrendScreen.kt` Compose 折線圖（觸控抓點、十字準線、滑動）
+    - [ ] 在 `TrendScreen.kt` 實作拖曳捲動與雙指縮放（0.5–3.0 倍）
+    - [ ] 在 `TrendScreen.kt` 實作節點 Tooltip（日期、值、來源標籤）
+    - [ ] 在 `TrendScreen.kt` 提供「匯出 CSV」本地檔案
+  - [ ] 付費門檻
+    - [ ] 在 非 VIP 僅顯示最近 14 天（`granularity=Day`）
+    - [ ] 在 VIP 顯示 1–5 年範圍（切換 Month/Year）
   - [ ] 效能與測試
-    - [ ] 在 模擬器測試 365 個點繪製 60fps
-    - [ ] 在 平滑與捲動過程不觸發 GC 抖動
-    - [ ] 在 日期範圍切換資料來源正確
+    - [ ] 在 365 點繪製 60fps（Path 合併、避免過度重組）
+    - [ ] 在 平滑與捲動不引發 GC 抖動（避免臨時物件）
+    - [ ] 在 Snapshot 測試：深/淺色軸線對比
+    - [ ] 在 邊界測試：空資料、單點、極值
 - [ ] V11.0 每日總和分析儀表板
-  - [ ] 資料來源整合
+  - [ ] 聚合器
     - [ ] 在 `:core/dashboard` 建立 `DailyDashboardAggregator.kt`
-    - [ ] 在 `DailyDashboardAggregator.kt` 聚合來源：星盤重點、塔羅重點、易經重點、黃曆、流日分數
-    - [ ] 在 `DailyDashboardAggregator.kt` 輸出 `data class DailyDashboard(date, highlights: List<Highlight>, score:Int)`
+    - [ ] 在 `DailyDashboardAggregator` 定義輸入資料來源 `reports/charts/wallet/purchases/ads`
+    - [ ] 在 `DailyDashboardAggregator` 以 `LocalDate` 為 key 聚合各來源
+    - [ ] 在 `DailyDashboardAggregator` 定義權重配置 `weights.json`（可熱更新 DataStore）
+    - [ ] 在 `DailyDashboardAggregator` 實作環形總分 `0–100`（缺資料以中位數回補）
+    - [ ] 在 `DailyDashboardAggregator` 實作五大來源重點各回傳最多 3 條（以打分與去重）
+    - [ ] 在 `DailyDashboardAggregator` 實作快取 `Room view + materialized table`（當日有效）
+    - [ ] 在 `DailyDashboardAggregator` 實作 `suspend fun refresh(date: LocalDate)`
+    - [ ] 在 `DailyDashboardAggregator` 對多來源不同步設計「最晚更新時間」標記
+    - [ ] 在 `DailyDashboardAggregator` 設計去重策略：同來源相同主鍵只取最新
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_DASHBOARD_DAILY = "dashboard.daily"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_DASHBOARD_DAILY){ DailyDashboardScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `DailyDashboardScreen.kt`
-    - [ ] 在 `DailyDashboardScreen.kt` 置頂顯示日期與總分環形指示
-    - [ ] 在 `DailyDashboardScreen.kt` 以卡片列表顯示五大來源重點各 3 條
-    - [ ] 在 `DailyDashboardScreen.kt` 提供「刷新」按鈕觸發重新聚合
+    - [ ] 在 `NavGraph` 新增 `ROUTE_DASHBOARD_DAILY`
+    - [ ] 在 `DailyDashboardScreen.kt` 顯示日期與環形總分
+    - [ ] 在 `DailyDashboardScreen.kt` 顯示五大來源重點各 3 條
+    - [ ] 在 `DailyDashboardScreen.kt` 提供「刷新」按鈕
+    - [ ] 在 `DailyDashboardScreen.kt` 顯示「資料部分可用」與「來源更新時間」徽章
+    - [ ] 在 `DailyDashboardScreen.kt` 以 `Canvas` 畫環形圖（無外部付費套件）
+    - [ ] 在 `DailyDashboardScreen.kt` 加入 `PullToRefresh` 手勢
+    - [ ] 在 `DailyDashboardScreen.kt` 支援深色/淺色與高對比模式
+    - [ ] 在 `DailyDashboardScreen.kt` 加入 `contentDescription` 與可聚焦元素（無障礙）
+  - [ ] 刷新流程
+    - [ ] 在 `DailyDashboardViewModel` 實作 `refresh(date)` 串 `Aggregator.refresh`
+    - [ ] 在 `DailyDashboardViewModel` 實作 `loading/error/partial` 狀態
+    - [ ] 在 `WorkManager` 建立 `DailyDashboardWarmUpWorker`（App 冷啟 5 秒預算）
+    - [ ] 在 `WarmUpWorker` 僅讀不寫 UI，失敗不阻塞主執行緒
   - [ ] 權益與解鎖
-    - [ ] 在 `DailyDashboardScreen.kt` 若 `isVIP=true` 直接顯示
-    - [ ] 在 `DailyDashboardScreen.kt` 若 `isVIP=false` 顯示「看廣告 5 次解鎖 1 天」
-    - [ ] 在 看完 5 支 Rewarded 後當天解鎖僅記錄於本地
+    - [ ] 在 非 VIP 顯示「看廣告 5 次解鎖 1 天」
+    - [ ] 在 顯示當日解鎖倒數（到期自動回到鎖定狀態）
+    - [ ] 在 使用既有 `AdsManager + CoinsService`（免費 AdMob；不接付費 API）
+    - [ ] 在 權益狀態以 `EntitlementStore` 持久化（含到期時間戳）
+  - [ ] 日誌與遙測（不含任何付費 SDK）
+    - [ ] 在 `:app` 以 `Logcat` + 本地 `Room` 紀錄刷新耗時/來源拉取數量
+    - [ ] 在 `Settings` 提供「匯出 Debug 日誌」分享純文字
   - [ ] 測試與上架
-    - [ ] 在 多來源資料不同步時仍能顯示已可得的重點
-    - [ ] 在 權益控制正確與刷新不卡 UI
-    - [ ] 在 擷取 1 張儀表板截圖並於商店新增「總和分析」
+    - [ ] 在 多來源不同步情境仍能顯示可得重點
+    - [ ] 在 權益控制與刷新不卡 UI
+    - [ ] 在 擷取儀表板截圖並更新商店描述
+    - [ ] 在 單元測試 Aggregator 權重/缺值回補
+    - [ ] 在 UI 測試環形圖可視/可聚焦與 TalkBack 朗讀
+    - [ ] 在 效能測試 `refresh < 200ms`（本地樣本 2k 筆）
+    - [ ] 在 無網路/無資料回傳空畫面與重試
+    - [ ] 在 Play Console 更新變更日誌與截圖
 - [ ] V11.1 每月總和分析儀表板
   - [ ] 聚合與產出
-    - [ ] 在 `:core/dashboard` 建立 `MonthlyDashboardAggregator.kt`
-    - [ ] 在 `MonthlyDashboardAggregator.kt` 聚合該月每日 `DailyDashboard` 產出月度重點與趨勢
-  - [ ] PDF 匯出（本機）
-    - [ ] 在 `:app/export` 建立 `MonthlyPdfExporter.kt`
-    - [ ] 在 `MonthlyPdfExporter.kt` 使用 `PdfDocument` 生成 2~3 頁 PDF（封面/重點/趨勢）
-    - [ ] 在 `MonthlyPdfExporter.kt` 寫入 `/files/exports/monthly-YYYYMM.pdf`
+    - [ ] 在 `MonthlyDashboardAggregator.kt` 聚合每日
+    - [ ] 在 `MonthlyDashboardAggregator` 計算月度總分/趨勢/最佳與最差日
+    - [ ] 在 `MonthlyDashboardAggregator` 產生「本月三大洞察」文字摘要
+    - [ ] 在 `MonthlyDashboardAggregator` 產生「下月預告指標」基於移動平均
+  - [ ] PDF 匯出（完全本機，免費）
+    - [ ] 在 `MonthlyPdfExporter.kt` 產生 PDF 2–3 頁
+    - [ ] 在 `MonthlyPdfExporter` 使用 `android.graphics.pdf.PdfDocument`（不依賴雲端）
+    - [ ] 在 `MonthlyPdfExporter` 內嵌字型（Noto Sans OTF，授權檢核）
+    - [ ] 在 PDF 畫折線圖/環形圖/排行榜（`Canvas`）
+    - [ ] 在 PDF 附上資料來源與時間範圍
+    - [ ] 在 匯出至 `/files/exports/monthly-YYYYMM.pdf`
+    - [ ] 在 透過 `FileProvider` 分享 `Intent.ACTION_SEND`
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_DASHBOARD_MONTH = "dashboard.month"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_DASHBOARD_MONTH){ MonthlyDashboardScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `MonthlyDashboardScreen.kt` 顯示月度摘要與「匯出 PDF」按鈕
+    - [ ] 在 `ROUTE_DASHBOARD_MONTH` 與 `MonthlyDashboardScreen.kt` 顯示摘要與「匯出 PDF」
+    - [ ] 在 `MonthlyDashboardScreen.kt` 顯示月度曲線與最佳/最差日卡片
+    - [ ] 在 `MonthlyDashboardScreen.kt` 顯示「三大洞察」與「下月預告」
+    - [ ] 在 匯出完成以 Snackbar 告知與「開啟/分享」行動
   - [ ] 付費與測試
-    - [ ] 在 `MonthlyDashboardScreen.kt` 非 VIP 顯示「單次 50 幣」解鎖 PDF
-    - [ ] 在 測試產生 PDF 可被分享與開啟
-    - [ ] 在 測試 月度聚合與圖表效能
+    - [ ] 在 非 VIP 顯示「單次 50 幣」解鎖 PDF
+    - [ ] 在 測試檔案分享與開啟
+    - [ ] 在 單元測試月份邊界（含閏年 2 月）
+    - [ ] 在 UI 測試 PDF 產檔/權限/分享流程
+    - [ ] 在 壓力測試 12 個月資料生成 PDF < 1.5s（中階裝置）
+  - [ ] 合規與授權
+    - [ ] 在 檢查字型/圖示授權（僅用免費/開源資產）
+    - [ ] 在 設定頁新增「檔案儲存位置」與清除匯出檔案
 - [ ] V11.2 每年總和分析儀表板
   - [ ] 聚合與長文
-    - [ ] 在 `:core/dashboard` 建立 `YearlyDashboardAggregator.kt`
-    - [ ] 在 `YearlyDashboardAggregator.kt` 聚合 12 個 `MonthlyDashboard` 產出年度指標
-    - [ ] 在 `:core/ai` 建立 `YearlyPromptBuilder.kt` `fun buildYearlyAdvice(metrics, locale): String`
-    - [ ] 在 `:app/workers/YearlyAdviceWorker.kt` 以 `OnnxLlamaSession` 生成年度長文並寫入 DB
+    - [ ] 在 `YearlyDashboardAggregator.kt` 聚合 12 月
+    - [ ] 在 `YearlyDashboardAggregator` 產生年度 KPI（均值/中位數/分位）
+    - [ ] 在 `YearlyDashboardAggregator` 產出「年度 Top 10 時刻」清單
+    - [ ] 在 `YearlyPromptBuilder.kt` 產生年度建議
+    - [ ] 在 `YearlyAdviceWorker.kt` 生成長文寫入 DB
+    - [ ] 在 `YearlyAdviceWorker` 使用離線 `TinyLlama ONNX`（免費，無網路）
+    - [ ] 在 `YearlyAdviceWorker` 實作中斷續跑與進度回報
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_DASHBOARD_YEAR = "dashboard.year"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_DASHBOARD_YEAR){ YearlyDashboardScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `YearlyDashboardScreen.kt` 顯示年度關鍵圖表與長文
+    - [ ] 在 `ROUTE_DASHBOARD_YEAR` 與 `YearlyDashboardScreen.kt` 顯示年度圖表與長文
+    - [ ] 在 `YearlyDashboardScreen.kt` 提供年份切換 `Dropdown`
+    - [ ] 在 `YearlyDashboardScreen.kt` 顯示「重新生成建議」與背景進度
+  - [ ] 匯出與分享（免費）
+    - [ ] 在 `YearlyExporter.kt` 匯出 Markdown `.md` 與純文字 `.txt`
+    - [ ] 在 `YearlyExporter` 內嵌封面 ASCII 圖樣（無授權風險）
   - [ ] 付費與測試
-    - [ ] 在 `YearlyDashboardScreen.kt` 非 VIP 顯示「80 幣單次」解鎖長文
-    - [ ] 在 測試 年度計算效能與長文長度不超出渲染限制
-- [ ] V12.0 塔羅占卜 + AI 解牌
-  - [ ] 專案與依賴準備
-    - [ ] 在 `:core/tarot` 建立套件結構 `com.aidestinymaster.core.tarot`
-    - [ ] 在 `:app/src/main/assets/tarot` 確認 `TarotDeck.json` 已存在（78 張，沿用 V8.0），若無則建立空檔待填
-    - [ ] 在 `:core/tarot/build.gradle.kts` 確認已加入 `kotlinx-serialization-json` 依賴（沿用共用版本）
-  - [ ] 資料結構與資料層
-    - [ ] 在 `:data/src/main/java/.../entity` 建立 `TarotReading.kt`
-    - [ ] 在 `TarotReading.kt` 定義 `data class TarotReading(id:String, spreadType:String, seed:Long, question:String?, cards:List<Int>, reversed:List<Boolean>, positions:List<String>, summary:String?, detailEnc:String?, createdAt:Instant, updatedAt:Instant, unlocked:Boolean, paidBy:String?)`
-    - [ ] 在 `:data/src/main/java/.../dao` 建立 `TarotReadingDao.kt`
-    - [ ] 在 `TarotReadingDao.kt` 定義 `@Insert(onConflict=REPLACE) suspend fun upsert(reading:TarotReading)`
-    - [ ] 在 `TarotReadingDao.kt` 定義 `@Query("SELECT * FROM TarotReading WHERE id=:id") suspend fun get(id:String):TarotReading?`
-    - [ ] 在 `TarotReadingDao.kt` 定義 `@Query("SELECT * FROM TarotReading ORDER BY createdAt DESC LIMIT :limit") suspend fun listRecent(limit:Int):List<TarotReading>`
-    - [ ] 在 `:data/src/main/java/.../repo` 建立 `TarotReadingRepository.kt`
-    - [ ] 在 `TarotReadingRepository.kt` 封裝 `upsert/get/listRecent` 並處理 `detailEnc` 加解密（呼叫 Security Crypto AES-GCM）
-    - [ ] 在 `:data/src/main/java/.../AppDatabase.kt` 新增 `abstract fun tarotReadingDao(): TarotReadingDao`
-    - [ ] 在 `:data/src/main/java/.../db/migrations` 建立 `Migration_vX_to_vXplus1_TarotReading.kt`（補上新表），並在 `Room.databaseBuilder` 註冊
-  - [ ] 服務層：牌陣與抽牌
-    - [ ] 在 `:core/tarot` 建立 `TarotDeckRepo.kt` 載入 `TarotDeck.json` 提供 `fun card(id:Int):Card` 與 `fun all():List<Card>`
-    - [ ] 在 `:core/tarot` 建立 `TarotSpreadService.kt`
-    - [ ] 在 `TarotSpreadService.kt` 定義 `enum class SpreadType { ONE, THREE, CELTIC_CROSS }`
-    - [ ] 在 `TarotSpreadService.kt` 定義 `data class DrawResult(val cards:List<Int>, val reversed:List<Boolean>, val positions:List<String>)`
-    - [ ] 在 `TarotSpreadService.kt` 實作 `fun draw(spread:SpreadType, seed:Long): DrawResult`（使用 `Random(seed)` 決定抽牌序與正逆位）
-    - [ ] 在 `TarotSpreadService.kt` 為 `ONE` 產生 `positions=["Focus"]`
-    - [ ] 在 `TarotSpreadService.kt` 為 `THREE` 產生 `positions=["Past","Present","Future"]`
-    - [ ] 在 `TarotSpreadService.kt` 為 `CELTIC_CROSS` 產生 10 位置名稱（Cross/Above/Below/Recent/Near/F1~F4）
-    - [ ] 在 `:core/tarot` 建立 `TarotShareBuilder.kt` 實作 `fun buildShare(reading:TarotReading, deck:TarotDeckRepo): String`（去個資、含牌名/位置/摘要）
-  - [ ] AI Prompt 與生成流程
-    - [ ] 在 `:core/ai` 建立 `TarotPromptBuilder.kt`
-    - [ ] 在 `TarotPromptBuilder.kt` 實作 `fun buildReading(deck:TarotDeckRepo, reading:TarotReading, locale:Locale): String`（包含：使用者問題、每張牌名+正逆位+位置含義）
-    - [ ] 在 `:app/src/main/java/.../workers` 建立 `TarotReadingWorker.kt`
-    - [ ] 在 `TarotReadingWorker.kt` 讀取 `TarotReading` 與 `TarotDeckRepo` → 呼叫 `TarotPromptBuilder.buildReading`
-    - [ ] 在 `TarotReadingWorker.kt` 呼叫 `OnnxLlamaSession.generate(prompt)` 收集流式輸出為 `detail`
-    - [ ] 在 `TarotReadingWorker.kt` 將 `detail` 以 AES-GCM 加密寫回 `TarotReading.detailEnc` 並更新 `summary`（取前 140 字）
-    - [ ] 在 `TarotReadingWorker.kt` 發送完成通知；點擊導向 `tarot.reading.result/{id}`
-  - [ ] 路由與畫面：占卜流程
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增 `const val ROUTE_TAROT_READING_START = "tarot.reading.start"`
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_TAROT_READING_RESULT = "tarot.reading.result/{id}"`
-    - [ ] 在 `NavGraph.kt` 新增 `const val ROUTE_TAROT_READING_HISTORY = "tarot.reading.history"`
-    - [ ] 在 `NavGraph.kt` 新增對應 `composable` 三條路由
-    - [ ] 在 `:app/ui/screens/tarot` 建立 `TarotReadingStartScreen.kt`
-    - [ ] 在 `TarotReadingStartScreen.kt` 放置分段控制 `ONE/THREE/CELTIC_CROSS`
-    - [ ] 在 `TarotReadingStartScreen.kt` 放置輸入框「問題（選填）」限制 120 字
-    - [ ] 在 `TarotReadingStartScreen.kt` 放置「隨機種子」Switch（關閉時顯示數字輸入以重現讀數）
-    - [ ] 在 `TarotReadingStartScreen.kt` 放置主要按鈕「抽牌」
-    - [ ] 在 `TarotReadingStartScreen.kt` 按下「抽牌」呼叫 `TarotSpreadService.draw` 生成 `DrawResult` 並建立 `TarotReading` 寫入 DB，導向結果頁
-    - [ ] 在 `:app/ui/screens/tarot` 建立 `TarotReadingResultScreen.kt`
-    - [ ] 在 `TarotReadingResultScreen.kt` 以格狀排版顯示牌面縮圖與位置名稱；正逆位以旋轉或標籤顯示
-    - [ ] 在 `TarotReadingResultScreen.kt` 顯示摘要區塊（初始為「尚未生成 AI 解牌」）
-    - [ ] 在 `TarotReadingResultScreen.kt` 底部放置主要按鈕「生成 AI 解牌（背景）」與次要按鈕「分享」
-    - [ ] 在 `TarotReadingResultScreen.kt` 點擊「生成 AI 解牌」→ 權益檢查 → 排程 `TarotReadingWorker`
-    - [ ] 在 `TarotReadingResultScreen.kt` 監聽 Worker 狀態；完成後展開長文（解鎖規則見付費）
-    - [ ] 在 `:app/ui/screens/tarot` 建立 `TarotReadingHistoryScreen.kt` 顯示最近讀數列表（日期/牌陣/摘要）
-    - [ ] 在 `HomeScreen.kt` 新增入口卡片「塔羅占卜」導向 `ROUTE_TAROT_READING_START`
-  - [ ] 付費解鎖與 Coins
-    - [ ] 在 `:billing` 新增常數 `TAROT_READING_ONE = "tarot_reading_one"`
-    - [ ] 在 `TarotReadingResultScreen.kt` 若 `isVIP=true` 直接顯示長文
-    - [ ] 在 `TarotReadingResultScreen.kt` 若 `isVIP=false` 且未解鎖顯示解鎖條（按鈕「用 50 幣解鎖」「單次購買」）
-    - [ ] 在 點擊「用 50 幣解鎖」呼叫 `CoinsService.spend(50)` 成功則將 `reading.unlocked=true` 並刷新 UI
-    - [ ] 在 點擊「單次購買」呼叫 `BillingManager.launchPurchase(TAROT_READING_ONE)` 成功後 `unlocked=true`
-    - [ ] 在 解鎖後生成或查看長文不再重扣
-  - [ ] 分享與本地儲存
-    - [ ] 在 `TarotReadingResultScreen.kt` 點擊「分享」呼叫 `TarotShareBuilder.buildShare` 產出文字
-    - [ ] 在 分享 Intent 僅包含牌名/位置/摘要，排除問題內容（除非使用者勾選同意）
-    - [ ] 在 `TarotReadingRepository` 寫入 `updatedAt` 供歷史排序
+    - [ ] 在 非 VIP 顯示「80 幣單次」解鎖
+    - [ ] 在 年度計算效能與渲染測試
+    - [ ] 在 單元測試跨年週期與時區差（UTC±14）
+    - [ ] 在 UI 測試長文捲動/折疊/分享
+    - [ ] 在 模擬器低記憶體重建 ViewModel 不丟失生成中狀態
+  - [ ] 安全與隱私
+    - [ ] 在 年度建議落盤採 AES-GCM（沿用資料層密鑰）
+    - [ ] 在 設定頁新增「刪除年度建議」與「重新索引」選項
+    - [ ] 在 全文標註「僅供參考／非專業建議」
+- [ ] V12.0 塔羅占卜 + AI 解牌（流程版）
+  - [ ] 專案與依賴確認
+    - [ ] 在 `:core/tarot` 建立套件 `com.aidestinymaster.core.tarot`
+    - [ ] 在 `assets/tarot` 確認 `TarotDeck.json` 存在
+    - [ ] 在 `:core/tarot/build.gradle.kts` 確認序列化依賴
+    - [ ] 在 檢核牌義文字來源為免費授權（CC0/CC-BY-SA），不使用付費 API
+    - [ ] 在 建立 `TarotLicenses.md` 記錄來源與授權
+  - [ ] 資料層
+    - [ ] 在 `:data/entity` 建立 `TarotReading.kt`
+    - [ ] 在 `:data/dao` 建立 `TarotReadingDao.kt`
+    - [ ] 在 `:data/repo` 建立 `TarotReadingRepository.kt`（AES-GCM）
+    - [ ] 在 `AppDatabase.kt` 新增 DAO 與 Migration
+    - [ ] 在 `TarotReading` 設計欄位：牌陣/卡牌序列/正逆位/題目/摘要/長文/建立時間
+    - [ ] 在 為解牌長文建立全文索引欄（LIKE 索引）
+  - [ ] 牌陣與抽牌
+    - [ ] 在 `TarotDeckRepo.kt` 實作讀檔與查卡
+    - [ ] 在 `TarotSpreadService.kt` 實作 `ONE/THREE/CELTIC_CROSS`
+    - [ ] 在 `TarotSpreadService` 實作亂數來源 `SecureRandom` 並支援種子（可重現）
+    - [ ] 在 `TarotSpreadService` 實作正逆位機率可配置（預設 50/50）
+    - [ ] 在 `TarotShareBuilder.kt` 實作分享文字
+  - [ ] AI 生成（完全離線，免費）
+    - [ ] 在 `TarotPromptBuilder.kt` 實作 `buildReading`
+    - [ ] 在 `TarotReadingWorker.kt` 生成長文加密寫回與摘要
+    - [ ] 在 `TarotReadingWorker` 使用既有 `TinyLlama ONNX`（無付費 API）
+    - [ ] 在 `TarotReadingWorker` 實作溫度/長度限制與停用詞
+    - [ ] 在 完成通知導向 `tarot.reading.result/{id}`
+  - [ ] 路由與畫面
+    - [ ] 在 `NavGraph` 新增 `ROUTE_TAROT_READING_START/RESULT/HISTORY`
+    - [ ] 在 `TarotReadingStartScreen.kt` 佈局分段與輸入
+    - [ ] 在 `TarotReadingStartScreen.kt` 提供題目/情境/對象可選
+    - [ ] 在 `TarotReadingResultScreen.kt` 顯示牌面與生成/分享
+    - [ ] 在 `TarotReadingResultScreen.kt` 顯示每張牌義（正/逆位）
+    - [ ] 在 `TarotReadingResultScreen.kt` 支援生成中骨架屏與取消
+    - [ ] 在 `TarotReadingHistoryScreen.kt` 顯示歷史列表
+    - [ ] 在 `HomeScreen` 新增入口「塔羅占卜」
+  - [ ] 付費與 Coins
+    - [ ] 在 `:billing` 新增 `TAROT_READING_ONE`
+    - [ ] 在 結果頁非 VIP 顯示解鎖條（50 幣或單次購買）
+    - [ ] 在 支援看廣告換幣（免費 AdMob，無付費 API）
+  - [ ] 視覺與可用性
+    - [ ] 在 牌面以 `ImageVector` 或本地 SVG（免費資產）
+    - [ ] 在 動效：切牌/翻牌 `200–320ms`，回饋 Ripple
+    - [ ] 在 無障礙：卡片 `contentDescription` 說明牌名與位義
+    - [ ] 在 顏色遵循設計系統與深/淺主題
   - [ ] 測試與驗證
-    - [ ] 在 單元測試 `TarotSpreadServiceTest.kt` 驗證相同 `seed`/`spread` 產出相同結果
-    - [ ] 在 單元測試 `TarotPromptBuilderTest.kt` 驗證模板包含所有位置與牌名
-    - [ ] 在 單元測試 `TarotReadingWorkerTest.kt` 模擬輸出並驗證加密寫回
-    - [ ] 在 UI 測試流程：抽牌→未解鎖顯示付費條→用幣解鎖→生成→分享
-    - [ ] 在 效能檢查：結果頁快速捲動 60fps，長文渲染不卡頓
-    - [ ] 在 合規檢查：畫面無 Debug-only 控制與隱藏入口
+    - [ ] 在 單元、UI、效能、合規四類測試完成
+    - [ ] 在 單元測試：抽牌可重現（固定 seed）
+    - [ ] 在 單元測試：正逆位機率與邊界
+    - [ ] 在 UI 測試：生成流程/中止/重試/分享
+    - [ ] 在 效能：三張牌生成 700 tokens 可於背景完成
+    - [ ] 在 隱私：加密落盤與匿去題目（可選）
+    - [ ] 在 商店素材：新增塔羅截圖與描述（不含受限詞）
 - [ ] V13.0 易經占卜 + AI 解卦
-  - [ ] 資料結構與資料層
-    - [ ] 在 `:data/entity` 建立 `IChingReading.kt`
-    - [ ] 在 `IChingReading.kt` 定義 `data class IChingReading(id:String, method:String, seed:Long?, castAt:Instant?, primaryHex:Int, changingLines:List<Int>, resultHex:Int?, question:String?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?)`
-    - [ ] 在 `:data/dao` 建立 `IChingReadingDao.kt`（`upsert/get/listRecent`）
-    - [ ] 在 `:data/repo` 建立 `IChingReadingRepository.kt`（含 AES-GCM 加解密）
-    - [ ] 在 `AppDatabase` 新增 `abstract fun iChingReadingDao(): IChingReadingDao` 與對應 Migration
-  - [ ] 服務層：搖卦／時間起卦
-    - [ ] 在 `:core/iching` 建立 `IChingDivinationService.kt`
-    - [ ] 在 `IChingDivinationService.kt` 實作 `fun castByCoins(seed:Long): Pair<Int, List<Int>>`（三錢法六次，回傳主卦與動爻）
-    - [ ] 在 `IChingDivinationService.kt` 實作 `fun castByTime(time:Instant): Pair<Int, List<Int>>`（以時間映射上/下卦與動爻）
-    - [ ] 在 `IChingDivinationService.kt` 實作 `fun applyChanging(primary:Int, changing:List<Int>): Int`（得之卦）
-    - [ ] 在 `:core/iching` 建立 `IChingShareBuilder.kt` 產出分享文本（卦名/動爻/要旨）
-  - [ ] AI Prompt 與生成流程
-    - [ ] 在 `:core/ai` 建立 `IChingPromptBuilder.kt` 實作 `fun buildReading(primary:Int, result:Int?, changing:List<Int>, question:String?, locale:Locale): String`
-    - [ ] 在 `:app/workers` 建立 `IChingReadingWorker.kt`，流程：讀取 Reading → 建 Prompt → `OnnxLlamaSession.generate` → 加密寫回
-    - [ ] 在 完成時發送通知導向 `iching.reading.result/{id}`
+  - [ ] 資料層
+    - [ ] 在 `:data/entity` 建立 `IChingReading.kt`（欄位：`id:Long`、`method:Enum(COINS,TIME)`、`question:String?`、`primaryHex:Int(0..63)`、`changedHex:Int(0..63)?`、`movingMask:Int(6-bit)`、`castAt:Instant`、`notes:String?`、`aiVersion:String`、`lang:String=zh-TW`、`encrypted:Boolean`、`contentCipher:ByteArray?`、`contentNonce:ByteArray?`、`shareTextCache:String?`、`tags:String?`）
+    - [ ] 在 `:data/dao` 建立 `IChingReadingDao.kt`（`insert/replace`、`updateContentById(id,cipher,nonce)`、`getById(id)`、`listByNewest(limit,offset)`、`deleteById(id)`、`countByDateRange(start,end)`）
+    - [ ] 在 `:data/repo` 建立 `IChingReadingRepository.kt`（以 `androidx.security.crypto` AES-GCM 加解密；金鑰以 `MasterKey` 產生；提供 `create(raw:ReadingDraft):Long`、`saveAIContent(id, plaintext)`、`getDecrypted(id)`、`list()`、`delete(id)`）
+    - [ ] 在 `:data` 新增 `IChingTables.kt`（映射 64 卦對應：卦名、卦序、上卦/下卦索引、卦象 icon 資源 id）
+    - [ ] 在 `:data` 新增 DB Migration（`v2` 新增 `iching_reading` 資料表與索引 `idx_reading_castAt`）
+    - [ ] 在 `:data` 建立 `IChingGlossary.json`（免費來源：公有領域《周易》經文與傳文整理；含：卦名、卦辭、彖傳、象傳、爻辭；附 `source:"Wikisource"`）
+    - [ ] 在 `:data` 建立 `IChingLineMap.kt`（提供六爻位與陰陽/老少判定、動爻位元遮罩轉換）
+  - [ ] 服務層
+    - [ ] 在 `IChingDivinationService.kt` 實作 `castByCoins(seed?:Long): CastResult`（三枚銅錢×6 次；規則：`TTT=6(老陰)`、`TTH/HTT/ THT=7(少陽)`、`HHT/THH/HTH=8(少陰)`、`HHH=9(老陽)`；自下而上累積；回傳主卦、動爻遮罩、之卦）
+    - [ ] 在 `IChingDivinationService.kt` 實作 `castByTime(now:Instant): CastResult`（以 `now.epochMilli` 經 SHA-256 取位產生 6 條陰陽，0/1→陰/陽；每條第 4 位再決定是否為「老」→動爻；結果可重現且無網路依賴）
+    - [ ] 在 `IChingDivinationService.kt` 實作 `applyChanging(primaryHex, movingMask): Int`（依動爻翻轉陰陽得到之卦索引）
+    - [ ] 在 `IChingShareBuilder.kt` 實作分享文本（含：問題、主卦名+卦序、動爻列表、之卦名、簡短解讀摘要、時間戳；不含加密正文）
+    - [ ] 在 `IChingNameHelper.kt` 提供卦名/卦象轉換與本地化（繁中預設）
+  - [ ] AI 與 Worker（完全離線、免費）
+    - [ ] 在 `IChingPromptBuilder.kt` 實作 `buildReading(primaryHex, movingMask, changedHex, question?, locale)`（模板含：卦象含義、彖/象要點、動爻逐條解釋、實務建議三點；引用詞彙來自 `IChingGlossary.json`）
+    - [ ] 在 `IChingReadingWorker.kt` 以 `WorkManager` 背景生成長文（呼叫 `:core:ai` 的 ONNX TinyLlama；無付費 API；生成後以 `IChingReadingRepository.saveAIContent()` 以 AES-GCM 加密寫回）
+    - [ ] 在 `IChingReadingWorker.kt` 加入前景服務通知通道與進度更新（開始/完成/錯誤）
+    - [ ] 在 `IChingSafety.kt` 對輸出套用內容安全與說明（避免醫療/財務定論；附「僅供參考」尾註）
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ICHING_READING_START = "iching.reading.start"`
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ICHING_READING_RESULT = "iching.reading.result/{id}"`
-    - [ ] 在 `:app/ui/screens/iching` 建立 `IChingReadingStartScreen.kt`
-    - [ ] 在 `IChingReadingStartScreen.kt` 放置分段控制「搖卦」「時間起卦」
-    - [ ] 在 「搖卦」模式加入 6 次按鈕「擲幣」與視覺化六爻累積
-    - [ ] 在 「時間起卦」模式顯示當前時間與主要按鈕「起卦」
-    - [ ] 在 兩模式皆提供「問題（選填）」輸入框與「抽籤」主要按鈕建立 `IChingReading` 並導向結果頁
-    - [ ] 在 `:app/ui/screens/iching` 建立 `IChingReadingResultScreen.kt` 顯示主卦/動爻/之卦與重點
-    - [ ] 在 結果頁提供「生成 AI 解卦（背景）」「分享」按鈕
-  - [ ] 付費解鎖與 Coins（沿用 V12.0）
-    - [ ] 在 `:billing` 繼續沿用 `TAROT_READING_ONE` 以外，新增常數 `ICHING_READING_ONE = "iching_reading_one"`（如需區分）
-    - [ ] 在 結果頁非 VIP 顯示解鎖條：50 幣或單次購買 `ICHING_READING_ONE`
-    - [ ] 在 解鎖成功後允許生成/查看長文
-  - [ ] 測試與驗證
-    - [ ] 在 單元測試 `IChingDivinationServiceTest.kt` 驗證搖卦 determinism（固定 seed）
-    - [ ] 在 單元測試 `IChingPromptBuilderTest.kt` 驗證模板包含卦名與動爻
-    - [ ] 在 UI 測試流程：搖卦→結果→解鎖→生成→分享
-    - [ ] 在 效能檢查：結果頁渲染與滾動流暢，無 Debug-only 控制
+    - [ ] 在 `NavGraph` 新增 `ROUTE_ICHING_READING_START` 與 `ROUTE_ICHING_READING_RESULT/{readingId}`
+    - [ ] 在 `IChingReadingStartScreen.kt` 佈局「搖卦（擲幣動畫）」與「時間起卦」切換；輸入問題/標籤；主要按鈕「起卦」
+    - [ ] 在 `IChingReadingResultScreen.kt` 顯示主卦六爻圖、動爻高亮、之卦；下方卡片顯示 AI 長文（加鎖狀態時模糊）
+    - [ ] 在 `IChingReadingResultScreen.kt` 放置操作：`分享`、`重新起卦`、`加入備註`、`刪除`
+    - [ ] 在 `IChingReadingComponents.kt` 提供卦象 Icon、六十四卦選單、動爻徽章
+  - [ ] 付費與測試
+    - [ ] 在 `:billing` 新增 SKU `ICHING_READING_ONE`（一次解鎖單篇；購買流程沿用 v1.0 Billing v8）
+    - [ ] 在 非 VIP 顯示解鎖條（`購買一次 / 訂閱 VIP / 觀看廣告得幣` 三選一）
+    - [ ] 在 `:data` 撰寫加解密單元測試（AES-GCM/Nonce 唯一性）
+    - [ ] 在 `IChingDivinationServiceTest` 覆蓋：擲幣分佈、動爻套用、邊界值（全動/不動）
+    - [ ] 在 `IChingPromptBuilderTest` 以假資料驗證模板插值與語言切換
+    - [ ] 在 `IChingReadingWorkerTest` 使用測試調度器驗證加密回寫與通知
+    - [ ] 在 `IChingReadingUiTest`（Compose）驗證佈局、捲動、解鎖條顯示
+  - [ ] 免費資料與授權
+    - [ ] 在 `third_party/iching/README.md` 註明來源：Wikisource《周易》公有領域文本與自編釋義；僅離線引用；不含付費 API
+    - [ ] 在 `assets/iching/` 放置 `hexagrams.json`、`lines.json`、`mapping.json`（自建整理，標示 CC0/PD）
 - [ ] V14.0 梅花易（主動數字）+ AI
-  - [ ] 資料結構與資料層
-    - [ ] 在 `:data/entity` 建立 `MeihuaNumberReading.kt`
-    - [ ] 在 `MeihuaNumberReading.kt` 定義 `data class MeihuaNumberReading(id:String, number:String, time:Instant, primaryHex:Int, resultHex:Int?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?)`
-    - [ ] 在 `:data/dao` 建立 `MeihuaNumberReadingDao.kt` 與對應 Repo 與 Migration
-  - [ ] 服務層：數字轉卦
-    - [ ] 在 `:core/iching` 建立 `MeihuaNumberService.kt`
-    - [ ] 在 `MeihuaNumberService.kt` 實作 `fun toHex(number:String, time:Instant): Pair<Int, Int?>`（以數字拆分上/下卦與可選動爻）
-    - [ ] 在 `:core/ai` 建立 `MeihuaPromptBuilder.kt` `fun build(number:String, primary:Int, result:Int?, locale:Locale): String`
+  - [ ] 資料層
+    - [ ] 在 `:data/entity` 建立 `MeihuaNumberReading.kt`（欄位：`id:Long`、`number:Long`、`occurAt:Instant`、`upperTrigram:Int(1..8)`、`lowerTrigram:Int(1..8)`、`movingLine:Int(1..6)`、`primaryHex:Int`、`changedHex:Int`、`question:String?`、`aiVersion:String`、`encrypted:Boolean`、`contentCipher:ByteArray?`、`contentNonce:ByteArray?`）
+    - [ ] 在 `:data/dao` 建立 `MeihuaNumberReadingDao.kt`（CRUD 與 `listByNewest`）
+    - [ ] 在 `:data/repo` 建立 `MeihuaNumberReadingRepository.kt`（AES-GCM 加解密流程同檔內實作）
+    - [ ] 在 `:data` 新增 DB Migration（`v3` 新增 `meihua_number_reading` 表）
+    - [ ] 在 `assets/meihua/TrigramTable.json` 建立八卦索引表（乾=1、兌=2、離=3、震=4、巽=5、坎=6、艮=7、坤=8；含象義/五行/八卦名；來源自公有領域資料整理）
+  - [ ] 服務層
+    - [ ] 在 `MeihuaNumberService.kt` 實作 `toHex(number:Long, time:Instant): Result`（演算法：`upper=(number + Y+M+D+H) % 8`→0 視為 8；`lower=(number + Y+M+D+H+min) % 8`→0 視為 8；`moving=((number + Y+M+D+H+min+sec) % 6)+1`；由上/下卦與動爻組合主卦與之卦）
+    - [ ] 在 `MeihuaPromptBuilder.kt` 實作 `build(reading, locale)`（模板：主客體判斷、體用/互卦/世應（若需延伸）、三段式建議）
+    - [ ] 在 `MeihuaShareBuilder.kt` 生成分享文本（不含加密正文）
+  - [ ] AI 與 Worker（完全離線、免費）
+    - [ ] 在 `MeihuaNumberReadingWorker.kt` 背景生成長文並以 AES-GCM 加密回寫（使用 `:core:ai` TinyLlama ONNX）
+    - [ ] 在 `MeihuaNumberSafety.kt` 套用使用聲明與風險提示
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_MEIHUA_NUMBER = "meihua.number"`
-    - [ ] 在 `:app/ui/screens/meihua` 建立 `MeihuaNumberScreen.kt`
-    - [ ] 在 `MeihuaNumberScreen.kt` 放置輸入框「主動數字」與日期時間選擇器
-    - [ ] 在 `MeihuaNumberScreen.kt` 主要按鈕「起卦」→ 生成 Reading → 顯示主卦與（如有）之卦
-    - [ ] 在 `MeihuaNumberScreen.kt` 提供「生成 AI 解讀（背景）」與「分享」
-  - [ ] 付費與測試（沿用 V12.0）
-    - [ ] 在 非 VIP 顯示解鎖條（50 幣或單次 `meihua_reading_one`，若使用共用 SKU 則沿用）
-    - [ ] 在 單元測試 `MeihuaNumberServiceTest.kt` 驗證特定數字輸出一致
-    - [ ] 在 UI 測試流程：輸入→起卦→解鎖→生成→分享
+    - [ ] 在 `NavGraph` 新增 `ROUTE_MEIHUA_NUMBER_START` 與 `ROUTE_MEIHUA_NUMBER_RESULT/{readingId}`
+    - [ ] 在 `MeihuaNumberScreen.kt` 佈局：主動輸入整數 `number`、時間（預設現在，可改）、問題欄、主要按鈕「起卦」
+    - [ ] 在 `MeihuaNumberResultScreen.kt` 顯示上卦/下卦/動爻、主卦/之卦圖示、AI 長文（未解鎖模糊）
+    - [ ] 在 `MeihuaNumberComponents.kt` 提供八卦卡片與索引選擇器
+  - [ ] 付費與測試
+    - [ ] 在 非 VIP 顯示解鎖條（一次解鎖或訂閱）
+    - [ ] 在 `MeihuaNumberServiceTest` 驗證取餘演算法邊界（0→8、動爻 1..6）
+    - [ ] 在 `MeihuaPromptBuilderTest` 驗證模板插值
+    - [ ] 在 `MeihuaNumberReadingUiTest` 驗證輸入檢核（空值/負值/過大值）與結果呈現
+  - [ ] 免費資料與授權
+    - [ ] 在 `assets/meihua/` 放置 `trigram_meanings.json`（自編、標註來源為公有領域/自述）
+    - [ ] 不使用任何付費 API；僅用本機 ONNX 推論
 - [ ] V14.1 梅花易（事件取卦）+ AI
-  - [ ] 資料結構與資料層
-    - [ ] 在 `:data/entity` 建立 `MeihuaEventReading.kt`
-    - [ ] 在 `MeihuaEventReading.kt` 定義 `data class MeihuaEventReading(id:String, title:String, location:String?, time:Instant, primaryHex:Int, resultHex:Int?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?)`
-    - [ ] 在 `:data/dao` 建立 `MeihuaEventReadingDao.kt` 與 Repo 與 Migration
-  - [ ] 服務層：事件取卦
-    - [ ] 在 `:core/iching` 建立 `MeihuaEventService.kt`
-    - [ ] 在 `MeihuaEventService.kt` 實作 `fun toHex(title:String, time:Instant, location:String?): Pair<Int, Int?>`（以時間/標題長度/方位字元映射上/下卦與動爻）
-    - [ ] 在 `:core/ai` 建立 `MeihuaEventPromptBuilder.kt` `fun build(title:String, primary:Int, result:Int?, locale:Locale): String`
+  - [ ] 資料層
+    - [ ] 在 `:data/entity` 建立 `MeihuaEventReading.kt`（欄位：`id:Long`、`title:String`、`occurAt:Instant`、`location:String?`、`upperTrigram:Int`、`lowerTrigram:Int`、`movingLine:Int`、`primaryHex:Int`、`changedHex:Int`、`aiVersion:String`、`encrypted:Boolean`、`contentCipher:ByteArray?`、`contentNonce:ByteArray?`）
+    - [ ] 在 `:data/dao` 建立 `MeihuaEventReadingDao.kt`（CRUD 與 `searchByKeyword(title)`）
+    - [ ] 在 `:data/repo` 建立 `MeihuaEventReadingRepository.kt`（AES-GCM 加解密）
+    - [ ] 在 `:data` 新增 DB Migration（`v4` 新增 `meihua_event_reading` 表）
+  - [ ] 服務層
+    - [ ] 在 `MeihuaEventService.kt` 實作 `toHex(title:String, time:Instant, location:String?): Result`
+    - [ ] 在 `MeihuaEventService.kt` 事件轉數字規則（免費且可重現）：`title`→以 Unicode code point 求和；`location`→若存在亦求和；`N = titleSum + locSum`；套用：`upper=(N + Y+M+D+H) % 8`（0→8）、`lower=(N + Y+M+D+H+min) % 8`（0→8）、`moving=((N + Y+M+D+H+min+sec) % 6)+1`
+    - [ ] 在 `MeihuaEventPromptBuilder.kt` 實作 `build(reading, locale)`（事件脈絡→體用關係→決策建議）
+    - [ ] 在 `MeihuaEventShareBuilder.kt` 生成分享文本
+  - [ ] AI 與 Worker（完全離線、免費）
+    - [ ] 在 `MeihuaEventReadingWorker.kt` 背景生成長文；完成後 AES-GCM 加密寫回
+    - [ ] 在 `MeihuaEventSafety.kt` 套用使用聲明與風險提示
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_MEIHUA_EVENT = "meihua.event"`
-    - [ ] 在 `:app/ui/screens/meihua` 建立 `MeihuaEventScreen.kt`
-    - [ ] 在 `MeihuaEventScreen.kt` 放置輸入框「事件標題」與可選地點、時間挑選器
-    - [ ] 在 `MeihuaEventScreen.kt` 主要按鈕「起卦」→ 顯示卦象 → 提供「生成 AI 解讀（背景）」與「分享」
-  - [ ] 付費與測試（沿用 V12.0）
-    - [ ] 在 非 VIP 顯示解鎖條（50 幣或單次 `meihua_reading_one`）
-    - [ ] 在 單元測試 `MeihuaEventServiceTest.kt` 驗證輸出 determinism（給定同輸入）
-    - [ ] 在 UI 測試：輸入→起卦→解鎖→生成→分享
+    - [ ] 在 `NavGraph` 新增 `ROUTE_MEIHUA_EVENT_START` 與 `ROUTE_MEIHUA_EVENT_RESULT/{readingId}`
+    - [ ] 在 `MeihuaEventScreen.kt` 佈局：事件標題（必填）、地點（選填自動定位可關閉）、時間（預設現在）、主要按鈕「起卦」
+    - [ ] 在 `MeihuaEventResultScreen.kt` 顯示上/下卦、動爻、主/之卦、AI 長文與分享
+  - [ ] 付費與測試
+    - [ ] 在 非 VIP 顯示解鎖條（一次解鎖或訂閱）
+    - [ ] 在 `MeihuaEventServiceTest` 以固定字串/地點/時間驗證可重現性
+    - [ ] 在 `MeihuaEventPromptBuilderTest` 驗證模板輸出格式
+    - [ ] 在 `MeihuaEventUiTest` 驗證必填欄位與錯誤訊息
+  - [ ] 免費資料與授權
+    - [ ] 在 `assets/meihua/` 放置 `event_examples.json`（示例資料供測試）；不含任何付費/雲端 API 相依
 - [ ] V15.0 京房易占
-  - [ ] 資料結構與資料層
-    - [ ] 在 `:data/entity` 建立 `JingFangReading.kt`
-    - [ ] 在 `JingFangReading.kt` 定義 `data class JingFangReading(id:String, time:Instant, method:String, primaryHex:Int, palace:String, relation:String, resultHex:Int?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?)`
-    - [ ] 在 `:data/dao` 建立 `JingFangReadingDao.kt` 與 Repo 與 Migration
-  - [ ] 服務層：演算法與詞庫
-    - [ ] 在 `:core/iching` 建立 `JingFangService.kt`
-    - [ ] 在 `JingFangService.kt` 實作 `fun compute(time:Instant): Triple<Int,String,String>`（回傳主卦、用神宮位、六親關係）
-    - [ ] 在 `JingFangService.kt` 實作 `fun deriveResult(primary:Int, factor:String): Int?`（簡化之卦推導）
-    - [ ] 在 `:core/iching` 建立 `JingFangGlossary.json`（自撰詞條：宮位/六親/要旨）
-    - [ ] 在 `:core/iching` 建立 `JingFangGlossary.kt` 提供 `fun meaning(palace:String, relation:String): String`
-  - [ ] AI 與生成流程
-    - [ ] 在 `:core/ai` 建立 `JingFangPromptBuilder.kt` `fun build(primary:Int, palace:String, relation:String, result:Int?, locale:Locale): String`
-    - [ ] 在 `:app/workers` 建立 `JingFangReadingWorker.kt`（模板→生成→加密→寫回）
+  - [ ] 資料層
+    - [ ] 在 `:data/entity` 建立 `JingFangReading.kt`（欄位：`id:Long`、`question:String?`、`primaryHex:Int`、`changedHex:Int?`、`movingMask:Int`、`gong:String`、`shiYing:String`、`liuQin:List<String>(size=6)`、`wuXing:List<String>(size=6)`、`castAt:Instant`、`aiVersion:String`、`encrypted:Boolean`、`contentCipher:ByteArray?`、`contentNonce:ByteArray?`）
+    - [ ] 在 `:data/dao` 建立 `JingFangReadingDao.kt`（CRUD 與 `listByNewest`）
+    - [ ] 在 `:data/repo` 建立 `JingFangReadingRepository.kt`（AES-GCM 加解密）
+    - [ ] 在 `:data` 新增 DB Migration（`v5` 新增 `jingfang_reading` 表）
+    - [ ] 在 `assets/jingfang/JingFangGlossary.json` 建立詞庫（宮位、納甲、六親、世應、空亡、月建日辰；來源：公有領域資料彙整與自編釋義）
+  - [ ] 服務層與詞庫
+    - [ ] 在 `JingFangService.kt` 實作 `compute(primaryHex:Int, movingMask:Int, lunarMeta:CalendarMeta): CalcResult`
+    - [ ] 在 `JingFangService.kt` 實作內容：`deriveGong(主卦宮位)`、`deriveShiYing(世應位置)`、`deriveNaJia(六爻配天干地支)`、`deriveLiuQin(以日干支推六親)`、`applyChanging()` 得出之卦與變化
+    - [ ] 在 `JingFangGlossary.kt` 提供 `meaning(key:String): String`（讀取 `JingFangGlossary.json`）
+    - [ ] 在 `LunarCalendar.kt` 實作免費曆法轉換（演算法：天干地支推算；不依賴付費 API；驗證與公有領域對照表）
+  - [ ] AI 與 Worker（完全離線、免費）
+    - [ ] 在 `JingFangPromptBuilder.kt` 實作 `build(calc:CalcResult, question?, locale)`（包含：宮位定性、世應關係、六親結論、日月扶抑簡評、行動建議）
+    - [ ] 在 `JingFangReadingWorker.kt` 背景生成長文；完成後 AES-GCM 加密寫回
+    - [ ] 在 `JingFangSafety.kt` 套用對應聲明
   - [ ] 路由與畫面
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_JINGFANG = "jingfang"`
-    - [ ] 在 `:app/ui/screens/jingfang` 建立 `JingFangScreen.kt`
-    - [ ] 在 `JingFangScreen.kt` 顯示時間挑選器與主要按鈕「起卦」，呈現主卦/宮位/六親
-    - [ ] 在 `JingFangScreen.kt` 提供「生成 AI 解讀（背景）」與「分享」
-  - [ ] 付費與測試（沿用 V12.0）
-    - [ ] 在 非 VIP 顯示解鎖條（50 幣或單次 `jingfang_reading_one`）
-    - [ ] 在 單元測試 `JingFangServiceTest.kt` 驗證輸出穩定與欄位合法
-    - [ ] 在 UI 測試：起卦→解鎖→生成→分享
+    - [ ] 在 `NavGraph` 新增 `ROUTE_JINGFANG_START` 與 `ROUTE_JINGFANG_RESULT/{readingId}`
+    - [ ] 在 `JingFangScreen.kt` 佈局：選擇主卦（或由擲幣生成）、輸入問題、顯示主卦/宮位/世應/六親清單、AI 長文
+    - [ ] 在 `JingFangComponents.kt` 提供「納甲表」與「六親標籤」UI 元件
+  - [ ] 付費與測試
+    - [ ] 在 非 VIP 顯示解鎖條（一次解鎖或訂閱）
+    - [ ] 在 `JingFangServiceTest` 驗證宮位/世應/六親推導規則
+    - [ ] 在 `LunarCalendarTest` 驗證干支換算與邊界（朔望月交界）
+    - [ ] 在 `JingFangPromptBuilderTest` 驗證模板插值與語氣一致性
+  - [ ] 免費資料與授權
+    - [ ] 在 `third_party/jingfang/README.md` 註明使用公有領域資料與自編整理；不使用任何付費/雲端 API；所有運算離線完成
 - [ ] V16.0 合盤（星盤）AI 報告
-  - [ ] 專案與套件骨架
-    - [ ] 在 `:core/astro` 建立套件 `core.astro.synastry`
-    - [ ] 在 `:core/ai` 建立套件 `core.ai.synastry`
-    - [ ] 在 `:app/ui/screens` 建立套件 `ui/screens/synastry`
-    - [ ] 在 `:data/entity` 建立檔案夾 `synastry`
-    - [ ] 在 `:data/dao` 建立檔案夾 `synastry`
-    - [ ] 在 `:data/repository` 建立檔案夾 `synastry`
+  - [ ] 專案骨架
+    - [ ] 在 `:core/astro/synastry` `:core/ai/synastry` `:app/ui/screens/synastry` 建立套件
+    - [ ] 在 `:data/entity/dao/repository/synastry` 建立檔案夾
+    - [ ] 在 `:app` 新增 `ui/navigation/SynastryRoutes.kt` 管理路由常數
+    - [ ] 在 `:core/astro` 以現有 Astronomy Engine（開源免費）作為行星計算依據
+  - [ ] 資料庫遷移
+    - [ ] 新增 Entity `SynastryPair`/`SynastryAspect`/`SynastryReport` 資料表
+    - [ ] 在 `AppDatabase` 增加 `version=16` 並撰寫 `Migration_15_16`
+    - [ ] 為 `SynastryReport` 新增索引 `pairId, createdAt`
+    - [ ] 為 `SynastryAspect` 新增複合索引 `pairId, planetA, planetB, aspect`
+    - [ ] 撰寫 rollback-safe 遷移測試（Room MigrationTest）
   - [ ] 資料結構
-    - [ ] 在 `:data/entity/synastry` 建立 `SynastryPair.kt`
-    - [ ] 在 `SynastryPair.kt` 定義 `data class SynastryPair(val id:String,val aChartId:String,val bChartId:String,val createdAt:Instant)`
-    - [ ] 在 `:data/entity/synastry` 建立 `SynastryAspect.kt`
-    - [ ] 在 `SynastryAspect.kt` 定義 `data class SynastryAspect(val type:String,val orb:Double,val planetA:String,val planetB:String,val houseOverlay:String?)`
-    - [ ] 在 `:data/entity/synastry` 建立 `SynastryReport.kt`
-    - [ ] 在 `SynastryReport.kt` 定義 `data class SynastryReport(val id:String,val pairId:String,val overview:String?,val strengths:List<String>?,val challenges:List<String>?,val advice30:List<String>?,val advice90:List<String>?,val rawPromptHash:String,val tokens:Int,val createdAt:Instant,val unlocked:Boolean,val paidBy:String?)`
-    - [ ] 在 `:data/dao/synastry` 建立 `SynastryPairDao.kt`
-    - [ ] 在 `SynastryPairDao.kt` 定義 `upsert(pair:SynastryPair)`
-    - [ ] 在 `SynastryPairDao.kt` 定義 `getById(id:String):SynastryPair?`
-    - [ ] 在 `SynastryPairDao.kt` 定義 `listRecent(limit:Int):List<SynastryPair>`
-    - [ ] 在 `:data/dao/synastry` 建立 `SynastryReportDao.kt`
-    - [ ] 在 `SynastryReportDao.kt` 定義 `upsert(report:SynastryReport)`
-    - [ ] 在 `SynastryReportDao.kt` 定義 `getById(id:String):SynastryReport?`
-    - [ ] 在 `SynastryReportDao.kt` 定義 `listByPair(pairId:String,limit:Int):List<SynastryReport>`
-    - [ ] 在 `:data/AppDatabase` 新增 `abstract fun synastryPairDao(): SynastryPairDao`
-    - [ ] 在 `:data/AppDatabase` 新增 `abstract fun synastryReportDao(): SynastryReportDao`
-    - [ ] 在 `:data/db/migrations` 建立對應 Migration 檔
-    - [ ] 在 `:data/repository/synastry` 建立 `SynastryRepository.kt`
-    - [ ] 在 `SynastryRepository.kt` 實作 `createPair(aChartId:String,bChartId:String):String`
-    - [ ] 在 `SynastryRepository.kt` 實作 `saveReport(report:SynastryReport)`
-    - [ ] 在 `SynastryRepository.kt` 實作 `recentPairs(limit:Int)`
-    - [ ] 在 `SynastryRepository.kt` 實作 `reportsForPair(pairId:String,limit:Int)`
-  - [ ] 設計參數
-    - [ ] 在 `:core/astro/synastry` 建立 `SynastryConfig.kt`
-    - [ ] 在 `SynastryConfig.kt` 定義 `object SynastryConfig`
-    - [ ] 在 `SynastryConfig.kt` 定義 `val supportedAspects = listOf(Conjunction,Opposition,Trine,Square,Sextile)`
-    - [ ] 在 `SynastryConfig.kt` 定義 `val defaultOrbs = mapOf("Sun" to 8.0,"Moon" to 8.0,"Other" to 6.0)`
+    - [ ] 在 `SynastryPair.kt` `SynastryAspect.kt` `SynastryReport.kt` 建立資料類型
+    - [ ] 在 DAO 與 `AppDatabase` 註冊
+    - [ ] 在 `SynastryRepository.kt` 實作 CRUD
+    - [ ] 在 `SynastryRepository.kt` 實作 `fun upsertPair(aChartId,bChartId): Long`
+    - [ ] 在 `SynastryRepository.kt` 實作 `fun saveAspects(pairId, aspects)`
+    - [ ] 在 `SynastryRepository.kt` 實作 `fun latestReport(pairId): SynastryReport?`
+    - [ ] 在 `SynastryRepository.kt` 實作加密欄位（沿用 AES-GCM）`report.contentEncrypted`
   - [ ] 相位計算引擎
-    - [ ] 在 `:core/astro/synastry` 建立 `SynastryEngine.kt`
-    - [ ] 在 `SynastryEngine.kt` 定義 `data class BodyPos(val name:String,val lon:Double)`
-    - [ ] 在 `SynastryEngine.kt` 定義 `fun aspectAngle(type:String):Double`
-    - [ ] 在 `SynastryEngine.kt` 定義 `fun orbFor(planetA:String,planetB:String):Double`
-    - [ ] 在 `SynastryEngine.kt` 定義 `fun detectAspects(a:List<BodyPos>,b:List<BodyPos>):List<SynastryAspect>`
-    - [ ] 在 `SynastryEngine.kt` 實作 `detectAspects` 計算角距離與容許度
-    - [ ] 在 `SynastryEngine.kt` 定義 `fun houseOverlay(aHouses:List<House>,bBodies:List<BodyPos>):List<Pair<String,String>>`
-    - [ ] 在 `SynastryEngine.kt` 實作 `houseOverlay` 輸出覆蓋描述
-    - [ ] 在 `SynastryEngine.kt` 定義 `fun compute(a:NatalChart,b:NatalChart):Pair<List<SynastryAspect>,List<Pair<String,String>>>`
-    - [ ] 在 `SynastryEngine.kt` 實作 `compute` 整合相位與覆蓋
-    - [ ] 在 `:core/astro/synastry` 建立 `SynastryFormatter.kt`
-    - [ ] 在 `SynastryFormatter.kt` 實作 `fun summarize(aspects:List<SynastryAspect>):Triple<String,List<String>,List<String>>`
-  - [ ] AI Prompt 建構
-    - [ ] 在 `:core/ai/synastry` 建立 `SynastryPromptBuilder.kt`
-    - [ ] 在 `SynastryPromptBuilder.kt` 定義 `fun build(aName:String,bName:String,summary:String,strengths:List<String>,challenges:List<String>,overlays:List<Pair<String,String>>,locale:Locale):String`
-    - [ ] 在 `SynastryPromptBuilder.kt` 插入段落標頭 `概覽`
-    - [ ] 在 `SynastryPromptBuilder.kt` 插入段落標頭 `優勢`
-    - [ ] 在 `SynastryPromptBuilder.kt` 插入段落標頭 `挑戰`
-    - [ ] 在 `SynastryPromptBuilder.kt` 插入段落標頭 `30天行動`
-    - [ ] 在 `SynastryPromptBuilder.kt` 插入段落標頭 `90天行動`
+    - [ ] 在 `SynastryConfig.kt` 定義支援相位與 orb
+    - [ ] 在 `SynastryConfig.kt` 支援行星權重與日月特別 orb（免費本地規則）
+    - [ ] 在 `SynastryEngine.kt` 實作 `aspectAngle/orbFor/detectAspects/houseOverlay/compute`
+    - [ ] 在 `SynastryEngine.kt` 支援 out-of-sign 容忍選項
+    - [ ] 在 `SynastryEngine.kt` 支援反向容差（分離/接近判定）
+    - [ ] 在 `SynastryEngine.kt` 支援宮位交疊（A 行星落 B 宮）
+    - [ ] 在 `SynastryFormatter.kt` 實作 `summarize`
+    - [ ] 在 `SynastryFormatter.kt` 產生摘要指標（和諧/挑戰/焦點）
+    - [ ] 建立 `SynastryEngineTest.kt` 以固定測例驗證角度與 orb 邏輯
+  - [ ] AI Prompt 建構（僅用本地 ONNX，禁止付費 API）
+    - [ ] 在 `SynastryPromptBuilder.kt` 實作多段模板
+    - [ ] 在 `SynastryPromptBuilder.kt` 加入語系參數與長度控制
+    - [ ] 在 `SynastryPromptBuilder.kt` 注入摘要指標與關鍵相位解讀
+    - [ ] 在 `:core/ai/synastry` 以 `OnnxLlamaSession.generate()` 本地生成
+    - [ ] 在 `SynastryPromptBuilderTest.kt` 驗證模板插值與邊界（空相位/極長文）
   - [ ] 背景任務
-    - [ ] 在 `:app/workers` 建立 `SynastryReportWorker.kt`
-    - [ ] 在 `SynastryReportWorker.kt` 讀取 `pairId` 與人名
-    - [ ] 在 `SynastryReportWorker.kt` 讀取兩份 `NatalChart`
-    - [ ] 在 `SynastryReportWorker.kt` 呼叫 `SynastryEngine.compute`
-    - [ ] 在 `SynastryReportWorker.kt` 呼叫 `SynastryFormatter.summarize`
-    - [ ] 在 `SynastryReportWorker.kt` 呼叫 `SynastryPromptBuilder.build`
-    - [ ] 在 `SynastryReportWorker.kt` 呼叫 `OnnxLlamaSession.generate`
-    - [ ] 在 `SynastryReportWorker.kt` 解析段落為 `overview/strengths/challenges/advice30/advice90`
-    - [ ] 在 `SynastryReportWorker.kt` 寫入 `SynastryReportRepository.saveReport`
-    - [ ] 在 `SynastryReportWorker.kt` 發送通知導向 `synastry.report/{reportId}`
-  - [ ] 路由與畫面（挑選 → 檢視）
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增常數 `ROUTE_SYNASTRY_PICK = "synastry.pick"`
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增常數 `ROUTE_SYNASTRY_REPORT = "synastry.report/{reportId}"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_SYNASTRY_PICK){ SynastryPickScreen() }`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_SYNASTRY_REPORT){ backStack -> SynastryReportScreen(backStack.arguments?.getString("reportId")!!) }`
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `SynastryPickScreen.kt`
-    - [ ] 在 `SynastryPickScreen.kt` 放置 `TopAppBar` 顯示標題「星盤合盤」
-    - [ ] 在 `SynastryPickScreen.kt` 放置下拉選單一個供 `Person A` 選擇
-    - [ ] 在 `SynastryPickScreen.kt` 放置下拉選單一個供 `Person B` 選擇
-    - [ ] 在 `SynastryPickScreen.kt` 放置 `IconButton` 一個執行 A/B 互換
-    - [ ] 在 `SynastryPickScreen.kt` 放置主要按鈕「生成合盤報告」
-    - [ ] 在 `SynastryPickScreen.kt` 於按鈕點擊建立 `SynastryPair` 並寫入 DB
-    - [ ] 在 `SynastryPickScreen.kt` 於按鈕點擊進行權益檢查
-    - [ ] 在 `SynastryPickScreen.kt` 於權益通過後排程 `SynastryReportWorker`
-    - [ ] 在 `SynastryPickScreen.kt` 於排程成功後導向 `SynastryReportScreen`
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `SynastryReportScreen.kt`
-    - [ ] 在 `SynastryReportScreen.kt` 顯示卡片一張顯示 `概覽`
-    - [ ] 在 `SynastryReportScreen.kt` 顯示卡片一張顯示 `優勢` 清單
-    - [ ] 在 `SynastryReportScreen.kt` 顯示卡片一張顯示 `挑戰` 清單
-    - [ ] 在 `SynastryReportScreen.kt` 顯示卡片一張顯示 `30天行動`
-    - [ ] 在 `SynastryReportScreen.kt` 顯示卡片一張顯示 `90天行動`
-    - [ ] 在 `SynastryReportScreen.kt` 放置 `ExtendedFAB` 一個文案「重新生成」
-    - [ ] 在 `SynastryReportScreen.kt` 於 FAB 點擊再檢查權益並重排程 Worker
+    - [ ] 在 `SynastryReportWorker.kt` 串接引擎與生成流程
+    - [ ] 在 `SynastryReportWorker.kt` 加入 `setForegroundAsync()` 與可取消
+    - [ ] 在 `SynastryReportWorker.kt` 實作重試與超時（WorkManager backoff）
+    - [ ] 在 `SynastryReportWorker.kt` 回寫 `SynastryReport` 與通知完成
+    - [ ] 在 `SynastryReportWorkerTest.kt` 模擬成功/失敗/取消路徑
+  - [ ] 路由與畫面
+    - [ ] 在 `ROUTE_SYNASTRY_PICK/REPORT` 與 `SynastryPickScreen/SynastryReportScreen` 建立
+    - [ ] 在 `SynastryPickScreen` A/B 選擇與「生成合盤報告」按鈕
+    - [ ] 在 權益檢查通過後排程 Worker
+    - [ ] 在 `SynastryReportScreen` 顯示摘要卡與長文折疊
+    - [ ] 在 `SynastryReportScreen` 支援分享/複製/重新生成
+    - [ ] 在 `SynastryReportScreen` 錯誤與空狀態 UI
+    - [ ] 在 `SynastryPickScreen` 加入輸入驗證（生日未填/相同人）
   - [ ] 付費 SKU 與配套
-    - [ ] 在 `:billing` 新增常數 `SYNASTRY_DEEP_ONE = "synastry_deep_one"`
-    - [ ] 在 `:billing` 新增常數 `SYNASTRY_BUNDLE_5 = "synastry_bundle_5"`
-    - [ ] 在 `:data/entity` 建立 `CreditBucket.kt`
-    - [ ] 在 `CreditBucket.kt` 定義 `data class CreditBucket(val sku:String,val remaining:Int,val updatedAt:Instant)`
-    - [ ] 在 `:data/dao` 建立 `CreditBucketDao.kt`
-    - [ ] 在 `CreditBucketDao.kt` 定義 `getBySku(sku:String):CreditBucket?`
-    - [ ] 在 `CreditBucketDao.kt` 定義 `upsert(bucket:CreditBucket)`
-    - [ ] 在 `:data/repository` 建立 `CreditStore.kt`
-    - [ ] 在 `CreditStore.kt` 實作 `fun consumeOnce(sku:String):Boolean`
-    - [ ] 在 `CreditStore.kt` 實作 `fun grantBundle(sku:String,count:Int)`
-    - [ ] 在 `BillingManager` 的 `onPurchasesUpdated` 新增處理 `SYNASTRY_DEEP_ONE`
-    - [ ] 在 `BillingManager` 的 `onPurchasesUpdated` 新增處理 `SYNASTRY_BUNDLE_5`
-    - [ ] 在 `BillingManager` 處理單次購買時將 `CreditStore.grantBundle(SYNASTRY_DEEP_ONE,1)`
-    - [ ] 在 `BillingManager` 處理套裝購買時將 `CreditStore.grantBundle(SYNASTRY_BUNDLE_5,5)`
-    - [ ] 在 `SynastryPickScreen.kt` 權益檢查時先檢查 `isVIP`
-    - [ ] 在 `SynastryPickScreen.kt` 權益檢查時若非 VIP 檢查 `CreditStore.consumeOnce` 兩 SKU 任一
-    - [ ] 在 `SynastryPickScreen.kt` 權益不足時顯示解鎖條與「購買單次」按鈕
-    - [ ] 在 `SynastryPickScreen.kt` 權益不足時顯示「購買 5 次套裝」按鈕
-    - [ ] 在 `SynastryPickScreen.kt` 「購買單次」按鈕呼叫 `BillingManager.launchPurchase(SYNASTRY_DEEP_ONE)`
-    - [ ] 在 `SynastryPickScreen.kt` 「購買 5 次套裝」按鈕呼叫 `BillingManager.launchPurchase(SYNASTRY_BUNDLE_5)`
+    - [ ] 在 `:billing` 新增 `SYNASTRY_DEEP_ONE/SYNASTRY_BUNDLE_5`
+    - [ ] 在 `CreditBucket` 與 `CreditStore` 建立消耗與授權
+    - [ ] 在 `PurchaseScreen` 新增兩商品卡
+    - [ ] 在 `EntitlementStore` 增加合盤報告權限旗標
+    - [ ] 在 建立測試商品對應（內部測試用，不連付費 API）
+  - [ ] 無障礙與在地化
+    - [ ] 為新畫面與按鈕加上 contentDescription/語意標籤
+    - [ ] 新增 `strings.xml` zh-TW/en 對應字串
+    - [ ] 大字體/深色模式檢查排版
   - [ ] 測試與效能
-    - [ ] 在 `:core/astro/synastry` 建立 `SynastryEngineTest.kt`
-    - [ ] 在 `SynastryEngineTest.kt` 測試相位角度計算正確
-    - [ ] 在 `SynastryEngineTest.kt` 測試容許度判斷正確
-    - [ ] 在 `SynastryEngineTest.kt` 測試覆蓋落宮輸出不為空
-    - [ ] 在 `:core/ai/synastry` 建立 `SynastryPromptBuilderTest.kt`
-    - [ ] 在 `SynastryPromptBuilderTest.kt` 驗證五個段落標頭存在
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `SynastryUiTest.kt`
-    - [ ] 在 `SynastryUiTest.kt` 測試選單選擇與交換互動
-    - [ ] 在 `SynastryUiTest.kt` 測試權益不足時顯示解鎖條
-    - [ ] 在 `SynastryUiTest.kt` 測試長文頁面捲動流暢不掉幀
+    - [ ] 在 引擎、模板、UI 三類測試完成
+    - [ ] 在 長文頁面捲動 60fps 並無 Debug-only 控制
+    - [ ] 在 `Profiled` 模式量測合盤計算 < 200ms（Pixel 6 模擬）
+    - [ ] 在 本地模型生成 700 tokens 可於背景穩定完成
+  - [ ] 安全與法遵（免費資源）
+    - [ ] 確認僅使用本地模型與開源星曆（無付費 API）
+    - [ ] 報告加密存放與日誌去識別化
+    - [ ] 第三方授權清單更新（Astronomy Engine/ONNXRuntime）
 - [ ] V16.1 合盤（紫微）AI 報告
   - [ ] 服務與演算法
-    - [ ] 在 `:core/ziwei` 建立 `ZiweiSynastry.kt`
-    - [ ] 在 `ZiweiSynastry.kt` 定義 `data class ZiweiPairScore(val palace:String,val score:Int,val rationale:String)`
-    - [ ] 在 `ZiweiSynastry.kt` 定義 `fun compare(a:ZiweiChart,b:ZiweiChart):List<ZiweiPairScore>`
-    - [ ] 在 `ZiweiSynastry.kt` 實作以宮位對位與主星同氣加分
-    - [ ] 在 `ZiweiSynastry.kt` 實作以四化衝突減分
+    - [ ] 在 `ZiweiSynastry.kt` 實作 `compare`
+    - [ ] 在 `ZiweiSynastry.kt` 定義宮位映射與主星/輔星權重（本地規則）
+    - [ ] 在 `ZiweiSynastry.kt` 定義緣分分數（加權總表/沖剋扣分）
+    - [ ] 建立 `ZiweiSynastryTest.kt` 以固定盤例驗證分數
+  - [ ] 資料庫遷移
+    - [ ] 在 `SynastryReport` 增加 `type` 欄位（`western/ziwei/bazi`）
+    - [ ] 撰寫 `Migration_16_16a` 更新既有資料預設為 `western`
+    - [ ] 加入索引 `type, createdAt`
   - [ ] AI 模板
-    - [ ] 在 `:core/ai` 建立 `ZiweiSynastryPromptBuilder.kt`
-    - [ ] 在 `ZiweiSynastryPromptBuilder.kt` 定義 `fun build(scores:List<ZiweiPairScore>,locale:Locale):String`
-    - [ ] 在 `ZiweiSynastryPromptBuilder.kt` 插入段落 `緣份基調`
-    - [ ] 在 `ZiweiSynastryPromptBuilder.kt` 插入段落 `宮位呼應`
-    - [ ] 在 `ZiweiSynastryPromptBuilder.kt` 插入段落 `風險提醒`
+    - [ ] 在 `ZiweiSynastryPromptBuilder.kt` 建立模板
+    - [ ] 在 模板加入「宮位/主星/四化」摘要段
+    - [ ] 在 模板加入「高相容/需溝通」對照段
+    - [ ] 撰寫模板單元測試
   - [ ] 背景任務
-    - [ ] 在 `:app/workers` 建立 `ZiweiSynastryWorker.kt`
-    - [ ] 在 `ZiweiSynastryWorker.kt` 讀取兩份 `ZiweiChart`
-    - [ ] 在 `ZiweiSynastryWorker.kt` 呼叫 `ZiweiSynastry.compare`
-    - [ ] 在 `ZiweiSynastryWorker.kt` 呼叫 `ZiweiSynastryPromptBuilder.build`
-    - [ ] 在 `ZiweiSynastryWorker.kt` 呼叫 `OnnxLlamaSession.generate` 並寫入 `SynastryReport`
+    - [ ] 在 `ZiweiSynastryWorker.kt` 串接比較與生成
+    - [ ] 在 Worker 輸入加入 `type="ziwei"` 與 pairId
+    - [ ] 在 生成完成後回寫 `SynastryReport(type=ziwei)`
   - [ ] UI 與路由
-    - [ ] 在 `NavGraph.kt` 新增常數 `ROUTE_ZIWEI_SYNASTRY_PICK = "ziwei.synastry.pick"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_ZIWEI_SYNASTRY_PICK){ ZiweiSynastryPickScreen() }`
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `ZiweiSynastryPickScreen.kt`
-    - [ ] 在 `ZiweiSynastryPickScreen.kt` 放置 A/B Chart 選擇控制
-    - [ ] 在 `ZiweiSynastryPickScreen.kt` 放置主要按鈕「生成紫微合盤」
-    - [ ] 在 `ZiweiSynastryPickScreen.kt` 於點擊觸發與 V18.0 相同權益檢查
-    - [ ] 在 `ZiweiSynastryPickScreen.kt` 於通過後排程 `ZiweiSynastryWorker`
+    - [ ] 在 `ROUTE_ZIWEI_SYNASTRY_PICK` 與畫面建立
+    - [ ] 在 選擇畫面加入系統切換 `西洋/紫微`
+    - [ ] 在 報告畫面加入紫微專屬章節（宮位雷達/分數條）
   - [ ] 付費沿用
-    - [ ] 在 `ZiweiSynastryPickScreen.kt` 使用 `SYNASTRY_DEEP_ONE` 與 `SYNASTRY_BUNDLE_5`
-    - [ ] 在 `ZiweiSynastryPickScreen.kt` 使用相同解鎖條與購買流程
-  - [ ] 測試
-    - [ ] 在 `:core/ziwei` 建立 `ZiweiSynastryTest.kt`
-    - [ ] 在 `ZiweiSynastryTest.kt` 測試同宮加分大於 0
-    - [ ] 在 `ZiweiSynastryTest.kt` 測試四化衝突減分小於 0
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `ZiweiSynastryUiTest.kt`
-    - [ ] 在 `ZiweiSynastryUiTest.kt` 測試選擇 → 權益 → 排程流程
+    - [ ] 在 使用 `SYNASTRY_DEEP_ONE/BUNDLE_5` 權益
+    - [ ] 在 權益檢查加入 `type=ziwei` 支援
+  - [ ] 測試驗證
+    - [ ] 在 比分加減規則與 UI 流程測試完成
+    - [ ] 在 產出長文字數/段落邏輯驗證
+  - [ ] 無障礙與在地化
+    - [ ] 加入紫微術語字串 zh-TW/en
+    - [ ] TalkBack 朗讀雷達圖替代文字
+  - [ ] 安全與法遵（免費資源）
+    - [ ] 僅用本地演算法與資料，不連雲端/付費 API
+    - [ ] 生成內容附上非醫療/法律建議警語（UI 文字）
 - [ ] V16.2 合盤（八字）AI 報告
   - [ ] 服務與演算法
-    - [ ] 在 `:core/bazi` 建立 `BaziSynastry.kt`
-    - [ ] 在 `BaziSynastry.kt` 定義 `data class TenGodCompat(val god:String,val score:Int,val reason:String)`
-    - [ ] 在 `BaziSynastry.kt` 定義 `fun compare(a:BaziChart,b:BaziChart):Pair<Int,List<TenGodCompat>>`
-    - [ ] 在 `BaziSynastry.kt` 實作日主五行相生相剋分數
-    - [ ] 在 `BaziSynastry.kt` 實作十神關係匹配分數
+    - [ ] 在 `BaziSynastry.kt` 實作 `compare`
+    - [ ] 在 `BaziSynastry.kt` 以本地節氣換月/干支推算（免費演算法）
+    - [ ] 在 `BaziSynastry.kt` 定義五行相生相剋分數/十神關聯
+    - [ ] 建立 `BaziSynastryTest.kt` 驗證干支/節氣邊界與分數
+  - [ ] 資料庫遷移
+    - [ ] 確保 `SynastryReport.type` 支援 `bazi`
+    - [ ] 撰寫 `Migration_16a_16b` 並回填既有資料不變
+    - [ ] 為八字報告新增索引 `pairId, type`
   - [ ] AI 模板
-    - [ ] 在 `:core/ai` 建立 `BaziSynastryPromptBuilder.kt`
-    - [ ] 在 `BaziSynastryPromptBuilder.kt` 定義 `fun build(total:Int,details:List<TenGodCompat>,locale:Locale):String`
-    - [ ] 在 `BaziSynastryPromptBuilder.kt` 插入段落 `整體匹配`
-    - [ ] 在 `BaziSynastryPromptBuilder.kt` 插入段落 `十神互動`
-    - [ ] 在 `BaziSynastryPromptBuilder.kt` 插入段落 `改善建議`
+    - [ ] 在 `BaziSynastryPromptBuilder.kt` 建立模板
+    - [ ] 在 模板加入「日主/十神/用神」分段
+    - [ ] 在 模板加入「五行平衡建議」分段
+    - [ ] 撰寫模板單元測試
   - [ ] 背景任務
-    - [ ] 在 `:app/workers` 建立 `BaziSynastryWorker.kt`
-    - [ ] 在 `BaziSynastryWorker.kt` 讀取兩份 `BaziChart`
-    - [ ] 在 `BaziSynastryWorker.kt` 呼叫 `BaziSynastry.compare`
-    - [ ] 在 `BaziSynastryWorker.kt` 呼叫 `BaziSynastryPromptBuilder.build`
-    - [ ] 在 `BaziSynastryWorker.kt` 呼叫 `OnnxLlamaSession.generate` 並寫入 `SynastryReport`
+    - [ ] 在 `BaziSynastryWorker.kt` 串接生成
+    - [ ] 在 Worker 輸入加入 `type="bazi"` 與 pairId
+    - [ ] 在 生成完成後回寫 `SynastryReport(type=bazi)`
   - [ ] UI 與路由
-    - [ ] 在 `NavGraph.kt` 新增常數 `ROUTE_BAZI_SYNASTRY_PICK = "bazi.synastry.pick"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_BAZI_SYNASTRY_PICK){ BaziSynastryPickScreen() }`
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `BaziSynastryPickScreen.kt`
-    - [ ] 在 `BaziSynastryPickScreen.kt` 放置 A/B Chart 選擇控制
-    - [ ] 在 `BaziSynastryPickScreen.kt` 放置主要按鈕「生成八字合盤」
-    - [ ] 在 `BaziSynastryPickScreen.kt` 於點擊觸發與 V18.0 相同權益檢查
-    - [ ] 在 `BaziSynastryPickScreen.kt` 於通過後排程 `BaziSynastryWorker`
+    - [ ] 在 `ROUTE_BAZI_SYNASTRY_PICK` 與畫面建立
+    - [ ] 在 選擇畫面加入 `八字` Tab 與出生時辰必填驗證
+    - [ ] 在 報告畫面加入五行柱狀圖/總分
   - [ ] 付費沿用
-    - [ ] 在 `BaziSynastryPickScreen.kt` 使用 `SYNASTRY_DEEP_ONE` 與 `SYNASTRY_BUNDLE_5`
-    - [ ] 在 `BaziSynastryPickScreen.kt` 使用相同解鎖條與購買流程
-  - [ ] 測試
-    - [ ] 在 `:core/bazi` 建立 `BaziSynastryTest.kt`
-    - [ ] 在 `BaziSynastryTest.kt` 測試相生得分大於相剋時的整體分數
-    - [ ] 在 `BaziSynastryTest.kt` 測試十神匹配細節項存在
-    - [ ] 在 `:app/ui/screens/synastry` 建立 `BaziSynastryUiTest.kt`
-    - [ ] 在 `BaziSynastryUiTest.kt` 測試選擇 → 權益 → 排程流程
+    - [ ] 在 使用 `SYNASTRY_DEEP_ONE/BUNDLE_5` 權益
+    - [ ] 在 權益檢查加入 `type=bazi` 支援
+  - [ ] 測試驗證
+    - [ ] 在 分數與 UI 流程測試完成
+    - [ ] 在 干支邊界（節氣前後/子時切換）測試
+  - [ ] 無障礙與在地化
+    - [ ] 新增八字術語對應字串 zh-TW/en
+    - [ ] 圖表替代文字與可聚焦標註
+  - [ ] 安全與法遵（免費資源）
+    - [ ] 全程離線演算/不連付費 API
+    - [ ] 敏感生日資料加密保存
 - [ ] V17.0 週期提醒（逆行／沖剋／吉日）
   - [ ] 規則定義
-    - [ ] 在 `:core/astro` 建立 `ReminderRules.kt`
-    - [ ] 在 `ReminderRules.kt` 定義枚舉 `ReminderTopic { Retrograde, HardAspect, GoodDay }`
-    - [ ] 在 `ReminderRules.kt` 定義資料類型 `ReminderEvent(date:LocalDate,title:String,desc:String,topic:ReminderTopic)`
-    - [ ] 在 `ReminderRules.kt` 定義 `fun computeRetrogrades(range:ClosedRange<LocalDate>):List<ReminderEvent>`
-    - [ ] 在 `ReminderRules.kt` 定義 `fun computeHardAspects(range:ClosedRange<LocalDate>):List<ReminderEvent>`
-    - [ ] 在 `ReminderRules.kt` 定義 `fun computeGoodDays(range:ClosedRange<LocalDate>):List<ReminderEvent>`
+    - [ ] 在 `ReminderRules.kt` 定義枚舉與事件資料
+    - [ ] 在 `ReminderRules.kt` 實作三種事件計算
+    - [ ] 在 `ReminderRules.kt` 實作逆行區間（以本地行星速度號誌）
+    - [ ] 在 `ReminderRules.kt` 實作沖剋窗口（重大相位觸發）
+    - [ ] 在 `ReminderRules.kt` 實作吉日評分（行星尊嚴/相位加權）
+    - [ ] 建立 `ReminderRulesTest.kt` 覆蓋邊界日/跨月/跨年
   - [ ] 排程器
-    - [ ] 在 `:app/workers` 建立 `ReminderScheduler.kt`
-    - [ ] 在 `ReminderScheduler.kt` 定義 `fun scheduleDaily(hour:Int,minute:Int)`
-    - [ ] 在 `ReminderScheduler.kt` 定義 `fun cancelAll()`
-    - [ ] 在 `ReminderScheduler.kt` 使用 `WorkManager` 建立 `PeriodicWorkRequest`
-    - [ ] 在 `:app/workers` 建立 `ReminderWorker.kt`
-    - [ ] 在 `ReminderWorker.kt` 讀取使用者選擇的主題
-    - [ ] 在 `ReminderWorker.kt` 讀取時段設定
-    - [ ] 在 `ReminderWorker.kt` 呼叫 `ReminderRules` 計算當日或近日事件
-    - [ ] 在 `ReminderWorker.kt` 發送通知含標題
-    - [ ] 在 `ReminderWorker.kt` 發送通知含描述
-    - [ ] 在 `ReminderWorker.kt` 設定點擊導向 `reminder.list`
+    - [ ] 在 `ReminderScheduler.kt` 實作每日排程
+    - [ ] 在 `ReminderWorker.kt` 實作通知內容與導向
+    - [ ] 在 `ReminderScheduler.kt` 依使用者時區 04:00 本地計算
+    - [ ] 在 `ReminderWorker.kt` 支援重試/退避/Doze 兼容（WorkManager）
+    - [ ] 在 `ReminderWorkerTest.kt` 模擬裝置重啟/時區切換
   - [ ] 設定頁面
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增 `ROUTE_REMINDER_SETTINGS = "reminder.settings"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_REMINDER_SETTINGS){ ReminderSettingsScreen() }`
-    - [ ] 在 `:app/ui/screens` 建立 `ReminderSettingsScreen.kt`
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置 `TopAppBar` 標題「週期提醒」
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置 `Switch` 一個控制 `Retrograde`
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置 `Switch` 一個控制 `HardAspect`
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置 `Switch` 一個控制 `GoodDay`
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置時間挑選器一個設定時段
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置 `Save` 按鈕一個儲存設定
-    - [ ] 在 `ReminderSettingsScreen.kt` 於儲存後呼叫 `ReminderScheduler.scheduleDaily`
+    - [ ] 在 `ROUTE_REMINDER_SETTINGS` 與 `ReminderSettingsScreen.kt` 建立
+    - [ ] 在 三個 Switch 與時間挑選器與 Save 按鈕綁定
+    - [ ] 在 加入頻率選擇（每日/每週/僅重大）
+    - [ ] 在 顯示下一次觸發時間與狀態列
   - [ ] ICS 匯出
-    - [ ] 在 `:app/export` 建立 `IcsExporter.kt`
-    - [ ] 在 `IcsExporter.kt` 定義 `fun export(events:List<ReminderEvent>,file:File):File`
-    - [ ] 在 `IcsExporter.kt` 生成 `VCALENDAR` 標頭一條
-    - [ ] 在 `IcsExporter.kt` 生成各 `VEVENT` 區塊多條
-    - [ ] 在 `IcsExporter.kt` 結尾寫入檔案
-    - [ ] 在 `ReminderSettingsScreen.kt` 放置 `OutlinedButton` 一個文案「匯出 .ics」
-    - [ ] 在 `ReminderSettingsScreen.kt` 點擊呼叫 `IcsExporter.export`
-    - [ ] 在 `ReminderSettingsScreen.kt` 產出後以分享 Intent 分享檔案
+    - [ ] 在 `IcsExporter.kt` 實作 `VCALENDAR/VEVENT` 產出
+    - [ ] 在 設定頁加入「匯出 .ics」與分享
+    - [ ] 在 `IcsExporter.kt` 支援時區/全天事件/提醒 30m
+    - [ ] 在 `IcsExporterTest.kt` 驗證 RFC5545 格式與多事件
   - [ ] 付費邏輯
-    - [ ] 在 `:billing` 新增常數 `REMINDER_PACK_ALL = "reminder_pack_all"`
-    - [ ] 在 `:billing` 新增常數 `REMINDER_PACK_TOPIC = "reminder_pack_topic"`
-    - [ ] 在 `:billing` 新增常數 `REMINDER_MONTH_PASS = "reminder_month_pass"`
-    - [ ] 在 設定頁檢查 `isVIP` 為真時解鎖全部主題
-    - [ ] 在 設定頁檢查 `REMINDER_MONTH_PASS` 有效時解鎖全部主題
-    - [ ] 在 設定頁缺少權益時顯示購買按鈕
-    - [ ] 在 購買按鈕點擊呼叫對應 `BillingManager.launchPurchase`
-  - [ ] 測試
-    - [ ] 在 單元測試 `ReminderRulesTest.kt` 驗證三種事件非空
-    - [ ] 在 單元測試 `IcsExporterTest.kt` 驗證輸出包含 `VCALENDAR`
-    - [ ] 在 UI 測試 `ReminderSettingsUiTest.kt` 驗證開關與時間儲存
-    - [ ] 在 手動測試排程通知準時顯示
-- [ ] V18.0 神明拜拜系統（為 V19 抽籤整合預備 UI/資料結構）
-  - [ ] 資產與資料結構（擴充以支援「籤筒」與神明對應）
-    - [ ] 在 `:app/src/main/assets/altar` 建立/擴充 `AltarTheme.json` 增加 `lotTube` 區塊（點位與尺寸）
-    - [ ] 在 `AltarTheme.json` 新增欄位 `{"id":"basic","name":"經典","bg":"#...","items":[{"type":"table","x":...,"y":...},{"type":"incense","x":...,"y":...},{"type":"lot_tube","x":0.72,"y":0.48,"w":0.12,"h":0.24,"tapTarget":"lot_tube"}]}`
-    - [ ] 在 `:data/entity` 建立 `Wish.kt`（`id:String,title:String,notes:String?,createdAt:Instant,due:LocalDate?,status:String,completedAt:Instant?`）
-    - [ ] 在 `:data/dao` 建立 `WishDao.kt`（`upsert(entity)`、`get(id)`、`listByStatus(status, limit)`）
-    - [ ] 在 `:data/repository` 建立 `WishRepository.kt`（`create/update/toggleComplete/listOpen/listDone`）
-    - [ ] 在 `:data/db/migrations` 新增 Wish 表 Migration 並於 `AppDatabase` 註冊
-  - [ ] 畫布與主題（加入「籤筒」視覺與可點擊區）
-    - [ ] 在 `:app/ui/canvas` 建立 `AltarCanvas.kt`
-    - [ ] 在 `AltarCanvas.kt` 使用 `Canvas` 繪製背景/供桌/燭台/香爐
-    - [ ] 在 `AltarCanvas.kt` 新增 `drawLotTube(area: Rect)` 畫出籤筒（簡化矩形+陰影）
-    - [ ] 在 `AltarCanvas.kt` 將 `lot_tube` 的 `x/y/w/h`（相對比例）轉實際像素 Rect 傳入 `drawLotTube`
-    - [ ] 在 `AltarCanvas.kt` 暴露 `onTap(hit:String?)` 回呼（點擊命中 `tapTarget` 回拋）
-    - [ ] 在 `:app/ui/altar` 建立 `AltarThemeLoader.kt`，讀取 `AltarTheme.json` 回傳 `AltarTheme`（含 `items` 與 `lot_tube` 定義）
-    - [ ] 在 `:app/ui/altar` 建立 `ThemeSelectorSheet.kt` 顯示主題清單（預覽圖/名稱/套用按鈕）
-  - [ ] 路由與畫面（保留「籤筒」點擊事件，V17 會掛上抽籤流程）
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_ALTAR = "altar"`
-    - [ ] 在 `:app/ui/screens/altar` 建立 `AltarScreen.kt`
-    - [ ] 在 `AltarScreen.kt` 置頂 `TopAppBar` 標題「拜拜」
-    - [ ] 在 `AltarScreen.kt` 上半部顯示 `AltarCanvas(theme)` 並接 `onTap`
-    - [ ] 在 `AltarScreen.kt` 下半部顯示「願望簿」清單與 FAB「新增願望」
-    - [ ] 在 `AltarScreen.kt` 點選清單項可切換完成/編輯備註
-    - [ ] 在 `AltarScreen.kt` 溢位選單提供「更換主題」按鈕開啟 `ThemeSelectorSheet`
-    - [ ] 在 `AltarScreen.kt` 接收 `onTap("lot_tube")` 先以 `Snackbar` 顯示「抽籤將於下一版開放」（V17 接手綁定抽籤）
+    - [ ] 在 `:billing` 新增 `REMINDER_PACK_ALL/TOPIC/MONTH_PASS`
+    - [ ] 在 權益不足時顯示購買按鈕並綁定
+    - [ ] 在 `EntitlementStore` 新增提醒套件權益旗標
+  - [ ] UI 與通知
+    - [ ] 在 通知點擊導向對應詳情（逆行/相位/吉日）
+    - [ ] 在 通知加入關閉/稍後提醒動作
+    - [ ] 在 設定頁提供一鍵停用與清除排程
+  - [ ] 測試驗證
+    - [ ] 在 規則、ICS、UI 與排程通知測試完成
+    - [ ] 在 裝置重啟/系統語言切換/深色模式驗證
+    - [ ] 在 省電模式/網路離線狀況下可靠性測試
+  - [ ] 安全與法遵（免費資源）
+    - [ ] 僅用本地星體計算/不依賴付費 API
+    - [ ] 通知內容不含完整生日/地點等個資
+- [ ] V18.0 神明拜拜系統（為 V19 抽籤預備）
+  - [ ] 資產與資料結構
+    - [ ] 在 `assets/altar` 擴充 `AltarTheme.json` 增加 `lot_tube`
+    - [ ] 在 `AltarTheme.json` 定義 `lot_tube` 欄位：`x/y/width/height/zIndex/hitRadius/visible`
+    - [ ] 在 `assets/altar/default/` 新增示例主題含 `lot_tube` PNG/SVG
+    - [ ] 在 `assets/altar/schema/` 建立 `altar_theme.schema.json` 供驗證
+    - [ ] 在 `:data` 建立 `Wish` 表與 DAO/Repo
+    - [ ] 在 `Wish` 定義欄位：`id/title/content/deityId/templeId/status/pinned/createdAt/targetDate/lastOfferedAt/reminderTime`
+    - [ ] 在 `WishDao` 實作 `insert/update/delete/getById/observeAll/search/togglePinned/setReminder`
+    - [ ] 在 `AppDatabase` 建立 migration `v18_add_wish`
+    - [ ] 在 `:data` DataStore 新增 `PreferencesKeys.altarThemeId/altarReminderEnabled/altarReminderTime`
+  - [ ] 畫布與主題
+    - [ ] 在 `AltarCanvas.kt` 繪製場景與 `lot_tube`
+    - [ ] 在 `AltarCanvas.kt` 對 `lot_tube` 建立 hit-test 與 touch slop
+    - [ ] 在 `AltarCanvas.kt` 實作 `onTap(hit)` 回呼
+    - [ ] 在 `AltarCanvas.kt` 對靜態元素啟用 `DrawCache` 降低重繪
+    - [ ] 在 `AltarThemeLoader.kt` 讀取主題
+    - [ ] 在 `AltarThemeLoader.kt` 驗證 `altar_theme.schema.json` 缺漏給預設值
+    - [ ] 在 `ThemeSelectorSheet.kt` 顯示主題切換
+    - [ ] 在 `ThemeSelectorSheet.kt` 顯示已選樣式、預覽縮圖、可鎖定項
+    - [ ] 在 `ThemeSelectorSheet.kt` 切換後持久化 `altarThemeId`
+  - [ ] 路由與畫面
+    - [ ] 在 `ROUTE_ALTAR` 與 `AltarScreen.kt` 建立
+    - [ ] 在 `AltarScreen` 願望簿列表與 FAB
+    - [ ] 在 `AltarScreen` 新增篩選 `全部/進行中/已完成/已釘選`
+    - [ ] 在 `AltarScreen` 點擊 `lot_tube` 顯示 `Snackbar`「抽籤將於下一版開放」
+    - [ ] 在 `WishEditorScreen.kt` 建立願望新增/編輯表單
+    - [ ] 在 `WishDetailSheet.kt` 顯示內容、標記完成、釘選、提醒時間
   - [ ] 提醒與通知
-    - [ ] 在 `:app/workers` 建立 `AltarReminderWorker.kt`（每日固定時間推播「上香祈福」）
+    - [ ] 在 `AltarReminderWorker.kt` 每日提醒
+    - [ ] 在 `AltarReminderWorker` 於 `PreferencesKeys.altarReminderTime` 觸發
     - [ ] 在 `NotificationHelper` 新增頻道 `ALTAR_REMINDER`
-    - [ ] 在 `SettingsScreen` 新增「每日提醒」開關與時間挑選器，變更後排程/取消 `AltarReminderWorker`
-  - [ ] 付費（沿用）
-    - [ ] 在 `:billing` 新增 `THEME_PACK_*` SKU 常數清單
-    - [ ] 在 `ThemeSelectorSheet.kt` 非 VIP 主題顯示鎖頭與「購買主題」按鈕
-    - [ ] 在 「購買主題」呼叫 `BillingManager.launchPurchase(themePackSku)`
-    - [ ] 在 VIP 狀態顯示「VIP 免廣告」標籤（沿用 Ads 管控）
-  - [ ] 測試
-    - [ ] 在 UI 測試：切換主題即時生效且重啟後保持
-    - [ ] 在 單元測試：`WishDao` CRUD 與排序
-    - [ ] 在 推播測試：每日提醒觸發與點擊導向 `ROUTE_ALTAR`
-    - [ ] 在 點擊測試：點擊 `lot_tube` 命中回呼且顯示 `Snackbar`
-- [ ] V19.0 AI 求籤詩 + 解籤（整合於 V18 拜拜系統之「籤筒」，亦支援外部籤詩輸入）
-  - [ ] 資產與資料層（多神明籤庫與讀數資料表）
-    - [ ] 在 `:app/src/main/assets/lots` 建立總目錄
-    - [ ] 在 `:app/src/main/assets/lots` 建立 `LotCatalog.json`（宣告可用籤庫與對應神明/寺廟）
-    - [ ] 在 `LotCatalog.json` 定義 `{"deities":[{"id":"guanyin","name":"觀音","temples":[{"id":"default","name":"通用觀音籤","range":100,"db":"guanyin/db.json"}]},{"id":"yuelao","name":"月老","temples":[{"id":"default","name":"通用月老籤","range":60,"db":"yuelao/db.json"}]}]}`
-    - [ ] 在 `:app/src/main/assets/lots/guanyin` 建立 `db.json`（1~100 首，`{"id":1,"title":"...","poem":"...","meaning":"...","tier":"上/中/下","tags":["婚姻","財運"]}`）
-    - [ ] 在 `:app/src/main/assets/lots/yuelao` 建立 `db.json`（1~60 首，同上結構）
-    - [ ] 在 `:data/entity` 建立 `LotReading.kt`（`id:String, deityId:String, templeId:String, lotId:Int, seed:Long?, question:String?, summary:String?, detailEnc:String?, createdAt:Instant, unlocked:Boolean, paidBy:String?, backupSynced:Boolean`）
-    - [ ] 在 `:data/dao` 建立 `LotReadingDao.kt`（`upsert/get/byDeity(list,limit)/recent(limit)`）
-    - [ ] 在 `:data/repository` 建立 `LotReadingRepository.kt`（封裝加/解密 `detailEnc` 與 `upsert/get/listRecent`）
-    - [ ] 在 `:data/db/migrations` 新增 LotReading 表 Migration 並於 `AppDatabase` 註冊
-  - [ ] 服務層與抽籤（依「當前供奉神明」決定籤庫；支援自訂種子）
-    - [ ] 在 `:core/lots` 建立 `LotsModels.kt`（`data class Lot(id:Int,title:String,poem:String,meaning:String,tier:String,tags:List<String>)`）
-    - [ ] 在 `:core/lots` 建立 `LotCatalog.kt` 載入 `LotCatalog.json` 並提供 `fun defaultTemple(deityId:String): Temple`
-    - [ ] 在 `:core/lots` 建立 `LotsRepo.kt` 載入指定 `db.json`，提供 `fun getLot(deityId:String, templeId:String, id:Int): Lot`
-    - [ ] 在 `:core/lots` 建立 `LotsService.kt`
-    - [ ] 在 `LotsService.kt` 實作 `fun draw(deityId:String, templeId:String, seed:Long?=null): Pair<Int,Long>`（回傳 `lotId` 與最終 `seed`，以 seed 決定 determinism）
-    - [ ] 在 `LotsService.kt` 實作 `fun validate(deityId, templeId, lotId): Boolean`（驗證區間）
-    - [ ] 在 `:core/lots` 建立 `LotsShareBuilder.kt`（`fun buildShare(reading:LotReading, lot:Lot): String`，避免個資）
-    - [ ] 在 `:app/ui/altar` 建立 `DeityResolver.kt`（由 `AltarTheme` 或使用者在 `AltarScreen` 選取當前神明，回傳 `deityId/templeId`）
-  - [ ] AI Prompt 與背景生成（同一機制服務內部抽籤與外部輸入）
-    - [ ] 在 `:core/ai` 建立 `LotsPromptBuilder.kt`
-    - [ ] 在 `LotsPromptBuilder.kt` 實作 `fun build(lot:Lot, deityName:String, templeName:String, question:String?, locale:Locale): String`（含 `[籤意] [適用議題] [建議] [提醒]` 段落與「僅供參考」）
-    - [ ] 在 `:app/workers` 建立 `LotReadingWorker.kt`
-    - [ ] 在 `LotReadingWorker.kt` 讀取 `readingId` → 取 `LotReading` 與 `Lot` → `OnnxLlamaSession.generate(prompt)` → 加密寫回 `detailEnc` 與填入 `summary`
-    - [ ] 在 `LotReadingWorker.kt` 完成後發送通知導向 `lots.result/{id}`
-  - [ ] 路由與畫面（整合於 Altar；支援外部籤詩輸入解籤）
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS_RESULT = "lots.result/{id}"`
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS_HISTORY = "lots.history"`
-    - [ ] 在 `NavGraph.kt` 新增 `ROUTE_LOTS_MANUAL = "lots.manual"`（外部籤詩輸入）
-    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsResultScreen.kt`
-    - [ ] 在 `LotsResultScreen.kt` 顯示卡片：`籤號/標題/等第(tier)` 與 `poem` 摘要、`summary`（未解鎖則顯示解鎖條）
-    - [ ] 在 `LotsResultScreen.kt` 底部主要按鈕「生成 AI 解籤（背景）」；旁放「分享」「儲存」
-    - [ ] 在 `LotsResultScreen.kt` 監聽 Worker 狀態；完成後展開長文（已解鎖才可全文）
-    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsHistoryScreen.kt`（列表：日期/神明/籤號/摘要，可點進）
-    - [ ] 在 `:app/ui/screens/lots` 建立 `LotsManualScreen.kt`
-    - [ ] 在 `LotsManualScreen.kt` 放置下拉選擇「神明/寺廟」，數字輸入「籤號」，輸入框「問題（選填）」，主要按鈕「解籤」
-    - [ ] 在 `LotsManualScreen.kt` 點擊「解籤」→ 驗證 `lotId` 合法 → 建立 `LotReading`（來源標記 `seed=null`）→ 導向 `LotsResultScreen`
-    - [ ] 在 `:app/ui/screens/altar/AltarScreen.kt` 接 `onTap("lot_tube")` 開啟底部抽籤面板
-    - [ ] 在 `AltarScreen` 抽籤面板放置：神明/寺廟（預設由 `DeityResolver`）、輸入框「問題（選填）」、Switch「自訂種子」、數字輸入（當 Switch 開啟）、主要按鈕「抽籤」
-    - [ ] 在 `AltarScreen` 抽籤面板點擊「抽籤」→ 呼叫 `LotsService.draw` 取得 `(lotId, seed)` → 建立 `LotReading`（含 `deityId/templeId/lotId/seed/question`）→ 導向 `LotsResultScreen`
-    - [ ] 在 `AltarScreen` 溢位選單新增「外部籤詩解籤」導向 `ROUTE_LOTS_MANUAL`
-    - [ ] 在 `Home` 或 `AltarScreen` 右上加「歷史」圖示導向 `ROUTE_LOTS_HISTORY`（非 Debug，正式可見）
-  - [ ] 付費與解鎖（僅 AI 長文需解鎖；抽籤與基本資訊免費）
-    - [ ] 在 `:billing` 新增常數 `LOTS_READING_ONE = "lots_reading_one"`
-    - [ ] 在 `LotsResultScreen.kt` 若 `isVIP=true` 直接顯示長文
-    - [ ] 在 `LotsResultScreen.kt` 若 `isVIP=false` 且 `reading.unlocked=false` 顯示解鎖條（「用 50 幣解鎖」「單次購買」）
-    - [ ] 在 「用 50 幣解鎖」呼叫 `CoinsService.spend(50)` 成功→`reading.unlocked=true`→刷新
-    - [ ] 在 「單次購買」呼叫 `BillingManager.launchPurchase(LOTS_READING_ONE)` 成功→`reading.unlocked=true`
-    - [ ] 在 已解鎖再次查看同一筆 `reading` 不重扣
-  - [ ] 雲備份（選配，VIP 專屬）
-    - [ ] 在 `:sync/DriveService.kt` 新增 `lots.json` 同步檔支援（遵循 AppFolder）
-    - [ ] 在 `SyncRepository` 新增 `syncLots()` 合併策略（`updatedAt` 新者覆蓋）
-    - [ ] 在 `SettingsScreen` 新增「同步籤詩讀數」開關（僅 VIP 顯示）
-    - [ ] 在 讀數變更後排程 `SyncRepository.syncLots()`（若啟用）
+    - [ ] 在 `SettingsScreen` 新增每日提醒開關與時間
+    - [ ] 在 `BootReceiver` 接收 `BOOT_COMPLETED` 重排提醒
+  - [ ] 付費（主題包）
+    - [ ] 在 `:billing` 新增 `THEME_PACK_*`
+    - [ ] 在 `ThemeSelectorSheet.kt` 顯示鎖頭與購買流程
+    - [ ] 在 `EntitlementStore` 新增 `THEME_PACK_*` 權益查詢與緩存
+    - [ ] 在 `ThemeManager` 對未擁有主題顯示試用 30 秒並自動回退
+  - [ ] 無障礙與在地化
+    - [ ] 為 `lot_tube` 與裝飾元素加入 `contentDescription`
+    - [ ] 在 `strings.xml` 提供 `zh-TW/zh-CN/en` 多語
+    - [ ] 驗證對比度與可觸區 ≥ 48dp
+  - [ ] 測試驗證
+    - [ ] 在 主題切換持久化
+    - [ ] 在 願望簿 CRUD
+    - [ ] 在 提醒推播導向 `ROUTE_ALTAR`
+    - [ ] 在 `lot_tube` 點擊事件觸發提示
+    - [ ] 在 `AltarThemeLoader` 缺值回退與 schema 驗證
+    - [ ] 在 `AppDatabase` migration `v18_add_wish` 成功
+    - [ ] 在 `AltarCanvas` 重繪次數不超過基準（滑動/點擊）
+- [ ] V19.0 AI 求籤詩 + 解籤（整合 V18 籤筒，支援外部輸入）
+  - [ ] 資產與資料層
+    - [ ] 在 `assets/lots` 建立 `LotCatalog.json` 與各 `db.json`
+    - [ ] 在 `LotCatalog.json` 定義：`id/name/deity/temple/locale/lotCount/dbPath/version/checksum`
+    - [ ] 在 各 `db.json` 定義筆數：`lotId/title/poem/translation/meaning/tier(上中下)/notes/refs`
+    - [ ] 在 `:data` 建立 `LotReading` 與 DAO/Repo
+    - [ ] 在 `LotReading` 欄位：`id/seed/deityId/templeId/lotCatalogId/lotId/question(enc)/ai(enc)/summary/createdAt/unlocked/coinsSpent`
+    - [ ] 在 `AppDatabase` 建立 migration `v19_add_lot_reading`
+  - [ ] 服務層與抽籤
+    - [ ] 在 `LotsModels.kt` 與 `LotCatalog.kt` 與 `LotsRepo.kt` 建立
+    - [ ] 在 `LotsService.kt` 實作 `draw/validate`
+    - [ ] 在 `LotsService.draw` 以 `seed + deityId + templeId + timeBucket` 決定性抽籤
+    - [ ] 在 `LotsService.validate` 驗證 `lotId` 區間與 catalog 校驗碼
+    - [ ] 在 `LotsShareBuilder.kt` 實作分享文字
+    - [ ] 在 `LotsShareBuilder` 預設隱藏使用者問題內容
+    - [ ] 在 `DeityResolver.kt` 解析當前神明與寺廟
+    - [ ] 在 `DeityResolver` 以本地 `assets/deities.json` 對應主題與神明
+  - [ ] AI 與 Worker（僅用本地 ONNX，無付費 API）
+    - [ ] 在 `LotsPromptBuilder.kt` 實作四段模板
+    - [ ] 在 `LotsPromptBuilder` 四段：`背景脈絡/原文詩籤/現代語重述/指引與折衷建議`
+    - [ ] 在 `LotsPromptBuilder` 加入「非專業建議」安全語
+    - [ ] 在 `LotReadingWorker.kt` 生成長文加密寫回與摘要
+    - [ ] 在 `LotReadingWorker` 呼叫 `:core:ai OnnxLlamaSession.generate()`（離線）
+    - [ ] 在 `LotReadingWorker` 於無模型時回退僅顯示詩籤與翻譯
+    - [ ] 在 `LotReadingWorker` 將 `question/ai` 以 AES-GCM 加密保存
+    - [ ] 在 `LotReadingWorker` 產生 `summary`（要點三條）
+  - [ ] 路由與畫面
+    - [ ] 在 `ROUTE_LOTS_RESULT/HISTORY/MANUAL` 與三畫面建立
+    - [ ] 在 `AltarScreen` 接 `onTap("lot_tube")` 開啟抽籤面板
+    - [ ] 在 抽籤面板填入神明/寺廟/問題/種子並抽籤導向結果頁
+    - [ ] 在 結果頁顯示：詩籤原文/翻譯/AI 解籤/重點摘要/分享
+    - [ ] 在 溢位選單新增「外部籤詩解籤」導向手動頁
+    - [ ] 在 手動頁貼上外部詩籤文本與可選譯文後生成
+    - [ ] 在 Home 或 `AltarScreen` 右上加「歷史」圖示導向歷史頁
+    - [ ] 在 歷史頁支援篩選（神明/寺廟/tier/日期）與搜尋
+  - [ ] 付費與解鎖
+    - [ ] 在 `:billing` 新增 `LOTS_READING_ONE`
+    - [ ] 在 結果頁非 VIP 顯示解鎖條（50 幣或單次購買）
+    - [ ] 在 已解鎖同筆讀數不重扣
+    - [ ] 在 `EntitlementStore` 記錄 `LotReading.id -> unlocked` 快取
+  - [ ] 雲備份（選配）
+    - [ ] 在 `:sync/DriveService.kt` 新增 `lots.json` 支援
+    - [ ] 在 `SyncRepository` 新增 `syncLots()` 合併策略
+    - [ ] 在 `SyncRepository.syncLots` 僅合併 `summary` 與加密欄位不解密
+    - [ ] 在 `SettingsScreen` 新增「同步籤詩讀數」開關（VIP）
   - [ ] 分享與隱私
-    - [ ] 在 `LotsShareBuilder.kt` 產出分享文：`神明/寺廟/籤號/標題/要旨/（可選）我的問題`（預設隱藏問題，需勾選才包含）
-    - [ ] 在 `LotsResultScreen.kt` 點擊「分享」觸發分享 Intent（僅文字，不含個資）
-  - [ ] 單元測試
-    - [ ] 在 `:core/lots/test` 建立 `LotsServiceTest.kt` 驗證固定 `seed` 於同 `deity/temple` 得到相同 `lotId`
-    - [ ] 在 `LotsServiceTest.kt` 驗證 `validate()` 對越界籤號回傳 `false`
-    - [ ] 在 `:core/ai/test` 建立 `LotsPromptBuilderTest.kt` 驗證模板包含段落 `[籤意][適用議題][建議][提醒]`
-    - [ ] 在 `:data/test` 建立 `LotReadingDaoTest.kt` 驗證 `upsert/get/recent` 正常
-  - [ ] UI 測試
-    - [ ] 在 `AltarScreenTest.kt` 測試點擊籤筒→開啟抽籤面板→抽籤→導向結果頁
-    - [ ] 在 `LotsManualScreenTest.kt` 測試外部籤詩輸入→結果頁
-    - [ ] 在 `LotsResultScreenTest.kt` 測試未解鎖顯示解鎖條→用幣解鎖→生成→展開長文
-    - [ ] 在 `LotsHistoryScreenTest.kt` 測試列表點擊進入既有讀數
-  - [ ] 效能與體驗
-    - [ ] 在 `LotsResultScreen` 長文渲染於 `LazyColumn` 分段（避免一次性重排）
-    - [ ] 在 抽籤面板抽籤時顯示 1.2 秒簡短抽動動畫（不加入 Debug 控制）
-    - [ ] 在 低 RAM 模擬器測試切換/返回流程不卡頓
-  - [ ] 無 Debug-only 控制檢查
-    - [ ] 檢查所有畫面無隱藏入口/測試按鈕
-    - [ ] 抽籤與解籤流程與 Release 版一致
+    - [ ] 在 `LotsShareBuilder.kt` 預設隱藏問題內容
+    - [ ] 在 分享前提供「顯示/隱藏問題」切換
+  - [ ] 測試與效能
+    - [ ] 在 抽籤 determinism 與越界驗證
+    - [ ] 在 `LotCatalog` checksum 與 schema 驗證
+    - [ ] 在 結果長文分段渲染與動畫 1.2 秒完成
+    - [ ] 在 `LotReadingWorker` 斷點續跑與電量限制測試
+    - [ ] 在 `LotsRepo` 大型 catalog 載入時間 < 150ms（冷啟後）
 - [ ] V20.0 行動教練模式（To-Do 生成、日程推送）
-  - [ ] 資料結構
-    - [ ] 在 `:data/entity` 建立 `CoachTask.kt`
-    - [ ] 在 `CoachTask.kt` 定義 `data class CoachTask(id:String,title:String,desc:String?,due:LocalDate?,priority:Int,status:String,createdAt:Instant,completedAt:Instant?)`
-    - [ ] 在 `:data/dao` 建立 `CoachTaskDao.kt`
-    - [ ] 在 `CoachTaskDao.kt` 定義 `upsert(task:CoachTask)`
-    - [ ] 在 `CoachTaskDao.kt` 定義 `listOpen():List<CoachTask>`
-    - [ ] 在 `CoachTaskDao.kt` 定義 `complete(id:String,completedAt:Instant)`
-    - [ ] 在 `:data/repository` 建立 `CoachTaskRepository.kt`
-  - [ ] 教練引擎
-    - [ ] 在 `:core/coach` 建立 `CoachEngine.kt`
-    - [ ] 在 `CoachEngine.kt` 定義 `fun extractGoals(reports:List<Report>):List<String>`
-    - [ ] 在 `CoachEngine.kt` 定義 `fun planActions(goals:List<String>):List<CoachTask>`
-    - [ ] 在 `CoachEngine.kt` 使用關鍵詞規則建立 30 日清單
-  - [ ] 對話流程
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增 `ROUTE_COACH_SESSION = "coach.session"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_COACH_SESSION){ CoachSessionScreen() }`
-    - [ ] 在 `:app/ui/screens/coach` 建立 `CoachSessionScreen.kt`
-    - [ ] 在 `CoachSessionScreen.kt` 放置對話訊息列表
-    - [ ] 在 `CoachSessionScreen.kt` 放置輸入框
-    - [ ] 在 `CoachSessionScreen.kt` 放置送出按鈕
-    - [ ] 在 `CoachSessionScreen.kt` 使用輸入觸發 `CoachEngine.extractGoals`
-    - [ ] 在 `CoachSessionScreen.kt` 顯示系統生成的任務建議
-    - [ ] 在 `CoachSessionScreen.kt` 提供「加入清單」按鈕
-    - [ ] 在 `CoachSessionScreen.kt` 於按下加入寫入 `CoachTaskRepository`
-  - [ ] 任務提醒
-    - [ ] 在 `:app/workers` 建立 `CoachDailyWorker.kt`
-    - [ ] 在 `CoachDailyWorker.kt` 每日推送待辦摘要
-    - [ ] 在 `:app/workers` 建立 `CoachWeeklyWorker.kt`
-    - [ ] 在 `CoachWeeklyWorker.kt` 每週推送回顧摘要
-    - [ ] 在 `NotificationHelper` 新增頻道 `COACH_DAILY`
-    - [ ] 在 `NotificationHelper` 新增頻道 `COACH_WEEKLY`
+  - [ ] 資料層
+    - [ ] 在 `CoachTask.kt/Dao/Repository` 建立
+    - [ ] 在 `CoachTask` 欄位：`id/title/notes/due/start/reminder/priority/status/recur/createdAt/source(sessionId)`
+    - [ ] 在 `CoachTaskDao` 實作 `insert/update/delete/observeAll/observeDueRange/search`
+    - [ ] 在 `AppDatabase` 建立 migration `v20_add_coach_task`
+  - [ ] 教練引擎（離線）
+    - [ ] 在 `CoachEngine.kt` 實作 `extractGoals/planActions`
+    - [ ] 在 `CoachEngine.extractGoals` 使用規則+關鍵詞抽取
+    - [ ] 在 `CoachEngine.planActions` 產生可執行子任務與 `due/reminder`
+    - [ ] 在 `CoachEngine` 可選接 `:core:ai OnnxLlamaSession` 微調提示（離線）
+  - [ ] 對話與任務
+    - [ ] 在 `ROUTE_COACH_SESSION` 與 `CoachSessionScreen.kt` 建立
+    - [ ] 在 對話輸入觸發引擎並顯示任務建議
+    - [ ] 在 「加入清單」寫入 `CoachTaskRepository`
+    - [ ] 在 `CoachTaskListScreen.kt` 顯示今日/本週/全部分段清單
+    - [ ] 在 任務支援：完成/延後/設提醒/改優先級/加備註
+  - [ ] 日程推送（系統行事曆供應器，無付費 API）
+    - [ ] 在 `AndroidManifest.xml` 新增 `READ_CALENDAR/WRITE_CALENDAR` 權限（可選）
+    - [ ] 在 `CalendarProvider.kt` 實作寫入本機行事曆事件（可選）
+    - [ ] 在 任務卡片提供「加入行事曆」按鈕（可選）
+  - [ ] 提醒推送
+    - [ ] 在 `CoachDailyWorker/CoachWeeklyWorker` 建立
+    - [ ] 在 `NotificationHelper` 新增 `COACH_DAILY/COACH_WEEKLY`
+    - [ ] 在 `SettingsScreen` 新增教練提醒時間與週期設定
   - [ ] 付費
-    - [ ] 在 `:billing` 新增常數 `COACH_SESSION_ONE = "coach_session_one"`
-    - [ ] 在 `:billing` 新增常數 `COACH_MONTH_PASS = "coach_month_pass"`
-    - [ ] 在 `CoachSessionScreen.kt` 檢查 `isVIP` 或 `COACH_MONTH_PASS` 有效
-    - [ ] 在 `CoachSessionScreen.kt` 權益不足顯示解鎖條
-    - [ ] 在 `CoachSessionScreen.kt` 解鎖條提供「購買單次」按鈕
-    - [ ] 在 `CoachSessionScreen.kt` 解鎖條提供「購買月票」按鈕
+    - [ ] 在 `:billing` 新增 `COACH_SESSION_ONE/COACH_MONTH_PASS`
+    - [ ] 在 權益不足顯示解鎖條
+    - [ ] 在 `CoinsService` 允許以 50 幣兌換一次教練會話
+  - [ ] 匯入匯出（免費本地）
+    - [ ] 在 `CoachShare.kt` 匯出當週任務為純文字
+    - [ ] 在 `CoachImport.kt` 匯入純文字行逐列轉任務
+  - [ ] 小工具與快捷
+    - [ ] 在 `CoachWidget` 顯示今日三件事與「勾選」動作
+    - [ ] 在 快速加入 `PendingIntent` 進入 `CoachSessionScreen`
   - [ ] 測試
-    - [ ] 在 單元測試 `CoachEngineTest.kt` 驗證目標抽取至少 3 條
-    - [ ] 在 單元測試 `CoachTaskDaoTest.kt` 驗證 CRUD 正確
-    - [ ] 在 UI 測試 `CoachSessionUiTest.kt` 驗證對話到建立任務流暢
+    - [ ] 在 引擎、DAO、UI 對話流程測試完成
+    - [ ] 在 行事曆寫入權限流測試（允許/拒絕/再次詢問）
+    - [ ] 在 `CoachDailyWorker` 重排與裝置重啟驗證
 - [ ] V21.0 市集主題（盤面皮膚）
   - [ ] 資產
-    - [ ] 在 `:app/src/main/assets/theme` 建立 `ThemeStore.json`
-    - [ ] 在 `ThemeStore.json` 定義欄位 `{"id":"classic","name":"經典","primary":"#...","secondary":"#...","bg":"#...","priceSku":"theme_pack_classic","preview":"theme/classic_preview.png"}`
-    - [ ] 在 `:app/src/main/assets/theme` 放置預覽圖 `classic_preview.png`
+    - [ ] 在 `assets/theme` 建立 `ThemeStore.json` 與預覽圖
+    - [ ] 在 `ThemeStore.json` 定義：`id/name/author/version/priceCoins/packId/previewPath/colors/compat`
+    - [ ] 在 `assets/theme/packs/` 放置可安裝包與校驗碼
   - [ ] 主題管理
-    - [ ] 在 `:core/theme` 建立 `ThemeManager.kt`
-    - [ ] 在 `ThemeManager.kt` 定義 `fun loadAll(context:Context):List<AppTheme>`
-    - [ ] 在 `ThemeManager.kt` 定義 `fun apply(theme:AppTheme)`
-    - [ ] 在 `ThemeManager.kt` 定義 `fun current():AppTheme`
-    - [ ] 在 `ThemeManager.kt` 使用 DataStore 儲存 `currentThemeId`
+    - [ ] 在 `ThemeManager.kt` 載入/套用/持久化
+    - [ ] 在 `ThemeManager` 檢查校驗碼與版本相容性
+    - [ ] 在 `ThemeManager` 允許「試用 30 秒」並支援一鍵回退
+    - [ ] 在 `ThemeManager` 記錄最近使用與回溯堆疊
   - [ ] 路由與畫面
-    - [ ] 在 `:app/ui/navigation/NavGraph.kt` 新增 `ROUTE_THEME_STORE = "theme.store"`
-    - [ ] 在 `NavGraph.kt` 新增 `composable(ROUTE_THEME_STORE){ ThemeStoreScreen() }`
-    - [ ] 在 `:app/ui/screens/theme` 建立 `ThemeStoreScreen.kt`
-    - [ ] 在 `ThemeStoreScreen.kt` 顯示主題清單
-    - [ ] 在 `ThemeStoreScreen.kt` 顯示每個主題預覽縮圖
-    - [ ] 在 `ThemeStoreScreen.kt` 顯示每個主題名稱
-    - [ ] 在 `ThemeStoreScreen.kt` 顯示每個主題「試用」按鈕
-    - [ ] 在 `ThemeStoreScreen.kt` 顯示每個主題「購買」按鈕
-    - [ ] 在 `ThemeStoreScreen.kt` 點擊「試用」即時套用暫時主題
-    - [ ] 在 `ThemeStoreScreen.kt` 點擊「購買」啟動結帳流程
-    - [ ] 在 `ThemeStoreScreen.kt` 顯示「已擁有」標籤於已購買主題
-  - [ ] 付費與權益
-    - [ ] 在 `:billing` 新增常數 `THEME_ALL_ACCESS = "theme_all_access"`
-    - [ ] 在 `:billing` 新增常數 `THEME_PACK_CLASSIC = "theme_pack_classic"`
-    - [ ] 在 `:billing` 新增常數 `THEME_PACK_*` 其餘主題 SKU
-    - [ ] 在 `ThemeStoreScreen.kt` 檢查 `isVIP` 為真時顯示「已擁有全部」
-    - [ ] 在 `ThemeStoreScreen.kt` 檢查 `THEME_ALL_ACCESS` 有效時顯示「已擁有全部」
-    - [ ] 在 `ThemeStoreScreen.kt` 單主題購買成功後標記擁有
-    - [ ] 在 `ThemeStoreScreen.kt` `THEME_ALL_ACCESS` 購買成功後標記全部擁有
-    - [ ] 在 `ThemeStoreScreen.kt` 提供「以 100 幣兌換」按鈕（非 VIP）
-    - [ ] 在 `ThemeStoreScreen.kt` 於兌換點擊呼叫 `CoinsService.spend(100)`
-    - [ ] 在 `ThemeStoreScreen.kt` 於兌換成功後標記擁有
+    - [ ] 在 `ROUTE_THEME_STORE` 與 `ThemeStoreScreen.kt` 建立
+    - [ ] 在 顯示清單/預覽/試用/購買/已擁有標籤
+    - [ ] 在 支援排序（最新/熱門/價格）與篩選（色系/作者/相容性）
+    - [ ] 在 預覽支援局部熱切換（盤面/底色/字體）
+  - [ ] 付費與權益（僅應用內權益，無外部付費 API）
+    - [ ] 在 `:billing` 新增 `THEME_ALL_ACCESS/THEME_PACK_*`
+    - [ ] 在 VIP 或 All Access 顯示「已擁有全部」
+    - [ ] 在 `CoinsService.spend(100)` 兌換單主題
+    - [ ] 在 `EntitlementStore` 持久化已擁有主題/套裝
   - [ ] 熱切換與回退
-    - [ ] 在 `ThemeManager.kt` 套用時更新 `MaterialTheme` 顏色
-    - [ ] 在 `ThemeManager.kt` 套用時刷新根 Composable
-    - [ ] 在 `ThemeManager.kt` 提供 `fun preview(appTheme:AppTheme,content:@Composable()->Unit)` 區域預覽
-    - [ ] 在 `ThemeStoreScreen.kt` 試用結束還原 `currentThemeId`
-    - [ ] 在 `ThemeStoreScreen.kt` 應用購買主題後更新 `currentThemeId`
+    - [ ] 在 `ThemeManager` 實作預覽區域套用與回退
+    - [ ] 在 預覽逾時自動回復原主題
+    - [ ] 在 異常關閉時於下次啟動回退至安全主題
+  - [ ] 無障礙與在地化
+    - [ ] 在 主題上架需通過對比檢查（WCAG 2.1 AA）
+    - [ ] 在 主題描述多語 `zh-TW/zh-CN/en`
   - [ ] 測試
-    - [ ] 在 單元測試 `ThemeManagerTest.kt` 驗證載入主題數量
-    - [ ] 在 單元測試 `ThemeManagerTest.kt` 驗證持久化 `currentThemeId`
-    - [ ] 在 UI 測試 `ThemeStoreUiTest.kt` 驗證試用後回退
-    - [ ] 在 UI 測試 `ThemeStoreUiTest.kt` 驗證購買後持久套用
+    - [ ] 在 載入數量、持久化、試用回退、購買後套用測試完成
+    - [ ] 在 `ThemeStore.json` schema 驗證與 checksum 檢查
+    - [ ] 在 熱切換期間記憶體尖峰監控不超指標
 - [ ] 上架流程（每次版本上架固定步驟）
   - [ ] 版本與分支準備
     - [ ] 在 WindSurf 開啟專案根目錄
-    - [ ] 切換至 `release/x.y.z` 分支
-    - [ ] 在 `app/build.gradle.kts` 更新 `versionCode`（+1）
-    - [ ] 在 `app/build.gradle.kts` 更新 `versionName`（x.y.z）
-    - [ ] 在 `CHANGELOG.md` 新增 x.y.z 版本變更項
-    - [ ] 提交變更 `chore(release): bump to x.y.z`
+    - [ ] 切換 `release/x.y.z` 分支
+    - [ ] 更新 `versionCode` 與 `versionName`
+    - [ ] 在 `CHANGELOG.md` 新增版本變更項
+    - [ ] 提交 `chore(release): bump to x.y.z`
     - [ ] 推送分支至遠端
-  - [ ] 商店頁面：短描述（繁中）
-    - [ ] 於 Play Console 開啟對應 App
-    - [ ] 進入「商店展示 > 商店資訊 > 短描述」
-    - [ ] 貼上繁中短描述（80 字內，含本版核心功能關鍵詞）
+  - [ ] 商店頁：短描述（繁中）
+    - [ ] 在 Play Console 進入商店資訊短描述
+    - [ ] 貼上繁中短描述 80 字內
     - [ ] 儲存草稿
-  - [ ] 商店頁面：短描述（英文）
-    - [ ] 切換語言至 English (United States)
-    - [ ] 貼上英文短描述（80 字內，對齊繁中要點）
+  - [ ] 商店頁：短描述（英文）
+    - [ ] 切換 English 語系
+    - [ ] 貼上英文短描述 80 字內
     - [ ] 儲存草稿
-  - [ ] 商店頁面：長描述（繁中）
-    - [ ] 進入「商店展示 > 商店資訊 > 完整描述」
-    - [ ] 更新前三行高密度關鍵詞（含新功能字詞）
-    - [ ] 更新中段功能段落（條列新功能與收益）
-    - [ ] 更新尾段 CTA（免費試用／VIP／Coins）
+  - [ ] 商店頁：長描述（繁中）
+    - [ ] 更新前三行高密度關鍵詞
+    - [ ] 更新功能段落
+    - [ ] 更新 CTA 段落
     - [ ] 儲存草稿
-  - [ ] 商店頁面：長描述（英文）
-    - [ ] 切換語言至 English (United States)
-    - [ ] 更新前 3 行關鍵詞密度
+  - [ ] 商店頁：長描述（英文）
+    - [ ] 更新前三行關鍵詞
     - [ ] 更新功能段落與 CTA
     - [ ] 儲存草稿
   - [ ] 關鍵詞對齊檢查
     - [ ] 整理本版新增功能清單
-    - [ ] 對照短描述是否包含 1–2 個新功能關鍵詞
-    - [ ] 對照長描述是否包含 3–5 個新功能關鍵詞
-    - [ ] 對照截圖標題文字是否包含對應關鍵詞
+    - [ ] 對照短描述包含 1–2 個新關鍵詞
+    - [ ] 對照長描述包含 3–5 個新關鍵詞
+    - [ ] 對照截圖標題包含對應關鍵詞
   - [ ] 截圖與影片素材
     - [ ] 啟動 AVD `Pixel6Api35`
-    - [ ] 安裝最新 Debug 版並完成新功能場景操作
-    - [ ] 擷取 6 張 1080x1920 截圖（核心頁面各 1 張）
-    - [ ] 檢查截圖無個資、無 Debug 標記
-    - [ ] 若有影片：以裝置錄影 15–30 秒展示新功能
-    - [ ] 上傳截圖與影片至 Play Console「商店展示 > 裝置類型 > 手機」
-    - [ ] 逐張填寫標題/說明（可選）
+    - [ ] 安裝最新 Debug 版並操作新功能場景
+    - [ ] 擷取 6 張 1080x1920 截圖
+    - [ ] 檢查無個資與 Debug 標記
+    - [ ] 上傳素材至 Play Console
   - [ ] Data Safety 檢查
-    - [ ] 列出本版新增或移除的第三方 SDK
-    - [ ] 檢查資料收集/分享/加密是否有變動
-    - [ ] 進入「App 內容 > 資料安全性」
-    - [ ] 依實際情況更新資料類型與用途
-    - [ ] 儲存並提交更新
-  - [ ] 環境清理與簽章檢查
-    - [ ] 刪除 `app/build` 舊產物
-    - [ ] 檢查 `gradle.properties` 已設定 release 簽章（不入版控）
-    - [ ] 檢查 `keystore` 路徑與密碼正確
+    - [ ] 列出本版第三方 SDK 變動
+    - [ ] 更新資料收集與用途
+    - [ ] 在「App 內容 > 資料安全性」更新條目
   - [ ] 產出 AAB（Release）
-    - [ ] 開啟終端機
     - [ ] 執行 `./gradlew clean`
     - [ ] 執行 `./gradlew :app:bundleRelease`
-    - [ ] 確認輸出 `app/build/outputs/bundle/release/app-release.aab`
-    - [ ] 使用 `jarsigner -verify` 驗證簽章成功
+    - [ ] 驗證 `app-release.aab` 與簽章
   - [ ] Internal 測試上傳
-    - [ ] 於 Play Console 進入「發佈 > 測試 > 內部測試」
-    - [ ] 建立新版本
-    - [ ] 上傳 `app-release.aab`
-    - [ ] 於版本說明填入本版重點（繁中與英文）
-    - [ ] 儲存並送出內部測試
+    - [ ] 建立新版本上傳 `app-release.aab`
+    - [ ] 填入本版重點（繁中與英文）
+    - [ ] 送出內部測試
   - [ ] 測試帳號安裝與驗證
-    - [ ] 在測試名單加入測試帳號 Email
-    - [ ] 使用測試帳號於 Play 商店安裝內部測試版
-    - [ ] 啟動 App 並完成 Onboarding
-    - [ ] 進入「排盤」輸入樣本資料並生成星盤
-    - [ ] 於「AI 報告」觸發背景生成並等待通知
-    - [ ] 於「錢包」點擊「看廣告 +10 幣」完成一次激勵廣告
-    - [ ] 使用 50 幣兌換一次深度報告
-    - [ ] 於「購買」頁購買一次單次 SKU（測試卡）
-    - [ ] 於「設定」點擊「恢復購買」驗證同步權益
-    - [ ] 若有同步版本：登入 Google 並觸發雲端同步上/下載
+    - [ ] 加入測試名單
+    - [ ] 於 Play 商店安裝內測版並完成核心流程驗證
   - [ ] 問題修正與再測
-    - [ ] 在 Issue Tracker 記錄測試問題
-    - [ ] 逐項修正並提交 PR
-    - [ ] 產出新的 `bundleRelease`
-    - [ ] 重新上傳至內部測試
-    - [ ] 重複安裝與核心流程驗證
+    - [ ] 在 Issue Tracker 記錄並修正
+    - [ ] 產出新的 `bundleRelease` 並重上傳
   - [ ] 建立 Closed/Open 測試（視需要）
-    - [ ] 於 Play Console 建立「封閉測試」軌道
-    - [ ] 新增受邀名單或使用 Google 群組
-    - [ ] 上傳 `app-release.aab` 至封閉測試
-    - [ ] 若需公開測試：建立「公開測試」並設定可見性
-  - [ ] 生產版釋出（灰度 10%）
-    - [ ] 於「發佈 > 生產」建立新版本
+    - [ ] 建立封閉或公開測試與名單
     - [ ] 上傳 `app-release.aab`
-    - [ ] 填寫版本更新說明（繁中與英文）
-    - [ ] 設定分段釋出比例為 10%
-    - [ ] 檢查國家/地區全選或依策略勾選
-    - [ ] 送出審核並等待通過
+  - [ ] 生產版釋出（灰度 10%）
+    - [ ] 在生產軌道建立新版本上傳
+    - [ ] 填寫版本說明並設定 10% 分段釋出
+    - [ ] 送審等待通過
   - [ ] 監控（灰度期間）
-    - [ ] 進入「品質 > Android Vitals > ANR & 崩潰」檢查指標
-    - [ ] 監看留存（第 1 天/第 7 天）趨勢
-    - [ ] 監看評分與評論新增
-    - [ ] 若出現高 ANR/崩潰：暫停釋出並回滾
+    - [ ] 檢查 Android Vitals ANR & 崩潰
+    - [ ] 監看留存與評分趨勢
+    - [ ] 高 ANR/崩潰時暫停釋出與回滾
   - [ ] 全量擴大至 100%
-    - [ ] 若指標正常，將分段釋出比例調整為 100%
-    - [ ] 確認所有地區已納入
-    - [ ] 完成生產釋出
+    - [ ] 指標正常後將分段比例調整為 100%
   - [ ] 釋出標記與文件
-    - [ ] 在 Git 建立 tag `vx.y.z`
-    - [ ] 建立 GitHub Release 並貼上變更記錄
-    - [ ] 備份 `app-release.aab` 至雲端儲存
+    - [ ] 建立 Git tag `vx.y.z`
+    - [ ] 建立 GitHub Release 附變更記錄
+    - [ ] 備份 `app-release.aab` 至雲端
     - [ ] 更新專案 Wiki「發佈記錄」
 - [ ] AdMob 串接維運（每版檢）
-  - [ ] UMP 同意流程
-    - [ ] 啟動 App 於 EU/UK 模擬地理（測試裝置）
-    - [ ] 驗證開啟時彈出 UMP 同意表單
-    - [ ] 同意後檢查廣告可請求
-    - [ ] 拒絕後檢查廣告不請求
-  - [ ] Rewarded 流程（錢包）
-    - [ ] 進入 `WalletScreen`
-    - [ ] 點擊「看廣告 +10 幣」
-    - [ ] 驗證觸發 `AdsManager.showRewarded()`
-    - [ ] 完播後驗證觸發 `onUserEarnedReward`
-    - [ ] 檢查 `CoinsService.earn(10)` 被呼叫
-  - [ ] 冷卻與上限
-    - [ ] 在 1 小時內連續播放第 4 支廣告
-    - [ ] 驗證顯示「冷卻中」提示
-    - [ ] 在同日播放第 9 支廣告
-    - [ ] 验證顯示「達到每日上限」提示
-  - [ ] 半途離開防濫用
-    - [ ] 在廣告中途關閉
-    - [ ] 驗證未發幣
-  - [ ] app-ads.txt 檢查
-    - [ ] 連線至 GitHub Pages 網站
-    - [ ] 開啟 `app-ads.txt`
-    - [ ] 確認狀態為通過（AdMob 控制台不顯示警告）
+  - [ ] UMP 同意流程 EU/UK 驗證
+  - [ ] Rewarded 流程觸發與發幣驗證
+  - [ ] 冷卻與上限規則驗證
+  - [ ] 半途離開不發幣驗證
+  - [ ] app-ads.txt 狀態通過驗證
 - [ ] 訂閱／付費 維運（每版檢）
-  - [ ] Play Console SKU 檢查
-    - [ ] 開啟「獲利 > 產品 > 內購商品/訂閱」
-    - [ ] 檢查各 SKU 價格與可用地區
-  - [ ] App 內購流程
-    - [ ] 在購買頁選擇一個消耗性商品
-    - [ ] 觸發 `BillingManager.launchPurchase(sku)`
-    - [ ] 在回呼 `onPurchasesUpdated` 驗證 `PURCHASED` 狀態
-    - [ ] 呼叫 `consume` 完成消耗性購買
-    - [ ] 在非消耗性或訂閱完成後呼叫 `acknowledge`
-    - [ ] 驗證 `EntitlementStore` 權益更新
-  - [ ] 恢復購買
-    - [ ] 進入設定頁點擊「恢復購買」
-    - [ ] 驗證觸發 `queryPurchasesAsync()`
-    - [ ] 檢查權益狀態與 UI 同步
-  - [ ] 同步版本（若啟用）
-    - [ ] 觸發寫入 `purchases.json`
-    - [ ] 上傳至 Drive App Folder
-    - [ ] 重新安裝 App 後登入同帳號檢查恢復
+  - [ ] Play Console SKU 價格與地區檢查
+  - [ ] App 內購買流程 `launch/ack/consume` 驗證
+  - [ ] 恢復購買 `queryPurchasesAsync` 驗證
+  - [ ] 同步版本（若啟用）雲端恢復驗證
 - [ ] 隱私與法遵（每版檢）
-  - [ ] 商標詞檢查
-    - [ ] 檢查 App 內文是否出現限制性商標詞
-    - [ ] 檢查商店頁是否出現限制性商標詞
-  - [ ] 警語呈現
-    - [ ] 在 AI 報告頁顯示「僅供參考」警語
-    - [ ] 在 占卜/運勢頁顯示「非專業建議」警語
-  - [ ] 隱私政策
-    - [ ] 更新第三方 SDK 清單
-    - [ ] 更新資料用途與保留說明
-    - [ ] 部署至 GitHub Pages
-  - [ ] 兒少保護
-    - [ ] 檢查分級不面向 13 歲以下
-    - [ ] 確認未啟用兒童定向廣告
-  - [ ] 同意彈窗
-    - [ ] 驗證啟動時如需彈出 UMP
-    - [ ] 驗證隱私設定頁可重新管理同意
+  - [ ] 商標詞檢查 App 內與商店頁
+  - [ ] 警語呈現於報告與占卜頁
+  - [ ] 隱私政策第三方 SDK 清單更新並部署
+  - [ ] 兒少保護與分級檢查
+  - [ ] 同意彈窗啟動與設定頁再管理驗證
 - [ ] 測試與品質（每版）
-  - [ ] 單元測試
-    - [ ] 執行 `./gradlew :core:astro:test`
-    - [ ] 執行 `./gradlew :core:ai:test`
-    - [ ] 執行 `./gradlew :app:test`（含 `CoinsService`、`BillingManager`）
-  - [ ] 整合測試（本機）
-    - [ ] 啟動 App 完成排盤
-    - [ ] 觸發 AI 報告背景生成
-    - [ ] 收到通知並進入報告詳頁
-    - [ ] 以 Coins 解鎖一次內容
-  - [ ] 整合測試（同步版）
-    - [ ] 於裝置 A 建立新報告
-    - [ ] 於裝置 B 登入同帳號
-    - [ ] 檢查合併策略與最新覆蓋
-  - [ ] 相容性測試
-    - [ ] 在 API 26 執行核心流程
-    - [ ] 在 API 28 執行核心流程
-    - [ ] 在 API 30 執行核心流程
-    - [ ] 在 API 33 執行核心流程
-    - [ ] 在 API 35 執行核心流程
-  - [ ] 效能測量
-    - [ ] 設定 Prompt 生成 700 tokens
-    - [ ] 記錄完成時間（ms）
-    - [ ] 設定 Prompt 生成 1200 tokens
-    - [ ] 記錄完成時間（ms）
-    - [ ] 建立基準表（與上一版比較）
-  - [ ] 安全驗證
-    - [ ] 校驗模型檔 SHA-256 與清單
-    - [ ] 驗證資料庫 AES-GCM 解/加密流程
-  - [ ] 反濫用檢查
-    - [ ] 模擬廣告中途退出
-    - [ ] 檢查不發幣
-    - [ ] 模擬超過冷卻與上限
-    - [ ] 檢查正確阻擋
+  - [ ] 單元測試 `:core:astro/:core:ai/:app`
+  - [ ] 整合測試 本機核心流程
+  - [ ] 整合測試 同步閉環（若啟用）
+  - [ ] 相容性測試 API 26/28/30/33/35
+  - [ ] 效能測量 700 與 1200 tokens 生成時間記錄
+  - [ ] 安全驗證 模型 SHA-256 與 DB AES-GCM
+  - [ ] 反濫用檢查 廣告中途退出與上限阻擋
 - [ ] ASO 與素材（每版）
-  - [ ] 關鍵詞調整（短描述）
-    - [ ] 產生繁中短描述 1 版
-    - [ ] 產生英文短描述 1 版
-    - [ ] 檢查是否包含新功能關鍵詞
-  - [ ] 長描述前三行
-    - [ ] 調整繁中前三行關鍵詞密度
-    - [ ] 調整英文前三行關鍵詞密度
-  - [ ] 截圖產出
-    - [ ] 以最新 UI 重新擷取 6 張截圖
-    - [ ] 檢查裝置框/陰影一致性
-  - [ ] 圖示與授權
-    - [ ] 檢查 Icon 與插圖授權來源
-    - [ ] 確認可商用授權檔在庫
-  - [ ] 多語驗證
-    - [ ] 切換 App 至英文語系檢查文案
-    - [ ] 切換 App 至繁中語系檢查文案
+  - [ ] 關鍵詞調整 產出繁中與英文短描述
+  - [ ] 長描述前三行關鍵詞密度調整
+  - [ ] 截圖 6 張以最新 UI 重新擷取
+  - [ ] 圖示與插圖授權檢查
+  - [ ] 多語系文案切換檢查
 - [ ] 發行後監控（每版）
-  - [ ] 48 小時內監控
-    - [ ] 每 6 小時檢查 ANR 比率
-    - [ ] 每 6 小時檢查崩潰比率
-    - [ ] 檢查用戶評分與新評論
-  - [ ] 評分策略
-    - [ ] 若平均評分 ≥ 4.5：維持現行 ASO 關鍵詞
-    - [ ] 若平均評分 < 4：新增新手引導與提示
-  - [ ] 相容性更新
-    - [ ] 僅合併必要相容性修正 PR
-    - [ ] 檢查影響功能面清單
-  - [ ] 快速補丁
-    - [ ] 建立 `hotfix/x.y.z+1` 分支
-    - [ ] 修正嚴重錯誤
-    - [ ] 更新 `versionCode` 與 `versionName`
-    - [ ] 產出 `bundleRelease`
-    - [ ] 走內部測試 → 生產 10% → 全量流程
+  - [ ] 48 小時內每 6 小時檢查 ANR 與崩潰
+  - [ ] 監看用戶評分與評論
+  - [ ] 依評分策略調整新手引導或 ASO
+  - [ ] 僅合併必要相容性修正 PR
+  - [ ] 快速補丁流程 `hotfix/x.y.z+1` 與 10%→100% 擴量

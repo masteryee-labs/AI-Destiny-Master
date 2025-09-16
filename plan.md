@@ -2,8 +2,8 @@
 
 ## Notes
 - 專案命名與上架名稱（ASO 友善、避商標）
-  - 英文主名稱（Store 國際名稱）：AIDestinyMaster: Astro Chart & AI Reading
-  - 中文主名稱（Store 顯示名稱）：AI命理大師：西洋星盤・AI解盤
+  - 英文主名稱（Store 國際名稱）：AI Destiny Master: Astro Chart & AI Reading
+  - 中文主名稱（Store 顯示名稱）：AI命理大師：八字・紫微・星盤・人類圖・塔羅占卜・農民曆
   - 包名：com.aidestinymaster
   - 品牌與用語規範（避免侵權/商標風險）
     - 全程使用通用詞彙：西洋星盤（Astro Chart）、紫微斗數（Ziwei）、八字（Bazi）、塔羅（Tarot）、黃曆（Almanac）
@@ -277,7 +277,7 @@
 - Play Console 初次上架（每一步必要）
   - 1/ 註冊 Google Play Developer（一次性費用）
   - 2/ 商家帳戶（Merchant）啟用內購/訂閱
-  - 3/ 建立新應用 → 名稱「AI命理大師：西洋星盤・AI解盤」→ 主要語言繁中
+  - 3/ 建立新應用 → 名稱「AI命理大師：八字・紫微・星盤・人類圖・塔羅占卜・農民曆」→ 主要語言繁中
   - 4/ 分類與聯絡方式：Lifestyle；Email、開發者網站（GitHub Pages）
   - 5/ 隱私權政策 URL：GitHub Pages 連結
   - 6/ App 內容：是否含廣告（勾選），目標族群，內容分級（問卷）
