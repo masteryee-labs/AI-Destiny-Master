@@ -1,6 +1,10 @@
+---
+title: AI Destiny Master Terms of Service
+---
+
 ﻿# AI Destiny Master Terms of Service / 服務條款 / 服务条款
 
-**Links / 連結 / 链接**: [Privacy Policy](index.md) · [Support](support.md)
+**Links / 連結 / 链接**: [Privacy Policy](index.html) · [Support](support.html)
 _Last updated: 2025-09-16_
 
 ## English (EN)

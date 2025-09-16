@@ -1,6 +1,10 @@
+---
+title: AI Destiny Master Privacy Policy
+---
+
 ﻿# AI Destiny Master Privacy Policy / 隱私權政策 / 隐私权政策
 
-**Links / 連結 / 链接**: [Terms of Service](terms.md) · [Support](support.md)
+**Links / 連結 / 链接**: [Terms of Service](terms.html) · [Support](support.html)
 _Last updated: 2025-09-16_
 
 ## English (EN)
