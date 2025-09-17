@@ -1,4 +1,4 @@
-﻿# TinyLlama ONNX 導入計畫
+# TinyLlama ONNX 導入計畫
 
 ## 下載與版本
 - 來源：Hugging Face TinyLlama/TinyLlama-1.1B-Chat-v1.0。
@@ -54,15 +54,16 @@
   - core/ai/src/main/assets/model/tokenizer.json / 	okenizer.model
 - 於 OnnxLlamaSession 新增權重名稱常數與 SHA-256；提供工具腳本 scripts/hash_model.ps1 計算雜湊。
 - 更新 	ask.md 對應項目並記錄權重來源 SHA-256。
-
 ---
-此流程需具 Hugging Face 帳號以存取模型；線上作業需約 5 GB 暫存空間。## �ثe�ɮ׵������� (2025-09-17)
+## 現況紀錄（2025-09-17）
 
-- �w���� 8-bit ONNX �v�����A�ɮ׳]�Y�� core/ai/src/main/assets/model/tinyllama-chat-8bit.onnx
-- tokenizer �����ɮ׳]�Y�� core/ai/src/main/assets/model/
+- 已完成 8-bit ONNX 模型匯入至 `core/ai/src/main/assets/model/tinyllama-chat-8bit.onnx`
+- 已同步 Tokenizer 資料至 `core/ai/src/main/assets/model/`
 
-| �ɮ� | �d�� | SHA-256 |
-| --- | --- | --- |
-| tinyllama-chat-8bit.onnx | core/ai/src/main/assets/model/tinyllama-chat-8bit.onnx | 62B6DFA60E3651F71D70AD17C39FAF0D84B967B3F352D6457BF2DD4A7EBA5AED |
-| tokenizer.json | core/ai/src/main/assets/model/tokenizer.json | BF467C9E0F536BDA271283C6EF85EB1A943E3196B621C8A912D64953B205DF83 |
-| tokenizer.model | core/ai/src/main/assets/model/tokenizer.model | 9E556AFD44213B6BD1BE2B850EBBBD98F5481437A8021AFAF58EE7FB1818D347 |
+| 項目 | 路徑 | SHA-256 | 常數 |
+| --- | --- | --- | --- |
+| 模型檔 | core/ai/src/main/assets/model/tinyllama-chat-8bit.onnx | 62B6DFA60E3651F71D70AD17C39FAF0D84B967B3F352D6457BF2DD4A7EBA5AED | `OnnxLlamaSession.MODEL_SHA256` |
+| Tokenizer JSON | core/ai/src/main/assets/model/tokenizer.json | 9153B9018880CEBB2D917E1F34715489E1BEFA555AF8F23EC18233AEF0AC4498 | `OnnxLlamaSession.TOKENIZER_JSON_SHA256` |
+| Tokenizer Model | core/ai/src/main/assets/model/tokenizer.model | 9E556AFD44213B6BD1BE2B850EBBBD98F5481437A8021AFAF58EE7FB1818D347 | `OnnxLlamaSession.TOKENIZER_MODEL_SHA256` |
+
+> 重新匯出或量化時，請使用 `scripts/export_tinyllama.py`、`scripts/quantize_tinyllama.py`，並透過 `scripts/hash_model.ps1` 驗證雜湊。
