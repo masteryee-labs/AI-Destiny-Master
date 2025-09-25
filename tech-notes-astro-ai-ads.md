@@ -2,6 +2,31 @@
 
 ## 1. 天文計算模組 (`core/astro/`)
 
+### 1.0 AstroDoor 快照流程（新增）
+- **批次擷取腳本**：`scripts/generate_astrodoor_snapshots.py`<br>
+  依 `scripts/astrodoor_samples.json` 定義的出生樣本，呼叫 AstroDoor 公開頁面下載 HTML，透過 `build_snapshot()` 萃取行星/宮位/相位，再利用 `import_astrodoor.normalize_snapshot()` 正規化。輸出路徑採預設：
+  - `core/astro/src/test/resources/astrodoor/raw/*.json`
+  - `core/astro/src/test/resources/astrodoor/normalized/*.json`
+  - 彙總檔：`core/astro/src/test/resources/astrodoor/astrodoor_samples_normalized.json`
+- **單筆擷取**：`scripts/extract_astrodoor.py <URL or HTML>`。若無 `--compare`，會直接輸出 JSON；若指定 `--compare`, 會以 Jython 呼叫核心模組驗證數據。
+- **正規化工具**：`scripts/import_astrodoor.py` 可將任意快照（含 `chart_input`）轉為核心測試使用的格式，包含絕對黃經、Julian Day、時區等欄位。
+- **測試案例**：`core/astro/src/test/java/com/aidestinymaster/core/astro/AstroDoorSnapshotTest.kt` 載入 `astrodoor_snapshot_normalized.json`（可由批次工具生成），驗證 `NatalChartService.computeChart()` 與快照誤差在容許範圍內。
+- **建議指令**：
+  ```powershell
+  python scripts\generate_astrodoor_snapshots.py
+  ./gradlew.bat :core:astro:test --no-daemon
+  ```
+  若需更新單一樣本，可執行：
+  ```powershell
+  python scripts\extract_astrodoor.py <astrodoor-url> astrodoor_snapshot.json
+  python scripts\import_astrodoor.py astrodoor_snapshot.json core\astro\src\test\resources\astrodoor\normalized\<sample_id>.json
+  ```
+- **CLI 導出星盤**：`core/astro/src/test/java/com/aidestinymaster/core/astro/ChartGeneratorCli.kt` 可輸入 ISO-8601 日期、緯度與經度，快速得到 prettified JSON 星盤。建議命令：
+  ```powershell
+  ./gradlew.bat :core:astro:test --tests com.aidestinymaster.core.astro.ChartGeneratorCli --args "--datetime 1988-01-06T08:08+08:00 --latitude 25.05 --longitude 121.5 --house-system WHOLE_SIGN"
+  ```
+  產出包含 `julianDay`、`planets`、`houses`、`aspects` 等欄位，可直接保存為測試快照或人工驗證資料。
+
 ### 1.1 重新導入 Astronomy Engine
 - **目標**：以 Astronomy Engine 提供的高精度 API 取代現有 `AstroCalculator.kt`、`HouseSystem.kt`、`Aspects.kt` 的簡化版本，支援多緯度與 ΔT 校正。
 - **主要 API**：
