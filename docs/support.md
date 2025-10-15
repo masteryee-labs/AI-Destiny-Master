@@ -5,7 +5,7 @@ title: AI Destiny Master Support
 ﻿# AI Destiny Master Support / 支援資訊 / 支持信息
 
 **Links / 連結 / 链接**: [Privacy Policy](index.html) · [Terms of Service](terms.html)
-_Last updated: 2025-10-04_
+_Last updated: 2025-10-15_
 
 ## English (EN)
 - **Email**: masteryee9202@gmail.com (Replies within 2 business days)

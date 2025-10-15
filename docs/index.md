@@ -5,13 +5,15 @@ title: AI Destiny Master Privacy Policy
 ﻿# AI Destiny Master Privacy Policy / 隱私權政策 / 隐私权政策
 
 **Links / 連結 / 链接**: [Terms of Service](terms.html) · [Support](support.html)
-_Last updated: 2025-09-16_
+_Last updated: 2025-10-15_
 
 ## English (EN)
 ### Information We Collect
 - **Account Information** – Email address and Google Account ID when you sign in with Google.
 - **Usage Data** – Crash logs, diagnostics, and in-app analytics used to maintain stability and quality.
 - **Purchase Records** – Tokens, acknowledgements, and subscription status required by Google Play Billing.
+
+- **Birth data and preferences** you input for astrology are processed locally on your device. AI inference runs on-device via ONNX Runtime; model files are verified by SHA-256.
 
 We do **not** collect biometric identifiers, precise location, or additional personal data beyond the items above.
 
@@ -21,12 +23,14 @@ We do **not** collect biometric identifiers, precise location, or additional per
 - Deliver customer support and respond to user requests.
 - Meet legal obligations and platform policy requirements.
 
+- Optional cloud sync (from version 1.1) uses Google Drive App Folder (scope: drive.appdata) to back up selected data; you can disable it anytime.
+
 ### Data Retention
 We retain information only as long as necessary to provide the App or as required by law. You may request deletion at any time via the contact email below.
 
 ### Data Sharing
 We share information only with processors essential to operate the App, such as:
-- Google Play services (Authentication, Billing, Ads, Drive Sync)
+- Google Play services: Authentication, Billing, Ads (Rewarded), optional Drive Sync (App Folder)
 - Crash reporting and analytics vendors configured in the App
 
 We never sell your personal information.
@@ -51,6 +55,8 @@ We will announce updates to this policy inside the App and on this page.
 - **使用資料**：為了維持穩定度所需的當機紀錄、診斷資訊與應用程式內分析資料。
 - **交易紀錄**：Google Play 課金機制所需的代幣、確認憑證與訂閱狀態。
 
+- 您為占星功能輸入的「出生資料與偏好」在裝置本機處理。AI 推論以 ONNX Runtime 執行於本機，模型檔並以 SHA-256 校驗。
+
 除了上述項目外，我們不會蒐集生物識別、精確定位等額外個人資料。
 
 ### 資訊如何被使用
@@ -59,12 +65,14 @@ We will announce updates to this policy inside the App and on this page.
 - 回覆客服與使用者請求。
 - 符合法律義務與平台政策要求。
 
+- （自 V1.1 起）可選的雲端同步使用 Google Drive App Folder（scope：drive.appdata），您可隨時停用。
+
 ### 資料保存
 我們僅在提供服務或法律要求期間保存資料。您可透過下方信箱隨時要求刪除。
 
 ### 資料分享
 僅在必要範圍內與下列處理者共享資訊：
-- Google Play 服務（登入、課金、廣告、Drive 同步）
+- Google Play 服務：登入、課金、廣告（激勵）、（可選）Drive 同步（App Folder）
 - App 中設定的當機回報與分析供應商
 
 我們絕不販售您的個人資料。
@@ -89,6 +97,8 @@ masteryee9202@gmail.com
 - **使用数据**：维护稳定性所需的崩溃日志、诊断信息与应用内分析数据。
 - **交易记录**：Google Play 计费要求的令牌、确认凭证与订阅状态。
 
+- 您为占星功能输入的“出生资料与偏好”在设备本地处理。AI 推理通过 ONNX Runtime 在本地执行，并进行 SHA-256 校验。
+
 除上述项目，我们不会收集生物识别、精确定位等额外个人信息。
 
 ### 信息如何使用
@@ -97,13 +107,15 @@ masteryee9202@gmail.com
 - 提供客服并回应用户请求。
 - 满足法律义务与平台政策要求。
 
+- （自 V1.1 起）可选的云端同步使用 Google Drive App Folder（scope：drive.appdata），您可随时停用。
+
 ### 数据保留
 我们仅在提供服务或符合法规所需期间保留数据。可随时通过下方邮箱申请删除。
 
 ### 数据分享
 仅与运营 App 所必需的处理方共享信息：
-- Google Play 服务（登录、计费、广告、Drive 同步）
-- App 中配置的崩溃回报与分析服务商
+- Google Play 服务：登录、计费、广告（激励）、（可选）Drive 同步（App Folder）
+- 应用中配置的崩溃回报与分析服务商
 
 我们不会出售您的个人信息。
 
