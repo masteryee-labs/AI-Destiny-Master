@@ -1,8 +1,0 @@
-﻿AAB size report (Pixel 6 API 35) 2025-10-04 09:34:48+08:00
-Base module total compressed download size:
-MIN,MAX
-11833156,11833156
-
-Total app total compressed download size:
-MIN,MAX
-11833156,11833156
