@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "name": "geo-data.zip",
+      "sha256": "4E479B318796188D4B2D90BADE8F6A9FF341C23D4C8B99015536DE2E96A3E1A8",
+      "size_bytes": 232741517,
+      "generated_at": "2025-10-02T15:53:37Z"
+    },
+    {
+      "name": "tinyllama-chat-8bit.onnx.gz",
+      "sha256": "7FE241F89D1E70092CE1F5F2B4FFD6FFFDE269076B388E3648DA301E96CF3C5D",
+      "size_bytes": 702512053,
+      "generated_at": "2025-10-02T15:53:37Z"
+    }
+  ]
+}
