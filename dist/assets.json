@@ -6,31 +6,31 @@
                        "name":  "geo-data.zip",
                        "size":  232741517,
                        "sha256":  "4e479b318796188d4b2d90bade8f6a9ff341c23d4c8b99015536de2e96a3e1a8",
-                       "url":  ""
+                       "url":  "https://github.com/masteryee-labs/AI-Destiny-Master/releases/download/v2025.10.18/geo-data.zip"
                    },
                    {
                        "name":  "tinyllama-chat-8bit.onnx.gz",
                        "size":  702512053,
                        "sha256":  "7fe241f89d1e70092ce1f5f2b4ffd6fffde269076b388e3648da301e96cf3c5d",
-                       "url":  ""
+                       "url":  "https://github.com/masteryee-labs/AI-Destiny-Master/releases/download/v2025.10.18/tinyllama-chat-8bit.onnx.gz"
                    },
                    {
                        "name":  "bt/app-debug.apks",
                        "size":  316620207,
                        "sha256":  "4df58002d8af319626157837b9094ed7e1bdf7169efb52a5bbfbb05e6fea2c73",
-                       "url":  ""
+                       "url":  "https://github.com/masteryee-labs/AI-Destiny-Master/releases/download/v2025.10.18/bt/app-debug.apks"
                    },
                    {
                        "name":  "bt/app-release-universal.apks",
                        "size":  25613337,
                        "sha256":  "6986a786cb01b750b9257122ddf0c0769f7628a849ce8ea4dfdf0d6ef9988990",
-                       "url":  ""
+                       "url":  "https://github.com/masteryee-labs/AI-Destiny-Master/releases/download/v2025.10.18/bt/app-release-universal.apks"
                    },
                    {
                        "name":  "bt/app-release.apks",
                        "size":  262223989,
                        "sha256":  "b880d3773f26633e9332f241ad73a326f9d8df0797f782b7b7443e3d8bf0d28f",
-                       "url":  ""
+                       "url":  "https://github.com/masteryee-labs/AI-Destiny-Master/releases/download/v2025.10.18/bt/app-release.apks"
                    }
                ]
 }
