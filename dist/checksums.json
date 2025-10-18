@@ -4,31 +4,31 @@
                       "name":  "geo-data.zip",
                       "sha256":  "4E479B318796188D4B2D90BADE8F6A9FF341C23D4C8B99015536DE2E96A3E1A8",
                       "size_bytes":  232741517,
-                      "generated_at":  "2025-10-18T02:38:57Z"
+                      "generated_at":  "2025-10-18T03:55:15Z"
                   },
                   {
                       "name":  "tinyllama-chat-8bit.onnx.gz",
                       "sha256":  "7FE241F89D1E70092CE1F5F2B4FFD6FFFDE269076B388E3648DA301E96CF3C5D",
                       "size_bytes":  702512053,
-                      "generated_at":  "2025-10-18T02:38:57Z"
+                      "generated_at":  "2025-10-18T03:55:15Z"
                   },
                   {
                       "name":  "bt/app-debug.apks",
                       "sha256":  "4DF58002D8AF319626157837B9094ED7E1BDF7169EFB52A5BBFBB05E6FEA2C73",
                       "size_bytes":  316620207,
-                      "generated_at":  "2025-10-18T02:38:57Z"
+                      "generated_at":  "2025-10-18T03:55:15Z"
                   },
                   {
                       "name":  "bt/app-release-universal.apks",
                       "sha256":  "6986A786CB01B750B9257122DDF0C0769F7628A849CE8EA4DFDF0D6EF9988990",
                       "size_bytes":  25613337,
-                      "generated_at":  "2025-10-18T02:38:57Z"
+                      "generated_at":  "2025-10-18T03:55:15Z"
                   },
                   {
                       "name":  "bt/app-release.apks",
                       "sha256":  "B880D3773F26633E9332F241AD73A326F9D8DF0797F782B7B7443E3D8BF0D28F",
                       "size_bytes":  262223989,
-                      "generated_at":  "2025-10-18T02:38:57Z"
+                      "generated_at":  "2025-10-18T03:55:15Z"
                   }
               ]
 }
